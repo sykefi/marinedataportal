@@ -1,18 +1,29 @@
-# Introduction 
-This is the frontend project for the data download of Meritietoportaali (itameri.fi).
-It is build using Vue nad TypeScript.
+# mtp_ui
 
-# Getting Started
-Run the development server via `npm run serve`
-Build release files via `npm run build`
+## Project setup
+```
+npm install
+```
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+### Compiles and minifies for production
+```
+npm run build
+```
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
