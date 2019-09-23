@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!--Attribute selection-->
+    <!--Time span-->
+    <!--Site selection-->
+    <!--File download-->
   </div>
 </template>
 
