@@ -1,0 +1,16 @@
+@mixin button-base {
+  font-family: 'OpenSans';
+  font-size: $font-size-m;
+  border: none;
+  cursor: pointer;
+  margin: 4px;
+  width: 10rem;
+  height: 3rem;
+  &:disabled{
+    background: gray;
+  }
+}
+
+button {
+  @include button-base;
+}
