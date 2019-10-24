@@ -8,4 +8,5 @@ export default {
     $waterQuality: 'VEDENLAATU',
     $phytoplankton: 'KASVIPLANKTON',
     $benthicFauna: 'POHJAELÄIMET',
+    $selectAll: 'Valitse kaikki',
 };

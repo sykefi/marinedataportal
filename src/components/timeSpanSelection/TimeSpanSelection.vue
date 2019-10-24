@@ -16,50 +16,41 @@
     </div>
     <div class="content">
       <DatePicker
+        @time-span-change="storeTimeSpanStart"
         start="1970-01-01"
         :end="new Date().toString()"
         :ariaLabels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
+        :defaultDate="timeSpanStart"
       />
       <b>–</b>
       <DatePicker
+        @time-span-change="storeTimeSpanEnd"
         start="1970-01-01"
         :end="new Date().toString()"
         :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
-        :defaultDate="new Date()"
+        :defaultDate="timeSpanEnd"
       />
       <p />
       <DatePicker
+        @time-span-change="storePeriodStart"
         start="1970-01-01"
         :end="new Date().toString()"
         :showYear="false"
         :ariaLabels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
+        :defaultDate="periodStart"
       />
       <b>–</b>
       <DatePicker
+        @time-span-change="storePeriodEnd"
         start="1970-01-01"
         :end="new Date().toString()"
         :showYear="false"
         :ariaLabels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
+        :defaultDate="periodEnd"
       />
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import SelectionHeader from '@/components/common/SelectionHeader.vue';
-import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
-import DatePicker from '@/components/common/datePicker/DatePicker.vue';
-
-@Component({
-  components: {
-    SelectionHeader,
-    DetailsButton,
-    DatePicker,
-  },
-})
-export default class TimeSpanSelection extends Vue { }
-</script>
 
 <style lang="scss" scoped>
 @import "@/assets/styles/variables.scss";
@@ -84,3 +75,5 @@ export default class TimeSpanSelection extends Vue { }
   grid-template-columns: 23% 3% 23% 2% 23% 3% 23%;
 }
 </style>
+
+<script src="./timeSpanSelection.ts"></script>

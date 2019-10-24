@@ -26,6 +26,7 @@
       <select
         class="form-control day"
         v-model.number="day"
+        @change="$emit('time-span-change', year, month + 1, day)"
         :aria-label="ariaLabels[0]"
       >
         <option :value="-1" disabled hidden>{{$t('$dayPlaceholder')}}</option>

@@ -3,23 +3,12 @@
     <button
       class="selection-button"
       v-bind:class="[selected ? 'selected' : 'not-selected']"
-      @click="selected = !selected"
+      @click="onClick"
       :aria-pressed="selected"
-    >{{title}}</button>
+      :aria-expanded="selected && expandable"
+    >{{$t(name)}}</button>
   </div>
 </template>
-
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-
-@Component
-export default class SelectionButton extends Vue {
-  @Prop({ type: String })
-  public readonly title!: string;
-
-  public selected = false;
-}
-</script>
 
 <style lang="scss">
 @import "@/assets/styles/variables.scss";
@@ -49,3 +38,5 @@ export default class SelectionButton extends Vue {
   }
 }
 </style>
+
+<script src="./selectionButton.ts"></script>

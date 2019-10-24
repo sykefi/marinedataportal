@@ -14,3 +14,26 @@
 button {
   @include button-base;
 }
+
+.selection-box {
+  display: block;
+  font-size: $font-size-l;
+  background: $background-light;
+  border: 0.1rem solid $border-gray;
+  margin-top: 2rem;
+  padding: 1.5rem 2rem 2rem 1.5rem;
+}
+
+.selection-content {
+  text-align: left;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.details-header {
+  font-size: $font-size-l;
+  font-weight: bold;
+  padding-bottom: 1rem;
+  text-align: center;
+}

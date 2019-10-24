@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
-import SelectionButton from '@/components/common/SelectionButton.vue';
+import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 @Component({
   components: {
     SelectionHeader,
