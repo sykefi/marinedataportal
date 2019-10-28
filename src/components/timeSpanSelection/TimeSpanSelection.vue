@@ -38,6 +38,7 @@
         :showYear="false"
         :ariaLabels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
         :defaultDate="periodStart"
+        :emptied="periodEmptied"
       />
       <b>–</b>
       <DatePicker
@@ -47,6 +48,11 @@
         :showYear="false"
         :ariaLabels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
         :defaultDate="periodEnd"
+        :emptied="periodEmptied"
+      />
+      <EmptySelectionButton
+        :contentKey="$t('$emptyPeriodSelection')"
+        @empty-selection="emptyPeriodSelection"
       />
     </div>
   </div>
@@ -67,12 +73,12 @@
   }
 }
 .sub {
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 25% 25% 22% 22% 6%;
 }
 .content {
   display: grid;
   align-items: center;
-  grid-template-columns: 23% 3% 23% 2% 23% 3% 23%;
+  grid-template-columns: 23% 3% 23% 2% 20% 3% 20% 6%;
 }
 </style>
 

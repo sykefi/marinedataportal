@@ -1,10 +1,13 @@
 
-import { Vue } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import { attributeModule } from '@/store/attributeModule';
+import DecimalInput from '@/components/common/DecimalInput.vue';
+@Component({
+  components: {
+    DecimalInput,
+  },
+})
 export default class WaterQualityDetails extends Vue {
-  public $refs!: {
-    depthStartInput: HTMLElement,
-  };
 
   get selected() {
     return attributeModule.selectedDepth;
@@ -12,36 +15,24 @@ export default class WaterQualityDetails extends Vue {
   set selected(value) {
     attributeModule.setSelectedDepth(value);
     if (value !== 'depthInterval') {
-      attributeModule.setDepthStart(undefined);
-      attributeModule.setDepthEnd(undefined);
+      attributeModule.setDepthStart(null);
+      attributeModule.setDepthEnd(null);
     }
   }
 
   get depthStart() {
-    return attributeModule.depthStart;
+    return attributeModule.depthStart!;
   }
 
-  set depthStart(value) {
-    if (value !== undefined) {
-      if (value >= 0) {
-        attributeModule.setDepthStart(value);
-      }
-    }
+  set depthStart(value: number) {
+    attributeModule.setDepthStart(value);
   }
 
   get depthEnd() {
-    return attributeModule.depthEnd;
+    return attributeModule.depthEnd!;
   }
 
-  set depthEnd(value) {
-    if (value !== undefined) {
-      if (value >= 0) {
-        attributeModule.setDepthEnd(value);
-      }
-    }
-  }
-
-  public setFocus() {
-    this.$refs.depthStartInput.focus();
+  set depthEnd(value: number) {
+    attributeModule.setDepthEnd(value);
   }
 }

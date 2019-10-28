@@ -3,12 +3,14 @@ import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
 import DatePicker from '@/components/common/datePicker/DatePicker.vue';
+import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton';
 import { attributeModule } from '@/store/attributeModule';
 @Component({
   components: {
     SelectionHeader,
     DetailsButton,
     DatePicker,
+    EmptySelectionButton,
   },
 })
 export default class TimeSpanSelection extends Vue {
@@ -16,6 +18,7 @@ export default class TimeSpanSelection extends Vue {
   public timeSpanEnd: Date | null = attributeModule.timeSpanEnd;
   public periodStart: Date | null = attributeModule.periodStart;
   public periodEnd: Date | null = attributeModule.periodEnd;
+  public periodEmptied: boolean = false;
 
   public storeTimeSpanStart(y: number, m: number, d: number) {
     attributeModule.setTimeSpanStart(new Date(y + '-' + m + '-' + d));
@@ -32,5 +35,11 @@ export default class TimeSpanSelection extends Vue {
 
   public storePeriodEnd(y: number, m: number, d: number) {
     attributeModule.setPeriodEnd(new Date('2000' + '-' + m + '-' + d));
+  }
+
+  public emptyPeriodSelection() {
+    attributeModule.setPeriodStart(null);
+    attributeModule.setPeriodEnd(null);
+    this.periodEmptied = !this.periodEmptied;
   }
 }

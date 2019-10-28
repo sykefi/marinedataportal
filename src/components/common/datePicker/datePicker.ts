@@ -1,4 +1,4 @@
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class DatePicker extends Vue {
@@ -8,12 +8,12 @@ export default class DatePicker extends Vue {
     public readonly defaultDate!: Date;
     @Prop({ required: false, type: String, default: '2020-12-31' })
     public readonly end!: string;
-
     @Prop({ required: false, default: ['year', 'month', 'day'] })
     public ariaLabels!: string[];
-
     @Prop({ required: false, default: true, type: Boolean })
     public readonly showYear!: boolean;
+    @Prop({ required: false, type: Boolean })
+    public emptied!: boolean;
 
     public startDate = new Date(this.start);
     public endDate = new Date(this.end);
@@ -23,6 +23,15 @@ export default class DatePicker extends Vue {
     public years: number[] = [];
     public months: number[] = [];
     public days: number[] = [];
+
+    @Watch('emptied')
+    public onEmptiedChanged(val: boolean, oldVal: boolean) {
+        if (val !== oldVal) {
+            this.year = -1;
+            this.month = -1;
+            this.day = -1;
+        }
+    }
 
     public created() {
         this.getYears();

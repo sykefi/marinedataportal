@@ -5,8 +5,8 @@ class AttributeModule extends VuexModule {
     // state
     public selectedAttributes: string[] = [];
     public selectedDepth: string = 'surfaceLayer';
-    public depthStart?: number = undefined;
-    public depthEnd?: number = undefined;
+    public depthStart: number | null = null;
+    public depthEnd: number | null = null;
     public timeSpanStart: Date | null = null;
     public timeSpanEnd: Date = new Date();
     public periodStart: Date | null = null;
@@ -33,12 +33,12 @@ class AttributeModule extends VuexModule {
     }
 
     @Mutation
-    public setDepthStart(depthStart: number | undefined) {
+    public setDepthStart(depthStart: number | null) {
         this.depthStart = depthStart;
     }
 
     @Mutation
-    public setDepthEnd(depthEnd: number | undefined) {
+    public setDepthEnd(depthEnd: number | null) {
         this.depthEnd = depthEnd;
     }
 
@@ -53,12 +53,12 @@ class AttributeModule extends VuexModule {
     }
 
     @Mutation
-    public setPeriodStart(periodStart: Date) {
+    public setPeriodStart(periodStart: Date | null) {
         this.periodStart = periodStart;
     }
 
     @Mutation
-    public setPeriodEnd(periodEnd: Date) {
+    public setPeriodEnd(periodEnd: Date | null) {
         this.periodEnd = periodEnd;
     }
 

@@ -20,4 +20,5 @@ export default {
     $endTimeSpan: 'loppu (v/kk/pv)',
     $startPeriod: 'alku (kk/pv)',
     $endPeriod: 'loppu (kk/pv)',
+    $emptyPeriodSelection: 'Tyhjennä kausivalinta',
 };
