@@ -20,11 +20,12 @@ export default class SelectionHeader extends Vue {
   justify-content: center;
   font-family: "OpenSans";
   font-size: $font-size-l;
-  font-weight: normal;
+  font-weight: bold;
   color: $text-white;
   background: $background-blue;
-  height: 2.5rem;
+  height: 4rem;
   margin-top: 3rem;
   margin-bottom: 2rem;
+  border-bottom: 0.1rem solid $border-dark;
 }
 </style>

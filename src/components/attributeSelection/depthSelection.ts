@@ -1,5 +1,5 @@
 
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import { attributeModule } from '@/store/attributeModule';
 import DecimalInput from '@/components/common/DecimalInput.vue';
 @Component({
@@ -8,6 +8,19 @@ import DecimalInput from '@/components/common/DecimalInput.vue';
   },
 })
 export default class WaterQualityDetails extends Vue {
+  @Prop({ required: true, type: Boolean })
+  public readonly downloadClicked!: boolean;
+
+  public depthStartError = attributeModule.isError('$missingDepthStart') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
+  public depthEndError = attributeModule.isError('$missingDepthEnd') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
+
+  @Watch('downloadClicked')
+  public onDownloadClicked(val: boolean, oldVal: boolean) {
+    if (val !== oldVal) {
+      this.depthStartError = attributeModule.isError('$missingDepthStart') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
+      this.depthEndError = attributeModule.isError('$missingDepthEnd') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
+    }
+  }
 
   get selected() {
     return attributeModule.selectedDepth;

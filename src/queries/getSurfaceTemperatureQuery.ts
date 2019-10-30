@@ -14,5 +14,6 @@ function getFilter(params: CommonParameters) {
 export async function getSurfaceTemperatures(params: CommonParameters) {
   // todo: location (coord, station name)
   // todo: nextlink
-  await GetVeslaData(query + getFilter(params));
+  const res = await GetVeslaData(query + getFilter(params));
+  return res;
 }

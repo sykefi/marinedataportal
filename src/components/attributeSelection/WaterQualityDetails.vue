@@ -1,12 +1,12 @@
 <template>
   <div>
     <DetailsSelection :header="$t('$waterQualityDetailsHeader')" :attributes="attributes"/>
-    <DepthSelection />
+    <DepthSelection :downloadClicked="downloadClicked" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 import DetailsSelection from '@/components/attributeSelection/DetailsSelection.vue';
 import DepthSelection from '@/components/attributeSelection/DepthSelection.vue';
 import { attributeModule } from '@/store/attributeModule';
@@ -17,6 +17,8 @@ import { attributeModule } from '@/store/attributeModule';
   },
 })
 export default class WaterQualityDetails extends Vue {
+  @Prop({ required: true, type: Boolean })
+  public readonly downloadClicked!: boolean;
 
   public attributes: string[] = ['$alkalinity', '$aluminum', '$ammonium', '$arsenic',
         '$acidity', '$mercuryAAS'];

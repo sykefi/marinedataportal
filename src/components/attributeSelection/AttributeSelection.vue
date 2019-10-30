@@ -1,20 +1,29 @@
 <template>
   <div>
     <SelectionHeader :header="$t('$attributeSelectionTitle')" />
+    <p class="error" v-if="showAttributeError">{{$t(attributeErrorMessage)}}</p>
     <div class="selections-grid">
       <SelectionButton name="$secchiDepth" />
       <SelectionButton name="$waterLevel" />
       <SelectionButton name="$iceThickness" />
-      <SelectionButton name="$surge" @selected="toggleSurgeDetails()" :expandable="true"/>
-      <SelectionButton name="$surfaceTemperature" @selected="toggleTemperatureDetails()" :expandable="true"/>
-      <SelectionButton name="$waterQuality" @selected="toggleWaterQualityDetails()" :expandable="true"/>
+      <SelectionButton name="$surge" @selected="toggleSurgeDetails()" :expandable="true" />
+      <SelectionButton
+        name="$surfaceTemperature"
+        @selected="toggleTemperatureDetails()"
+        :expandable="true"
+      />
+      <SelectionButton
+        name="$waterQuality"
+        @selected="toggleWaterQualityDetails()"
+        :expandable="true"
+      />
       <SelectionButton name="$phytoplankton" />
       <SelectionButton name="$benthicFauna" />
     </div>
     <div class="detail-box-container">
       <SurgeDetails v-if="showSurgeDetails" />
       <TemperatureDetails v-if="showTemperatureDetails" />
-      <WaterQualityDetails v-if="showWaterQualityDetails" />
+      <WaterQualityDetails v-if="showWaterQualityDetails" :downloadClicked="downloadClicked"/>
     </div>
   </div>
 </template>

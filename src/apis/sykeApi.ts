@@ -5,7 +5,8 @@ const QUERY_URL =
 
 export default async function GetVeslaData(query: string) {
   const res = (await getJsonResponse(QUERY_URL + query));
-  console.log(res);
+  console.log('res', res);
+  return res;
 }
 
 function getJsonResponse(url: string) {

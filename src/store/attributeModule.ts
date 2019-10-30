@@ -8,9 +8,10 @@ class AttributeModule extends VuexModule {
     public depthStart: number | null = null;
     public depthEnd: number | null = null;
     public timeSpanStart: Date | null = null;
-    public timeSpanEnd: Date = new Date();
+    public timeSpanEnd: Date | null = new Date();
     public periodStart: Date | null = null;
     public periodEnd: Date | null = null;
+    public errorList: string[] = [];
 
     // mutations
 
@@ -43,12 +44,12 @@ class AttributeModule extends VuexModule {
     }
 
     @Mutation
-    public setTimeSpanStart(timeSpanStart: Date) {
+    public setTimeSpanStart(timeSpanStart: Date | null) {
         this.timeSpanStart = timeSpanStart;
     }
 
     @Mutation
-    public setTimeSpanEnd(timeSpanEnd: Date) {
+    public setTimeSpanEnd(timeSpanEnd: Date | null) {
         this.timeSpanEnd = timeSpanEnd;
     }
 
@@ -62,10 +63,19 @@ class AttributeModule extends VuexModule {
         this.periodEnd = periodEnd;
     }
 
+    @Mutation
+    public setErrorList(errorList: string[]) {
+        this.errorList = errorList;
+    }
+
     // getters
 
     public isAttributeSelected(name: string) {
         return this.selectedAttributes.includes(name);
+    }
+
+    public isError(name: string) {
+        return this.errorList.includes(name);
     }
 }
 

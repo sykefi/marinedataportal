@@ -14,12 +14,14 @@
           :ariaLabel="$t('$depthStart')"
           v-model="depthStart"
           v-focus
+          :error="depthStartError"
         />–
         <DecimalInput
           :max="1000"
           :decimals="5"
           :ariaLabel="$t('$depthEnd')"
           v-model="depthEnd"
+          :error="depthEndError"
         />m
       </span>
       <br />
@@ -35,12 +37,6 @@
     margin-top: 0;
     border-top: none;
     padding-top: 1rem;
-  }
-  .input-box {
-    max-width: 3rem;
-    margin: 0.5rem;
-    font-family: "TitilliumWeb";
-    text-align: center;
   }
 </style>
 

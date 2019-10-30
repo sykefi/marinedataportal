@@ -14,6 +14,11 @@
 @import "@/assets/styles/variables.scss";
 @import "@/assets/styles/custom_inputs.scss";
 .selection-button {
+  font-family: "OpenSans";
+  font-size: $font-size-m;
+  margin: 4px;
+  width: 10rem;
+  height: 3rem;
   border: 0.08rem solid;
   border-radius: 1.2rem;
   height: 3rem;

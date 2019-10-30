@@ -1,7 +1,7 @@
 <template>
   <input
     type="number"
-    class="input-box"
+    v-bind:class="[error ? 'input-box warn-border' : 'input-box']"
     :min="min"
     :step="'0.'+decimals"
     :max="max"
@@ -28,6 +28,8 @@ export default class DecimalInput extends Vue {
   public value!: number;
   @Prop({ required: true, type: String })
   public ariaLabel!: string;
+  @Prop({ required: false, type: Boolean })
+  public error!: boolean;
 
   public input(value: string) {
     if (value !== '') {
@@ -42,9 +44,11 @@ export default class DecimalInput extends Vue {
 <style lang="scss">
 @import "@/assets/styles/variables.scss";
 .input-box {
-  max-width: 2.5rem;
+  width: 3.5rem;
   margin: 0.5rem;
   font-family: "TitilliumWeb";
   text-align: center;
+  font-size: 1rem;
+  color: $text-dark;
 }
 </style>

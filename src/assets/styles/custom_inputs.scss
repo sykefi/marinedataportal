@@ -1,11 +1,6 @@
 @mixin button-base {
-  font-family: 'OpenSans';
-  font-size: $font-size-m;
   border: none;
   cursor: pointer;
-  margin: 4px;
-  width: 10rem;
-  height: 3rem;
   &:disabled{
     background: gray;
   }
@@ -36,4 +31,14 @@ button {
   font-weight: bold;
   padding-bottom: 1rem;
   text-align: center;
+}
+
+.error {
+  font-family: "TitilliumWeb";
+  font-size: $font-size-l;
+  color: $text-warn;
+}
+
+.warn-border {
+  border: 0.1rem solid $border-warn;
 }

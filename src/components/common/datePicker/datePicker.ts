@@ -14,6 +14,8 @@ export default class DatePicker extends Vue {
     public readonly showYear!: boolean;
     @Prop({ required: false, type: Boolean })
     public emptied!: boolean;
+    @Prop({ required: false, type: Boolean })
+    public error!: boolean;
 
     public startDate = new Date(this.start);
     public endDate = new Date(this.end);
@@ -40,6 +42,7 @@ export default class DatePicker extends Vue {
     }
 
     public onChangeYear() {
+        this.$emit('year-month-change');
         this.month = -1;
         this.day = -1;
         this.getMonths();
@@ -47,6 +50,7 @@ export default class DatePicker extends Vue {
     }
 
     public onChangeMonth() {
+        this.$emit('year-month-change');
         this.day = -1;
         this.getDays();
     }

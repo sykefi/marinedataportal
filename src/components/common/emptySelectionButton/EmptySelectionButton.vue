@@ -25,6 +25,7 @@ button {
   padding: 0;
   margin-left: 1rem;
   border-radius: 30px;
+  box-shadow: 0 0.1rem 0 $border-shadow;
   color: $text-white;
   background: $background-remove;
   font-size: $font-size-m;

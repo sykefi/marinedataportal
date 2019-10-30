@@ -1,5 +1,5 @@
 <template>
-  <div class="form-inline">
+  <div v-bind:class="[error ? 'form-inline warn-border': 'form-inline normal-border']">
     <div v-if="showYear" class="form-control">
       <select
         class="form-control year"
@@ -26,7 +26,7 @@
       <select
         class="form-control day"
         v-model.number="day"
-        @change="$emit('time-span-change', year, month + 1, day)"
+        @change="$emit('day-change', year, month + 1, day)"
         :aria-label="ariaLabels[0]"
       >
         <option :value="-1" disabled hidden>{{$t('$dayPlaceholder')}}</option>
@@ -42,14 +42,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 0.08rem solid;
   border-radius: 1.2rem;
-  border-color: $border-light;
   height: 3rem;
   color: $text-dark;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   background-color: $background-light;
+}
+.normal-border {
+  border: 0.08rem solid $border-light;
 }
 .form-control {
   border-top: none;

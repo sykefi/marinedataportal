@@ -1,4 +1,4 @@
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 import SurgeDetails from '@/components/attributeSelection/SurgeDetails.vue';
@@ -15,9 +15,21 @@ import { attributeModule } from '@/store/attributeModule';
   },
 })
 export default class AttributeSelection extends Vue {
+  @Prop({ required: true, type: Boolean })
+  public readonly downloadClicked!: boolean;
+
   public showSurgeDetails = attributeModule.isAttributeSelected('$surge');
   public showTemperatureDetails = attributeModule.isAttributeSelected('$surfaceTemperature');
   public showWaterQualityDetails = attributeModule.isAttributeSelected('$waterQuality');
+  public attributeErrorMessage = '$noAttributesSelected';
+  public showAttributeError = attributeModule.isError(this.attributeErrorMessage);
+
+  @Watch('downloadClicked')
+  public onDownloadClicked(val: boolean, oldVal: boolean) {
+    if (val !== oldVal) {
+      this.showAttributeError = attributeModule.isError(this.attributeErrorMessage);
+    }
+  }
 
   public toggleSurgeDetails() {
     this.showSurgeDetails = !this.showSurgeDetails;

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <AttributeSelection />
-    <TimeSpanSelection />
+    <AttributeSelection :downloadClicked="downloadClicked"/>
+    <TimeSpanSelection :downloadClicked="downloadClicked" />
     <SiteSelection />
-    <FileDownload />
+    <FileDownload @download-clicked="toggleDownload"/>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue';
 import TimeSpanSelection from '@/components/timeSpanSelection/TimeSpanSelection.vue';
 import SiteSelection from '@/components/SiteSelection.vue';
-import FileDownload from '@/components/FileDownload.vue';
+import FileDownload from '@/components/fileDownload/FileDownload.vue';
 @Component({
   components: {
     AttributeSelection,
@@ -21,7 +21,13 @@ import FileDownload from '@/components/FileDownload.vue';
     FileDownload,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  public downloadClicked = false;
+
+  public toggleDownload() {
+    this.downloadClicked = !this.downloadClicked;
+  }
+}
 </script>
 
 <style lang="scss">
