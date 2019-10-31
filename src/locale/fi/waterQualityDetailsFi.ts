@@ -1,11 +1,5 @@
 export default {
     $waterQualityDetailsHeader: 'Vedenlaatu',
-    $alkalinity: 'Alkaliniteetti',
-    $aluminum: 'Alumiini',
-    $ammonium: 'Ammonium typpenä, suodattamaton',
-    $arsenic: 'Arseeni',
-    $acidity: 'Asiditeetti',
-    $mercuryAAS: 'Elohopea atomiabsorptiospektrometria',
     $depthDetailsHeader: 'Vesikerroksen syvyyden valinta',
     $surfaceLayer: 'Pintakerros',
     $depthInterval: 'Syvyysväli',

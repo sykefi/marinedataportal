@@ -2,7 +2,7 @@
   <div class="selection-box">
     <fieldset class="selection-content">
       <legend class="details-header">{{header}}</legend>
-      <input id="selectAll" type="checkbox" v-model="selectAll" :aria-label="$t('$selectAll')"/>
+      <input id="selectAll" type="checkbox" v-model="selectAll" :aria-label="$t('$selectAll')" />
       <label>
         <b>{{$t('$selectAll')}}</b>
       </label>
@@ -15,7 +15,7 @@
           v-model="selected"
           @click="updateStore"
         />
-        <label :for="attribute">{{$t(attribute)}}</label>
+        <label :for="attribute">{{attribute}}</label>
         <br />
       </div>
     </fieldset>

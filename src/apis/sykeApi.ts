@@ -6,11 +6,17 @@ const QUERY_URL =
 export default async function GetVeslaData(query: string) {
   const res = (await getJsonResponse(QUERY_URL + query));
   console.log('res', res);
-  return res;
+  // todo: loop through nextLink
+  return res.value;
 }
 
-function getJsonResponse(url: string) {
-  return new Promise((resolve: any, reject: any) => {
+interface IODataResponse {
+  nextLink: string;
+  value: any[];
+}
+
+function getJsonResponse(url: string): Promise<IODataResponse> {
+  return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('get', url, true);
     console.log(url);
@@ -18,7 +24,11 @@ function getJsonResponse(url: string) {
     xhr.onload = () => {
       const status = xhr.status;
       if (status === 200) {
-        resolve(xhr.response.value);
+        const response: IODataResponse = {
+          nextLink: xhr.response.nextLink,
+          value: xhr.response.value,
+        };
+        resolve(response);
       } else {
         reject(status);
       }

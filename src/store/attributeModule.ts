@@ -1,4 +1,4 @@
-import { Module, Mutation, VuexModule } from 'vuex-class-modules';
+import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
 
 @Module
 class AttributeModule extends VuexModule {
