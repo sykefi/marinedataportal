@@ -14,6 +14,11 @@ class AttributeModule extends VuexModule {
     public periodEnd: Date | null = null;
     public selectedSites: Site[] = [];
     public errorList: string[] = [];
+    public loading: boolean = false;
+
+    get isLoading() {
+        return attributeModule.loading;
+    }
 
     // mutations
 
