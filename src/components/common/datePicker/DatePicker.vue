@@ -58,7 +58,7 @@
   border-right: none;
   width: 90%;
   font-family: "OpenSans";
-  font-size: $font-size-m;
+  font-size: $font-size-s;
   background-color: $background-light;
 }
 .year {

@@ -1,4 +1,5 @@
 import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
+import { Site } from '@/components/siteSelection/site';
 
 @Module
 class AttributeModule extends VuexModule {
@@ -11,6 +12,7 @@ class AttributeModule extends VuexModule {
     public timeSpanEnd: Date | null = new Date();
     public periodStart: Date | null = null;
     public periodEnd: Date | null = null;
+    public selectedSites: Site[] = [];
     public errorList: string[] = [];
 
     // mutations
@@ -61,6 +63,19 @@ class AttributeModule extends VuexModule {
     @Mutation
     public setPeriodEnd(periodEnd: Date | null) {
         this.periodEnd = periodEnd;
+    }
+
+    @Mutation
+    public addSelectedSite(selectedSite: Site) {
+        this.selectedSites.push(selectedSite);
+    }
+
+    @Mutation
+    public removeSite(site: Site) {
+        const index = this.selectedSites.findIndex((s) => s === site);
+        if (index >= 0) {
+            this.selectedSites.splice(index, 1);
+        }
     }
 
     @Mutation

@@ -11,7 +11,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue';
 import TimeSpanSelection from '@/components/timeSpanSelection/TimeSpanSelection.vue';
-import SiteSelection from '@/components/SiteSelection.vue';
+import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
 import FileDownload from '@/components/fileDownload/FileDownload.vue';
 @Component({
   components: {
