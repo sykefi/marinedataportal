@@ -4,7 +4,8 @@ import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
 import DatePicker from '@/components/common/datePicker/DatePicker.vue';
 import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton';
-import { attributeModule } from '@/store/attributeModule';
+import { searchParameterModule } from '@/store/searchParameterModule';
+import { mainState } from '@/store/appState';
 @Component({
   components: {
     SelectionHeader,
@@ -14,60 +15,62 @@ import { attributeModule } from '@/store/attributeModule';
   },
 })
 export default class TimeSpanSelection extends Vue {
-  @Prop({ required: true, type: Boolean })
-  public readonly downloadClicked!: boolean;
-
-  public timeSpanStart: Date | null = attributeModule.timeSpanStart;
-  public timeSpanEnd: Date | null = attributeModule.timeSpanEnd;
-  public periodStart: Date | null = attributeModule.periodStart;
-  public periodEnd: Date | null = attributeModule.periodEnd;
+  public timeSpanStart: Date | null = searchParameterModule.timeSpanStart;
+  public timeSpanEnd: Date | null = searchParameterModule.timeSpanEnd;
+  public periodStart: Date | null = searchParameterModule.periodStart;
+  public periodEnd: Date | null = searchParameterModule.periodEnd;
   public periodEmptied: boolean = false;
-  public timeSpanStartError = attributeModule.isError('$missingTimeSpanStart') || attributeModule.isError('$timeSpanStartAfterTimeSpanEnd');
-  public timeSpanEndError = attributeModule.isError('$missingTimeSpanEnd') || attributeModule.isError('$timeSpanStartAfterTimeSpanEnd');
-  public periodStartError = attributeModule.isError('$missingPeriodStart') || attributeModule.isError('$periodStartAfterPeriodEnd');
-  public periodEndError = attributeModule.isError('$missingPeriodEnd') || attributeModule.isError('$periodStartAfterPeriodEnd');
+  get timeSpanStartError() {
+    return mainState.isError('$missingTimeSpanStart')
+      || mainState.isError('$timeSpanStartAfterTimeSpanEnd');
+  }
 
-  @Watch('downloadClicked')
-  public onDownloadClicked(val: boolean, oldVal: boolean) {
-    if (val !== oldVal) {
-      this.timeSpanStartError = attributeModule.isError('$missingTimeSpanStart') || attributeModule.isError('$timeSpanStartAfterTimeSpanEnd');
-      this.timeSpanEndError = attributeModule.isError('$missingTimeSpanEnd') || attributeModule.isError('$timeSpanStartAfterTimeSpanEnd');
-      this.periodStartError = attributeModule.isError('$missingPeriodStart') || attributeModule.isError('$periodStartAfterPeriodEnd');
-      this.periodEndError = attributeModule.isError('$missingPeriodEnd') || attributeModule.isError('$periodStartAfterPeriodEnd');
-    }
+  get timeSpanEndError() {
+    return mainState.isError('$missingTimeSpanEnd')
+      || mainState.isError('$timeSpanStartAfterTimeSpanEnd');
+  }
+
+  get periodEndError() {
+    return mainState.isError('$missingPeriodEnd')
+      || mainState.isError('$periodStartAfterPeriodEnd');
+  }
+
+  get periodStartError() {
+    return mainState.isError('$missingPeriodStart')
+      || mainState.isError('$periodStartAfterPeriodEnd');
   }
 
   public storeTimeSpanStart(y: number, m: number, d: number) {
-    attributeModule.setTimeSpanStart(new Date(y + '-' + m + '-' + d));
+    searchParameterModule.setTimeSpanStart(new Date(y + '-' + m + '-' + d));
   }
 
   public storeTimeSpanEnd(y: number, m: number, d: number) {
-    attributeModule.setTimeSpanEnd(new Date(y + '-' + m + '-' + d));
+    searchParameterModule.setTimeSpanEnd(new Date(y + '-' + m + '-' + d));
   }
 
   public storePeriodStart(y: number, m: number, d: number) {
     // Year is not picked in period selection, it can be any
-    attributeModule.setPeriodStart(new Date('2000' + '-' + m + '-' + d));
+    searchParameterModule.setPeriodStart(new Date('2000' + '-' + m + '-' + d));
   }
 
   public storePeriodEnd(y: number, m: number, d: number) {
-    attributeModule.setPeriodEnd(new Date('2000' + '-' + m + '-' + d));
+    searchParameterModule.setPeriodEnd(new Date('2000' + '-' + m + '-' + d));
   }
 
   public resetTimeSpanStart() {
-    attributeModule.setTimeSpanStart(null);
+    searchParameterModule.setTimeSpanStart(null);
   }
 
   public resetTimeSpanEnd() {
-    attributeModule.setTimeSpanEnd(null);
+    searchParameterModule.setTimeSpanEnd(null);
   }
 
   public resetPeriodStart() {
-    attributeModule.setPeriodStart(null);
+    searchParameterModule.setPeriodStart(null);
   }
 
   public resetPeriodEnd() {
-    attributeModule.setPeriodEnd(null);
+    searchParameterModule.setPeriodEnd(null);
   }
 
   public emptyPeriodSelection() {

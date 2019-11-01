@@ -3,27 +3,23 @@
     <SelectionHeader :header="$t('$attributeSelectionTitle')" />
     <p class="error" v-if="showAttributeError">{{$t(attributeErrorMessage)}}</p>
     <div class="selections-grid">
-      <SelectionButton name="$secchiDepth" />
-      <SelectionButton name="$waterLevel" />
-      <SelectionButton name="$iceThickness" />
-      <SelectionButton name="$surge" @selected="toggleSurgeDetails()" :expandable="true" />
+      <SelectionButton name="$secchiDepth" :module="secchiDepthModule" />
+      <SelectionButton name="$waterLevel" :module="waterLevelModule" />
+      <SelectionButton name="$iceThickness" :module="iceThicknessModule" />
+      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" />
       <SelectionButton
         name="$surfaceTemperature"
-        @selected="toggleTemperatureDetails()"
+        :module="surfaceTemperatureModule"
         :expandable="true"
       />
-      <SelectionButton
-        name="$waterQuality"
-        @selected="toggleWaterQualityDetails()"
-        :expandable="true"
-      />
-      <SelectionButton name="$phytoplankton" />
-      <SelectionButton name="$benthicFauna" />
+      <SelectionButton name="$waterQuality" :module="waterQualityModule" :expandable="true" />
+      <SelectionButton name="$phytoplankton" :module="phytoplanktonModule" />
+      <SelectionButton name="$benthicFauna" :module="benthicFaunaModule" />
     </div>
     <div class="detail-box-container">
-      <SurgeDetails v-if="showSurgeDetails" />
-      <TemperatureDetails v-if="showTemperatureDetails" />
-      <WaterQualityDetails v-if="showWaterQualityDetails" :downloadClicked="downloadClicked" />
+      <SurgeDetails v-if="surgeModule.isSelected" />
+      <TemperatureDetails v-if="surfaceTemperatureModule.isSelected" />
+      <WaterQualityDetails v-if="waterQualityModule.isSelected" />
     </div>
   </div>
 </template>

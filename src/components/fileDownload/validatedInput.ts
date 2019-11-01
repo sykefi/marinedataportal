@@ -5,5 +5,4 @@ export class ValidatedInput {
     public periodEnd = new Date('0000-01-01');
     public depthStart = -1;
     public depthEnd = -1;
-    public attributes: string[] = [];
 }

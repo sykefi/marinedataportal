@@ -1,19 +1,20 @@
 
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { attributeModule } from '@/store/attributeModule';
-
+import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
 @Component
 export default class SelectionButton extends Vue {
   @Prop({ required: true, type: String })
   public readonly name!: string;
+  @Prop({ required: true })
+  public readonly module!: IAttributeModule;
   @Prop({ type: Boolean, default: false })
   public expandable!: boolean;
 
-  public selected = attributeModule.isAttributeSelected(this.name);
+  get selected() {
+    return this.module.isSelected;
+  }
 
   public onClick() {
-    this.selected = !this.selected;
-    this.selected ? attributeModule.addSelectedAttribute(this.name) : attributeModule.removeAttribute(this.name);
-    this.$emit('selected');
+    this.module.toggleSelected();
   }
 }

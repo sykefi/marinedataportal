@@ -1,7 +1,7 @@
 <template>
   <div>
-    <DetailsSelection :header="$t('$waterQualityDetailsHeader')" :attributes="attributes" />
-    <DepthSelection :downloadClicked="downloadClicked" />
+    <OptionsSelection :header="$t('$waterQualityDetailsHeader')" :module="module" />
+    <DepthSelection />
   </div>
 </template>
 

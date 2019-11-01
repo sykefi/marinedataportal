@@ -2,9 +2,9 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 import { CommonParameters } from '@/queries/commonParameters';
-import { attributeModule } from '@/store/attributeModule';
-import { mapping } from '@/queries/attributeMappingToQueries';
+import { searchParameterModule } from '@/store/searchParameterModule';
 import { ValidatedInput } from '@/components/fileDownload/validatedInput';
+import { mainState } from '@/store/appState';
 @Component({
     components: {
         SelectionHeader,
@@ -12,20 +12,15 @@ import { ValidatedInput } from '@/components/fileDownload/validatedInput';
     },
 })
 export default class FileDownload extends Vue {
-    public errorList = attributeModule.errorList;
+    get errorList() {
+        return mainState.errorList;
+    }
 
     public downloadData() {
         const v = this.validateUserInput();
-        this.$emit('download-clicked');
         if (v !== null) {
             const commonParameters = new CommonParameters(v.timeSpanStart, v.timeSpanEnd);
-            v.attributes.forEach(async (a) => {
-                const mapObject = mapping.find((m) => m.attribute === a);
-                if (mapObject) {
-                    const responses = await mapObject.function(commonParameters);
-                    // console.log('r', responses);
-                }
-            });
+            mainState.downloadData(commonParameters);
         }
     }
 
@@ -34,66 +29,57 @@ export default class FileDownload extends Vue {
 
         const v = new ValidatedInput();
 
-        const attributesForQuery = [...attributeModule.selectedAttributes];
-        this.removeNonQueriedAttributes(attributesForQuery);
-
         // Attribute validation
-        attributesForQuery.length > 0
-            ? v.attributes = attributesForQuery : errorList.push('$noAttributesSelected');
+        if (mainState.selectedAttributeModules.length === 0) {
+            errorList.push('$noAttributesSelected');
+        }
 
         // Time span validation
-        attributeModule.timeSpanStart ? v.timeSpanStart = attributeModule.timeSpanStart : errorList.push('$missingTimeSpanStart');
-        attributeModule.timeSpanEnd ? v.timeSpanEnd = attributeModule.timeSpanEnd
+        searchParameterModule.timeSpanStart ? v.timeSpanStart = searchParameterModule.timeSpanStart : errorList.push('$missingTimeSpanStart');
+        searchParameterModule.timeSpanEnd ? v.timeSpanEnd = searchParameterModule.timeSpanEnd
             : errorList.push('$missingTimeSpanEnd');
-        if (attributeModule.timeSpanStart && v.timeSpanStart > v.timeSpanEnd) {
+        if (searchParameterModule.timeSpanStart && v.timeSpanStart > v.timeSpanEnd) {
             errorList.push('$timeSpanStartAfterTimeSpanEnd');
         }
 
         // Time period validation
-        if (attributeModule.periodStart && !attributeModule.periodEnd) {
+        if (searchParameterModule.periodStart && !searchParameterModule.periodEnd) {
             errorList.push('$missingPeriodEnd');
-        } else if (!attributeModule.periodStart && attributeModule.periodEnd) {
+        } else if (!searchParameterModule.periodStart && searchParameterModule.periodEnd) {
             errorList.push('$missingPeriodStart');
-        } else if (attributeModule.periodStart && attributeModule.periodEnd) {
-            v.periodStart = attributeModule.periodStart;
-            v.periodEnd = attributeModule.periodEnd;
+        } else if (searchParameterModule.periodStart && searchParameterModule.periodEnd) {
+            v.periodStart = searchParameterModule.periodStart;
+            v.periodEnd = searchParameterModule.periodEnd;
             if (v.periodStart > v.periodEnd) {
                 errorList.push('$periodStartAfterPeriodEnd');
             }
         }
 
         // Depth validation
-        if (attributeModule.selectedDepth === 'depthInterval') {
-            attributeModule.depthStart !== null ? v.depthStart = attributeModule.depthStart : errorList.push('$missingDepthStart');
-            attributeModule.depthEnd !== null ? v.depthEnd = attributeModule.depthEnd : errorList.push('$missingDepthEnd');
+        if (searchParameterModule.selectedDepth === 'depthInterval') {
+            searchParameterModule.depthStart !== null
+                ? v.depthStart = searchParameterModule.depthStart
+                : errorList.push('$missingDepthStart');
+            searchParameterModule.depthEnd !== null
+                ? v.depthEnd = searchParameterModule.depthEnd
+                : errorList.push('$missingDepthEnd');
             if (v.depthStart >= v.depthEnd) {
                 errorList.push('$depthStartGreaterThanDepthEnd');
             }
-        } else if (attributeModule.selectedDepth === 'surfaceLayer') {
+        } else if (searchParameterModule.selectedDepth === 'surfaceLayer') {
             v.depthStart = 0;
             // TODO v.depthEnd
-        } else if (attributeModule.selectedDepth === 'bottomLayer') {
+        } else if (searchParameterModule.selectedDepth === 'bottomLayer') {
             // TODO
         }
 
         // Site Validation
 
-        attributeModule.setErrorList(errorList);
-        this.errorList = errorList;
+        mainState.setErrorList(errorList);
         if (errorList.length > 0) {
             return null;
         } else {
             return v;
         }
-    }
-
-    private removeNonQueriedAttributes(attributesForQuery: string[]) {
-        const attributesToRemove = ['$surge', '$surfaceTemperature', '$waterQuality'];
-        attributesToRemove.forEach((a) => {
-            const index = attributesForQuery.findIndex((name) => name === a);
-            if (index >= 0) {
-                attributesForQuery.splice(index, 1);
-            }
-        });
     }
 }

@@ -11,5 +11,5 @@ export default {
     $missingPeriodStart: 'Kauden alkupäivä puuttuu',
     $missingPeriodEnd: 'Kauden loppupäivä puuttuu',
     $periodStartAfterPeriodEnd: 'Kauden alkupäivä ei voi olla kauden loppupäivän jälkeen',
-    $busy: 'Lataa...'
+    $busy: 'Lataa...',
 };

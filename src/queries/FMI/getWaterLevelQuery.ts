@@ -1,5 +1,5 @@
 import GetFmiData from '@/apis/fmiApi';
-import { CommonParameters } from './commonParameters';
+import { CommonParameters } from '@/queries/commonParameters';
 
 const query = '&request=getFeature&storedquery_id=fmi::observations::mareograph::simple&parameters=WATLEV';
 

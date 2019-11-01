@@ -1,4 +1,4 @@
-import { CommonParameters } from './commonParameters';
+import { CommonParameters } from '../commonParameters';
 import GetVeslaData from '@/apis/sykeApi';
 
 const query = 'Result_Wide?\

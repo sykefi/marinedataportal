@@ -1,51 +1,47 @@
 
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
-import { attributeModule } from '@/store/attributeModule';
 import DecimalInput from '@/components/common/DecimalInput.vue';
+import { mainState } from '@/store/appState';
+import { searchParameterModule } from '@/store/searchParameterModule';
 @Component({
   components: {
     DecimalInput,
   },
 })
 export default class WaterQualityDetails extends Vue {
-  @Prop({ required: true, type: Boolean })
-  public readonly downloadClicked!: boolean;
+  get depthStartError() {
+    return mainState.isError('$missingDepthStart') ||
+      mainState.isError('$depthStartGreaterThanDepthEnd');
+  }
 
-  public depthStartError = attributeModule.isError('$missingDepthStart') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
-  public depthEndError = attributeModule.isError('$missingDepthEnd') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
-
-  @Watch('downloadClicked')
-  public onDownloadClicked(val: boolean, oldVal: boolean) {
-    if (val !== oldVal) {
-      this.depthStartError = attributeModule.isError('$missingDepthStart') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
-      this.depthEndError = attributeModule.isError('$missingDepthEnd') || attributeModule.isError('$depthStartGreaterThanDepthEnd');
-    }
+  get depthEndError() {
+    return mainState.isError('$missingDepthEnd') || mainState.isError('$depthStartGreaterThanDepthEnd');
   }
 
   get selected() {
-    return attributeModule.selectedDepth;
+    return searchParameterModule.selectedDepth;
   }
   set selected(value) {
-    attributeModule.setSelectedDepth(value);
+    searchParameterModule.setSelectedDepth(value);
     if (value !== 'depthInterval') {
-      attributeModule.setDepthStart(null);
-      attributeModule.setDepthEnd(null);
+      searchParameterModule.setDepthStart(null);
+      searchParameterModule.setDepthEnd(null);
     }
   }
 
   get depthStart() {
-    return attributeModule.depthStart!;
+    return searchParameterModule.depthStart!;
   }
 
   set depthStart(value: number) {
-    attributeModule.setDepthStart(value);
+    searchParameterModule.setDepthStart(value);
   }
 
   get depthEnd() {
-    return attributeModule.depthEnd!;
+    return searchParameterModule.depthEnd!;
   }
 
   set depthEnd(value: number) {
-    attributeModule.setDepthEnd(value);
+    searchParameterModule.setDepthEnd(value);
   }
 }
