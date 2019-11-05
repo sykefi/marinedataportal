@@ -1,7 +1,7 @@
 
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import DecimalInput from '@/components/common/DecimalInput.vue';
-import { mainState } from '@/store/appState';
+import { mainState } from '@/store/mainState';
 import { searchParameterModule } from '@/store/searchParameterModule';
 @Component({
   components: {

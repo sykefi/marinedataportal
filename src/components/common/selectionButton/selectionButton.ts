@@ -9,6 +9,8 @@ export default class SelectionButton extends Vue {
   public readonly module!: IAttributeModule;
   @Prop({ type: Boolean, default: false })
   public expandable!: boolean;
+  @Prop({ type: Boolean, default: false })
+  public disabled!: boolean;
 
   get selected() {
     return this.module.isSelected;

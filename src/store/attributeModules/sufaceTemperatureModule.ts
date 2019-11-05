@@ -1,16 +1,27 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
-import store from '../store';
+import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
 import i18n from '@/locale/i18n';
 import { IAttributeOption } from './IAttributeOption';
+import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
+  public name = '$surfaceTemperature';
   public loading = false;
   public isSelected = false;
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
+  public data: object[] | null = null;
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
+  }
+
+  get rowCount() {
+    return this.data ? this.data.length : 0;
+  }
 
   @Mutation
   public toggleSelected() {

@@ -1,4 +1,3 @@
-import { CommonParameters } from '@/queries/commonParameters';
 import { IAttributeModule } from './IAttributeModule';
 
 export interface IAttributeModuleWithOptions extends IAttributeModule {

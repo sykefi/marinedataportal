@@ -12,7 +12,7 @@ import { benthicFaunaModule } from '@/store/attributeModules/benthicFaunaModule'
 import { phytoPlanktonModule } from '@/store/attributeModules/phytoPlanktonModule';
 import { secchiDepthModule } from '@/store/attributeModules/secchiDepthModule';
 import { waterLevelModule } from '@/store/attributeModules/waterLevelModule';
-import { mainState } from '@/store/appState';
+import { mainState } from '@/store/mainState';
 @Component({
   components: {
     SelectionHeader,

@@ -57,6 +57,7 @@ class MainState extends VuexModule {
   @Action
   public async downloadData(params: CommonParameters) {
     this.modules.forEach((module) => {
+      module.data = null;
       if (module.isSelected) {
         module.getData(params);
       }

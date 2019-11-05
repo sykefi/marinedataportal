@@ -3,7 +3,8 @@
     <AttributeSelection />
     <TimeSpanSelection />
     <SiteSelection />
-    <FileDownload />
+    <DataDownload />
+    <DataPreview />
     <div id="busy-indicator" v-if="loading">
       <div class="spinner">
         <div class="double-bounce1"></div>
@@ -19,14 +20,16 @@
   import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue';
   import TimeSpanSelection from '@/components/timeSpanSelection/TimeSpanSelection.vue';
   import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
-  import FileDownload from '@/components/fileDownload/FileDownload.vue';
-  import { mainState } from '@/store/appState';
+  import DataDownload from '@/components/dataDownload/DataDownload.vue';
+  import DataPreview from '@/components/dataPreview/DataPreview.vue';
+  import { mainState } from '@/store/mainState';
   @Component({
     components: {
       AttributeSelection,
       TimeSpanSelection,
       SiteSelection,
-      FileDownload,
+      DataDownload,
+      DataPreview,
     },
   })
   export default class App extends Vue {

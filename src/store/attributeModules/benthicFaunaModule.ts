@@ -1,12 +1,23 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
 import { IAttributeModule } from './IAttributeModule';
-import store from '../store';
+import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
+import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class BenthicFaunaModule extends VuexModule implements IAttributeModule {
+  public name = '$benthicFauna';
   public loading = false;
   public isSelected = false;
+  public data: object[] | null = null;
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
+  }
+
+  get rowCount() {
+    return this.data ? this.data.length : 0;
+  }
 
   @Mutation
   public toggleSelected() {

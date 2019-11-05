@@ -1,17 +1,29 @@
 import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
-import { getWaterQualityOptions, IWaterQualityOption } from '@/queries/Vesla/getWaterQualityOptionsQuery';
+import { getWaterQualityOptions } from '@/queries/Vesla/getWaterQualityOptionsQuery';
 import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
-import store from '../store';
+import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterQuality } from '@/queries/Vesla/getWaterQualityQuery';
 import { IAttributeOption } from './IAttributeOption';
+import { IWaterQualityOption } from '@/queries/getWaterQualityOptionsQuery';
+import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
+  public name = '$waterQuality';
   public isSelected = false;
   public loading = false;
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
+  public data: object[] | null = null;
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
+  }
+
+  get rowCount() {
+    return this.data ? this.data.length : 0;
+  }
 
   @Mutation
   public toggleSelected() {
@@ -46,7 +58,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public async getOptions() {
     if (this.availableOptions.length === 0) {
       this.loading = true;
-      const options = await getWaterQualityOptions();
+      const options = await getWaterQualityOptions() as IWaterQualityOption[];
       const available: IAttributeOption[] = [];
       options.forEach((option) => {
         // TODO: language based on selection
@@ -60,7 +72,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   @Action
   public async getData(params: CommonParameters) {
     this.loading = true;
-    const res = await getWaterQuality(params, this.selectedIds);
+    this.data = await getWaterQuality(params, this.selectedIds);
     this.loading = false;
   }
 }

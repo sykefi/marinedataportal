@@ -5,7 +5,7 @@ import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
 import DatePicker from '@/components/common/datePicker/DatePicker.vue';
 import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton';
 import { searchParameterModule } from '@/store/searchParameterModule';
-import { mainState } from '@/store/appState';
+import { mainState } from '@/store/mainState';
 @Component({
   components: {
     SelectionHeader,

@@ -1,6 +1,7 @@
 export default {
     $fileDownloadTitle: '4. Lataa tiedostoon',
-    $download: 'Lataa',
+    $fetch: 'Hae data',
+    $rows: 'riviä',
     $missingTimeSpanStart: 'Aikavälin alkupäivä puuttuu',
     $missingTimeSpanEnd: 'Aikavälin loppupäivä puuttuu',
     $noAttributesSelected: 'Valitse vähintään yksi haettava suure',
@@ -12,4 +13,6 @@ export default {
     $missingPeriodEnd: 'Kauden loppupäivä puuttuu',
     $periodStartAfterPeriodEnd: 'Kauden alkupäivä ei voi olla kauden loppupäivän jälkeen',
     $busy: 'Lataa...',
+    $downloadCSV: 'Lataa CSV-tiedosto',
+    $noRowsFound: 'Ei rivejä',
 };

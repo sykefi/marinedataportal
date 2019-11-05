@@ -3,15 +3,15 @@ import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 import { CommonParameters } from '@/queries/commonParameters';
 import { searchParameterModule } from '@/store/searchParameterModule';
-import { ValidatedInput } from '@/components/fileDownload/validatedInput';
-import { mainState } from '@/store/appState';
+import { ValidatedInput } from '@/components/dataDownload/validatedInput';
+import { mainState } from '@/store/mainState';
 @Component({
     components: {
         SelectionHeader,
         SelectionButton,
     },
 })
-export default class FileDownload extends Vue {
+export default class DataDownload extends Vue {
     get errorList() {
         return mainState.errorList;
     }

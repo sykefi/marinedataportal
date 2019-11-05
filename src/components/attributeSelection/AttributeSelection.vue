@@ -3,18 +3,19 @@
     <SelectionHeader :header="$t('$attributeSelectionTitle')" />
     <p class="error" v-if="showAttributeError">{{$t(attributeErrorMessage)}}</p>
     <div class="selections-grid">
-      <SelectionButton name="$secchiDepth" :module="secchiDepthModule" />
+      <SelectionButton name="$secchiDepth" :module="secchiDepthModule" :disabled="true" />
       <SelectionButton name="$waterLevel" :module="waterLevelModule" />
-      <SelectionButton name="$iceThickness" :module="iceThicknessModule" />
-      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" />
+      <SelectionButton name="$iceThickness" :module="iceThicknessModule" :disabled="true" />
+      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" :disabled="true" />
       <SelectionButton
         name="$surfaceTemperature"
         :module="surfaceTemperatureModule"
         :expandable="true"
+        :disabled="true"
       />
       <SelectionButton name="$waterQuality" :module="waterQualityModule" :expandable="true" />
-      <SelectionButton name="$phytoplankton" :module="phytoplanktonModule" />
-      <SelectionButton name="$benthicFauna" :module="benthicFaunaModule" />
+      <SelectionButton name="$phytoplankton" :module="phytoplanktonModule" :disabled="true" />
+      <SelectionButton name="$benthicFauna" :module="benthicFaunaModule" :disabled="true" />
     </div>
     <div class="detail-box-container">
       <SurgeDetails v-if="surgeModule.isSelected" />

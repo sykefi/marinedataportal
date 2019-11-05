@@ -3,11 +3,22 @@ import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterLevels } from '@/queries/FMI/getWaterLevelQuery';
+import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class WaterLevelModule extends VuexModule implements IAttributeModule {
+  public name = '$waterLevel';
   public loading = false;
   public isSelected = false;
+  public data: object[] | null = null;
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
+  }
+
+  get rowCount() {
+    return this.data ? this.data.length : 0;
+  }
 
   @Mutation
   public toggleSelected() {
@@ -17,7 +28,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   @Action
   public async getData(params: CommonParameters) {
     this.loading = true;
-    await getWaterLevels(params);
+    this.data = await getWaterLevels(params);
     this.loading = false;
   }
 }
