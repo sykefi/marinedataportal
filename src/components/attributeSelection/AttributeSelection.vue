@@ -19,7 +19,9 @@
     <div class="detail-box-container">
       <SurgeDetails v-if="surgeModule.isSelected" />
       <TemperatureDetails v-if="surfaceTemperatureModule.isSelected" />
-      <WaterQualityDetails v-if="waterQualityModule.isSelected" />
+    </div>
+    <div v-if="waterQualityModule.isSelected">
+      <WaterQualityDetails />
     </div>
   </div>
 </template>

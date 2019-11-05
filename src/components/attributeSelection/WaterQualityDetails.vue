@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OptionsSelection :header="$t('$waterQualityDetailsHeader')" :module="module" />
+    <OptionsSelection :header="$t('$waterQualityDetailsHeader')" :module="module" :twoColumns="true"/>
     <DepthSelection />
   </div>
 </template>

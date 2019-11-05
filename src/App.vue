@@ -52,7 +52,7 @@
   #app {
     font-family: "TitilliumWeb", sans-serif;
     text-align: center;
-    max-width: 50rem;
+    max-width: 60rem;
     margin-left: auto;
     margin-right: auto;
   }

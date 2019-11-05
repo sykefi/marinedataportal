@@ -6,6 +6,8 @@ export default class OptionsSelection extends Vue {
   public header!: string;
   @Prop({ required: true })
   public module!: IAttributeModuleWithOptions;
+  @Prop({ required: false, type: Boolean })
+  public twoColumns!: boolean;
 
   get selectedIds() {
     return this.module.selectedIds;
