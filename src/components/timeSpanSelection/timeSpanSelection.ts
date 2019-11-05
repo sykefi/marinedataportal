@@ -1,5 +1,5 @@
 
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
 import DatePicker from '@/components/common/datePicker/DatePicker.vue';
@@ -41,36 +41,36 @@ export default class TimeSpanSelection extends Vue {
   }
 
   public storeTimeSpanStart(y: number, m: number, d: number) {
-    searchParameterModule.setTimeSpanStart(new Date(y + '-' + m + '-' + d));
+    searchParameterModule.timeSpanStart = new Date(y + '-' + m + '-' + d);
   }
 
   public storeTimeSpanEnd(y: number, m: number, d: number) {
-    searchParameterModule.setTimeSpanEnd(new Date(y + '-' + m + '-' + d));
+    searchParameterModule.timeSpanEnd = new Date(y + '-' + m + '-' + d);
   }
 
   public storePeriodStart(y: number, m: number, d: number) {
     // Year is not picked in period selection, it can be any
-    searchParameterModule.setPeriodStart(new Date('2000' + '-' + m + '-' + d));
+    searchParameterModule.periodStart = new Date('2000' + '-' + m + '-' + d);
   }
 
   public storePeriodEnd(y: number, m: number, d: number) {
-    searchParameterModule.setPeriodEnd(new Date('2000' + '-' + m + '-' + d));
+    searchParameterModule.periodEnd = new Date('2000' + '-' + m + '-' + d);
   }
 
   public resetTimeSpanStart() {
-    searchParameterModule.setTimeSpanStart(null);
+    searchParameterModule.timeSpanStart = null;
   }
 
   public resetTimeSpanEnd() {
-    searchParameterModule.setTimeSpanEnd(null);
+    searchParameterModule.timeSpanEnd = null;
   }
 
   public resetPeriodStart() {
-    searchParameterModule.setPeriodStart(null);
+    searchParameterModule.periodStart = null;
   }
 
   public resetPeriodEnd() {
-    searchParameterModule.setPeriodEnd(null);
+    searchParameterModule.periodEnd = null;
   }
 
   public emptyPeriodSelection() {

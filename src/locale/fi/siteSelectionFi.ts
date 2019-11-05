@@ -3,4 +3,5 @@ export default {
     $sitePlaceholder: 'Valitse paikat',
     $remove: 'Poista ',
     $selectedSites: 'Valitut paikat',
+    $refreshSites: 'Lataa paikkalista',
 };

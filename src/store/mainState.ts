@@ -11,11 +11,12 @@ import { surfaceTemperatureModule } from './attributeModules/sufaceTemperatureMo
 import { surgeModule } from './attributeModules/surgeModule';
 import { waterLevelModule } from './attributeModules/waterLevelModule';
 import { IAttributeModuleWithOptions } from './attributeModules/IAttributeModuleWithOptions';
+import { searchParameterModule } from './searchParameterModule';
 @Module
 class MainState extends VuexModule {
   public errorList: string[] = [];
 
-  private modules: IAttributeModule[] = [
+  private attributeModules: IAttributeModule[] = [
     benthicFaunaModule,
     iceThicknessModule,
     phytoPlanktonModule,
@@ -38,16 +39,16 @@ class MainState extends VuexModule {
   }
 
   get loading() {
-    return !!this.modules.find((m) => m.loading);
+    return searchParameterModule.loading || this.attributeModules.find((m) => m.loading);
   }
 
   get selectedAttributeModules() {
-    return this.modules.filter((m) => m.isSelected);
+    return this.attributeModules.filter((m) => m.isSelected);
   }
 
   @Action
   public async populateSelectionOptions() {
-    this.modules.forEach((module) => {
+    this.attributeModules.forEach((module) => {
       if (this.moduleHasOptions(module)) {
         module.getOptions();
       }
@@ -55,8 +56,22 @@ class MainState extends VuexModule {
   }
 
   @Action
+  public async populateAvailableSites(params: CommonParameters) {
+    searchParameterModule.availableSites = [];
+    for (const module of this.attributeModules) {
+      if (module.isSelected) {
+        const ids = await module.getAvailableSiteIds(params);
+        ids.forEach((id) => {
+          searchParameterModule.addAvailableSite(id);
+        });
+      }
+    }
+    searchParameterModule.populateAvailableSites();
+  }
+
+  @Action
   public async downloadData(params: CommonParameters) {
-    this.modules.forEach((module) => {
+    this.attributeModules.forEach((module) => {
       module.data = null;
       if (module.isSelected) {
         module.getData(params);

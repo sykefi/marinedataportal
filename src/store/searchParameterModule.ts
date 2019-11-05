@@ -1,7 +1,10 @@
-import { Module, Mutation, VuexModule } from 'vuex-class-modules';
+import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
 import store from './store';
-import { Site } from '@/components/siteSelection/site';
-@Module
+import { Site } from '@/queries/site';
+import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
+import { CommonParameters } from '@/queries/commonParameters';
+
+@Module({ generateMutationSetters: true })
 class SearchParameterModule extends VuexModule {
     // state
     public selectedDepth: string = 'surfaceLayer';
@@ -11,48 +14,30 @@ class SearchParameterModule extends VuexModule {
     public timeSpanEnd: Date | null = new Date();
     public periodStart: Date | null = null;
     public periodEnd: Date | null = null;
+    public availableSites: Site[] = [];
     public selectedSites: Site[] = [];
+    public selectedVeslaSiteIds: number[] = [];
+    public loading = false;
+
+    get parameters() {
+        return new CommonParameters(this.timeSpanStart!, this.timeSpanEnd!);
+    }
 
     // mutations
 
     @Mutation
-    public setSelectedDepth(depth: string) {
-        this.selectedDepth = depth;
+    public addAvailableSite(id: number) {
+        if (!this.selectedVeslaSiteIds.find((s) => s === id)) {
+            this.selectedVeslaSiteIds.push(id);
+        }
     }
 
     @Mutation
-    public setDepthStart(depthStart: number | null) {
-        this.depthStart = depthStart;
-    }
-
-    @Mutation
-    public setDepthEnd(depthEnd: number | null) {
-        this.depthEnd = depthEnd;
-    }
-
-    @Mutation
-    public setTimeSpanStart(timeSpanStart: Date | null) {
-        this.timeSpanStart = timeSpanStart;
-    }
-
-    @Mutation
-    public setTimeSpanEnd(timeSpanEnd: Date | null) {
-        this.timeSpanEnd = timeSpanEnd;
-    }
-
-    @Mutation
-    public setPeriodStart(periodStart: Date | null) {
-        this.periodStart = periodStart;
-    }
-
-    @Mutation
-    public setPeriodEnd(periodEnd: Date | null) {
-        this.periodEnd = periodEnd;
-    }
-
-    @Mutation
-    public addSelectedSite(selectedSite: Site) {
-        this.selectedSites.push(selectedSite);
+    public addSelectedSite(id: number) {
+        const site = this.availableSites.find((s) => s.id === id);
+        if (site) {
+            this.selectedSites.push(site);
+        }
     }
 
     @Mutation
@@ -61,6 +46,13 @@ class SearchParameterModule extends VuexModule {
         if (index >= 0) {
             this.selectedSites.splice(index, 1);
         }
+    }
+
+    @Action
+    public async populateAvailableSites() {
+        this.loading = true;
+        this.availableSites = await getVeslaSites(this.selectedVeslaSiteIds);
+        this.loading = false;
     }
 }
 

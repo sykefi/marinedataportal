@@ -9,5 +9,5 @@ export interface IAttributeModule {
   rowCount: number;
   toggleSelected(): void;
   getData(params: CommonParameters): void;
-
+  getAvailableSiteIds(params: CommonParameters): Promise<number[]>;
 }

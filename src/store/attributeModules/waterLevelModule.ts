@@ -31,6 +31,12 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
     this.data = await getWaterLevels(params);
     this.loading = false;
   }
+
+  @Action
+  public async getAvailableSiteIds(params: CommonParameters) {
+    throw new Error('Method not implemented.');
+    return [];
+  }
 }
 
 export const waterLevelModule = new WaterLevelModule({

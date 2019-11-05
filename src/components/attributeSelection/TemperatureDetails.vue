@@ -8,7 +8,6 @@
   import { Component, Vue } from 'vue-property-decorator';
   import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
   import { surfaceTemperatureModule } from '@/store/attributeModules/sufaceTemperatureModule';
-  import i18n from '@/locale/i18n';
   @Component({
     components: {
       OptionsSelection,

@@ -21,7 +21,7 @@ async function getFilter(params: CommonParameters, selectedIds: number[]) {
 }
 
 async function getDeterminationIds(selectedIds: number[]) {
-  const determQuery = 'MaaritysYhdMaaritys?$select=Maaritys_Id, MaaritysYhd_id';
+  const determQuery = 'MaaritysYhdMaaritys?$select=Maaritys_Id,MaaritysYhd_id';
   const res = await GetVeslaData(determQuery) as Array<{ Maaritys_Id: number, MaaritysYhd_id: number }>;
   const selectedDetermIds: number[] = [];
   res.forEach((value) => {
@@ -33,9 +33,14 @@ async function getDeterminationIds(selectedIds: number[]) {
 }
 
 export async function getWaterQuality(params: CommonParameters, selectedIds: number[]) {
-  // todo: location (coord, station name)
-  // todo: nextlink
   const filter = await getFilter(params, selectedIds);
   const res = await GetVeslaData(query + filter);
   return res;
+}
+
+export async function getWaterQualitySiteIds(params: CommonParameters, selectedIds: number[]) {
+  const filter = await getFilter(params, selectedIds);
+  const q = 'Result_Wide?$select=Site_Id&' + filter;
+  const res = await GetVeslaData(q) as Array<{ Site_Id: number }>;
+  return res.map((r) => r.Site_Id);
 }

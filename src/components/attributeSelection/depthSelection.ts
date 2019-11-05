@@ -1,5 +1,5 @@
 
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component } from 'vue-property-decorator';
 import DecimalInput from '@/components/common/DecimalInput.vue';
 import { mainState } from '@/store/mainState';
 import { searchParameterModule } from '@/store/searchParameterModule';
@@ -22,10 +22,10 @@ export default class WaterQualityDetails extends Vue {
     return searchParameterModule.selectedDepth;
   }
   set selected(value) {
-    searchParameterModule.setSelectedDepth(value);
+    searchParameterModule.selectedDepth = value;
     if (value !== 'depthInterval') {
-      searchParameterModule.setDepthStart(null);
-      searchParameterModule.setDepthEnd(null);
+      searchParameterModule.depthStart = null;
+      searchParameterModule.depthEnd = null;
     }
   }
 
@@ -34,7 +34,7 @@ export default class WaterQualityDetails extends Vue {
   }
 
   set depthStart(value: number) {
-    searchParameterModule.setDepthStart(value);
+    searchParameterModule.depthStart = value;
   }
 
   get depthEnd() {
@@ -42,6 +42,6 @@ export default class WaterQualityDetails extends Vue {
   }
 
   set depthEnd(value: number) {
-    searchParameterModule.setDepthEnd(value);
+    searchParameterModule.depthEnd = value;
   }
 }

@@ -28,6 +28,12 @@ class SecchiDepthModule extends VuexModule implements IAttributeModule {
   public async getData(params: CommonParameters) {
     throw new Error('Method not implemented.');
   }
+
+  @Action
+  public async getAvailableSiteIds(params: CommonParameters) {
+    throw new Error('Method not implemented.');
+    return [];
+  }
 }
 
 export const secchiDepthModule = new SecchiDepthModule({

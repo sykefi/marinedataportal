@@ -66,6 +66,12 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   public async getData(params: CommonParameters) {
     throw new Error('Method not implemented.');
   }
+
+  @Action
+  public async getAvailableSiteIds(params: CommonParameters) {
+    throw new Error('Method not implemented.');
+    return [];
+  }
 }
 
 export const surgeModule = new SurgeModule({

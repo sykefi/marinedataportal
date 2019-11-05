@@ -3,9 +3,8 @@ import { getWaterQualityOptions } from '@/queries/Vesla/getWaterQualityOptionsQu
 import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
-import { getWaterQuality } from '@/queries/Vesla/getWaterQualityQuery';
+import { getWaterQuality, getWaterQualitySiteIds } from '@/queries/Vesla/getWaterQualityQuery';
 import { IAttributeOption } from './IAttributeOption';
-import { IWaterQualityOption } from '@/queries/getWaterQualityOptionsQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
@@ -58,15 +57,18 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public async getOptions() {
     if (this.availableOptions.length === 0) {
       this.loading = true;
-      const options = await getWaterQualityOptions() as IWaterQualityOption[];
-      const available: IAttributeOption[] = [];
-      options.forEach((option) => {
-        // TODO: language based on selection
-        available.push({ id: option.id, name: option.name_fi });
-      });
-      this.availableOptions = available;
+      const options = await getWaterQualityOptions();
+      this.availableOptions = options.map((o) => ({ id: o.id, name: o.name_fi }));
       this.loading = false;
     }
+  }
+
+  @Action
+  public async getAvailableSiteIds(params: CommonParameters) {
+    this.loading = true;
+    const res = await getWaterQualitySiteIds(params, this.selectedIds);
+    this.loading = false;
+    return res;
   }
 
   @Action

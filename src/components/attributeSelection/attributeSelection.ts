@@ -1,4 +1,4 @@
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 import SurgeDetails from '@/components/attributeSelection/SurgeDetails.vue';
