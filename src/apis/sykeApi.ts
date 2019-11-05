@@ -4,10 +4,14 @@ const QUERY_URL =
   'https://rajapinnat.ymparisto.fi/api/vesla/2.0/odata/';
 
 export default async function GetVeslaData(query: string) {
-  const res = (await getJsonResponse(QUERY_URL + query));
+  let res = await getJsonResponse(QUERY_URL + query);
+  const data = res.value;
   console.log('res', res);
-  // todo: loop through nextLink
-  return res.value;
+  while (res.nextLink) {
+    res = await getJsonResponse(res.nextLink);
+    data.push(res.value);
+  }
+  return data;
 }
 
 interface IODataResponse {
@@ -25,7 +29,7 @@ function getJsonResponse(url: string): Promise<IODataResponse> {
       const status = xhr.status;
       if (status === 200) {
         const response: IODataResponse = {
-          nextLink: xhr.response.nextLink,
+          nextLink: xhr.response['odata.nextLink'],
           value: xhr.response.value,
         };
         resolve(response);
