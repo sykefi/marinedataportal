@@ -16,24 +16,27 @@ class SearchParameterModule extends VuexModule {
     public periodEnd: Date | null = null;
     public availableSites: Site[] = [];
     public selectedSites: Site[] = [];
-    public selectedVeslaSiteIds: number[] = [];
+    public availableVeslaSiteIds: number[] = [];
     public loading = false;
 
     get parameters() {
-        return new CommonParameters(this.timeSpanStart!, this.timeSpanEnd!);
+        return new CommonParameters(this.timeSpanStart!, this.timeSpanEnd!, this.selectedSites);
     }
 
     // mutations
 
+    /** Stores a VESLA site id that has some data that the user is interested in.
+     * These ids will be used to fetch the sites later
+     */
     @Mutation
-    public addAvailableSite(id: number) {
-        if (!this.selectedVeslaSiteIds.find((s) => s === id)) {
-            this.selectedVeslaSiteIds.push(id);
+    public storeAvailableVeslaSiteId(id: number) {
+        if (!this.availableVeslaSiteIds.find((s) => s === id)) {
+            this.availableVeslaSiteIds.push(id);
         }
     }
 
     @Mutation
-    public addSelectedSite(id: number) {
+    public selectedSite(id: number) {
         const site = this.availableSites.find((s) => s.id === id);
         if (site) {
             this.selectedSites.push(site);
@@ -51,7 +54,7 @@ class SearchParameterModule extends VuexModule {
     @Action
     public async populateAvailableSites() {
         this.loading = true;
-        this.availableSites = await getVeslaSites(this.selectedVeslaSiteIds);
+        this.availableSites = await getVeslaSites(this.availableVeslaSiteIds);
         this.loading = false;
     }
 }

@@ -1,4 +1,4 @@
-import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
+import { Module, VuexModule, Action, Mutation } from 'vuex-class-modules';
 import store from './store';
 import { waterQualityModule } from './attributeModules/waterQualityModule';
 import { CommonParameters } from '@/queries/commonParameters';
@@ -14,6 +14,15 @@ import { IAttributeModuleWithOptions } from './attributeModules/IAttributeModule
 import { searchParameterModule } from './searchParameterModule';
 @Module
 class MainState extends VuexModule {
+
+  get loading() {
+    return searchParameterModule.loading || this.attributeModules.find((m) => m.loading);
+  }
+
+  get selectedAttributeModules() {
+    return this.attributeModules.filter((m) => m.isSelected);
+  }
+
   public errorList: string[] = [];
 
   private attributeModules: IAttributeModule[] = [
@@ -28,22 +37,12 @@ class MainState extends VuexModule {
   ];
 
   @Mutation
-  public setErrorList(errorList: string[]) {
-    this.errorList = errorList;
+  public setErrorList(errors: string[]) {
+    this.errorList = errors;
   }
-
-  // getters
 
   public isError(name: string) {
     return this.errorList.includes(name);
-  }
-
-  get loading() {
-    return searchParameterModule.loading || this.attributeModules.find((m) => m.loading);
-  }
-
-  get selectedAttributeModules() {
-    return this.attributeModules.filter((m) => m.isSelected);
   }
 
   @Action
@@ -62,7 +61,7 @@ class MainState extends VuexModule {
       if (module.isSelected) {
         const ids = await module.getAvailableSiteIds(params);
         ids.forEach((id) => {
-          searchParameterModule.addAvailableSite(id);
+          searchParameterModule.storeAvailableVeslaSiteId(id);
         });
       }
     }
@@ -70,11 +69,11 @@ class MainState extends VuexModule {
   }
 
   @Action
-  public async downloadData(params: CommonParameters) {
+  public async downloadData() {
     this.attributeModules.forEach((module) => {
       module.data = null;
       if (module.isSelected) {
-        module.getData(params);
+        module.getData(searchParameterModule.parameters);
       }
     });
   }

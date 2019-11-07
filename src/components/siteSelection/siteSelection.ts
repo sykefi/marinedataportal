@@ -4,6 +4,7 @@ import SelectionButton from '@/components/common/selectionButton/SelectionButton
 import { Site } from '@/queries/site';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
+import { validateSearchParameters } from '@/helpers';
 @Component({
   components: {
     SelectionHeader,
@@ -24,7 +25,7 @@ export default class SiteSelection extends Vue {
   }
 
   public onSelectSite(id: number) {
-    searchParameterModule.addSelectedSite(id);
+    searchParameterModule.selectedSite(id);
     this.selectedId = 0; // reset selection to placeholder
   }
 
@@ -33,6 +34,8 @@ export default class SiteSelection extends Vue {
   }
 
   public populate() {
-    mainState.populateAvailableSites(searchParameterModule.parameters);
+    if (validateSearchParameters()) {
+      mainState.populateAvailableSites(searchParameterModule.parameters);
+    }
   }
 }

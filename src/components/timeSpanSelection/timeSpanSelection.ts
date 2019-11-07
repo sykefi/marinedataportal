@@ -3,7 +3,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
 import DatePicker from '@/components/common/datePicker/DatePicker.vue';
-import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton';
+import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton.vue';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
 @Component({

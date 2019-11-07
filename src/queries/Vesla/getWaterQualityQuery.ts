@@ -1,5 +1,6 @@
 import { CommonParameters } from '../commonParameters';
 import GetVeslaData from '@/apis/sykeApi';
+import { buildODataEqualFilterFromArray } from '@/helpers';
 
 const query = 'Result_Wide?\
 $select=Time,AnalyteName,Site_Id,Site,SampleDepth_m,SampleDepthUpper_m,SampleDepthLower_m,Value&\
@@ -7,15 +8,11 @@ $orderby=Determination_Id,Site_Id,Time&';
 
 async function getFilter(params: CommonParameters, selectedIds: number[]) {
   let filter = `$filter=Time ge datetimeoffset'${params.formattedDateStart}'` +
-    ` and Time le datetimeoffset'${params.formattedDateEnd}' and (`;
+    ` and Time le datetimeoffset'${params.formattedDateEnd}'`;
+
   const ids = await getDeterminationIds(selectedIds);
-
-  ids.forEach((id) => {
-    filter += `Determination_Id eq ${id} or `;
-  });
-
-  filter = filter.substring(0, filter.length - 4);
-  filter += ')';
+  filter += buildODataEqualFilterFromArray(ids, 'Determination_Id', true);
+  filter += buildODataEqualFilterFromArray(params.sites.map((s) => s.id), 'Site_Id', true);
 
   return filter;
 }
