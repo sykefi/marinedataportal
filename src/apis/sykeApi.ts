@@ -3,7 +3,7 @@
 const QUERY_URL =
   'https://rajapinnat.ymparisto.fi/api/vesla/2.0/odata/';
 
-export default async function GetVeslaData(query: string) {
+export default async function getVeslaData(query: string) {
   let res = await getJsonResponse(QUERY_URL + query);
   const data = res.value;
   console.log('res', res);

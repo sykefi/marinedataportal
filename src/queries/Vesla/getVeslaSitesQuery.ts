@@ -1,4 +1,4 @@
-import GetVeslaData from '@/apis/sykeApi';
+import getVeslaData from '@/apis/sykeApi';
 import { Site } from '../site';
 import { chunkArray } from '@/helpers';
 
@@ -25,7 +25,7 @@ export async function getVeslaSites(ids: number[]) {
   const sites: Site[] = [];
   for (const chunk of chunks) {
     if (chunk.find((i) => i > 0)) {
-      const res = await GetVeslaData(query + getFilter(chunk)) as Array<{
+      const res = await getVeslaData(query + getFilter(chunk)) as Array<{
         Paikka_Id: number,
         Nimi: string,
         KoordLat: string,
