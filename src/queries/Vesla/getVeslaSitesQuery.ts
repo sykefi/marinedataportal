@@ -1,37 +1,24 @@
 import getVeslaData from '@/apis/sykeApi';
 import { Site } from '../site';
-import { chunkArray } from '@/helpers';
+import { chunkArray, buildODataEqualFilterFromArray } from '@/helpers';
 
-const query = 'Paikka?\
-$select=Paikka_Id,Nimi,KoordLat,KoordLong&';
+const query = 'sites?api-version=1.0&\
+$select=SiteId,Name,Latitude,Longitude&';
 
-function getFilter(ids: number[]) {
-  let filter = '$filter=(';
-
-  ids.forEach((id) => {
-    if (id) {
-      filter += `Paikka_Id eq ${id} or `;
-    }
-  });
-
-  filter = filter.substring(0, filter.length - 4);
-  filter += ')';
-
-  return filter;
-}
 
 export async function getVeslaSites(ids: number[]) {
-  const chunks = chunkArray(ids, 20);
+  const chunks = chunkArray(ids, 200);
   const sites: Site[] = [];
   for (const chunk of chunks) {
     if (chunk.find((i) => i > 0)) {
-      const res = await getVeslaData(query + getFilter(chunk)) as Array<{
-        Paikka_Id: number,
-        Nimi: string,
-        KoordLat: string,
-        KoordLong: string,
+      const filter = '$filter=' + buildODataEqualFilterFromArray(chunk, 'SiteId', false);
+      const res = await getVeslaData(query + filter) as Array<{
+        siteId: number,
+        name: string,
+        latitude: string,
+        longitude: string,
       }>;
-      res.map((r) => sites.push(new Site(r.Paikka_Id, r.Nimi)));
+      res.map((r) => sites.push(new Site(r.siteId, r.name)));
     }
   }
   return sites.sort(sortAlphabetically);

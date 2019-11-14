@@ -23,12 +23,20 @@ export function buildODataEqualFilterFromArray(array: any[], variable: string, s
   if (array.length === 0) {
     return '';
   }
-  let filter = startWithAnd ? ' and(' : '(';
+
+  if (array.length === 1) {
+    return (startWithAnd ? 'and ' : '') + `${variable} eq ${array[0]}`;
+  }
+
+  let filter = startWithAnd ? ' and ' : '';
+  filter += variable + ' in (';
   array.forEach((val) => {
-    filter += `${variable} eq ${val} or `;
+    if (val) {
+      filter += val + ',';
+    }
   });
 
-  filter = filter.substring(0, filter.length - 4);
+  filter = filter.substring(0, filter.length - 1);
   filter += ')';
   return filter;
 }

@@ -8,11 +8,11 @@ export class CommonParameters {
   // other options
 
   public get formattedDateStart() {
-    return this.dateStart.toISOString().substring(0, 10);
+    return this.dateStart.toISOString();
   }
 
   public get formattedDateEnd() {
-    return this.dateEnd.toISOString().substring(0, 10);
+    return this.dateEnd.toISOString();
   }
 
   constructor(dateStart: Date, dateEnd: Date, sites: Site[]) {

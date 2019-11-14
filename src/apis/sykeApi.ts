@@ -1,7 +1,7 @@
 // tslint:disable:no-console
 
 const QUERY_URL =
-  'https://rajapinnat.ymparisto.fi/api/vesla/2.0/odata/';
+  'http://rajapinnat.ymparisto.fi/api/meritietoportaali/api/';
 
 export default async function getVeslaData(query: string) {
   let res = await getJsonResponse(QUERY_URL + query);
@@ -9,7 +9,7 @@ export default async function getVeslaData(query: string) {
   console.log('res', res);
   while (res.nextLink) {
     res = await getJsonResponse(res.nextLink);
-    data.push(res.value);
+    data.push(...res.value);
   }
   return data;
 }
@@ -29,7 +29,7 @@ function getJsonResponse(url: string): Promise<IODataResponse> {
       const status = xhr.status;
       if (status === 200) {
         const response: IODataResponse = {
-          nextLink: xhr.response['odata.nextLink'],
+          nextLink: xhr.response['@odata.nextLink'],
           value: xhr.response.value,
         };
         resolve(response);
