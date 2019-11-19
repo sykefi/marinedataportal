@@ -1,7 +1,7 @@
 // tslint:disable:no-console
 
 const QUERY_URL =
-  'http://rajapinnat.ymparisto.fi/api/meritietoportaali/api/';
+  'https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/';
 
 export default async function getVeslaData(query: string) {
   let res = await getJsonResponse(QUERY_URL + query);
