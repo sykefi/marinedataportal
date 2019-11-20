@@ -6,6 +6,7 @@ import DatePicker from '@/components/common/datePicker/DatePicker.vue';
 import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton.vue';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
+import { ITimeSpanSelection } from '@/store/ITimeSpanSelection';
 @Component({
   components: {
     SelectionHeader,
@@ -17,8 +18,8 @@ import { mainState } from '@/store/mainState';
 export default class TimeSpanSelection extends Vue {
   public timeSpanStart: Date | null = searchParameterModule.timeSpanStart;
   public timeSpanEnd: Date | null = searchParameterModule.timeSpanEnd;
-  public periodStart: Date | null = searchParameterModule.periodStart;
-  public periodEnd: Date | null = searchParameterModule.periodEnd;
+  public periodStart: ITimeSpanSelection | null = searchParameterModule.periodStart;
+  public periodEnd: ITimeSpanSelection | null = searchParameterModule.periodEnd;
   public periodEmptied: boolean = false;
   get timeSpanStartError() {
     return mainState.isError('$missingTimeSpanStart')
@@ -40,29 +41,20 @@ export default class TimeSpanSelection extends Vue {
       || mainState.isError('$periodStartAfterPeriodEnd');
   }
 
-  public storeTimeSpanStart(y: number, m: number, d: number) {
-    searchParameterModule.timeSpanStart = new Date(y + '-' + m + '-' + d);
+  public storeTimeSpanStart(date: Date | null) {
+    searchParameterModule.timeSpanStart = date;
   }
 
-  public storeTimeSpanEnd(y: number, m: number, d: number) {
-    searchParameterModule.timeSpanEnd = new Date(y + '-' + m + '-' + d);
+  public storeTimeSpanEnd(date: Date | null) {
+    searchParameterModule.timeSpanEnd = date;
   }
 
-  public storePeriodStart(y: number, m: number, d: number) {
-    // Year is not picked in period selection, it can be any
-    searchParameterModule.periodStart = new Date('2000' + '-' + m + '-' + d);
+  public storePeriodStart(date: Date | null) {
+    searchParameterModule.periodStart = date ? { month: date.getMonth() + 1, day: date.getDate() } : null;
   }
 
-  public storePeriodEnd(y: number, m: number, d: number) {
-    searchParameterModule.periodEnd = new Date('2000' + '-' + m + '-' + d);
-  }
-
-  public resetTimeSpanStart() {
-    searchParameterModule.timeSpanStart = null;
-  }
-
-  public resetTimeSpanEnd() {
-    searchParameterModule.timeSpanEnd = null;
+  public storePeriodEnd(date: Date | null) {
+    searchParameterModule.periodEnd = date ? { month: date.getMonth() + 1, day: date.getDate() } : null;
   }
 
   public resetPeriodStart() {

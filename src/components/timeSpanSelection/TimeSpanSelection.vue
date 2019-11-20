@@ -16,8 +16,7 @@
     </div>
     <div class="content">
       <DatePicker
-        @day-change="storeTimeSpanStart"
-        @year-month-change="resetTimeSpanStart"
+        @date-change="storeTimeSpanStart"
         start="1970-01-01"
         :end="new Date().toString()"
         :ariaLabels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
@@ -26,8 +25,7 @@
       />
       <b>–</b>
       <DatePicker
-        @day-change="storeTimeSpanEnd"
-        @year-month-change="resetTimeSpanEnd"
+        @date-change="storeTimeSpanEnd"
         start="1970-01-01"
         :end="new Date().toString()"
         :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
@@ -36,8 +34,7 @@
       />
       <p />
       <DatePicker
-        @day-change="storePeriodStart"
-        @year-month-change="resetPeriodStart"
+        @date-change="storePeriodStart"
         start="1970-01-01"
         :end="new Date().toString()"
         :showYear="false"
@@ -48,8 +45,7 @@
       />
       <b>–</b>
       <DatePicker
-        @day-change="storePeriodEnd"
-        @year-month-change="resetPeriodEnd"
+        @date-change="storePeriodEnd"
         start="1970-01-01"
         :end="new Date().toString()"
         :showYear="false"

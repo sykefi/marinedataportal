@@ -13,19 +13,19 @@ export function chunkArray<T>(array: T[], size: number) {
 }
 
 /**
- * Builds an OData 3 'in' filter by chaining 'eq' filters. Result example: (key eq 1 or key eq 2 or key eq 3).
+ * Builds an OData 4 'in' filter. Result example: key in (1,2,3).
  * Returns an empty string if the array is empty.
  * @param array the array containing the simple values to chain
  * @param variable the variable name
  * @param startWithAnd if this filter is not the first, set this true to add the 'and' to the start of the query
  */
-export function buildODataEqualFilterFromArray(array: any[], variable: string, startWithAnd: boolean) {
+export function buildODataInFilterFromArray(array: any[], variable: string, startWithAnd: boolean) {
   if (array.length === 0) {
     return '';
   }
 
   if (array.length === 1) {
-    return (startWithAnd ? 'and ' : '') + `${variable} eq ${array[0]}`;
+    return (startWithAnd ? ' and' : '') + ` ${variable} eq ${array[0]}`;
   }
 
   let filter = startWithAnd ? ' and ' : '';

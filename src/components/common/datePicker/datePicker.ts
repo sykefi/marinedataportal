@@ -41,18 +41,37 @@ export default class DatePicker extends Vue {
         this.getDays();
     }
 
+    public emitUpdate() {
+        if (this.showYear) {
+            if (this.year > -1 && this.month > -1 && this.day > -1) {
+                this.$emit('date-change', new Date(this.year + '-' + (this.month + 1) + '-' + this.day));
+            } else {
+                this.$emit('date-change', null);
+            }
+        } else {
+            if (this.month > -1 && this.day > -1) {
+                this.$emit('date-change', new Date('2000-' + (this.month + 1) + '-' + this.day));
+            } else {
+                this.$emit('date-change', null);
+            }
+        }
+    }
+
     public onChangeYear() {
-        this.$emit('year-month-change');
-        this.month = -1;
-        this.day = -1;
+        if (this.month === 1) {
+            this.day = -1;
+        }
         this.getMonths();
         this.getDays();
+        this.emitUpdate();
     }
 
     public onChangeMonth() {
-        this.$emit('year-month-change');
-        this.day = -1;
+        if (this.month === 1) {
+            this.day = -1;
+        }
         this.getDays();
+        this.emitUpdate();
     }
 
     private getYears() {
@@ -85,8 +104,10 @@ export default class DatePicker extends Vue {
         }
         let to;
         if (this.year === -1) {
-            if (this.month === 1) { // If year is not picked, February always has 28 days
-                to = 28;
+            if (this.month === 1) {
+                // If year is not picked, February always has 29 days.
+                // this way we don't need to worry about leap years.
+                to = 29;
             } else {
                 to = this.daysInMonth(this.month, 2001);
             }

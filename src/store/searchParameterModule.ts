@@ -3,6 +3,7 @@ import store from './store';
 import { Site } from '@/queries/site';
 import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
 import { CommonParameters } from '@/queries/commonParameters';
+import { ITimeSpanSelection } from './ITimeSpanSelection';
 
 @Module({ generateMutationSetters: true })
 class SearchParameterModule extends VuexModule {
@@ -12,15 +13,15 @@ class SearchParameterModule extends VuexModule {
     public depthEnd: number | null = null;
     public timeSpanStart: Date | null = null;
     public timeSpanEnd: Date | null = new Date();
-    public periodStart: Date | null = null;
-    public periodEnd: Date | null = null;
+    public periodStart: ITimeSpanSelection | null = null;
+    public periodEnd: ITimeSpanSelection | null = null;
     public availableSites: Site[] = [];
     public selectedSites: Site[] = [];
     public availableVeslaSiteIds: number[] = [];
     public loading = false;
 
     get parameters() {
-        return new CommonParameters(this.timeSpanStart!, this.timeSpanEnd!, this.selectedSites);
+        return new CommonParameters();
     }
 
     // mutations
