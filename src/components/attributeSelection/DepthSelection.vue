@@ -2,12 +2,12 @@
   <div class="selection-box attached">
     <fieldset class="selection-content">
       <legend class="details-header">{{$t('$depthDetailsHeader')}}</legend>
-      <input type="radio" id="surfaceLayer" value="surfaceLayer" name="depth" v-model="selected" />
+      <input type="radio" id="surfaceLayer" :value="0" name="depth" v-model="selected" />
       <label for="surfaceLayer">{{$t('$surfaceLayer')}}</label>
       <br />
-      <input type="radio" id="depthInterval" value="depthInterval" name="depth" v-model="selected" />
+      <input type="radio" id="depthInterval" :value="2" name="depth" v-model="selected" />
       <label for="depthInterval">{{$t('$depthInterval')}}</label>
-      <span v-if="selected==='depthInterval'">
+      <span v-if="selected===2">
         <DecimalInput
           :max="1000"
           :decimals="5"
@@ -25,7 +25,7 @@
         />m
       </span>
       <br />
-      <input type="radio" id="bottomLayer" value="bottomLayer" name="depth" v-model="selected" />
+      <input type="radio" id="bottomLayer" :value="1" name="depth" v-model="selected" />
       <label for="bottomLayer">{{$t('$bottomLayer')}}</label>
     </fieldset>
   </div>

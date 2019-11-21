@@ -2,7 +2,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import DecimalInput from '@/components/common/DecimalInput.vue';
 import { mainState } from '@/store/mainState';
-import { searchParameterModule } from '@/store/searchParameterModule';
+import { searchParameterModule, DepthOptions } from '@/store/searchParameterModule';
 @Component({
   components: {
     DecimalInput,
@@ -23,7 +23,7 @@ export default class WaterQualityDetails extends Vue {
   }
   set selected(value) {
     searchParameterModule.selectedDepth = value;
-    if (value !== 'depthInterval') {
+    if (value !== DepthOptions.DepthInterval) {
       searchParameterModule.depthStart = null;
       searchParameterModule.depthEnd = null;
     }

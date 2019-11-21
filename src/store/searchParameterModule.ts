@@ -5,10 +5,16 @@ import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
 import { CommonParameters } from '@/queries/commonParameters';
 import { ITimeSpanSelection } from './ITimeSpanSelection';
 
+export enum DepthOptions {
+    SurfaceLayer,
+    SeaFloorLayer,
+    DepthInterval,
+}
+
 @Module({ generateMutationSetters: true })
 class SearchParameterModule extends VuexModule {
     // state
-    public selectedDepth: string = 'surfaceLayer';
+    public selectedDepth: DepthOptions = DepthOptions.SeaFloorLayer;
     public depthStart: number | null = null;
     public depthEnd: number | null = null;
     public timeSpanStart: Date | null = null;
@@ -17,7 +23,6 @@ class SearchParameterModule extends VuexModule {
     public periodEnd: ITimeSpanSelection | null = null;
     public availableSites: Site[] = [];
     public selectedSites: Site[] = [];
-    public availableVeslaSiteIds: number[] = [];
     public loading = false;
 
     get parameters() {
@@ -25,17 +30,6 @@ class SearchParameterModule extends VuexModule {
     }
 
     // mutations
-
-    /** Stores a VESLA site id that has some data that the user is interested in.
-     * These ids will be used to fetch the sites later
-     */
-    @Mutation
-    public storeAvailableVeslaSiteId(id: number) {
-        if (!this.availableVeslaSiteIds.find((s) => s === id)) {
-            this.availableVeslaSiteIds.push(id);
-        }
-    }
-
     @Mutation
     public selectedSite(id: number) {
         const site = this.availableSites.find((s) => s.id === id);
@@ -53,9 +47,9 @@ class SearchParameterModule extends VuexModule {
     }
 
     @Action
-    public async populateAvailableSites() {
+    public async populateAvailableSites(veslaIds: number[]) {
         this.loading = true;
-        this.availableSites = await getVeslaSites(this.availableVeslaSiteIds);
+        this.availableSites = await getVeslaSites(veslaIds);
         this.loading = false;
     }
 }

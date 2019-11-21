@@ -1,5 +1,5 @@
 import { mainState } from './store/mainState';
-import { searchParameterModule } from './store/searchParameterModule';
+import { searchParameterModule, DepthOptions } from './store/searchParameterModule';
 
 /**
  * Splits an array into chunks of specified size
@@ -74,7 +74,7 @@ export function validateSearchParameters() {
   }
 
   // Depth validation
-  if (params.selectedDepth === 'depthInterval') {
+  if (params.selectedDepth === DepthOptions.DepthInterval) {
     if (params.depthStart === null) {
       errors.push('$missingDepthStart');
     }
@@ -83,10 +83,10 @@ export function validateSearchParameters() {
     } else if (params.depthStart && (params.depthStart >= params.depthEnd)) {
       errors.push('$depthStartGreaterThanDepthEnd');
     }
-  } else if (params.selectedDepth === 'surfaceLayer') {
+  } else if (params.selectedDepth === DepthOptions.SurfaceLayer) {
     params.depthStart = 0;
     // TODO v.depthEnd
-  } else if (params.selectedDepth === 'bottomLayer') {
+  } else if (params.selectedDepth === DepthOptions.SeaFloorLayer) {
     // TODO
   }
 

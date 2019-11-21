@@ -1,9 +1,13 @@
 import { Site } from './site';
+import { DepthOptions } from '@/store/searchParameterModule';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { ITimeSpanSelection } from '@/store/ITimeSpanSelection';
 
 export class CommonParameters {
   public sites: Site[];
+  public depthSelection: DepthOptions;
+  public depthStart: number | null;
+  public depthEnd?: number | null;
   private dateStart: Date;
   private dateEnd: Date;
   private datePeriodStart: ITimeSpanSelection | null;
@@ -65,5 +69,8 @@ export class CommonParameters {
     this.sites = searchParameterModule.selectedSites;
     this.datePeriodStart = searchParameterModule.periodStart;
     this.datePeriodEnd = searchParameterModule.periodEnd;
+    this.depthSelection = searchParameterModule.selectedDepth;
+    this.depthStart = searchParameterModule.depthStart;
+    this.depthEnd = searchParameterModule.depthEnd;
   }
 }

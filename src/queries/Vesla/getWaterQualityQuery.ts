@@ -1,5 +1,6 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
+import { DepthOptions } from '@/store/searchParameterModule';
 import { buildODataInFilterFromArray } from '@/helpers';
 
 const query = 'results?api-version=1.0&\
@@ -11,6 +12,22 @@ async function getFilter(params: CommonParameters, determinationIds: number[]) {
     ` and Time ge ${params.formattedDateStart}` +
     ` and Time le ${params.formattedDateEnd}`;
 
+  switch (params.depthSelection) {
+    case DepthOptions.DepthInterval:
+      if (params.depthStart !== null && params.depthEnd !== null) {
+        // the lower depth is always null, unless the result is of a combination sample
+        filter += ` and (SampleDepthLowerM eq null or` +
+          `(SampleDepthLowerM ge ${params.depthStart} and SampleDepthLowerM le ${params.depthEnd}))` +
+          ` and SampleDepthUpperM ge ${params.depthStart} and SampleDepthUpperM le ${params.depthEnd}`;
+      }
+      break;
+    case DepthOptions.SeaFloorLayer:
+      filter += ' and IsSeaOrLakeBedLevel eq 1';
+      break;
+    case DepthOptions.SurfaceLayer:
+      filter += ' and IsSeaOrLakeSurfaceLevel eq 1';
+      break;
+  }
   if (params.datePeriodMonths) {
     if (params.datePeriodMonths.start > params.datePeriodMonths.end) {
       filter += ` and (month(Time) ge ${params.datePeriodMonths.start} or month(Time) le ${params.datePeriodMonths.end})`;
@@ -21,6 +38,7 @@ async function getFilter(params: CommonParameters, determinationIds: number[]) {
   if (params.datePeriodDays) {
     filter += buildODataInFilterFromArray(params.datePeriodDays, 'day(Time)', true);
   }
+
   filter += buildODataInFilterFromArray(determinationIds, 'DeterminationCombinationId', true);
   filter += buildODataInFilterFromArray(params.sites.map((s) => s.id), 'SiteId', true);
 

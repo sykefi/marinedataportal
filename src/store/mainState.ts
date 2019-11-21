@@ -56,16 +56,15 @@ class MainState extends VuexModule {
 
   @Action
   public async populateAvailableSites(params: CommonParameters) {
-    searchParameterModule.availableSites = [];
+    const veslaIds: number[] = [];
     for (const module of this.attributeModules) {
       if (module.isSelected) {
         const ids = await module.getAvailableSiteIds(params);
-        ids.forEach((id) => {
-          searchParameterModule.storeAvailableVeslaSiteId(id);
-        });
+        veslaIds.push(...ids);
       }
     }
-    searchParameterModule.populateAvailableSites();
+    // https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+    searchParameterModule.populateAvailableSites([...new Set(veslaIds)]);
   }
 
   @Action
