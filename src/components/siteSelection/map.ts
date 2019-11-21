@@ -12,6 +12,22 @@ export default class Map extends Vue {
 
   private selectedMapFeatures: any[] = [];
 
+  get availableFeatures() {
+    // wrap sites as GeoJSON Features
+    return searchParameterModule.availableSites.map(
+      (s) => {
+        return {
+          type: 'Feature',
+          id: s.id,
+          geometry: {
+            type: 'Point',
+            coordinates: s.mapCoordinates,
+          },
+          properties: { name: s.name },
+        };
+      });
+  }
+
   get selectedFeatures() {
     return this.selectedMapFeatures;
   }
@@ -22,11 +38,6 @@ export default class Map extends Vue {
       searchParameterModule.selectSite(feat.id);
     });
     this.selectedMapFeatures = feats;
-  }
-
-
-  get availableSites() {
-    return searchParameterModule.availableSites;
   }
 
   public mapCreated(map: any) {

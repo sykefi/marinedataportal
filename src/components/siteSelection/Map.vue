@@ -14,16 +14,7 @@
       </vl-layer-tile>
 
       <vl-layer-vector>
-        <vl-source-vector ref="vectorSource">
-          <vl-feature
-            :id="site.id"
-            v-for="site in availableSites"
-            :key="site.id"
-            :properties="site"
-          >
-            <vl-geom-point :coordinates="site.mapCoordinates"></vl-geom-point>
-          </vl-feature>
-        </vl-source-vector>
+        <vl-source-vector :features="availableFeatures" ref="vectorSource" />
       </vl-layer-vector>
       <vl-interaction-select
         ref="selectInteraction"
