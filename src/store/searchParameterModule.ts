@@ -31,7 +31,10 @@ class SearchParameterModule extends VuexModule {
 
     // mutations
     @Mutation
-    public selectedSite(id: number) {
+    public selectSite(id: number) {
+        if (this.selectedSites.find((s) => s.id === id)) {
+            return;
+        }
         const site = this.availableSites.find((s) => s.id === id);
         if (site) {
             this.selectedSites.push(site);
@@ -39,11 +42,16 @@ class SearchParameterModule extends VuexModule {
     }
 
     @Mutation
-    public removeSite(site: Site) {
-        const index = this.selectedSites.findIndex((s) => s === site);
+    public removeSite(id: number) {
+        const index = this.selectedSites.findIndex((s) => s.id === id);
         if (index >= 0) {
             this.selectedSites.splice(index, 1);
         }
+    }
+
+    @Mutation
+    public clearSelectedSites() {
+        this.selectedSites = [];
     }
 
     @Action

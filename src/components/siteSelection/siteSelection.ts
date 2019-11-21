@@ -1,18 +1,24 @@
 import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
-import { Site } from '@/queries/site';
+import Map from '@/components/siteSelection/Map.vue';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
 import { validateSearchParameters } from '@/helpers';
+
 @Component({
   components: {
     SelectionHeader,
     SelectionButton,
+    Map,
   },
 })
 export default class SiteSelection extends Vue {
   public selectedId = 0;
+
+  get availableSites() {
+    return searchParameterModule.availableSites;
+  }
 
   get selectedSites() {
     return searchParameterModule.selectedSites;
@@ -25,12 +31,13 @@ export default class SiteSelection extends Vue {
   }
 
   public onSelectSite(id: number) {
-    searchParameterModule.selectedSite(id);
+    searchParameterModule.selectSite(id);
     this.selectedId = 0; // reset selection to placeholder
   }
 
-  public onRemoveSite(site: Site) {
-    searchParameterModule.removeSite(site);
+  public onRemoveSite(id: number) {
+    searchParameterModule.removeSite(id);
+    (this.$refs.mapView as any).removeSelection(id);
   }
 
   public populate() {

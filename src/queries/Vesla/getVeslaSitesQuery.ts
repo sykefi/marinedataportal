@@ -15,10 +15,10 @@ export async function getVeslaSites(ids: number[]) {
       const res = await getVeslaData(query + filter) as Array<{
         siteId: number,
         name: string,
-        latitude: string,
-        longitude: string,
+        latitude: number,
+        longitude: number,
       }>;
-      res.map((r) => sites.push(new Site(r.siteId, r.name)));
+      res.map((r) => sites.push(new Site(r.siteId, r.name, r.latitude, r.longitude)));
     }
   }
   return sites.sort(sortAlphabetically);
