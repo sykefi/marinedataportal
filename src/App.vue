@@ -1,5 +1,15 @@
 <template>
   <div id="app">
+    <p>
+      Tämä on <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
+      <ul>Huomioita:
+      <li>toistaiseksi Vedenkorkeus-haussa toimii ainoastaan aikavälin valinta. Aikaväli saa olla maks. viikon pitkä</li>
+      <li>karttatoiminnallisuudet ovat vielä alkutekijöissään. Esimerkiksi valittujen paikkojen ja kartan välinen toiminnallisuus on puutteellinen</li>
+      <li>vedenlaatutietojen haussa yli 1000 rivin palauttaminen johtaa ohjelman virhetilanteeseen</li>
+      </ul>
+      <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>, on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
+    </p>
+      Palautetta ja kehitysideoita voi laittaa sähköpostilla simo.paasisalo@ymparisto.fi. Jos haluat päästä katsomaan projektityökalua, voit pyytää pääsyoikeutta samasta osoitteesta.
     <AttributeSelection />
     <TimeSpanSelection />
     <SiteSelection />

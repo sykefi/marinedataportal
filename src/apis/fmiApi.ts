@@ -2,7 +2,7 @@
 import { CommonParameters } from '@/queries/commonParameters';
 
 const QUERY_URL =
-  'http://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
+  'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
 
 export interface IFmiResult {
   time: Date;
