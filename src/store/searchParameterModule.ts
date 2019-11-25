@@ -4,6 +4,7 @@ import { Site } from '@/queries/site';
 import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
 import { CommonParameters } from '@/queries/commonParameters';
 import { ITimeSpanSelection } from './ITimeSpanSelection';
+import { sortAlphabetically } from '@/helpers';
 
 export enum DepthOptions {
     SurfaceLayer,
@@ -38,6 +39,7 @@ class SearchParameterModule extends VuexModule {
         const site = this.availableSites.find((s) => s.id === id);
         if (site) {
             this.selectedSites.push(site);
+            this.selectedSites.sort(sortAlphabetically);
         }
     }
 

@@ -14,20 +14,6 @@
 
 <style lang="scss">
   @import "@/assets/styles/variables.scss";
-  .download-button {
-    font-family: "TitilliumWeb";
-    font-weight: bold;
-    font-size: $font-size-l;
-    color: $text-white;
-    padding: 0 2rem 0 2rem;
-    height: 3.5rem;
-    background: $background-blue;
-    box-shadow: 0 0.2rem 0 $border-shadow;
-    border-radius: 5px;
-    &:not(:disabled):hover {
-      background: $background-blue-hover;
-    }
-  }
   .error-content {
     border: none;
     text-align: left;

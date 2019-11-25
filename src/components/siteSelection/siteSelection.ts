@@ -15,6 +15,7 @@ import { validateSearchParameters } from '@/helpers';
 })
 export default class SiteSelection extends Vue {
   public selectedId = 0;
+  public showMessage = false;
 
   get availableSites() {
     return searchParameterModule.availableSites;
@@ -40,9 +41,11 @@ export default class SiteSelection extends Vue {
     (this.$refs.mapView as any).removeSelection(id);
   }
 
-  public populate() {
+  public async populate() {
+    this.showMessage = false;
     if (validateSearchParameters()) {
-      mainState.populateAvailableSites(searchParameterModule.parameters);
+      await mainState.populateAvailableSites(searchParameterModule.parameters);
+      setTimeout(() => this.showMessage = true, 500); // There is a short slag before availableSites is populated
     }
   }
 }

@@ -58,7 +58,8 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     if (this.availableOptions.length === 0) {
       this.loading = true;
       const options = await getWaterQualityOptions();
-      this.availableOptions = options.map((o) => ({ id: o.id, name: o.name_fi }));
+      this.availableOptions = options.map((o) => ({ id: o.id, name: o.name_fi })).sort(this.sortAlphabetically);
+
       this.loading = false;
     }
   }
@@ -76,6 +77,16 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     this.loading = true;
     this.data = await getWaterQuality(params, this.selectedIds);
     this.loading = false;
+  }
+
+  private sortAlphabetically(a: {id: number, name: string}, b: {id: number, name: string}) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
   }
 }
 
