@@ -11,8 +11,8 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/vue-fontawesome": "^0.1.7",
+    "@types/ol": "^5.3.6",
     "core-js": "^2.6.5",
-    "ol": "^6.1.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-i18n": "^8.14.1",
@@ -23,7 +23,6 @@
     "vuex-class-modules": "^1.1.2"
   },
   "devDependencies": {
-    "@types/ol": "^5.3.6",
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
     "@vue/cli-plugin-babel": "^3.12.1",
     "@vue/cli-plugin-typescript": "^3.12.1",

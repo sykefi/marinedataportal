@@ -16,7 +16,7 @@ library.add(faTimes);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(VueLayers);
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 Vue.directive('focus', {
   inserted(el) {
