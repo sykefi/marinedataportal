@@ -3,9 +3,8 @@
     <p>
       Tämä on <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
       <ul>Huomioita:
-      <li>toistaiseksi Vedenkorkeus-haussa toimii ainoastaan aikavälin valinta. Aikaväli saa olla maks. viikon pitkä</li>
+      <li><b>Safarilla</b> on havaittu jotain toimintaongelmia</li>
       <li>karttatoiminnallisuudet ovat vielä alkutekijöissään. Esimerkiksi valittujen paikkojen ja kartan välinen toiminnallisuus on puutteellinen</li>
-      <li>vedenlaatutietojen haussa yli 1000 rivin palauttaminen johtaa ohjelman virhetilanteeseen</li>
       </ul>
       <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>, on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
     </p>

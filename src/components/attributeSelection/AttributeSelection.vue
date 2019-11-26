@@ -4,7 +4,7 @@
     <p class="error" v-if="showAttributeError">{{$t(attributeErrorMessage)}}</p>
     <div class="selections-grid">
       <SelectionButton name="$secchiDepth" :module="secchiDepthModule" :disabled="true" />
-      <SelectionButton name="$waterLevel" :module="waterLevelModule" />
+      <SelectionButton name="$waterLevel" :module="waterLevelModule" :disabled="true" />
       <SelectionButton name="$iceThickness" :module="iceThicknessModule" :disabled="true" />
       <SelectionButton name="$surge" :module="surgeModule" :expandable="true" :disabled="true" />
       <SelectionButton
