@@ -13,6 +13,7 @@ export default class Map extends Vue {
   private selectedMapFeatures: any[] = [];
 
   get availableFeatures() {
+    this.selectedMapFeatures = [];
     // wrap sites as GeoJSON Features
     return searchParameterModule.availableSites.map(
       (s) => {

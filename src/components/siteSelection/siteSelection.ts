@@ -44,6 +44,7 @@ export default class SiteSelection extends Vue {
   public async populate() {
     this.showMessage = false;
     if (validateSearchParameters()) {
+      searchParameterModule.clearSelectedSites();
       await mainState.populateAvailableSites(searchParameterModule.parameters);
       setTimeout(() => this.showMessage = true, 500); // There is a short slag before availableSites is populated
     }
