@@ -6,6 +6,7 @@ import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class SecchiDepthModule extends VuexModule implements IAttributeModule {
+  public hasOptionsSelected = true;
   public name = '$secchiDepth';
   public loading = false;
   public isSelected = false;

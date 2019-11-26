@@ -13,7 +13,7 @@ export default class OptionsSelection extends Vue {
     return this.module.selectedIds;
   }
   set selectedIds(e) {
-    this.module.selectedIds = e;
+    this.module.setSelectedOptions(e);
   }
 
   get availableOptions() {

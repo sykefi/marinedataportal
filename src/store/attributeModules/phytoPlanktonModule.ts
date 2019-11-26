@@ -6,6 +6,7 @@ import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class PhytoPlanktonModule extends VuexModule implements IAttributeModule {
+  public hasOptionsSelected = true;
   public name = '$phytoPlankton';
   public loading = false;
   public isSelected = false;

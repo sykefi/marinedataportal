@@ -3,7 +3,7 @@ import { IAttributeModule } from './IAttributeModule';
 export interface IAttributeModuleWithOptions extends IAttributeModule {
   availableOptions: any[];
   selectedIds: number[];
-  toggleSelectedOption(id: number): void;
+  setSelectedOptions(ids: number[]): void;
   selectAll(): void;
   deSelectAll(): void;
   getOptions(): void;

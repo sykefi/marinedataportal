@@ -24,19 +24,18 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     return this.data ? this.data.length : 0;
   }
 
+  get hasOptionsSelected() {
+    return !!this.selectedIds.length;
+  }
+
   @Mutation
   public toggleSelected() {
     this.isSelected = !this.isSelected;
   }
 
   @Mutation
-  public toggleSelectedOption(id: number) {
-    const index = this.selectedIds.findIndex((i) => i === id);
-    if (index >= 0) {
-      this.selectedIds.splice(index, 1);
-    } else {
-      this.selectedIds.push(id);
-    }
+  public setSelectedOptions(ids: number[]) {
+    this.selectedIds = ids;
   }
 
   @Mutation

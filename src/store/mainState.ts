@@ -20,7 +20,8 @@ class MainState extends VuexModule {
   }
 
   get selectedAttributeModules() {
-    return this.attributeModules.filter((m) => m.isSelected);
+    return this.attributeModules.filter((m) =>
+      m.isSelected && m.hasOptionsSelected);
   }
 
   public errorList: string[] = [];
@@ -57,11 +58,9 @@ class MainState extends VuexModule {
   @Action
   public async populateAvailableSites(params: CommonParameters) {
     const veslaIds: number[] = [];
-    for (const module of this.attributeModules) {
-      if (module.isSelected) {
+    for (const module of this.selectedAttributeModules) {
         const ids = await module.getAvailableSiteIds(params);
         veslaIds.push(...ids);
-      }
     }
     // https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
     searchParameterModule.populateAvailableSites([...new Set(veslaIds)]);
@@ -71,7 +70,7 @@ class MainState extends VuexModule {
   public async downloadData() {
     this.attributeModules.forEach((module) => {
       module.data = null;
-      if (module.isSelected) {
+      if (module.isSelected && module.hasOptionsSelected) {
         module.getData(searchParameterModule.parameters);
       }
     });

@@ -7,6 +7,7 @@ import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class WaterLevelModule extends VuexModule implements IAttributeModule {
+  public hasOptionsSelected = true;
   public name = '$waterLevel';
   public loading = false;
   public isSelected = false;

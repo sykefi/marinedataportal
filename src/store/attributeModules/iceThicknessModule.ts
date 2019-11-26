@@ -6,6 +6,7 @@ import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
 class IceThicknessModule extends VuexModule implements IAttributeModule {
+  public hasOptionsSelected = true;
   public name = '$iceThickness';
   public loading = false;
   public isSelected = false;
