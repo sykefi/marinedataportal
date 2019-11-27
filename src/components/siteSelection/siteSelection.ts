@@ -33,7 +33,8 @@ export default class SiteSelection extends Vue {
 
   public onSelectSite(id: number) {
     searchParameterModule.selectSite(id);
-    this.selectedId = 0; // reset selection to placeholder
+    this.selectedId = 0;
+    (this.$refs.mapView as any).addSelection(id);
   }
 
   public onRemoveSite(id: number) {

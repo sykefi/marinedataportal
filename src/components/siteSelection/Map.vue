@@ -1,27 +1,44 @@
 <template>
-  <div>
-    <p>{{ $t("$mapInformation") }}</p>
-    <vl-map
-      :load-tiles-while-animating="true"
-      :load-tiles-while-interacting="true"
-      @created="mapCreated"
-      style="height: 40rem"
+  <vl-map
+    :load-tiles-while-animating="true"
+    :load-tiles-while-interacting="true"
+    @created="mapCreated"
+    @pointermove="onMapPointerMove"
+    ref="map"
+    style="height: 40rem"
+    :style="{ cursor: mapCursor }"
+  >
+    <vl-view :center="mapCenter" :zoom="mapZoom"></vl-view>
+
+    <vl-layer-tile ref="baseMapLayer" @mounted="baseMapLayerMounted"></vl-layer-tile>
+    <vl-layer-tile ref="cityNamesLayer" @mounted="cityNamesLayerMounted"></vl-layer-tile>
+
+    <vl-layer-vector ref="vectorLayer">
+      <vl-source-vector :features="availableFeatures" ref="vectorSource" />
+    </vl-layer-vector>
+    <vl-interaction-select ref="selectInteraction" :features.sync="selectedFeatures"></vl-interaction-select>
+
+    <vl-overlay
+      :offset="[10, -20]"
+      v-if="currentHoverFeature"
+      :position="currentHoverFeature.coordinates"
     >
-      <vl-view :center="mapCenter" :zoom="mapZoom"></vl-view>
-
-      <vl-layer-tile id="osm">
-        <vl-source-osm></vl-source-osm>
-      </vl-layer-tile>
-
-      <vl-layer-vector>
-        <vl-source-vector :features="availableFeatures" ref="vectorSource" />
-      </vl-layer-vector>
-      <vl-interaction-select
-        ref="selectInteraction"
-        :features.sync="selectedFeatures"
-      ></vl-interaction-select>
-    </vl-map>
-  </div>
+      <template>
+        <div class="map-hover">{{ currentHoverFeature.name }}</div>
+      </template>
+    </vl-overlay>
+  </vl-map>
 </template>
 
 <script src="./map.ts"></script>
+
+<style lang="scss" scoped>
+  .map-hover {
+    background: #fff;
+    box-shadow: 2px 2px 10px #ccc;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    pointer-events: none;
+    position: absolute;
+  }
+</style>

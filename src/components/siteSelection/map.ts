@@ -1,14 +1,25 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { searchParameterModule } from '@/store/searchParameterModule';
+import { mapModule } from '@/store/mapModule';
 import { DragBox } from 'ol/interaction';
 import { platformModifierKeyOnly } from 'ol/events/condition';
 import * as olExt from 'vuelayers/lib/ol-ext';
+import WMTS from 'ol/source/WMTS';
+
+interface IHoverData {
+  name: string;
+  coordinates: number[];
+  // depth etc.
+}
 
 @Component
 export default class Map extends Vue {
   public mapCenter: number[] =
-    [2487172.855814102, 9051675.65284173];
-  public mapZoom = 6;
+    [2466417.9856569725, 8788780.630851416];
+  public mapZoom = 5.5;
+  public mapCursor = 'default';
+
+  public currentHoverFeature: IHoverData | null = null;
 
   private selectedMapFeatures: any[] = [];
 
@@ -41,6 +52,32 @@ export default class Map extends Vue {
     this.selectedMapFeatures = feats;
   }
 
+  public mounted() {
+    const baseMapLayer = (this.$refs.baseMapLayer as any).$layer;
+    if (baseMapLayer) {
+      // if the layer has been mounted, set the options here.
+      // otherwise use the layerMounted event
+      baseMapLayer.setSource(new WMTS(mapModule.baseMapOptions!));
+    }
+
+    const cityNamesLayer = (this.$refs.cityNamesLayer as any).$layer;
+    if (cityNamesLayer) {
+      cityNamesLayer.setSource(new WMTS(mapModule.cityNameLayerOptions!));
+    }
+  }
+
+  public baseMapLayerMounted(layer: any) {
+    if (mapModule.baseMapOptions) {
+      layer.$layer.setSource(new WMTS(mapModule.baseMapOptions));
+    }
+  }
+
+  public cityNamesLayerMounted(layer: any) {
+    if (mapModule.cityNameLayerOptions) {
+      layer.$layer.setSource(new WMTS(mapModule.cityNameLayerOptions));
+    }
+  }
+
   public mapCreated(map: any) {
     // a DragBox interaction used to select features by drawing boxes
     const dragBox = new DragBox({
@@ -68,8 +105,30 @@ export default class Map extends Vue {
     });
   }
 
+  public onMapPointerMove({ dragging, pixel }: any) {
+    if (dragging) {
+      return;
+    }
+    const hitFeature = (this.$refs.map as any).forEachFeatureAtPixel(pixel, (feat: any) => feat);
+    if (!hitFeature) {
+      this.currentHoverFeature = null;
+      this.mapCursor = 'default';
+      return;
+    }
+    this.mapCursor = 'pointer';
+    this.currentHoverFeature = {
+      name: hitFeature.get('name'),
+      coordinates: hitFeature.getGeometry().getCoordinates(),
+    };
+  }
+
+  public addSelection(id: number) {
+    (this.$refs.selectInteraction as any).select(id);
+  }
+
   public removeSelection(id: number) {
-    const mapFeatureIndex = this.selectedFeatures.findIndex((f) => f.id === id);
-    this.selectedFeatures.splice(mapFeatureIndex, 1);
+    (this.$refs.selectInteraction as any).clearFeatures();
+    const mapFeatureIndex = this.selectedMapFeatures.findIndex((f) => f.id === id);
+    this.selectedMapFeatures.splice(mapFeatureIndex, 1);
   }
 }
