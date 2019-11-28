@@ -54,7 +54,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Mutation
   public getOptions() {
     if (this.availableOptions.length === 0) {
-      const keys = ['$waveBuoys', '$mareograps', '$marineStations'];
+      const keys = ['$waveBuoys', '$mareographs', '$marineStations'];
       keys.forEach((key, id) => {
         this.availableOptions.push({ id, name: i18n.t(key).toString() });
       });

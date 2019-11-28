@@ -17,6 +17,7 @@
   .selection-button {
     font-family: "OpenSans";
     font-size: $font-size-s;
+    text-transform: uppercase;
     margin: 4px;
     width: 10rem;
     height: 3rem;

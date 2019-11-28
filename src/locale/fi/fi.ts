@@ -5,6 +5,7 @@ import fileDownload from './dataDownloadFi';
 import surgeDetails from './surgeDetailsFi';
 import temperatureDetails from './temperatureDetailsFi';
 import waterQualityDetails from './waterQualityDetailsFi';
+import general from './generalFi';
 export default {
     ...attributeSelection,
     ...timeSpanSelection,
@@ -13,4 +14,5 @@ export default {
     ...surgeDetails,
     ...temperatureDetails,
     ...waterQualityDetails,
+    ...general,
 };

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import fi from './fi/fi';
+import en from './en/en';
 
 Vue.use(VueI18n);
 // const browserLang = navigator.language.toLocaleLowerCase();
@@ -39,7 +40,7 @@ const dateTimeFormats = {
   },
 };
 
-const messages = { fi };
+const messages = { en, fi };
 
 export default new VueI18n({
   locale: 'fi', // set locale,

@@ -1,6 +1,6 @@
 export default {
     $temperatureDetailsHeader: 'Lämpötila',
     $waveBuoys: 'Aaltopoijut (IL)',
-    $mareograps: 'Mareografit (IL)',
+    $mareographs: 'Mareografit (IL)',
     $marineStations: 'Havaintoasemat (SYKE)',
 };

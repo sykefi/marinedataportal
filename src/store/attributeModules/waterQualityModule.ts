@@ -1,5 +1,5 @@
 import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
-import { getWaterQualityOptions } from '@/queries/Vesla/getWaterQualityOptionsQuery';
+import { getWaterQualityOptions, IWaterQualityOption } from '@/queries/Vesla/getWaterQualityOptionsQuery';
 import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
@@ -16,6 +16,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
   public data: object[] | null = null;
+  private options: IWaterQualityOption[] = [];
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -53,15 +54,22 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     this.selectedIds = [];
   }
 
+  @Mutation
+  public setLanguage(lang: string) {
+    if (lang === 'en') {
+      this.availableOptions = this.options.map((o) => ({ id: o.id, name: o.name_en }));
+    } else {
+      this.availableOptions = this.options.map((o) => ({ id: o.id, name: o.name_fi }));
+    }
+    this.availableOptions.sort((a, b) => alphabeticCompare(a.name, b.name));
+  }
+
   @Action
   public async getOptions() {
     if (this.availableOptions.length === 0) {
       this.loading = true;
-      const options = await getWaterQualityOptions();
-      this.availableOptions =
-        options.map((o) => ({ id: o.id, name: o.name_fi }))
-          .sort((a, b) => alphabeticCompare(a.name, b.name));
-
+      this.options = await getWaterQualityOptions();
+      this.setLanguage('fi');
       this.loading = false;
     }
   }

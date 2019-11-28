@@ -25,6 +25,10 @@ Vue.directive('focus', {
 });
 
 new Vue({
+  created() {
+    const html = document.documentElement;
+    html.setAttribute('lang', 'fi');
+  },
   router,
   store,
   i18n,

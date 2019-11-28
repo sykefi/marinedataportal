@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header />
     <p>
       Tämä on <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
       <ul>Huomioita:
@@ -31,6 +32,7 @@
   import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
   import DataDownload from '@/components/dataDownload/DataDownload.vue';
   import DataPreview from '@/components/dataPreview/DataPreview.vue';
+  import Header from '@/components/Header.vue';
   import { mainState } from '@/store/mainState';
   import { mapModule } from '@/store/mapModule';
   @Component({
@@ -40,6 +42,7 @@
       SiteSelection,
       DataDownload,
       DataPreview,
+      Header,
     },
   })
   export default class App extends Vue {
@@ -66,9 +69,10 @@
   #app {
     font-family: "TitilliumWeb", sans-serif;
     text-align: center;
-    max-width: 60rem;
+    max-width: 65rem;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 5rem;
   }
 
   .hidden {
