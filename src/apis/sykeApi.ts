@@ -1,16 +1,16 @@
 // tslint:disable:no-console
-
-const QUERY_URL =
-  'https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/';
-
 export default async function getVeslaData(query: string) {
-  let res = await getJsonResponse(QUERY_URL + query);
+  let res = await getJsonResponse('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query);
   const data = res.value;
   console.log('res', res);
   while (res.nextLink) {
     res = await getJsonResponse(res.nextLink);
     data.push(...res.value);
   }
+  if (data.length && data[0] instanceof Object) {
+    data.forEach((obj) => { obj.dataSource = 'SYKE'; });
+  }
+
   return data;
 }
 

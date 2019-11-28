@@ -2,7 +2,7 @@ import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
 
 const query = 'Result_Wide?\
-$select=Time,Site_Id,Site,SampleDepth_m,SampleDepthUpper_m,SampleDepthLower_m,Value&\
+$select=Time,Site_Id,Site,SampleDepth_m,SampleDepthUpper_m,SampleDepthLower_m,Value,Unit&\
 $orderby=Site_Id,Time&';
 
 function getFilter(params: CommonParameters) {

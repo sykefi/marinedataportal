@@ -3,12 +3,31 @@ import getVeslaData from '@/apis/sykeApi';
 import { DepthOptions } from '@/store/searchParameterModule';
 import { buildODataInFilterFromArray } from '@/helpers';
 
+
+const select = [
+  'Time',
+  'AnalyteName',
+  'Value',
+  'Unit',
+  'SiteId',
+  'Site',
+  'siteLatitudeWGS84',
+  'siteLongitudeWGS84',
+  'samplingLatitudeWGS84',
+  'samplingLongitudeWGS84',
+  'SampleDepthM',
+  'SampleDepthUpperM',
+  'SampleDepthLowerM',
+  'SiteDepthM',
+  'TotalDepthM',
+];
+
 const query = 'results?api-version=1.0&\
-$select=Time,AnalyteName,SiteId,Site,SampleDepthM,SampleDepthUpperM,SampleDepthLowerM,Value&\
-$orderby=DeterminationId,SiteId,Time&';
+$orderby=DeterminationId,SiteId,Time&\
+$select=' + select.join(',');
 
 async function getFilter(params: CommonParameters, determinationIds: number[]) {
-  let filter = '$filter= EnvironmentTypeId in (31,32,33)' +
+  let filter = '&$filter= EnvironmentTypeId in (31,32,33)' +
     ` and Time ge ${params.formattedDateStart}` +
     ` and Time le ${params.formattedDateEnd}`;
 
