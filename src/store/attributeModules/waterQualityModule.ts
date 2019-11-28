@@ -6,6 +6,7 @@ import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterQuality, getWaterQualitySiteIds } from '@/queries/Vesla/getWaterQualityQuery';
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
+import { alphabeticCompare } from '@/helpers';
 
 @Module({ generateMutationSetters: true })
 class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -57,7 +58,9 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     if (this.availableOptions.length === 0) {
       this.loading = true;
       const options = await getWaterQualityOptions();
-      this.availableOptions = options.map((o) => ({ id: o.id, name: o.name_fi })).sort(this.sortAlphabetically);
+      this.availableOptions =
+        options.map((o) => ({ id: o.id, name: o.name_fi }))
+          .sort((a, b) => alphabeticCompare(a.name, b.name));
 
       this.loading = false;
     }
@@ -76,16 +79,6 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     this.loading = true;
     this.data = await getWaterQuality(params, this.selectedIds);
     this.loading = false;
-  }
-
-  private sortAlphabetically(a: {id: number, name: string}, b: {id: number, name: string}) {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
   }
 }
 

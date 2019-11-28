@@ -1,6 +1,6 @@
 import getVeslaData from '@/apis/sykeApi';
 import { Site } from '../site';
-import { chunkArray, buildODataInFilterFromArray, sortAlphabetically } from '@/helpers';
+import { chunkArray, buildODataInFilterFromArray, alphabeticCompare } from '@/helpers';
 
 const query = 'sites?api-version=1.0&\
 $select=SiteId,Name,Latitude,Longitude&';
@@ -21,5 +21,5 @@ export async function getVeslaSites(ids: number[]) {
       res.map((r) => sites.push(new Site(r.siteId, r.name, r.latitude, r.longitude)));
     }
   }
-  return sites.sort(sortAlphabetically);
+  return sites.sort((a, b) => alphabeticCompare(a.name, b.name));
 }

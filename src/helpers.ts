@@ -1,6 +1,5 @@
 import { mainState } from './store/mainState';
 import { searchParameterModule, DepthOptions } from './store/searchParameterModule';
-import { Site } from './queries/site';
 
 /**
  * Splits an array into chunks of specified size
@@ -95,12 +94,6 @@ export function validateSearchParameters() {
   return errors.length === 0;
 }
 
-export function sortAlphabetically(a: Site, b: Site) {
-  if (a.name < b.name) {
-    return -1;
-  }
-  if (a.name > b.name) {
-    return 1;
-  }
-  return 0;
+export function alphabeticCompare(a: string, b: string) {
+  return a.localeCompare(b);
 }
