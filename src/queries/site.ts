@@ -4,14 +4,20 @@ import { Coordinate } from 'ol/coordinate';
 export class Site {
     public id: number;
     public name: string;
-    public lat: number;
-    public long: number;
+    public depth: number | null;
     public mapCoordinates: Coordinate;
-    constructor(id: number, name: string, lat: number, long: number) {
+
+    get displayName() {
+        if (this.depth === null) {
+            return this.name;
+        }
+        return `${this.name} (${this.depth}&nbsp;m)`;
+    }
+
+    constructor(id: number, name: string, lat: number, long: number, depth: number | null) {
         this.id = id;
         this.name = name;
-        this.lat = lat;
-        this.long = long;
+        this.depth = depth;
         this.mapCoordinates = fromLonLat([long, lat]);
     }
 }

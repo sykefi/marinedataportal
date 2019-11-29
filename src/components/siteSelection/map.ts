@@ -9,7 +9,6 @@ import WMTS from 'ol/source/WMTS';
 interface IHoverData {
   name: string;
   coordinates: number[];
-  // depth etc.
 }
 
 @Component
@@ -35,7 +34,7 @@ export default class Map extends Vue {
             type: 'Point',
             coordinates: s.mapCoordinates,
           },
-          properties: { name: s.name },
+          properties: { name: s.displayName },
         };
       });
   }
