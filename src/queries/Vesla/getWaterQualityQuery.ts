@@ -3,7 +3,6 @@ import getVeslaData from '@/apis/sykeApi';
 import { DepthOptions } from '@/store/searchParameterModule';
 import { buildODataInFilterFromArray } from '@/helpers';
 
-
 const select = [
   'Time',
   'AnalyteName',
@@ -59,7 +58,7 @@ async function getFilter(params: CommonParameters, determinationIds: number[]) {
   }
 
   filter += buildODataInFilterFromArray(determinationIds, 'DeterminationCombinationId', true);
-  filter += buildODataInFilterFromArray(params.sites.map((s) => s.id), 'SiteId', true);
+  filter += buildODataInFilterFromArray(params.veslaSites.map((s) => s.id), 'SiteId', true);
 
   return filter;
 }

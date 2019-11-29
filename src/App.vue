@@ -5,6 +5,7 @@
       Tämä on <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
       <ul>Huomioita:
       <li><b>Safarilla</b> on havaittu jotain toimintaongelmia</li>
+      <li>Kausivalinta ei toimi vielä FMI:n datalla (Vedenkorkeus)</li>
       <li>Karttabugi: laatikkovalinnan jälkeen yksittäisen valinnan poistaminen SHIFT+click kaataa kartan.</li>
       </ul>
       <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>, on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
@@ -35,6 +36,7 @@
   import Header from '@/components/Header.vue';
   import { mainState } from '@/store/mainState';
   import { mapModule } from '@/store/mapModule';
+  import {getMareographs} from '@/queries/FMI/getMareographsQuery';
   @Component({
     components: {
       AttributeSelection,
@@ -51,6 +53,7 @@
     }
 
     public created() {
+      getMareographs();
       mainState.populateSelectionOptions();
       mapModule.generateMapOptions();
     }

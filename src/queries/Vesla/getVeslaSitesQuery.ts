@@ -1,5 +1,5 @@
 import getVeslaData from '@/apis/sykeApi';
-import { Site } from '../site';
+import { Site, SiteTypes } from '../site';
 import { chunkArray, buildODataInFilterFromArray, alphabeticCompare } from '@/helpers';
 
 const query = 'sites?api-version=1.0&\
@@ -19,7 +19,7 @@ export async function getVeslaSites(ids: number[]) {
         longitude: number,
         depth: number | null,
       }>;
-      res.map((r) => sites.push(new Site(r.siteId, r.name, r.latitude, r.longitude, r.depth)));
+      res.map((r) => sites.push(new Site(r.siteId, r.name, r.latitude, r.longitude, r.depth, SiteTypes.Vesla)));
     }
   }
   return sites.sort((a, b) => alphabeticCompare(a.name, b.name));

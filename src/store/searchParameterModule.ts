@@ -4,7 +4,9 @@ import { Site } from '@/queries/site';
 import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
 import { CommonParameters } from '@/queries/commonParameters';
 import { ITimeSpanSelection } from './ITimeSpanSelection';
+import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { alphabeticCompare } from '@/helpers';
+import { mainState } from './mainState';
 
 export enum DepthOptions {
     SurfaceLayer,
@@ -59,7 +61,11 @@ class SearchParameterModule extends VuexModule {
     @Action
     public async populateAvailableSites(veslaIds: number[]) {
         this.loading = true;
-        this.availableSites = await getVeslaSites(veslaIds);
+        const sites = await getVeslaSites(veslaIds);
+        if (mainState.hasSelectedFmiModules) {
+            sites.push(...await getMareographs());
+        }
+        this.availableSites = sites;
         this.loading = false;
     }
 }

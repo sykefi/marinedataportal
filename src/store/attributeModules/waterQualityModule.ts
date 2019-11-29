@@ -7,16 +7,10 @@ import { getWaterQuality, getWaterQualitySiteIds } from '@/queries/Vesla/getWate
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { alphabeticCompare } from '@/helpers';
+import { ModuleTypes } from './IAttributeModule';
 
 @Module({ generateMutationSetters: true })
 class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
-  public name = '$waterQuality';
-  public isSelected = false;
-  public loading = false;
-  public availableOptions: IAttributeOption[] = [];
-  public selectedIds: number[] = [];
-  public data: object[] | null = null;
-  private options: IWaterQualityOption[] = [];
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -29,6 +23,14 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   get hasOptionsSelected() {
     return !!this.selectedIds.length;
   }
+  public name = '$waterQuality';
+  public isSelected = false;
+  public loading = false;
+  public availableOptions: IAttributeOption[] = [];
+  public selectedIds: number[] = [];
+  public data: object[] | null = null;
+  public type = ModuleTypes.Vesla;
+  private options: IWaterQualityOption[] = [];
 
   @Mutation
   public toggleSelected() {
@@ -75,7 +77,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   }
 
   @Action
-  public async getAvailableSiteIds(params: CommonParameters) {
+  public async getAvailableVeslaSiteIds(params: CommonParameters) {
     this.loading = true;
     const res = await getWaterQualitySiteIds(params, this.selectedIds);
     this.loading = false;

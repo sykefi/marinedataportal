@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
-import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+import { IAttributeModule, ModuleTypes } from '@/store/attributeModules/IAttributeModule';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterLevels } from '@/queries/FMI/getWaterLevelQuery';
@@ -12,6 +12,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   public loading = false;
   public isSelected = false;
   public data: object[] | null = null;
+  public type = ModuleTypes.Fmi;
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -34,8 +35,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   }
 
   @Action
-  public async getAvailableSiteIds(params: CommonParameters) {
-    throw new Error('Method not implemented.');
+  public async getAvailableVeslaSiteIds(params: CommonParameters) {
     return [];
   }
 }

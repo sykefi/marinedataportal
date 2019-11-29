@@ -5,6 +5,7 @@ import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
 import i18n from '@/locale/i18n';
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
+import { ModuleTypes } from './IAttributeModule';
 
 @Module({ generateMutationSetters: true })
 class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -14,6 +15,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
   public data: object[] | null = null;
+  public type = ModuleTypes.VeslaFmi;
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -67,7 +69,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   }
 
   @Action
-  public async getAvailableSiteIds(params: CommonParameters) {
+  public async getAvailableVeslaSiteIds(params: CommonParameters) {
     throw new Error('Method not implemented.');
     return [];
   }

@@ -51,7 +51,6 @@ export function validateSearchParameters() {
   }
 
   const params = searchParameterModule;
-
   // Time span validation
   if (!params.timeSpanStart) {
     errors.push('$missingTimeSpanStart');

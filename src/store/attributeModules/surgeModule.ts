@@ -5,6 +5,7 @@ import i18n from '@/locale/i18n';
 import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
+import { ModuleTypes } from './IAttributeModule';
 
 @Module({ generateMutationSetters: true })
 class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -14,6 +15,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
   public data: object[] | null = null;
+  public type = ModuleTypes.Fmi;
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -67,7 +69,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   }
 
   @Action
-  public async getAvailableSiteIds(params: CommonParameters) {
+  public async getAvailableVeslaSiteIds(params: CommonParameters) {
     throw new Error('Method not implemented.');
     return [];
   }
