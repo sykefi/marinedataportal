@@ -12,6 +12,7 @@ export default {
     $missingPeriodStart: 'Kauden alkupäivä puuttuu',
     $missingPeriodEnd: 'Kauden loppupäivä puuttuu',
     $periodStartAfterPeriodEnd: 'Kauden alkupäivä ei voi olla kauden loppupäivän jälkeen',
+    $noSitesSelected: 'Valitse vähintään yksi paikka',
     $busy: 'Lataa...',
     $downloadCSV: 'Lataa CSV-tiedosto',
     $noRowsFound: 'Ei rivejä',

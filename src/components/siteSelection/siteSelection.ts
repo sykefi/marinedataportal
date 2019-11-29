@@ -15,7 +15,7 @@ import { validateSearchParameters } from '@/helpers';
 })
 export default class SiteSelection extends Vue {
   public selectedId = 0;
-  public showMessage = false;
+  public showNoSitesMessage = false;
 
   get availableSites() {
     return searchParameterModule.availableSites;
@@ -31,6 +31,10 @@ export default class SiteSelection extends Vue {
       ));
   }
 
+  get showSiteRequiredError() {
+    return mainState.isError('$noSitesSelected');
+  }
+
   public onSelectSite(id: number) {
     searchParameterModule.selectSite(id);
     this.selectedId = 0;
@@ -43,11 +47,11 @@ export default class SiteSelection extends Vue {
   }
 
   public async populate() {
-    this.showMessage = false;
-    if (validateSearchParameters()) {
+    this.showNoSitesMessage = false;
+    if (validateSearchParameters(false)) {
       searchParameterModule.clearSelectedSites();
       await mainState.populateAvailableSites(searchParameterModule.parameters);
-      setTimeout(() => this.showMessage = true, 500); // There is a short slag before availableSites is populated
+      setTimeout(() => this.showNoSitesMessage = true, 500); // There is a short slag before availableSites is populated
     }
   }
 }

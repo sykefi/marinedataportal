@@ -15,7 +15,7 @@ export default class DataDownload extends Vue {
     }
 
     public downloadData() {
-        if (validateSearchParameters()) {
+        if (validateSearchParameters(true)) {
             mainState.downloadData();
         }
     }

@@ -12,6 +12,7 @@ export default {
     $missingPeriodStart: 'Time period start date is missing',
     $missingPeriodEnd: 'Time period end date is missing',
     $periodStartAfterPeriodEnd: 'Time period start date cannot be after time period end date',
+    $noSitesSelected: 'Select at least one site',
     $busy: 'Downloading...',
     $downloadCSV: 'Download CSV file',
     $noRowsFound: 'No rows found',

@@ -42,8 +42,12 @@ export function buildODataInFilterFromArray(array: any[], variable: string, star
 }
 
 
-export function validateSearchParameters() {
+export function validateSearchParameters(checkSites: boolean) {
   const errors: string[] = [];
+
+  if (checkSites && searchParameterModule.selectedSites.length === 0) {
+    errors.push('$noSitesSelected');
+  }
 
   // Attribute validation
   if (mainState.selectedAttributeModules.length === 0) {

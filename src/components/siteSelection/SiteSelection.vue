@@ -38,7 +38,8 @@
         </div>
       </div>
     </div>
-    <p class="error" v-else-if="showMessage">{{ $t("$noAvailableSites") }}</p>
+    <p class="error" v-else-if="showNoSitesMessage">{{ $t("$noAvailableSites") }}</p>
+    <p class="error" v-if="showSiteRequiredError">{{$t('$noSitesSelected')}}</p>
   </div>
 </template>
 
