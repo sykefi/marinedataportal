@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div id="scroll-on-focus" />
     <SelectionHeader :header="$t('$timeSpanSelectionTitle')" />
     <div class="title">
       <h3 aria-hidden="true">{{$t('$timeSpan')}}</h3>
@@ -17,6 +18,7 @@
     <div class="content">
       <DatePicker
         @date-change="storeTimeSpanStart"
+        @focus-date-picker="scrollOnFocus"
         start="1970-01-01"
         :end="new Date().toString()"
         :ariaLabels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
@@ -26,6 +28,7 @@
       <b>–</b>
       <DatePicker
         @date-change="storeTimeSpanEnd"
+        @focus-date-picker="scrollOnFocus"
         start="1970-01-01"
         :end="new Date().toString()"
         :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
@@ -35,6 +38,7 @@
       <p />
       <DatePicker
         @date-change="storePeriodStart"
+        @focus-date-picker="scrollOnFocus"
         start="1970-01-01"
         :end="new Date().toString()"
         :showYear="false"
@@ -46,6 +50,7 @@
       <b>–</b>
       <DatePicker
         @date-change="storePeriodEnd"
+        @focus-date-picker="scrollOnFocus"
         start="1970-01-01"
         :end="new Date().toString()"
         :showYear="false"
