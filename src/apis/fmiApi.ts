@@ -6,6 +6,7 @@ const QUERY_URL =
   'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
 
 export interface IFmiResult {
+  responseId: number;
   time: Date;
   parameterName: string;
   value: string;
@@ -19,30 +20,29 @@ export async function GetRawXMLResponse(query: string) {
   return await getXmlResponse(QUERY_URL + query);
 }
 
-
-export async function GetFmiData(query: string, params: CommonParameters) {
+export async function GetSimpleFmiResponse(query: string, params: CommonParameters, sites: Site[]) {
   const dateSpans = getDates(params.dateStart, params.dateEnd, 6);
   const results: IFmiResult[] = [];
-  for (const site of params.mareographSites) {
+  for (const site of sites) {
     for (let i = 0; i < dateSpans.length - 1; i++) {
       const startDate = dateSpans[i];
       const endDate = dateSpans[i + 1];
       const res = (await getXmlResponse(QUERY_URL + query + formatParams(startDate, endDate, site.id)));
       const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
-      results.push(...parseResponse(elements, site));
+      results.push(...parseSimpleResponse(Array.from(elements), site));
     }
   }
   return results;
 }
 
-function parseResponse(elements: HTMLCollectionOf<Element>, site: Site) {
+function parseSimpleResponse(elements: Element[], site: Site) {
   const results: IFmiResult[] = [];
   for (const element of elements) {
     const time = element.getElementsByTagName('BsWfs:Time')[0].firstChild!.nodeValue!;
     const parameterName = element.getElementsByTagName('BsWfs:ParameterName')[0].firstChild!.nodeValue!;
     const value = element.getElementsByTagName('BsWfs:ParameterValue')[0].firstChild!.nodeValue!;
-    // tslint:disable-next-line:max-line-length
     const result: IFmiResult = {
+      responseId: +element.attributes[0].nodeValue!.split('.')[2],
       time: new Date(time),
       parameterName,
       value,

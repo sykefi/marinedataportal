@@ -6,7 +6,7 @@
       <SelectionButton name="$secchiDepth" :module="secchiDepthModule" :disabled="true" />
       <SelectionButton name="$waterLevel" :module="waterLevelModule" />
       <SelectionButton name="$iceThickness" :module="iceThicknessModule" :disabled="true" />
-      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" :disabled="true" />
+      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" />
       <SelectionButton
         name="$surfaceTemperature"
         :module="surfaceTemperatureModule"

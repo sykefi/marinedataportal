@@ -37,6 +37,7 @@
   import { mainState } from '@/store/mainState';
   import { mapModule } from '@/store/mapModule';
   import {getMareographs} from '@/queries/FMI/getMareographsQuery';
+  import {getBuoys} from '@/queries/FMI/getBuoysQuery';
   @Component({
     components: {
       AttributeSelection,
@@ -54,6 +55,7 @@
 
     public created() {
       getMareographs();
+      getBuoys();
       mainState.populateSelectionOptions();
       mapModule.generateMapOptions();
     }

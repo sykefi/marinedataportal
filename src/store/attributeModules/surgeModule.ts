@@ -6,6 +6,7 @@ import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { ModuleTypes } from './IAttributeModule';
+import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
 
 @Module({ generateMutationSetters: true })
 class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -65,12 +66,29 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
 
   @Action
   public async getData(params: CommonParameters) {
-    throw new Error('Method not implemented.');
+    this.loading = true;
+    const queryParams: WaveQueryParameters[] = [];
+    if (this.selectedIds.includes(0)) {
+      queryParams.push(WaveQueryParameters.direction);
+    }
+    if (this.selectedIds.includes(1)) {// temp
+      queryParams.push(WaveQueryParameters.waterTemperature);
+    }
+    if (this.selectedIds.includes(2)) {// height
+      queryParams.push(WaveQueryParameters.waveHeight);
+    }
+    if (this.selectedIds.includes(3)) {// modal period
+      queryParams.push(WaveQueryParameters.modalPeriod);
+    }
+    if (this.selectedIds.includes(4)) { // deviation
+      queryParams.push(WaveQueryParameters.directionDeviation);
+    }
+    this.data = await getWaveData(params, queryParams);
+    this.loading = false;
   }
 
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {
-    throw new Error('Method not implemented.');
     return [];
   }
 }

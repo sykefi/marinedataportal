@@ -7,6 +7,7 @@ import { ITimeSpanSelection } from './ITimeSpanSelection';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { alphabeticCompare } from '@/helpers';
 import { mainState } from './mainState';
+import { getBuoys } from '@/queries/FMI/getBuoysQuery';
 
 export enum DepthOptions {
     SurfaceLayer,
@@ -64,7 +65,9 @@ class SearchParameterModule extends VuexModule {
         const sites = await getVeslaSites(veslaIds);
         if (mainState.hasSelectedFmiModules) {
             sites.push(...await getMareographs());
+            sites.push(...await getBuoys());
         }
+        sites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name));
         this.availableSites = sites;
         this.loading = false;
     }

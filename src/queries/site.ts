@@ -4,6 +4,7 @@ import { Coordinate } from 'ol/coordinate';
 export enum SiteTypes {
     Vesla,
     Mareograph,
+    FmiBuoy,
 }
 
 export class Site {

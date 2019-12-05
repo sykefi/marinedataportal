@@ -21,6 +21,10 @@ export class CommonParameters {
     return this.sites.filter((s) => s.type === SiteTypes.Mareograph);
   }
 
+  public get buoySites() {
+    return this.sites.filter((s) => s.type === SiteTypes.FmiBuoy);
+  }
+
   public get formattedDateStart() {
     return this.dateStart.toISOString();
   }
