@@ -10,9 +10,6 @@ import { validateSearchParameters } from '@/helpers';
     },
 })
 export default class DataDownload extends Vue {
-    get errorList() {
-        return mainState.errorList;
-    }
 
     public downloadData() {
         if (validateSearchParameters(true)) {

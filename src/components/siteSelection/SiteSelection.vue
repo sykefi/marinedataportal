@@ -2,6 +2,7 @@
   <div>
     <SelectionHeader :header="$t('$siteSelectionTitle')" />
     <button class="download-button small-button" @click="populate">{{ $t("$refreshSites") }}</button>
+    <p class="error" v-if="showSiteRequiredError">{{$t('$noSitesSelected')}}</p>
     <div v-if="availableSites.length">
       <p class="info-paragraph">{{ $t("$siteSelectionInfo") }}</p>
       <div id="map-wrapper">
@@ -39,67 +40,66 @@
       </div>
     </div>
     <p class="error" v-else-if="showNoSitesMessage">{{ $t("$noAvailableSites") }}</p>
-    <p class="error" v-if="showSiteRequiredError">{{$t('$noSitesSelected')}}</p>
   </div>
 </template>
 
 <style lang="scss">
-  @import "@/assets/styles/variables.scss";
-  #map-wrapper {
-    display: grid;
-    grid-template-columns: 15rem 1fr;
-    grid-template-areas: "selection map";
-    grid-gap: 0.5rem;
-    border: 1px solid $border-gray;
-    height: 40rem;
+@import "@/assets/styles/variables.scss";
+#map-wrapper {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  grid-template-areas: "selection map";
+  grid-gap: 0.5rem;
+  border: 1px solid $border-gray;
+  height: 40rem;
 
-    #map {
-      grid-area: map;
-    }
-
-    #site-selection {
-      grid-area: selection;
-    }
+  #map {
+    grid-area: map;
   }
 
-  .multiselect {
-    overflow-y: auto;
-    overflow-x: hidden;
-    select {
-      font-family: "TitilliumWeb";
-      font-size: $font-size-m;
-      height: 2.2rem;
-      padding: 0.2rem;
-      margin-top: 1.5rem;
-      max-width: 12rem;
-    }
-    .remove-button {
-      border: none;
-      width: auto;
-      height: auto;
-      background: transparent;
-      color: $background-remove;
-    }
+  #site-selection {
+    grid-area: selection;
+  }
+}
 
-    .selection-content {
-      .list-item {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .inline {
-        display: flex;
-        flex-wrap: wrap;
-      }
-    }
+.multiselect {
+  overflow-y: auto;
+  overflow-x: hidden;
+  select {
+    font-family: "TitilliumWeb";
+    font-size: $font-size-m;
+    height: 2.2rem;
+    padding: 0.2rem;
+    margin-top: 1.5rem;
+    max-width: 12rem;
+  }
+  .remove-button {
+    border: none;
+    width: auto;
+    height: auto;
+    background: transparent;
+    color: $background-remove;
   }
 
-  .small-button {
-    font-size: $font-size-l;
-    font-weight: normal;
-    padding: 0 1rem 0 1rem;
-    height: 3rem;
+  .selection-content {
+    .list-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .inline {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
+}
+
+.small-button {
+  font-size: $font-size-l;
+  font-weight: normal;
+  padding: 0 1rem 0 1rem;
+  height: 3rem;
+}
 </style>
 
 <script src="./siteSelection.ts"></script>
