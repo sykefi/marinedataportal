@@ -71,8 +71,11 @@ export function validateSearchParameters(checkSites: boolean) {
   } else if (!params.periodStart && params.periodEnd) {
     errors.push('$missingPeriodStart');
   } else if (params.periodStart && params.periodEnd) {
-    if (params.periodStart > params.periodEnd) {
-      errors.push('$periodStartAfterPeriodEnd');
+    if (!params.periodStart.isValid) {
+      errors.push('$incompletePeriodStart');
+    }
+    if (!params.periodEnd.isValid) {
+      errors.push('$incompletePeriodEnd');
     }
   }
 

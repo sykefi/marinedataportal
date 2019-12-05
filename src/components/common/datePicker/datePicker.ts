@@ -51,6 +51,9 @@ export default class DatePicker extends Vue {
         } else {
             if (this.month > -1 && this.day > -1) {
                 this.$emit('date-change', new Date('2000-' + (this.month + 1) + '-' + this.day));
+            } else if (this.month > -1 || this.day > -1) {
+                // This is for checking if time period is incomplete
+                this.$emit('date-change', new Date('0000-01-01T00:00:00'));
             } else {
                 this.$emit('date-change', null);
             }

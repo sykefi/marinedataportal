@@ -33,12 +33,12 @@ export default class TimeSpanSelection extends Vue {
 
   get periodEndError() {
     return mainState.isError('$missingPeriodEnd')
-      || mainState.isError('$periodStartAfterPeriodEnd');
+      || mainState.isError('$incompletePeriodEnd');
   }
 
   get periodStartError() {
     return mainState.isError('$missingPeriodStart')
-      || mainState.isError('$periodStartAfterPeriodEnd');
+      || mainState.isError('$incompletePeriodStart');
   }
 
   public storeTimeSpanStart(date: Date | null) {
@@ -49,12 +49,14 @@ export default class TimeSpanSelection extends Vue {
     searchParameterModule.timeSpanEnd = date;
   }
 
-  public storePeriodStart(date: Date | null) {
-    searchParameterModule.periodStart = date ? { month: date.getMonth() + 1, day: date.getDate() } : null;
+  public storePeriodStart(date: Date | null ) {
+    const isValid = date?.getTime() !== new Date('0000-01-01T00:00:00').getTime();
+    searchParameterModule.periodStart = date ? { month: date.getMonth() + 1, day: date.getDate(), isValid } : null;
   }
 
   public storePeriodEnd(date: Date | null) {
-    searchParameterModule.periodEnd = date ? { month: date.getMonth() + 1, day: date.getDate() } : null;
+    const isValid = date?.getTime() !== new Date('0000-01-01T00:00:00').getTime();
+    searchParameterModule.periodEnd = date ? { month: date.getMonth() + 1, day: date.getDate(), isValid } : null;
   }
 
   public resetPeriodStart() {
