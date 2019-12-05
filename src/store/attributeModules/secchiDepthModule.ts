@@ -2,6 +2,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
 import { IAttributeModule, ModuleTypes } from './IAttributeModule';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
+import { getSecchiDepth, getSecchiDepthSiteIds } from '@/queries/Vesla/getSecchiDepthQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
@@ -28,13 +29,17 @@ class SecchiDepthModule extends VuexModule implements IAttributeModule {
 
   @Action
   public async getData(params: CommonParameters) {
-    throw new Error('Method not implemented.');
+    this.loading = true;
+    this.data = await getSecchiDepth(params);
+    this.loading = false;
   }
 
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {
-    throw new Error('Method not implemented.');
-    return [];
+    this.loading = true;
+    const res = await getSecchiDepthSiteIds(params);
+    this.loading = false;
+    return res;
   }
 }
 
