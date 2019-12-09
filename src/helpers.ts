@@ -101,20 +101,31 @@ export function alphabeticCompare(a: string, b: string) {
 }
 
 export function cleanupTimePeriod(results: any[], params: CommonParameters) {
+  const startMonth = params.datePeriodMonths!.start;
+  const endMonth = params.datePeriodMonths!.end;
+
   return results.filter((r) => {
     // remove results that go over the specified time period
     // example: time period 3/21 - 6/19:
     // first allow all results from months 4 - 5
     // check the results days from months 3 and 6, discard those that cross the limits
     const month = parseInt(r.time.substring(5, 7), 10);
-    if (month > params.datePeriodMonths!.start && month < params.datePeriodMonths!.end) {
-      return true;
+    if (startMonth <= endMonth) {
+      if (month > startMonth && month < endMonth) {
+        return true;
+      }
+    } else {
+      // example: time period 9/15 - 4/21
+      // allow result from months 10 - 12 and 1 - 3
+      if (month > startMonth || month < endMonth) {
+        return true;
+      }
     }
     const day = parseInt(r.time.substring(8, 10), 10);
-    if (month === params.datePeriodMonths!.start) {
+    if (month === startMonth) {
       return day >= params.datePeriodStartDay!;
     }
-    if (month === params.datePeriodMonths!.end) {
+    if (month === endMonth) {
       return day <= params.datePeriodEndDay!;
     }
   });
