@@ -15,12 +15,12 @@ const query = 'Observations?api-version=1.0&\
 $orderby=SiteId,Time&\
 $select=' + select.join(',');
 
-async function getFilter(params: CommonParameters) {
+async function getFilter(params: CommonParameters, obsCode: string) {
   let filter = '&$expand=Site($select=Latitude,Longitude,Depth)' +
     '&$filter=Site/EnvironmentTypeId in (31,32,33)' +
     ` and Time ge ${params.formattedDateStart}` +
     ` and Time le ${params.formattedDateEnd}` +
-    ` and ParameterCode eq 'SDT'`;
+    ` and ParameterCode eq '${obsCode}'`;
 
   if (params.datePeriodMonths) {
     if (params.datePeriodMonths.start > params.datePeriodMonths.end) {
@@ -38,8 +38,8 @@ async function getFilter(params: CommonParameters) {
   return filter;
 }
 
-export async function getSecchiDepth(params: CommonParameters) {
-  const filter = await getFilter(params);
+export async function getObservations(params: CommonParameters, obsCode: string) {
+  const filter = await getFilter(params, obsCode);
   let results = await getVeslaData(query + filter);
   results = results.map((r) => {
     const flat = { ...r };
@@ -55,8 +55,8 @@ export async function getSecchiDepth(params: CommonParameters) {
   return results;
 }
 
-export async function getSecchiDepthSiteIds(params: CommonParameters) {
-  const filter = await getFilter(params);
+export async function getObservationSiteIds(params: CommonParameters, obsCode: string) {
+  const filter = await getFilter(params, obsCode);
   const q = 'Observations?api-version=1.0&$select=siteId' + filter;
   let data = await getVeslaData(q);
   data = data.map((d) => d.siteId);

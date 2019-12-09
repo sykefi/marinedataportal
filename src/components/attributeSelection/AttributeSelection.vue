@@ -5,7 +5,7 @@
     <div class="selections-grid">
       <SelectionButton name="$secchiDepth" :module="secchiDepthModule" />
       <SelectionButton name="$waterLevel" :module="waterLevelModule" />
-      <SelectionButton name="$iceThickness" :module="iceThicknessModule" :disabled="true" />
+      <SelectionButton name="$iceThickness" :module="iceThicknessModule" />
       <SelectionButton name="$surge" :module="surgeModule" :expandable="true" />
       <SelectionButton
         name="$surfaceTemperature"

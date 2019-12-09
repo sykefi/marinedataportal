@@ -2,6 +2,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
 import { IAttributeModule, ModuleTypes } from './IAttributeModule';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
+import { getObservations, getObservationSiteIds } from '@/queries/Vesla/getObservationsQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
 
 @Module({ generateMutationSetters: true })
@@ -11,7 +12,8 @@ class IceThicknessModule extends VuexModule implements IAttributeModule {
   public loading = false;
   public isSelected = false;
   public data: object[] | null = null;
-  public type = ModuleTypes.VeslaFmi;
+  public type = ModuleTypes.Vesla;
+  private obsCode = 'THICKI';
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -28,13 +30,16 @@ class IceThicknessModule extends VuexModule implements IAttributeModule {
 
   @Action
   public async getData(params: CommonParameters) {
-    throw new Error('Method not implemented.');
-  }
+    this.loading = true;
+    this.data = await getObservations(params, this.obsCode);
+    this.loading = false;  }
 
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {
-    throw new Error('Method not implemented.');
-    return [];
+    this.loading = true;
+    const res = await getObservationSiteIds(params, this.obsCode);
+    this.loading = false;
+    return res;
   }
 }
 
