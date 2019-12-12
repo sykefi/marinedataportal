@@ -1,5 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
-import { IAttributeModule, ModuleTypes } from './IAttributeModule';
+import { IAttributeModule } from './IAttributeModule';
+import { SiteTypes } from '@/queries/site';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getObservations, getObservationSiteIds } from '@/queries/Vesla/getObservationsQuery';
@@ -12,15 +13,15 @@ class IceThicknessModule extends VuexModule implements IAttributeModule {
   public loading = false;
   public isSelected = false;
   public data: object[] | null = null;
-  public type = ModuleTypes.Vesla;
+  public siteTypes = [SiteTypes.Vesla];
   private obsCode = 'THICKI';
-
-  get previewData() {
-    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
-  }
 
   get rowCount() {
     return this.data ? this.data.length : 0;
+  }
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
   }
 
   @Mutation
@@ -32,7 +33,8 @@ class IceThicknessModule extends VuexModule implements IAttributeModule {
   public async getData(params: CommonParameters) {
     this.loading = true;
     this.data = await getObservations(params, this.obsCode);
-    this.loading = false;  }
+    this.loading = false;
+  }
 
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {

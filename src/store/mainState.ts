@@ -2,12 +2,13 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-class-modules';
 import store from './store';
 import { waterQualityModule } from './attributeModules/waterQualityModule';
 import { CommonParameters } from '@/queries/commonParameters';
-import { IAttributeModule, ModuleTypes } from './attributeModules/IAttributeModule';
+import { IAttributeModule } from './attributeModules/IAttributeModule';
+import { SiteTypes } from '@/queries/site';
 import { benthicFaunaModule } from './attributeModules/benthicFaunaModule';
 import { iceThicknessModule } from './attributeModules/iceThicknessModule';
 import { phytoPlanktonModule } from './attributeModules/phytoPlanktonModule';
 import { secchiDepthModule } from './attributeModules/secchiDepthModule';
-import { surfaceTemperatureModule } from './attributeModules/sufaceTemperatureModule';
+import { surfaceTemperatureModule } from './attributeModules/surfaceTemperatureModule';
 import { surgeModule } from './attributeModules/surgeModule';
 import { waterLevelModule } from './attributeModules/waterLevelModule';
 import { IAttributeModuleWithOptions } from './attributeModules/IAttributeModuleWithOptions';
@@ -24,22 +25,26 @@ class MainState extends VuexModule {
       m.isSelected && m.hasOptionsSelected);
   }
 
-  get hasSelectedFmiModules() {
-    return !!this.selectedAttributeModules.find((m) => m.type === ModuleTypes.Fmi || m.type === ModuleTypes.VeslaFmi);
+  get selectedSiteTypes() {
+    const allSiteTypes: SiteTypes[] = [];
+    this.selectedAttributeModules.forEach((a) => { allSiteTypes.push(...a.siteTypes); });
+    return [...new Set(allSiteTypes)];
   }
 
   public errorList: string[] = [];
 
-  private attributeModules: IAttributeModule[] = [
-    benthicFaunaModule,
-    iceThicknessModule,
-    phytoPlanktonModule,
-    secchiDepthModule,
-    surfaceTemperatureModule,
-    surgeModule,
-    waterLevelModule,
-    waterQualityModule,
-  ];
+  get attributeModules() {
+    return [
+      benthicFaunaModule,
+      iceThicknessModule,
+      phytoPlanktonModule,
+      secchiDepthModule,
+      surfaceTemperatureModule,
+      surgeModule,
+      waterLevelModule,
+      waterQualityModule,
+    ];
+  }
 
   @Mutation
   public setErrorList(errors: string[]) {

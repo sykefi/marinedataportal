@@ -1,7 +1,7 @@
 export default {
     $attributeSelectionTitle: '1. Valitse haettavat suureet',
     $secchiDepth: 'Näkösyvyys',
-    $iceThickness: 'Jään paksuus',
+    $iceThickness: 'Jäänpaksuus',
     $waterLevel: 'Vedenkorkeus',
     $surge: 'Aallokko',
     $surfaceTemperature: 'Pintaveden lämpötila',

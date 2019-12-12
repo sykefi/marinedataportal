@@ -7,30 +7,31 @@ import { getWaterQuality, getWaterQualitySiteIds } from '@/queries/Vesla/getWate
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { alphabeticCompare } from '@/helpers';
-import { ModuleTypes } from './IAttributeModule';
+import { SiteTypes } from '@/queries/site';
 
 @Module({ generateMutationSetters: true })
 class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
 
-  get previewData() {
-    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
-  }
-
-  get rowCount() {
-    return this.data ? this.data.length : 0;
-  }
-
-  get hasOptionsSelected() {
-    return !!this.selectedIds.length;
-  }
   public name = '$waterQuality';
   public isSelected = false;
   public loading = false;
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
   public data: object[] | null = null;
-  public type = ModuleTypes.Vesla;
+  public siteTypes = [SiteTypes.Vesla];
   private options: IWaterQualityOption[] = [];
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
+  }
+
+  get hasOptionsSelected() {
+    return !!this.selectedIds.length;
+  }
+
+  get rowCount() {
+    return this.data ? this.data.length : 0;
+  }
 
   @Mutation
   public toggleSelected() {
@@ -79,7 +80,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {
     this.loading = true;
-    const res = await getWaterQualitySiteIds(params, this.selectedIds);
+    const res = await getWaterQualitySiteIds(params, this.selectedIds, false);
     this.loading = false;
     return res;
   }
@@ -87,7 +88,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   @Action
   public async getData(params: CommonParameters) {
     this.loading = true;
-    this.data = await getWaterQuality(params, this.selectedIds);
+    this.data = await getWaterQuality(params, this.selectedIds, false);
     this.loading = false;
   }
 }

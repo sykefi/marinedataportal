@@ -25,12 +25,13 @@ const query = 'results?api-version=1.0&\
 $orderby=DeterminationId,SiteId,Time&\
 $select=' + select.join(',');
 
-async function getFilter(params: CommonParameters, determinationIds: number[]) {
+async function getFilter(params: CommonParameters, determinationIds: number[], useSurfaceLayer: boolean) {
   let filter = '&$filter= EnvironmentTypeId in (31,32,33)' +
     ` and Time ge ${params.formattedDateStart}` +
     ` and Time le ${params.formattedDateEnd}`;
 
-  switch (params.depthSelection) {
+  const depthSelection = useSurfaceLayer ? DepthOptions.SurfaceLayer : params.depthSelection;
+  switch (depthSelection) {
     case DepthOptions.DepthInterval:
       if (params.depthStart !== null && params.depthEnd !== null) {
         // the lower depth is always null, unless the result is of a combination sample
@@ -63,8 +64,9 @@ async function getFilter(params: CommonParameters, determinationIds: number[]) {
   return filter;
 }
 
-export async function getWaterQuality(params: CommonParameters, determCombinationIds: number[]) {
-  const filter = await getFilter(params, determCombinationIds);
+export async function getWaterQuality(params: CommonParameters, determCombinationIds: number[],
+                                      useSurfaceLayer: boolean) {
+  const filter = await getFilter(params, determCombinationIds, useSurfaceLayer);
   const results = await getVeslaData(query + filter);
   if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
     return cleanupTimePeriod(results, params);
@@ -72,8 +74,9 @@ export async function getWaterQuality(params: CommonParameters, determCombinatio
   return results;
 }
 
-export async function getWaterQualitySiteIds(params: CommonParameters, determCombinationIds: number[]) {
-  const filter = await getFilter(params, determCombinationIds);
+export async function getWaterQualitySiteIds(params: CommonParameters, determCombinationIds: number[],
+                                             useSurfaceLayer: boolean) {
+  const filter = await getFilter(params, determCombinationIds, useSurfaceLayer);
   const q = 'results/siteids?api-version=1.0&' + filter;
   return await getVeslaData(q) as number[];
 }

@@ -1,6 +1,6 @@
 import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
 import store from './store';
-import { Site } from '@/queries/site';
+import { Site, SiteTypes } from '@/queries/site';
 import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
 import { CommonParameters } from '@/queries/commonParameters';
 import { ITimeSpanSelection } from './ITimeSpanSelection';
@@ -62,9 +62,15 @@ class SearchParameterModule extends VuexModule {
     @Action
     public async populateAvailableSites(veslaIds: number[]) {
         this.loading = true;
-        const sites = await getVeslaSites(veslaIds);
-        if (mainState.hasSelectedFmiModules) {
+        let sites: Site[] = [];
+        const siteTypes = mainState.selectedSiteTypes;
+        if (siteTypes.includes(SiteTypes.Vesla)) {
+            sites = await getVeslaSites(veslaIds);
+        }
+        if (siteTypes.includes(SiteTypes.Mareograph)) {
             sites.push(...await getMareographs());
+        }
+        if (siteTypes.includes(SiteTypes.FmiBuoy)) {
             sites.push(...await getBuoys());
         }
         sites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name));

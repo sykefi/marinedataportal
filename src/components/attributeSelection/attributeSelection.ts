@@ -5,7 +5,7 @@ import SurgeDetails from '@/components/attributeSelection/SurgeDetails.vue';
 import TemperatureDetails from '@/components/attributeSelection/TemperatureDetails.vue';
 import WaterQualityDetails from '@/components/attributeSelection/WaterQualityDetails.vue';
 import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-import { surfaceTemperatureModule } from '@/store/attributeModules/sufaceTemperatureModule';
+import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
 import { surgeModule } from '@/store/attributeModules/surgeModule';
 import { iceThicknessModule } from '@/store/attributeModules/iceThicknessModule';
 import { benthicFaunaModule } from '@/store/attributeModules/benthicFaunaModule';

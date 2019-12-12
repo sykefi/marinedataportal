@@ -1,5 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
-import { IAttributeModule, ModuleTypes } from './IAttributeModule';
+import { IAttributeModule } from './IAttributeModule';
+import { SiteTypes } from '@/queries/site';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { PREVIEW_ROW_COUNT } from '@/config';
@@ -11,7 +12,7 @@ class PhytoPlanktonModule extends VuexModule implements IAttributeModule {
   public loading = false;
   public isSelected = false;
   public data: object[] | null = null;
-  public type = ModuleTypes.Vesla;
+  public siteTypes = [SiteTypes.Vesla];
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];

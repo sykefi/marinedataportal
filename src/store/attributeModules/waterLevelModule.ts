@@ -1,5 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
-import { IAttributeModule, ModuleTypes } from '@/store/attributeModules/IAttributeModule';
+import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+import { SiteTypes } from '@/queries/site';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterLevels } from '@/queries/FMI/getWaterLevelQuery';
@@ -12,14 +13,14 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   public loading = false;
   public isSelected = false;
   public data: object[] | null = null;
-  public type = ModuleTypes.Fmi;
-
-  get previewData() {
-    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
-  }
+  public siteTypes = [SiteTypes.FmiBuoy, SiteTypes.Mareograph];
 
   get rowCount() {
     return this.data ? this.data.length : 0;
+  }
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
   }
 
   @Mutation

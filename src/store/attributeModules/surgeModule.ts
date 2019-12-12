@@ -5,7 +5,7 @@ import i18n from '@/locale/i18n';
 import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
 import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
-import { ModuleTypes } from './IAttributeModule';
+import { SiteTypes } from '@/queries/site';
 import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
 
 @Module({ generateMutationSetters: true })
@@ -16,14 +16,14 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
   public data: object[] | null = null;
-  public type = ModuleTypes.Fmi;
-
-  get previewData() {
-    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
-  }
+  public siteTypes = [SiteTypes.FmiBuoy, SiteTypes.Mareograph];
 
   get rowCount() {
     return this.data ? this.data.length : 0;
+  }
+
+  get previewData() {
+    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
   }
 
   get hasOptionsSelected() {
@@ -83,6 +83,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
     if (this.selectedIds.includes(4)) { // deviation
       queryParams.push(WaveQueryParameters.directionDeviation);
     }
+
     this.data = await getWaveData(params, queryParams);
     this.loading = false;
   }

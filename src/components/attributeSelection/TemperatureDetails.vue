@@ -7,7 +7,7 @@
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator';
   import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
-  import { surfaceTemperatureModule } from '@/store/attributeModules/sufaceTemperatureModule';
+  import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
   @Component({
     components: {
       OptionsSelection,

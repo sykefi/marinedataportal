@@ -1,10 +1,5 @@
 import { CommonParameters } from '@/queries/commonParameters';
-
-export enum ModuleTypes {
-  Vesla,
-  Fmi,
-  VeslaFmi,
-}
+import { SiteTypes } from '@/queries/site';
 
 export interface IAttributeModule {
   name: string;
@@ -14,7 +9,7 @@ export interface IAttributeModule {
   data: object[] | null;
   previewData: any[];
   rowCount: number;
-  type: ModuleTypes;
+  siteTypes: SiteTypes[];
   toggleSelected(): void;
   getData(params: CommonParameters): void;
   getAvailableVeslaSiteIds(params: CommonParameters): Promise<number[]>;

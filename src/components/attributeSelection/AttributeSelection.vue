@@ -11,7 +11,6 @@
         name="$surfaceTemperature"
         :module="surfaceTemperatureModule"
         :expandable="true"
-        :disabled="true"
       />
       <SelectionButton name="$waterQuality" :module="waterQualityModule" :expandable="true" />
       <SelectionButton name="$phytoplankton" :module="phytoplanktonModule" :disabled="true" />
@@ -28,19 +27,19 @@
 </template>
 
 <style lang="scss">
-  @import "@/assets/styles/variables.scss";
-  .selections-grid {
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    grid-template-rows: auto;
-    grid-row-gap: 2rem;
-  }
-  .detail-box-container {
-    display: grid;
-    grid-template-columns: 48% 48%;
-    grid-template-rows: auto;
-    grid-column-gap: 4%;
-  }
+@import "@/assets/styles/variables.scss";
+.selections-grid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: auto;
+  grid-row-gap: 2rem;
+}
+.detail-box-container {
+  display: grid;
+  grid-template-columns: 48% 48%;
+  grid-template-rows: auto;
+  grid-column-gap: 4%;
+}
 </style>
 
 <script src="./attributeSelection.ts"></script>
