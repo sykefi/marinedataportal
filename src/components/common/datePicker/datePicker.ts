@@ -44,16 +44,16 @@ export default class DatePicker extends Vue {
     public emitUpdate() {
         if (this.showYear) {
             if (this.year > -1 && this.month > -1 && this.day > -1) {
-                this.$emit('date-change', new Date(this.year + '-' + (this.month + 1) + '-' + this.day));
+                this.$emit('date-change', new Date(this.year, this.month, this.day));
             } else {
                 this.$emit('date-change', null);
             }
         } else {
             if (this.month > -1 && this.day > -1) {
-                this.$emit('date-change', new Date('2000-' + (this.month + 1) + '-' + this.day));
+                this.$emit('date-change', new Date(2000, this.month, this.day));
             } else if (this.month > -1 || this.day > -1) {
                 // This is for checking if time period is incomplete
-                this.$emit('date-change', new Date('0000-01-01T00:00:00'));
+                this.$emit('date-change', new Date(0, 0, 1));
             } else {
                 this.$emit('date-change', null);
             }

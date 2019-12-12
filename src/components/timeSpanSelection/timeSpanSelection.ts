@@ -49,13 +49,13 @@ export default class TimeSpanSelection extends Vue {
     searchParameterModule.timeSpanEnd = date;
   }
 
-  public storePeriodStart(date: Date | null ) {
-    const isValid = date?.getTime() !== new Date('0000-01-01T00:00:00').getTime();
+  public storePeriodStart(date: Date | null) {
+    const isValid = date?.getTime() !== new Date(0, 0, 1).getTime();
     searchParameterModule.periodStart = date ? { month: date.getMonth() + 1, day: date.getDate(), isValid } : null;
   }
 
   public storePeriodEnd(date: Date | null) {
-    const isValid = date?.getTime() !== new Date('0000-01-01T00:00:00').getTime();
+    const isValid = date?.getTime() !== new Date(0, 0, 1).getTime();
     searchParameterModule.periodEnd = date ? { month: date.getMonth() + 1, day: date.getDate(), isValid } : null;
   }
 
