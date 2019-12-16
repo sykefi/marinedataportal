@@ -6,6 +6,7 @@ import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
 import DataDownload from '@/components/dataDownload/DataDownload.vue';
 import DataPreview from '@/components/dataPreview/DataPreview.vue';
 import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 import { mainState } from '@/store/mainState';
 import { mapModule } from '@/store/mapModule';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
@@ -18,6 +19,7 @@ import { getBuoys } from '@/queries/FMI/getBuoysQuery';
     DataDownload,
     DataPreview,
     Header,
+    Footer,
   },
 })
 export default class App extends Vue {

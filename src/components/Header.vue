@@ -1,22 +1,69 @@
 <template>
   <header>
+    <div id="top-logos" v-show="$i18n.locale === 'fi'">
+      <p>Hanke saa tukea Euroopan meri- ja kalatalousrahastosta</p>
+      <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
+      <img
+        src="@/assets/logos/emkr_eng.jpg"
+        alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
+      />
+    </div>
+    <div id="top-logos" v-show="$i18n.locale === 'en'">
+      <p>The project is funded by the European Maritime and Fisheries Fund</p>
+      <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
+      <img
+        src="@/assets/logos/emkr_eng.jpg"
+        alt="Logo of the European maritime and fisheries fund, operational programme for Finland 2014-2020."
+      />
+    </div>
+
     <div id="upper-header">
-      <img />
+      <div class="header-logos" v-if="$i18n.locale === 'fi'">
+        <a href="https://syke.fi/fi-FI">
+          <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Suomen ympäristökeskuksen kotisivu." />
+        </a>
+        <a href="https://ilmatieteenlaitos.fi/">
+          <img id="il-logo" src="@/assets/logos/il_fi.jpg" alt="Ilmatieteenlaitoksen kotisivu." />
+        </a>
+        <div class="header-logos with-divider">
+          <a href="http://itameri.fi">
+            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
+          </a>
+        </div>
+      </div>
+      <div class="header-logos" v-if="$i18n.locale === 'en'">
+        <a href="https://syke.fi/en-US">
+          <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Finnish Environment Institute home." />
+        </a>
+        <a href="https://en.ilmatieteenlaitos.fi/">
+          <img
+            id="il-logo"
+            src="@/assets/logos/il_fi.jpg"
+            alt="Finnish Meteorological Institute home."
+          />
+        </a>
+        <div class="header-logos with-divider">
+          <a href="http://itameri.fi">
+            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
+          </a>
+        </div>
+      </div>
       <div id="lang">
         <a
           href="#"
-          :class="{current: $i18n.locale == 'fi'}"
+          :class="{current: $i18n.locale === 'fi'}"
           @click="setLanguage('fi')"
           aria-label="Vaihda kieleksi suomi."
         >FI</a>
         <a
           href="#"
-          :class="{current: $i18n.locale == 'en'}"
+          :class="{current: $i18n.locale === 'en'}"
           @click="setLanguage('en')"
           aria-label="Change language to English."
         >EN</a>
       </div>
     </div>
+
     <div id="lower-header">
       <h1 id="site-title">{{ $t('$siteTitle')}}</h1>
     </div>
@@ -41,82 +88,125 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import i18n from '@/locale/i18n';
-  import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-  import { mainState } from '@/store/mainState';
+import { Component, Vue } from 'vue-property-decorator';
+import i18n from '@/locale/i18n';
+import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+import { mainState } from '@/store/mainState';
 
-  @Component({ i18n })
-  export default class Header extends Vue {
-    get errorList() {
-      const errorList = mainState.errorList;
-      if (errorList.length) {
-        const wrapper = this.$refs.focus;
-        (wrapper as Element) ?.scrollIntoView(true);
-        (wrapper as HTMLElement) ?.focus();
-      }
-      return errorList;
+@Component({ i18n })
+export default class Header extends Vue {
+  get errorList() {
+    const errorList = mainState.errorList;
+    if (errorList.length) {
+      const wrapper = this.$refs.focus;
+      (wrapper as Element) ?.scrollIntoView(true);
+      (wrapper as HTMLElement) ?.focus();
     }
-
-    public setLanguage(tag: string) {
-      i18n.locale = tag;
-      waterQualityModule.setLanguage(tag);
-      const html = document.documentElement;
-      html.setAttribute('lang', tag);
-    }
+    return errorList;
   }
+
+  public setLanguage(tag: string) {
+    i18n.locale = tag;
+    waterQualityModule.setLanguage(tag);
+    const html = document.documentElement;
+    html.setAttribute('lang', tag);
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/variables.scss";
-  #upper-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 1.5rem 2rem 1.5rem;
-  }
-  #lower-header {
-    display: flex;
-    justify-content: center;
-    background-color: $background-blue;
-    border-bottom: 0.2rem solid $border-red;
-  }
-  #site-title {
-    font-family: "TitilliumWeb";
-    font-size: $font-size-xxl;
-    font-weight: bold;
-    color: $text-white;
-  }
-  #lang {
-    display: flex;
-    justify-content: space-evenly;
-    width: 5rem;
-  }
-
+@import "@/assets/styles/variables.scss";
+#upper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  height: 4rem;
+}
+#lower-header {
+  display: flex;
+  justify-content: center;
+  background-color: $background-blue;
+  border-bottom: 0.2rem solid $border-red;
+}
+#site-title {
+  font-family: "TitilliumWeb";
+  font-size: $font-size-xxl;
+  font-weight: bold;
+  color: $text-white;
+}
+#lang {
+  display: flex;
+  justify-content: space-evenly;
+  width: 5rem;
+  font-weight: bold;
+  height: 60%;
   a {
-    margin: 6px;
-    color: black;
-    font-size: $font-size-l;
+    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  }
+}
+
+a {
+  color: black;
+  font-size: $font-size-l;
+  text-decoration: none;
+  &.current {
+    color: $text-white;
     text-decoration: none;
-    padding: 0.1rem 0.5rem 0.1rem 0.5rem;
-    &.current {
-      color: $text-white;
-      text-decoration: none;
-      background-color: $background-blue;
-      cursor: default;
-    }
+    background-color: $background-blue;
+    cursor: default;
   }
+}
 
-  #error-content {
-    border: none;
-    text-align: left;
-    padding-top: 2rem;
-    margin: 1rem 7rem 0 7rem;
-  }
+#error-content {
+  border: none;
+  text-align: left;
+  padding-top: 2rem;
+  margin: 1rem 7rem 0 7rem;
+}
 
-  #focus-to-error {
-    &:focus {
-      outline-color: white;
-    }
+#focus-to-error {
+  &:focus {
+    outline-color: white;
   }
+}
+
+.header-logos {
+  width: 87%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  a {
+    height: 100%;
+    display: flex;
+    padding-right: 4rem;
+    align-items: center;
+  }
+}
+
+.with-divider {
+  border-right: 0.05rem solid $border-divide;
+  height: 60%;
+  justify-content: flex-end;
+  img {
+    height: 100%;
+  }
+}
+
+#top-logos {
+  height: 4.5rem;
+  background-color: $background-light;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  img {
+    margin: 0 1rem 0 1rem;
+    height: 70%;
+  }
+}
+
+#il-logo {
+  width: 16rem;
+  height: auto;
+}
 </style>

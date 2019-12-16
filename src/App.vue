@@ -6,6 +6,7 @@
     <SiteSelection />
     <DataDownload />
     <DataPreview />
+    <Footer />
     <div id="busy-indicator" v-if="loading">
       <div class="spinner">
         <div class="double-bounce1"></div>

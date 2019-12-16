@@ -13,5 +13,7 @@ export default {
     $incompletePeriodEnd: 'Kauden loppu on täytetty puutteellisesti.',
     $noSitesSelected: 'Valitse vähintään yksi paikka.',
     $busy: 'Lataa...',
+    $feedback: 'Anna palautetta',
+    $emailWithSubject: 'mailto:avoindata.syke@ymparisto.fi?subject=Palautetta%20Meritietoportaalin%20latauspalvelusta',
     $errorNotification: 'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
 };
