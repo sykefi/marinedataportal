@@ -9,6 +9,7 @@ import { getWaterQuality, getWaterQualitySiteIds } from '@/queries/Vesla/getWate
 import { SiteTypes } from '@/queries/site';
 import { getMareographTemperatures } from '@/queries/FMI/getMareographTemperatureQuery';
 import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
+import { IFmiResult } from '@/apis/fmiApi';
 
 @Module({ generateMutationSetters: true })
 class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -73,17 +74,51 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   public async getData(params: CommonParameters) {
     this.loading = true;
     const tempData: any[] = [];
+    let hasVeslaData = false;
     if (params.veslaSites.length) {
       tempData.push(...await getWaterQuality(params, [this.tempIdInVesla], true));
+      hasVeslaData = !!tempData.length;
     }
     if (params.mareographSites.length) {
-      tempData.push(...await getMareographTemperatures(params));
+      let response: any[] = await getMareographTemperatures(params);
+
+      if (hasVeslaData) {
+        response = response.map((r) => toCommonFormat(r));
+      }
+      tempData.push(...response);
     }
     if (params.buoySites.length) {
-      tempData.push(...await getWaveData(params, [WaveQueryParameters.waterTemperature]));
+      let response: any[] = await getWaveData(params, [WaveQueryParameters.waterTemperature], false);
+
+      if (hasVeslaData) {
+        response = response.map((r) => toCommonFormat(r));
+      }
+      tempData.push(...response);
     }
     this.data = tempData;
     this.loading = false;
+
+
+    function toCommonFormat(obj: IFmiResult) {
+      return {
+        time: obj.time,
+        analyteName: obj.parameterName,
+        value: 'Temperature',
+        unit: '°C',
+        siteId: obj.siteId,
+        site: obj.siteName,
+        siteLatitudeWGS84: obj.lat,
+        siteLongitudeWGS84: obj.long,
+        samplingLatitudeWGS84: null,
+        samplingLongitudeWGS84: null,
+        sampleDepthM: null,
+        sampleDepthUpperM: null,
+        sampleDepthLowerM: null,
+        siteDepthM: null,
+        totalDepthM: null,
+        dataSource: obj.dataSource,
+      };
+    }
   }
 
   @Action

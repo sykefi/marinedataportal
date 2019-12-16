@@ -84,7 +84,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
       queryParams.push(WaveQueryParameters.directionDeviation);
     }
 
-    this.data = await getWaveData(params, queryParams);
+    this.data = await getWaveData(params, queryParams, true);
     this.loading = false;
   }
 

@@ -10,10 +10,15 @@ export enum WaveQueryParameters {
   waterTemperature = 'TWATER',
 }
 
-export async function getWaveData(params: CommonParameters, queryParams: WaveQueryParameters[]) {
+export async function getWaveData(params: CommonParameters, queryParams: WaveQueryParameters[], pivot: boolean) {
   const query = '&request=getFeature&storedquery_id=fmi::observations::wave::simple&parameters='
     + queryParams.join(',');
   const response = await GetSimpleFmiResponse(query, params, params.buoySites);
+
+  if (!pivot) {
+    response.map((item) => delete item.responseId);
+    return response;
+  }
 
   const ids = response.flatMap((r) => r.responseId);
 
@@ -29,7 +34,8 @@ export async function getWaveData(params: CommonParameters, queryParams: WaveQue
       time: first.time,
       siteId: first.siteId,
       siteName: first.siteName,
-      position: first.position,
+      lat: first.lat,
+      long: first.long,
     };
 
     if (queryParams.includes(WaveQueryParameters.waveHeight)) {

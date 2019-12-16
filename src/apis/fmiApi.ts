@@ -7,10 +7,11 @@ const QUERY_URL =
 
 export interface IFmiResult {
   responseId: number;
-  time: Date;
+  time: string;
   parameterName: string;
   value: string;
-  position: string;
+  lat: number;
+  long: number;
   dataSource: string;
   siteName: string;
   siteId: number;
@@ -43,10 +44,11 @@ function parseSimpleResponse(elements: Element[], site: Site) {
     const value = element.getElementsByTagName('BsWfs:ParameterValue')[0].firstChild!.nodeValue!;
     const result: IFmiResult = {
       responseId: +element.attributes[0].nodeValue!.split('.')[2],
-      time: new Date(time),
+      time: new Date(time).toISOString(),
       parameterName,
       value,
-      position: site.lat + ' ' + site.long,
+      lat: site.lat,
+      long: site.long,
       siteId: site.id,
       siteName: site.name,
       dataSource: 'FMI',
