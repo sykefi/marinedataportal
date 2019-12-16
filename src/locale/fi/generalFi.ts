@@ -13,4 +13,5 @@ export default {
     $incompletePeriodEnd: 'Kauden loppu on täytetty puutteellisesti.',
     $noSitesSelected: 'Valitse vähintään yksi paikka.',
     $busy: 'Lataa...',
+    $errorNotification: 'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
 };

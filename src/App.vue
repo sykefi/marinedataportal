@@ -11,46 +11,15 @@
         <div class="double-bounce1"></div>
         <div class="double-bounce2"></div>
       </div>
-      {{$t('$busy')}}
+      {{ $t("$busy") }}
+    </div>
+    <div v-if="hasError" id="error-notification">
+      {{ $t("$errorNotification") }}
     </div>
   </div>
 </template>
 
-<script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue';
-  import TimeSpanSelection from '@/components/timeSpanSelection/TimeSpanSelection.vue';
-  import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
-  import DataDownload from '@/components/dataDownload/DataDownload.vue';
-  import DataPreview from '@/components/dataPreview/DataPreview.vue';
-  import Header from '@/components/Header.vue';
-  import { mainState } from '@/store/mainState';
-  import { mapModule } from '@/store/mapModule';
-  import {getMareographs} from '@/queries/FMI/getMareographsQuery';
-  import {getBuoys} from '@/queries/FMI/getBuoysQuery';
-  @Component({
-    components: {
-      AttributeSelection,
-      TimeSpanSelection,
-      SiteSelection,
-      DataDownload,
-      DataPreview,
-      Header,
-    },
-  })
-  export default class App extends Vue {
-    get loading() {
-      return mainState.loading;
-    }
-
-    public created() {
-      getMareographs();
-      getBuoys();
-      mainState.populateSelectionOptions();
-      mapModule.generateMapOptions();
-    }
-  }
-</script>
+<script src="./app.ts" />
 
 <style lang="scss">
 //global styles
@@ -139,5 +108,16 @@
     -webkit-transform: scale(1);
   }
 }
-</style>
 
+#error-notification {
+  position: fixed;
+  padding: 1rem;
+  background: $border-warn;
+  color: #fff;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: auto;
+}
+</style>

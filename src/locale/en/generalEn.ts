@@ -13,4 +13,5 @@ export default {
     $incompletePeriodEnd: 'Time period end is incomplete.',
     $noSitesSelected: 'Select at least one site.',
     $busy: 'Downloading...',
+    $errorNotification: 'An error occurred. Please refresh the page and try again. We apologize for the inconvenience.',
 };
