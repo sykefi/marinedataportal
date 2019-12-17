@@ -39,6 +39,9 @@ async function getFilter(params: CommonParameters, obsCode: string) {
 }
 
 export async function getObservations(params: CommonParameters, obsCode: string) {
+  if (params.veslaSites.length === 0) {
+    return [];
+  }
   const filter = await getFilter(params, obsCode);
   let results = await getVeslaData(query + filter);
   results = results.map((r) => {

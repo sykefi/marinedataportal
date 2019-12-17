@@ -63,6 +63,9 @@ async function getFilter(params: CommonParameters, determinationIds: number[], d
 }
 
 export async function getWaterQuality(par: CommonParameters, combinationIds: number[], depth: IDepthSettings) {
+  if (par.veslaSites.length === 0) {
+    return [];
+  }
   const filter = await getFilter(par, combinationIds, depth);
   const results = await getVeslaData(query + filter);
   if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
