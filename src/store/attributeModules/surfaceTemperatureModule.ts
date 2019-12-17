@@ -118,6 +118,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
         sampleDepthLowerM: null,
         siteDepthM: null,
         totalDepthM: null,
+        laboratory: null,
         dataSource: obj.dataSource,
       };
     }

@@ -3,23 +3,23 @@ import getVeslaData from '@/apis/sykeApi';
 import { buildODataInFilterFromArray, cleanupTimePeriod } from '@/helpers';
 import { IDepthSettings, DepthOptions } from '@/store/attributeModules/waterQualityModule';
 
-
 const select = [
-  'Time',
-  'AnalyteName',
-  'Value',
-  'Unit',
-  'SiteId',
-  'Site',
+  'time',
+  'analyteName',
+  'value',
+  'unit',
+  'siteId',
+  'site',
   'siteLatitudeWGS84',
   'siteLongitudeWGS84',
   'samplingLatitudeWGS84',
   'samplingLongitudeWGS84',
-  'SampleDepthM',
-  'SampleDepthUpperM',
-  'SampleDepthLowerM',
-  'SiteDepthM',
-  'TotalDepthM',
+  'sampleDepthM',
+  'sampleDepthUpperM',
+  'sampleDepthLowerM',
+  'siteDepthM',
+  'totalDepthM',
+  'laboratory',
 ];
 
 const query = 'results?api-version=1.0&\
