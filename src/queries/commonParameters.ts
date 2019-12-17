@@ -1,16 +1,12 @@
 import { Site, SiteTypes } from './site';
-import { DepthOptions } from '@/store/searchParameterModule';
 import { searchParameterModule } from '@/store/searchParameterModule';
-import { ITimeSpanSelection } from '@/store/ITimeSpanSelection';
+import { DatePickerResult } from '@/components/common/datePicker/datePicker';
 
 export class CommonParameters {
-  public readonly depthSelection: DepthOptions;
-  public readonly depthStart: number | null;
-  public readonly depthEnd?: number | null;
   public readonly dateStart: Date;
   public readonly dateEnd: Date;
-  private readonly datePeriodStart: ITimeSpanSelection | null;
-  private readonly datePeriodEnd: ITimeSpanSelection | null;
+  private readonly datePeriodStart: DatePickerResult;
+  private readonly datePeriodEnd: DatePickerResult;
   private readonly sites: Site[];
 
   public get veslaSites() {
@@ -34,18 +30,27 @@ export class CommonParameters {
   }
 
   public get datePeriodMonths() {
-    if (this.datePeriodStart && this.datePeriodEnd) {
-      return { start: this.datePeriodStart.month, end: this.datePeriodEnd.month };
+    if (!this.datePeriodStart
+      || !this.datePeriodEnd
+      || this.datePeriodEnd === 'invalid'
+      || this.datePeriodStart === 'invalid') {
+      return null;
     }
-    return null;
+    return { start: this.datePeriodStart.getMonth() + 1, end: this.datePeriodEnd.getMonth() + 1 };
   }
 
   public get datePeriodStartDay() {
-    return this.datePeriodStart?.day;
+    if (!this.datePeriodStart || this.datePeriodStart === 'invalid') {
+      return null;
+    }
+    return this.datePeriodStart.getDate();
   }
 
   public get datePeriodEndDay() {
-    return this.datePeriodEnd?.day;
+    if (!this.datePeriodEnd || this.datePeriodEnd === 'invalid') {
+      return null;
+    }
+    return this.datePeriodEnd.getDate();
   }
 
   /** Get a list of day numbers to query.
@@ -53,13 +58,17 @@ export class CommonParameters {
    * For a date period of over a month, returns an empty list indicating the whole month
    */
   public get datePeriodDays() {
-    if (!this.datePeriodStart || !this.datePeriodEnd) {
+    if (!this.datePeriodStart
+      || !this.datePeriodEnd
+      || this.datePeriodEnd === 'invalid'
+      || this.datePeriodStart === 'invalid') {
       return null;
     }
-    const startMonth = this.datePeriodStart.month;
-    const startDay = this.datePeriodStart.day;
-    const endMonth = this.datePeriodEnd.month;
-    const endDay = this.datePeriodEnd.day;
+
+    const startMonth = this.datePeriodStart.getMonth() + 1;
+    const startDay = this.datePeriodStart.getDate();
+    const endMonth = this.datePeriodEnd.getMonth() + 1;
+    const endDay = this.datePeriodEnd.getDate();
     const days: number[] = [];
 
     if (startMonth === endMonth) {
@@ -74,13 +83,10 @@ export class CommonParameters {
   }
 
   constructor() {
-    this.dateStart = searchParameterModule.timeSpanStart!;
-    this.dateEnd = searchParameterModule.timeSpanEnd!;
+    this.dateStart = searchParameterModule.timeSpanStart as Date;
+    this.dateEnd = searchParameterModule.timeSpanEnd as Date;
     this.sites = searchParameterModule.selectedSites;
     this.datePeriodStart = searchParameterModule.periodStart;
     this.datePeriodEnd = searchParameterModule.periodEnd;
-    this.depthSelection = searchParameterModule.selectedDepth;
-    this.depthStart = searchParameterModule.depthStart;
-    this.depthEnd = searchParameterModule.depthEnd;
   }
 }

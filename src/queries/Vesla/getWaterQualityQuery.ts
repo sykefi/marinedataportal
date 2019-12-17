@@ -1,7 +1,8 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
-import { DepthOptions } from '@/store/searchParameterModule';
 import { buildODataInFilterFromArray, cleanupTimePeriod } from '@/helpers';
+import { IDepthSettings, DepthOptions } from '@/store/attributeModules/waterQualityModule';
+
 
 const select = [
   'Time',
@@ -25,20 +26,17 @@ const query = 'results?api-version=1.0&\
 $orderby=DeterminationId,SiteId,Time&\
 $select=' + select.join(',');
 
-async function getFilter(params: CommonParameters, determinationIds: number[], useSurfaceLayer: boolean) {
+async function getFilter(params: CommonParameters, determinationIds: number[], depth: IDepthSettings) {
   let filter = '&$filter= EnvironmentTypeId in (31,32,33)' +
     ` and Time ge ${params.formattedDateStart}` +
     ` and Time le ${params.formattedDateEnd}`;
 
-  const depthSelection = useSurfaceLayer ? DepthOptions.SurfaceLayer : params.depthSelection;
-  switch (depthSelection) {
+  switch (depth.option) {
     case DepthOptions.DepthInterval:
-      if (params.depthStart !== null && params.depthEnd !== null) {
-        // the lower depth is always null, unless the result is of a combination sample
-        filter += ` and (SampleDepthLowerM eq null or` +
-          `(SampleDepthLowerM ge ${params.depthStart} and SampleDepthLowerM le ${params.depthEnd}))` +
-          ` and SampleDepthUpperM ge ${params.depthStart} and SampleDepthUpperM le ${params.depthEnd}`;
-      }
+      // the lower depth is always null, unless the result is of a combination sample
+      filter += ` and (SampleDepthLowerM eq null or` +
+        `(SampleDepthLowerM ge ${depth.start} and SampleDepthLowerM le ${depth.end}))` +
+        ` and SampleDepthUpperM ge ${depth.start} and SampleDepthUpperM le ${depth.end}`;
       break;
     case DepthOptions.SeaFloorLayer:
       filter += ' and IsSeaOrLakeBedLevel eq 1';
@@ -64,19 +62,17 @@ async function getFilter(params: CommonParameters, determinationIds: number[], u
   return filter;
 }
 
-export async function getWaterQuality(params: CommonParameters, determCombinationIds: number[],
-                                      useSurfaceLayer: boolean) {
-  const filter = await getFilter(params, determCombinationIds, useSurfaceLayer);
+export async function getWaterQuality(par: CommonParameters, combinationIds: number[], depth: IDepthSettings) {
+  const filter = await getFilter(par, combinationIds, depth);
   const results = await getVeslaData(query + filter);
-  if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-    return cleanupTimePeriod(results, params);
+  if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
+    return cleanupTimePeriod(results, par);
   }
   return results;
 }
 
-export async function getWaterQualitySiteIds(params: CommonParameters, determCombinationIds: number[],
-                                             useSurfaceLayer: boolean) {
-  const filter = await getFilter(params, determCombinationIds, useSurfaceLayer);
+export async function getWaterQualitySiteIds(par: CommonParameters, combinationIds: number[], depth: IDepthSettings) {
+  const filter = await getFilter(par, combinationIds, depth);
   const q = 'results/siteids?api-version=1.0&' + filter;
   return await getVeslaData(q) as number[];
 }

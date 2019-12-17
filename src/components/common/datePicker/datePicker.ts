@@ -1,27 +1,35 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
+export type DatePickerResult = Date | 'invalid' | null;
+
 @Component
 export default class DatePicker extends Vue {
-    @Prop({ required: false, type: String, default: '1900-01-01' })
+    @Prop({ required: true })
+    public value!: DatePickerResult;
+
+    @Prop({ required: false, type: String, default: '1970-01-01' })
     public readonly start!: string;
-    @Prop({ required: false, type: Date })
-    public readonly defaultDate!: Date;
-    @Prop({ required: false, type: String, default: '2020-12-31' })
+
+    @Prop({ required: false, type: String, default: new Date().toISOString() })
     public readonly end!: string;
+
     @Prop({ required: false, default: ['year', 'month', 'day'] })
     public ariaLabels!: string[];
+
     @Prop({ required: false, default: true, type: Boolean })
     public readonly showYear!: boolean;
+
     @Prop({ required: false, type: Boolean })
     public emptied!: boolean;
+
     @Prop({ required: false, type: Boolean })
     public error!: boolean;
 
     public startDate = new Date(this.start);
     public endDate = new Date(this.end);
-    public year: number = this.defaultDate ? this.defaultDate.getFullYear() : -1;
-    public month: number = this.defaultDate ? this.defaultDate.getMonth() : -1;
-    public day: number = this.defaultDate ? this.defaultDate.getDate() : -1;
+    public year: number = this.value ? (this.value as Date).getFullYear() : -1;
+    public month: number = this.value ? (this.value as Date).getMonth() : -1;
+    public day: number = this.value ? (this.value as Date).getDate() : -1;
     public years: number[] = [];
     public months: number[] = [];
     public days: number[] = [];
@@ -41,23 +49,27 @@ export default class DatePicker extends Vue {
         this.getDays();
     }
 
-    public emitUpdate() {
+    get currentResult(): DatePickerResult {
         if (this.showYear) {
             if (this.year > -1 && this.month > -1 && this.day > -1) {
-                this.$emit('date-change', new Date(this.year, this.month, this.day));
+                return new Date(this.year, this.month, this.day);
             } else {
-                this.$emit('date-change', null);
+                return null;
             }
         } else {
             if (this.month > -1 && this.day > -1) {
-                this.$emit('date-change', new Date(2000, this.month, this.day));
+                return new Date(2000, this.month, this.day);
             } else if (this.month > -1 || this.day > -1) {
                 // This is for checking if time period is incomplete
-                this.$emit('date-change', new Date(0, 0, 1));
+                return 'invalid';
             } else {
-                this.$emit('date-change', null);
+                return null;
             }
         }
+    }
+
+    public emitUpdate() {
+        this.$emit('input', this.currentResult);
     }
 
     public onChangeYear() {

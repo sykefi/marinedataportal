@@ -6,7 +6,7 @@ import DatePicker from '@/components/common/datePicker/DatePicker.vue';
 import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton.vue';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
-import { ITimeSpanSelection } from '@/store/ITimeSpanSelection';
+import { DatePickerResult } from '../common/datePicker/datePicker';
 @Component({
   components: {
     SelectionHeader,
@@ -16,11 +16,16 @@ import { ITimeSpanSelection } from '@/store/ITimeSpanSelection';
   },
 })
 export default class TimeSpanSelection extends Vue {
-  public timeSpanStart: Date | null = searchParameterModule.timeSpanStart;
-  public timeSpanEnd: Date | null = searchParameterModule.timeSpanEnd;
-  public periodStart: ITimeSpanSelection | null = searchParameterModule.periodStart;
-  public periodEnd: ITimeSpanSelection | null = searchParameterModule.periodEnd;
+  public timeSpanStart: DatePickerResult = searchParameterModule.timeSpanStart;
+  public timeSpanEnd: DatePickerResult = searchParameterModule.timeSpanEnd;
+  public periodStart: DatePickerResult = searchParameterModule.periodStart;
+  public periodEnd: DatePickerResult = searchParameterModule.periodEnd;
   public periodEmptied: boolean = false;
+
+  get searchModule() {
+    return searchParameterModule;
+  }
+
   get timeSpanStartError() {
     return mainState.isError('$missingTimeSpanStart')
       || mainState.isError('$timeSpanStartAfterTimeSpanEnd');
@@ -39,24 +44,6 @@ export default class TimeSpanSelection extends Vue {
   get periodStartError() {
     return mainState.isError('$missingPeriodStart')
       || mainState.isError('$incompletePeriodStart');
-  }
-
-  public storeTimeSpanStart(date: Date | null) {
-    searchParameterModule.timeSpanStart = date;
-  }
-
-  public storeTimeSpanEnd(date: Date | null) {
-    searchParameterModule.timeSpanEnd = date;
-  }
-
-  public storePeriodStart(date: Date | null) {
-    const isValid = date?.getTime() !== new Date(0, 0, 1).getTime();
-    searchParameterModule.periodStart = date ? { month: date.getMonth() + 1, day: date.getDate(), isValid } : null;
-  }
-
-  public storePeriodEnd(date: Date | null) {
-    const isValid = date?.getTime() !== new Date(0, 0, 1).getTime();
-    searchParameterModule.periodEnd = date ? { month: date.getMonth() + 1, day: date.getDate(), isValid } : null;
   }
 
   public resetPeriodStart() {

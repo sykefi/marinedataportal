@@ -17,45 +17,33 @@
     </div>
     <div class="content">
       <DatePicker
-        @date-change="storeTimeSpanStart"
+        v-model="searchModule.timeSpanStart"
         @focus-date-picker="scrollOnFocus"
-        start="1970-01-01"
-        :end="new Date().toString()"
         :ariaLabels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
-        :defaultDate="timeSpanStart"
         :error="timeSpanStartError"
       />
       <b>–</b>
       <DatePicker
-        @date-change="storeTimeSpanEnd"
+        v-model="searchModule.timeSpanEnd"
         @focus-date-picker="scrollOnFocus"
-        start="1970-01-01"
-        :end="new Date().toString()"
         :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
-        :defaultDate="timeSpanEnd"
         :error="timeSpanEndError"
       />
       <p />
       <DatePicker
-        @date-change="storePeriodStart"
+        v-model="searchModule.periodStart"
         @focus-date-picker="scrollOnFocus"
-        start="1970-01-01"
-        :end="new Date().toString()"
         :showYear="false"
         :ariaLabels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
-        :defaultDate="periodStart"
         :emptied="periodEmptied"
         :error="periodStartError"
       />
       <b>–</b>
       <DatePicker
-        @date-change="storePeriodEnd"
+        v-model="searchModule.periodEnd"
         @focus-date-picker="scrollOnFocus"
-        start="1970-01-01"
-        :end="new Date().toString()"
         :showYear="false"
         :ariaLabels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
-        :defaultDate="periodEnd"
         :emptied="periodEmptied"
         :error="periodEndError"
       />

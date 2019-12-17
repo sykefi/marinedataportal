@@ -9,6 +9,18 @@ import { PREVIEW_ROW_COUNT } from '@/config';
 import { alphabeticCompare } from '@/helpers';
 import { SiteTypes } from '@/queries/site';
 
+export enum DepthOptions {
+  SurfaceLayer,
+  SeaFloorLayer,
+  DepthInterval,
+}
+
+export interface IDepthSettings {
+  option: DepthOptions;
+  start: number | null;
+  end: number | null;
+}
+
 @Module({ generateMutationSetters: true })
 class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
 
@@ -19,6 +31,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public selectedIds: number[] = [];
   public data: object[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
+  public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer, start: null, end: null };
   private options: IWaterQualityOption[] = [];
 
   get previewData() {
@@ -80,7 +93,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {
     this.loading = true;
-    const res = await getWaterQualitySiteIds(params, this.selectedIds, false);
+    const res = await getWaterQualitySiteIds(params, this.selectedIds, this.selectedDepth);
     this.loading = false;
     return res;
   }
@@ -88,7 +101,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   @Action
   public async getData(params: CommonParameters) {
     this.loading = true;
-    this.data = await getWaterQuality(params, this.selectedIds, false);
+    this.data = await getWaterQuality(params, this.selectedIds, this.selectedDepth);
     this.loading = false;
   }
 }

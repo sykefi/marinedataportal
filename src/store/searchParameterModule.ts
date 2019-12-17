@@ -3,28 +3,19 @@ import store from './store';
 import { Site, SiteTypes } from '@/queries/site';
 import { getVeslaSites } from '@/queries/Vesla/getVeslaSitesQuery';
 import { CommonParameters } from '@/queries/commonParameters';
-import { ITimeSpanSelection } from './ITimeSpanSelection';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { alphabeticCompare } from '@/helpers';
 import { mainState } from './mainState';
 import { getBuoys } from '@/queries/FMI/getBuoysQuery';
-
-export enum DepthOptions {
-    SurfaceLayer,
-    SeaFloorLayer,
-    DepthInterval,
-}
+import { DatePickerResult } from '@/components/common/datePicker/datePicker';
 
 @Module({ generateMutationSetters: true })
 class SearchParameterModule extends VuexModule {
     // state
-    public selectedDepth: DepthOptions = DepthOptions.SeaFloorLayer;
-    public depthStart: number | null = null;
-    public depthEnd: number | null = null;
-    public timeSpanStart: Date | null = null;
-    public timeSpanEnd: Date | null = new Date();
-    public periodStart: ITimeSpanSelection | null = null;
-    public periodEnd: ITimeSpanSelection | null = null;
+    public timeSpanStart: DatePickerResult = null;
+    public timeSpanEnd: DatePickerResult = new Date();
+    public periodStart: DatePickerResult = null;
+    public periodEnd: DatePickerResult = null;
     public availableSites: Site[] = [];
     public selectedSites: Site[] = [];
     public loading = false;

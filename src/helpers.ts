@@ -1,6 +1,7 @@
 import { mainState } from './store/mainState';
-import { searchParameterModule, DepthOptions } from './store/searchParameterModule';
+import { searchParameterModule } from './store/searchParameterModule';
 import { CommonParameters } from './queries/commonParameters';
+import { waterQualityModule, DepthOptions } from './store/attributeModules/waterQualityModule';
 
 /**
  * Splits an array into chunks of specified size
@@ -72,23 +73,27 @@ export function validateSearchParameters(checkSites: boolean) {
   } else if (!params.periodStart && params.periodEnd) {
     errors.push('$missingPeriodStart');
   } else if (params.periodStart && params.periodEnd) {
-    if (!params.periodStart.isValid) {
+    if (params.periodStart === 'invalid') {
       errors.push('$incompletePeriodStart');
     }
-    if (!params.periodEnd.isValid) {
+    if (params.periodEnd === 'invalid') {
       errors.push('$incompletePeriodEnd');
     }
   }
 
-  // Depth validation
-  if (params.selectedDepth === DepthOptions.DepthInterval) {
-    if (params.depthStart === null) {
-      errors.push('$missingDepthStart');
-    }
-    if (params.depthEnd === null) {
-      errors.push('$missingDepthEnd');
-    } else if (params.depthStart && (params.depthStart >= params.depthEnd)) {
-      errors.push('$depthStartGreaterThanDepthEnd');
+  // Water quality Depth validation
+  if (waterQualityModule.isSelected) {
+    if (waterQualityModule.selectedDepth.option === DepthOptions.DepthInterval) {
+      const start = waterQualityModule.selectedDepth.start;
+      const end = waterQualityModule.selectedDepth.end;
+      if (start === null) {
+        errors.push('$missingDepthStart');
+      }
+      if (end === null) {
+        errors.push('$missingDepthEnd');
+      } else if (start && (start >= end)) {
+        errors.push('$depthStartGreaterThanDepthEnd');
+      }
     }
   }
 
