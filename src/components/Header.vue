@@ -73,7 +73,6 @@
       <ul>
         Huomioita:
         <li>Kausivalinta ei toimi vielä FMI:n datalla (Vedenkorkeus)</li>
-        <li>Karttabugi: laatikkovalinnan jälkeen yksittäisen valinnan poistaminen SHIFT+click kaataa kartan.</li>
       </ul>
       <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>
       , on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
