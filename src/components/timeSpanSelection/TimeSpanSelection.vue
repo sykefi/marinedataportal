@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div id="scroll-on-focus" />
     <SelectionHeader :header="$t('$timeSpanSelectionTitle')" />
     <div class="title">
       <h3 aria-hidden="true">{{$t('$timeSpan')}}</h3>
@@ -18,14 +17,12 @@
     <div class="content">
       <DatePicker
         v-model="searchModule.timeSpanStart"
-        @focus-date-picker="scrollOnFocus"
         :ariaLabels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
         :error="timeSpanStartError"
       />
       <b>–</b>
       <DatePicker
         v-model="searchModule.timeSpanEnd"
-        @focus-date-picker="scrollOnFocus"
         :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
         :error="timeSpanEndError"
         :getDayEnd="true"
@@ -33,7 +30,6 @@
       <p />
       <DatePicker
         v-model="searchModule.periodStart"
-        @focus-date-picker="scrollOnFocus"
         :showYear="false"
         :ariaLabels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
         :emptied="periodEmptied"
@@ -42,7 +38,6 @@
       <b>–</b>
       <DatePicker
         v-model="searchModule.periodEnd"
-        @focus-date-picker="scrollOnFocus"
         :showYear="false"
         :ariaLabels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
         :emptied="periodEmptied"

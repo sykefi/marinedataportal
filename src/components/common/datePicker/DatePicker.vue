@@ -2,7 +2,6 @@
   <div v-bind:class="[error ? 'form-inline warn-border': 'form-inline normal-border']">
     <div v-if="showYear" class="form-control">
       <select
-        @focus="$emit('focus-date-picker')"
         class="form-control year"
         v-model.number="year"
         @change="onChangeYear"
@@ -14,7 +13,6 @@
     </div>
     <div class="form-control">
       <select
-        @focus="$emit('focus-date-picker')"
         class="form-control month"
         v-model.number="month"
         @change="onChangeMonth"
@@ -26,7 +24,6 @@
     </div>
     <div class="form-control">
       <select
-        @focus="$emit('focus-date-picker')"
         class="form-control day"
         v-model.number="day"
         @change="emitUpdate"

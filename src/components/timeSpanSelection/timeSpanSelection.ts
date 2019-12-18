@@ -59,9 +59,4 @@ export default class TimeSpanSelection extends Vue {
     this.resetPeriodEnd();
     this.periodEmptied = !this.periodEmptied;
   }
-
-  public scrollOnFocus() {
-    const wrapper = this.$el.querySelector('#scroll-on-focus');
-    wrapper?.scrollIntoView(true);
-  }
 }
