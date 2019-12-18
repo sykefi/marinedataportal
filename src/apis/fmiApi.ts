@@ -24,26 +24,33 @@ export async function GetRawXMLResponse(query: string) {
 export async function GetSimpleFmiResponse(query: string, params: CommonParameters, sites: Site[]) {
   const dateSpans = getDates(params.dateStart, params.dateEnd, 6);
   const results: IFmiResult[] = [];
+  // FMI API sends one XML entry per parameter. However, the results of a single measurement are grouped by a common id.
+  // lastResponseId is used to keep track of iterations, so we can get the id for all results accross different queries
+  let lastResponseId = 0;
   for (const site of sites) {
     for (let i = 0; i < dateSpans.length - 1; i++) {
       const startDate = dateSpans[i];
+      startDate.setMinutes(startDate.getMinutes() + 1);
       const endDate = dateSpans[i + 1];
       const res = (await getXmlResponse(QUERY_URL + query + formatParams(startDate, endDate, site.id)));
       const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
-      results.push(...parseSimpleResponse(Array.from(elements), site));
+      results.push(...parseSimpleResponse(Array.from(elements), site, lastResponseId));
+      if (results.length) {
+        lastResponseId = results[results.length - 1].responseId;
+      }
     }
   }
   return results;
 }
 
-function parseSimpleResponse(elements: Element[], site: Site) {
+function parseSimpleResponse(elements: Element[], site: Site, lastResponseId: number) {
   const results: IFmiResult[] = [];
   for (const element of elements) {
     const time = element.getElementsByTagName('BsWfs:Time')[0].firstChild!.nodeValue!;
     const parameterName = element.getElementsByTagName('BsWfs:ParameterName')[0].firstChild!.nodeValue!;
     const value = element.getElementsByTagName('BsWfs:ParameterValue')[0].firstChild!.nodeValue!;
     const result: IFmiResult = {
-      responseId: +element.attributes[0].nodeValue!.split('.')[2],
+      responseId: lastResponseId + (+element.attributes[0].nodeValue!.split('.')[2]),
       time: new Date(time).toISOString(),
       parameterName,
       value,

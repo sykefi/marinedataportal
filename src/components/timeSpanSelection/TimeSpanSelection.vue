@@ -28,6 +28,7 @@
         @focus-date-picker="scrollOnFocus"
         :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
         :error="timeSpanEndError"
+        :getDayEnd="true"
       />
       <p />
       <DatePicker
@@ -46,6 +47,7 @@
         :ariaLabels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
         :emptied="periodEmptied"
         :error="periodEndError"
+        :getDayEnd="true"
       />
       <EmptySelectionButton
         :contentKey="$t('$emptyPeriodSelection')"

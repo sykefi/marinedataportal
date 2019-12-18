@@ -25,6 +25,9 @@ export default class DatePicker extends Vue {
     @Prop({ required: false, type: Boolean })
     public error!: boolean;
 
+    @Prop({ required: false, default: false, type: Boolean })
+    public getDayEnd!: boolean;
+
     public startDate = new Date(this.start);
     public endDate = new Date(this.end);
     public year: number = this.value ? (this.value as Date).getFullYear() : -1;
@@ -52,13 +55,19 @@ export default class DatePicker extends Vue {
     get currentResult(): DatePickerResult {
         if (this.showYear) {
             if (this.year > -1 && this.month > -1 && this.day > -1) {
-                return new Date(this.year, this.month, this.day);
+                if (this.getDayEnd) {
+                    return new Date(Date.UTC(this.year, this.month, this.day, 23, 59, 59));
+                }
+                return new Date(Date.UTC(this.year, this.month, this.day, 0, 0, 0));
             } else {
                 return null;
             }
         } else {
             if (this.month > -1 && this.day > -1) {
-                return new Date(2000, this.month, this.day);
+                if (this.getDayEnd) {
+                    return new Date(Date.UTC(2000, this.month, this.day, 23, 59, 59));
+                }
+                return new Date(Date.UTC(2000, this.month, this.day, 0, 0, 0));
             } else if (this.month > -1 || this.day > -1) {
                 // This is for checking if time period is incomplete
                 return 'invalid';
