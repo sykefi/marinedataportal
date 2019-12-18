@@ -4,7 +4,7 @@ import fi from './fi/fi';
 import en from './en/en';
 
 Vue.use(VueI18n);
-// const browserLang = navigator.language.toLocaleLowerCase();
+const browserLang = navigator.language.toLocaleLowerCase();
 
 const dateTimeFormats = {
   en: {
@@ -41,10 +41,9 @@ const dateTimeFormats = {
 };
 
 const messages = { en, fi };
-
 export default new VueI18n({
-  locale: 'fi', // set locale,
-  fallbackLocale: 'fi',
+  locale: browserLang.startsWith('fi') ? 'fi' : 'en',
+  fallbackLocale: 'en',
   messages,
   dateTimeFormats,
 });
