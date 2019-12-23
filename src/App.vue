@@ -37,7 +37,6 @@
   max-width: 65rem;
   margin-left: auto;
   margin-right: auto;
-  padding-bottom: 5rem;
 }
 
 .hidden {

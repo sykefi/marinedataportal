@@ -30,11 +30,6 @@ export default class App extends Vue {
   }
 
   public created() {
-    getMareographs();
-    getBuoys();
-    mainState.populateSelectionOptions();
-    mapModule.generateMapOptions();
-
     Vue.config.errorHandler = (e) => {
       this.hasError = true;
       console.error(e);
@@ -44,5 +39,12 @@ export default class App extends Vue {
       this.hasError = true;
       console.error(e);
     };
+  }
+
+  public mounted() {
+    getMareographs();
+    getBuoys();
+    mainState.populateSelectionOptions();
+    mapModule.generateMapOptions();
   }
 }

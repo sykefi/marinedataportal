@@ -36,3 +36,5 @@ new Vue({
   i18n,
   render: (h) => h(App),
 }).$mount('#app');
+
+document.title = i18n.t('$siteTitle').toString();

@@ -98,8 +98,8 @@ export default class Header extends Vue {
     const errorList = mainState.errorList;
     if (errorList.length) {
       const wrapper = this.$refs.focus;
-      (wrapper as Element) ?.scrollIntoView(true);
-      (wrapper as HTMLElement) ?.focus();
+      (wrapper as Element)?.scrollIntoView(true);
+      (wrapper as HTMLElement)?.focus();
     }
     return errorList;
   }
@@ -109,6 +109,7 @@ export default class Header extends Vue {
     waterQualityModule.setLanguage(tag);
     const html = document.documentElement;
     html.setAttribute('lang', tag);
+    document.title = this.$t('$siteTitle').toString();
   }
 }
 </script>
