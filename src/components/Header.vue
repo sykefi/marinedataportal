@@ -70,10 +70,7 @@
     <div :style="{ textAlign: 'left' }">
       Tämä on
       <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
-      <ul>
-        Huomioita:
-        <li>Kausivalinta ei toimi vielä FMI:n datalla (Vedenkorkeus)</li>
-      </ul>
+      <br />
       <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>
       , on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
       Palautetta ja kehitysideoita voi laittaa sähköpostilla simo.paasisalo@ymparisto.fi. Jos haluat päästä katsomaan projektityökalua, voit pyytää pääsyoikeutta samasta osoitteesta.
@@ -87,126 +84,126 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import i18n from '@/locale/i18n';
-import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-import { mainState } from '@/store/mainState';
+  import { Component, Vue } from 'vue-property-decorator';
+  import i18n from '@/locale/i18n';
+  import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+  import { mainState } from '@/store/mainState';
 
-@Component({ i18n })
-export default class Header extends Vue {
-  get errorList() {
-    const errorList = mainState.errorList;
-    if (errorList.length) {
-      const wrapper = this.$refs.focus;
-      (wrapper as Element)?.scrollIntoView(true);
-      (wrapper as HTMLElement)?.focus();
+  @Component({ i18n })
+  export default class Header extends Vue {
+    get errorList() {
+      const errorList = mainState.errorList;
+      if (errorList.length) {
+        const wrapper = this.$refs.focus;
+        (wrapper as Element)?.scrollIntoView(true);
+        (wrapper as HTMLElement)?.focus();
+      }
+      return errorList;
     }
-    return errorList;
-  }
 
-  public setLanguage(tag: string) {
-    i18n.locale = tag;
-    waterQualityModule.setLanguage(tag);
-    const html = document.documentElement;
-    html.setAttribute('lang', tag);
-    document.title = this.$t('$siteTitle').toString();
+    public setLanguage(tag: string) {
+      i18n.locale = tag;
+      waterQualityModule.setLanguage(tag);
+      const html = document.documentElement;
+      html.setAttribute('lang', tag);
+      document.title = this.$t('$siteTitle').toString();
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
-#upper-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem;
-  height: 4rem;
-}
-#lower-header {
-  display: flex;
-  justify-content: center;
-  background-color: $background-blue;
-  border-bottom: 0.2rem solid $border-red;
-}
-#site-title {
-  font-family: "TitilliumWeb";
-  font-size: $font-size-xxl;
-  font-weight: bold;
-  color: $text-white;
-}
-#lang {
-  display: flex;
-  justify-content: space-evenly;
-  width: 5rem;
-  font-weight: bold;
-  height: 60%;
-  a {
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+  @import "@/assets/styles/variables.scss";
+  #upper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem;
+    height: 4rem;
   }
-}
-
-a {
-  color: black;
-  font-size: $font-size-l;
-  text-decoration: none;
-  &.current {
-    color: $text-white;
-    text-decoration: none;
+  #lower-header {
+    display: flex;
+    justify-content: center;
     background-color: $background-blue;
-    cursor: default;
+    border-bottom: 0.2rem solid $border-red;
   }
-}
-
-#error-content {
-  border: none;
-  text-align: left;
-  padding-top: 2rem;
-  margin: 1rem 7rem 0 7rem;
-}
-
-#focus-to-error {
-  &:focus {
-    outline-color: white;
+  #site-title {
+    font-family: "TitilliumWeb";
+    font-size: $font-size-xxl;
+    font-weight: bold;
+    color: $text-white;
   }
-}
+  #lang {
+    display: flex;
+    justify-content: space-evenly;
+    width: 5rem;
+    font-weight: bold;
+    height: 60%;
+    a {
+      padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+    }
+  }
 
-.header-logos {
-  width: 87%;
-  height: 100%;
-  display: flex;
-  align-items: center;
   a {
+    color: black;
+    font-size: $font-size-l;
+    text-decoration: none;
+    &.current {
+      color: $text-white;
+      text-decoration: none;
+      background-color: $background-blue;
+      cursor: default;
+    }
+  }
+
+  #error-content {
+    border: none;
+    text-align: left;
+    padding-top: 2rem;
+    margin: 1rem 7rem 0 7rem;
+  }
+
+  #focus-to-error {
+    &:focus {
+      outline-color: white;
+    }
+  }
+
+  .header-logos {
+    width: 87%;
     height: 100%;
     display: flex;
-    padding-right: 4rem;
     align-items: center;
+    a {
+      height: 100%;
+      display: flex;
+      padding-right: 4rem;
+      align-items: center;
+    }
   }
-}
 
-.with-divider {
-  border-right: 0.05rem solid $border-divide;
-  height: 60%;
-  justify-content: flex-end;
-  img {
-    height: 100%;
+  .with-divider {
+    border-right: 0.05rem solid $border-divide;
+    height: 60%;
+    justify-content: flex-end;
+    img {
+      height: 100%;
+    }
   }
-}
 
-#top-logos {
-  height: 4.5rem;
-  background-color: $background-light;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  img {
-    margin: 0 1rem 0 1rem;
-    height: 70%;
+  #top-logos {
+    height: 4.5rem;
+    background-color: $background-light;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    img {
+      margin: 0 1rem 0 1rem;
+      height: 70%;
+    }
   }
-}
 
-#il-logo {
-  width: 16rem;
-  height: auto;
-}
+  #il-logo {
+    width: 16rem;
+    height: auto;
+  }
 </style>

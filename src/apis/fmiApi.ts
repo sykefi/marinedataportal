@@ -1,6 +1,7 @@
 // tslint:disable:no-console
 import { CommonParameters } from '@/queries/commonParameters';
 import { Site } from '@/queries/site';
+import { isDateInPeriod } from '@/helpers';
 
 const QUERY_URL =
   'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
@@ -22,8 +23,14 @@ export async function GetRawXMLResponse(query: string) {
 }
 
 export async function GetSimpleFmiResponse(query: string, params: CommonParameters, sites: Site[]) {
-  const dateSpans = getDates(params.dateStart, params.dateEnd, 6);
+  const numberOfDaysInSingleQuery = 6;
+  const dateSpans = getDates(params, numberOfDaysInSingleQuery);
   const results: IFmiResult[] = [];
+
+  if (!dateSpans) {
+    return results;
+  }
+
   // FMI API sends one XML entry per parameter. However, the results of a single measurement are grouped by a common id.
   // lastResponseId is used to keep track of iterations, so we can get the id for all results accross different queries
   let lastResponseId = 0;
@@ -32,6 +39,14 @@ export async function GetSimpleFmiResponse(query: string, params: CommonParamete
       const startDate = dateSpans[i];
       startDate.setMinutes(startDate.getMinutes() + 1);
       const endDate = dateSpans[i + 1];
+
+      if (getDateSpanLengthInDays(startDate, endDate) > numberOfDaysInSingleQuery) {
+        // in multi-year queries with time period selection, there are gaps in the days
+        // these gaps will be skipped, and the start of the gap is processed on the next iteration
+        continue;
+      }
+
+
       const res = (await getXmlResponse(QUERY_URL + query + formatParams(startDate, endDate, site.id)));
       const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
       results.push(...parseSimpleResponse(Array.from(elements), site, lastResponseId));
@@ -97,30 +112,60 @@ async function getXmlResponse(url: string) {
 }
 
 /** Get all the dates between a start and an end date
- * @param timeSpan How to split the time range, in number of days. Example: to get a range of weeks, timespan is 7
+ * @param blockSizeDays How to split the time range, in number of days. Example: to get a range of weeks, size is 7
  */
-function getDates(startDate: Date, stopDate: Date, timeSpan: number) {
-  const dateArray: Date[] = [];
-  let currentDate = new Date(startDate);
-  while (currentDate <= stopDate) {
-    dateArray.push(new Date(currentDate));
+function getDates(params: CommonParameters, blockSizeDays: number) {
+  let dateArray: Date[] = [];
+  let currentDate = new Date(params.dateStart.getTime());
+  while (currentDate <= params.dateEnd) {
+    dateArray.push(new Date(currentDate.getTime()));
     currentDate = addDay(currentDate);
   }
 
-  const filtered: Date[] = [];
-
-  for (let i = 0; i < dateArray.length; i += timeSpan) {
-    filtered.push(dateArray[i]);
+  if (params.datePeriodMonths) {
+    dateArray = dateArray.filter(checkDatePeriod);
   }
-  if (!filtered.includes(stopDate)) {
-    filtered.push(stopDate);
+  if (dateArray.length === 0) {
+    return;
+  }
+
+  const filtered: Date[] = [];
+  filtered.push(dateArray[0]);
+
+  for (let i = 0; i < dateArray.length; i += 1) {
+    const previousLast = filtered[filtered.length - 1];
+    // goal here is to get a list of dates that are <= `timeSpan` away from each other
+    // this is done so we can build queries with a maximum number of days to reduce the number of queries
+    if (i === dateArray.length - 1) {
+      filtered.push(dateArray[i]);
+    } else {
+      const nextInRange = getDateSpanLengthInDays(previousLast, dateArray[i + 1]) <= blockSizeDays;
+      if (!nextInRange) {
+        filtered.push(dateArray[i]);
+      }
+      // current iterable and the next one are in range, skip this and proceed to next date
+    }
+  }
+
+  if (!filtered.includes(params.dateEnd) && (!params.datePeriodMonths || checkDatePeriod(params.dateEnd))) {
+    filtered.push(params.dateEnd);
   }
 
   return filtered;
 
+  function checkDatePeriod(date: Date) {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return isDateInPeriod(month, day, params);
+  }
 
   function addDay(date: Date) {
     date.setDate(date.getDate() + 1);
     return date;
   }
+}
+
+function getDateSpanLengthInDays(startDate: Date, endDate: Date) {
+  const differenceInTime = endDate.getTime() - startDate.getTime();
+  return Math.round(differenceInTime / (1000 * 3600 * 24));
 }
