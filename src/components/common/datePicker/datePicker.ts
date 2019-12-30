@@ -25,14 +25,11 @@ export default class DatePicker extends Vue {
     @Prop({ required: false, type: Boolean })
     public error!: boolean;
 
-    @Prop({ required: false, default: false, type: Boolean })
-    public getDayEnd!: boolean;
-
     public startDate = new Date(this.start);
     public endDate = new Date(this.end);
-    public year: number = this.value ? (this.value as Date).getFullYear() : -1;
-    public month: number = this.value ? (this.value as Date).getMonth() : -1;
-    public day: number = this.value ? (this.value as Date).getDate() : -1;
+    public year: number = this.value ? (this.value as Date).getUTCFullYear() : -1;
+    public month: number = this.value ? (this.value as Date).getUTCMonth() : -1;
+    public day: number = this.value ? (this.value as Date).getUTCDate() : -1;
     public years: number[] = [];
     public months: number[] = [];
     public days: number[] = [];
@@ -55,18 +52,12 @@ export default class DatePicker extends Vue {
     get currentResult(): DatePickerResult {
         if (this.showYear) {
             if (this.year > -1 && this.month > -1 && this.day > -1) {
-                if (this.getDayEnd) {
-                    return new Date(Date.UTC(this.year, this.month, this.day, 23, 59, 59));
-                }
                 return new Date(Date.UTC(this.year, this.month, this.day, 0, 0, 0));
             } else {
                 return null;
             }
         } else {
             if (this.month > -1 && this.day > -1) {
-                if (this.getDayEnd) {
-                    return new Date(Date.UTC(2000, this.month, this.day, 23, 59, 59));
-                }
                 return new Date(Date.UTC(2000, this.month, this.day, 0, 0, 0));
             } else if (this.month > -1 || this.day > -1) {
                 // This is for checking if time period is incomplete
@@ -110,11 +101,11 @@ export default class DatePicker extends Vue {
 
         let to = 11;
         let m = 0;
-        if (this.year >= this.endDate.getFullYear()) {
-            to = this.endDate.getMonth();
+        if (this.year >= this.endDate.getUTCFullYear()) {
+            to = this.endDate.getUTCMonth();
         }
-        if (this.year <= this.startDate.getFullYear()) {
-            m = this.startDate.getMonth();
+        if (this.year <= this.startDate.getUTCFullYear()) {
+            m = this.startDate.getUTCMonth();
         }
         for (; m <= to; m++) {
             this.months.push(m);
@@ -139,11 +130,11 @@ export default class DatePicker extends Vue {
             to = this.daysInMonth(this.month, this.year);
         }
         let d = 1;
-        if (this.year <= this.startDate.getFullYear() && this.month <= this.startDate.getMonth()) {
-            d = this.startDate.getDate();
+        if (this.year <= this.startDate.getUTCFullYear() && this.month <= this.startDate.getUTCMonth()) {
+            d = this.startDate.getUTCDate();
         }
-        if (this.year >= this.endDate.getFullYear() && this.month >= this.endDate.getMonth()) {
-            to = this.endDate.getDate();
+        if (this.year >= this.endDate.getUTCFullYear() && this.month >= this.endDate.getUTCMonth()) {
+            to = this.endDate.getUTCDate();
         }
         for (; d <= to; d++) {
             this.days.push(d);

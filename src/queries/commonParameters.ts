@@ -26,7 +26,11 @@ export class CommonParameters {
   }
 
   public get formattedDateEnd() {
-    return this.dateEnd.toISOString();
+    const formattedDate = new Date(this.dateEnd);
+    formattedDate.setUTCHours(23);
+    formattedDate.setUTCMinutes(59);
+    formattedDate.setUTCSeconds(59);
+    return formattedDate.toISOString();
   }
 
   public get datePeriodMonths() {
@@ -36,21 +40,21 @@ export class CommonParameters {
       || this.datePeriodStart === 'invalid') {
       return null;
     }
-    return { start: this.datePeriodStart.getMonth() + 1, end: this.datePeriodEnd.getMonth() + 1 };
+    return { start: this.datePeriodStart.getUTCMonth() + 1, end: this.datePeriodEnd.getUTCMonth() + 1 };
   }
 
   public get datePeriodStartDay() {
     if (!this.datePeriodStart || this.datePeriodStart === 'invalid') {
       return null;
     }
-    return this.datePeriodStart.getDate();
+    return this.datePeriodStart.getUTCDate();
   }
 
   public get datePeriodEndDay() {
     if (!this.datePeriodEnd || this.datePeriodEnd === 'invalid') {
       return null;
     }
-    return this.datePeriodEnd.getDate();
+    return this.datePeriodEnd.getUTCDate();
   }
 
   /** Get a list of day numbers to query.
@@ -65,10 +69,10 @@ export class CommonParameters {
       return null;
     }
 
-    const startMonth = this.datePeriodStart.getMonth() + 1;
-    const startDay = this.datePeriodStart.getDate();
-    const endMonth = this.datePeriodEnd.getMonth() + 1;
-    const endDay = this.datePeriodEnd.getDate();
+    const startMonth = this.datePeriodStart.getUTCMonth() + 1;
+    const startDay = this.datePeriodStart.getUTCDate();
+    const endMonth = this.datePeriodEnd.getUTCMonth() + 1;
+    const endDay = this.datePeriodEnd.getUTCDate();
     const days: number[] = [];
 
     if (startMonth === endMonth) {
