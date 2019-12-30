@@ -162,7 +162,7 @@ function getDates(params: CommonParameters, blockSizeDays: number) {
     }
   }
 
-  if (!filtered.includes(params.dateEnd) && (!params.datePeriodMonths || checkDatePeriod(params.dateEnd))) {
+  if (!isInArray(filtered, params.dateEnd) && (!params.datePeriodMonths || checkDatePeriod(params.dateEnd))) {
     filtered.push(params.dateEnd);
   }
 
@@ -172,6 +172,11 @@ function getDates(params: CommonParameters, blockSizeDays: number) {
     const month = date.getUTCMonth() + 1;
     const day = date.getUTCDate();
     return isDateInPeriod(month, day, params);
+  }
+
+  // https://stackoverflow.com/questions/39899332/check-date-against-an-array-of-dates
+  function isInArray(datesArray: Date[], value: Date) {
+    return !!datesArray.find((item) => item.getTime() === value.getTime());
   }
 }
 
