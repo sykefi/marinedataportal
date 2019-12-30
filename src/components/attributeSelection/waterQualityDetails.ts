@@ -3,6 +3,7 @@ import OptionsSelection from '@/components/attributeSelection/OptionsSelection.v
 import DecimalInput from '@/components/common/DecimalInput.vue';
 import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
 import { mainState } from '@/store/mainState';
+import i18n from '@/locale/i18n';
 
 @Component({
   components: {
@@ -27,6 +28,7 @@ export default class WaterQualityDetails extends Vue {
   get selected() {
     return waterQualityModule.selectedDepth.option;
   }
+
   set selected(value) {
     const copy = { ...waterQualityModule.selectedDepth };
     copy.option = value;
@@ -51,5 +53,9 @@ export default class WaterQualityDetails extends Vue {
     const copy = { ...waterQualityModule.selectedDepth };
     copy.end = value;
     waterQualityModule.selectedDepth = copy;
+  }
+
+  public mounted() {
+    waterQualityModule.language = i18n.locale;
   }
 }

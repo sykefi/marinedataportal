@@ -103,7 +103,7 @@
 
     public setLanguage(tag: string) {
       i18n.locale = tag;
-      waterQualityModule.setLanguage(tag);
+      waterQualityModule.language = tag;
       const html = document.documentElement;
       html.setAttribute('lang', tag);
       document.title = this.$t('$siteTitle').toString();

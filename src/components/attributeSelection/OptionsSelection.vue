@@ -30,7 +30,7 @@
 .two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(23, 1fr);
+  grid-template-rows: repeat(26, 1fr);
   grid-auto-flow: column;
 }
 .option-label {

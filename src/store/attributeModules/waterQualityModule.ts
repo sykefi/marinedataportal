@@ -27,12 +27,22 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public name = '$waterQuality';
   public isSelected = false;
   public loading = false;
-  public availableOptions: IAttributeOption[] = [];
+  public language = 'en';
   public selectedIds: number[] = [];
   public data: object[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
   public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer };
   private options: IWaterQualityOption[] = [];
+
+  get availableOptions() {
+    let options: IAttributeOption[] = [];
+    if (this.language === 'fi') {
+      options = this.options.map((o) => ({ id: o.id, name: o.name_fi }));
+    } else {
+      options = this.options.map((o) => ({ id: o.id, name: o.name_en }));
+    }
+    return options.sort((a, b) => alphabeticCompare(a.name, b.name));
+  }
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -70,22 +80,11 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
     this.selectedIds = [];
   }
 
-  @Mutation
-  public setLanguage(lang: string) {
-    if (lang === 'en') {
-      this.availableOptions = this.options.map((o) => ({ id: o.id, name: o.name_en }));
-    } else {
-      this.availableOptions = this.options.map((o) => ({ id: o.id, name: o.name_fi }));
-    }
-    this.availableOptions.sort((a, b) => alphabeticCompare(a.name, b.name));
-  }
-
   @Action
   public async getOptions() {
     if (this.availableOptions.length === 0) {
       this.loading = true;
       this.options = await getWaterQualityOptions();
-      this.setLanguage('fi');
       this.loading = false;
     }
   }
