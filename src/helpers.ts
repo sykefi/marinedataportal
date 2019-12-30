@@ -86,10 +86,10 @@ export function validateSearchParameters(checkSites: boolean) {
     if (waterQualityModule.selectedDepth.option === DepthOptions.DepthInterval) {
       const start = waterQualityModule.selectedDepth.start;
       const end = waterQualityModule.selectedDepth.end;
-      if (start === null) {
+      if (start === undefined) {
         errors.push('$missingDepthStart');
       }
-      if (end === null) {
+      if (end === undefined) {
         errors.push('$missingDepthEnd');
       } else if (start && (start >= end)) {
         errors.push('$depthStartGreaterThanDepthEnd');

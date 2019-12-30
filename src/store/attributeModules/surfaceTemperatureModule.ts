@@ -9,7 +9,7 @@ import { getWaterQuality, getWaterQualitySiteIds } from '@/queries/Vesla/getWate
 import { SiteTypes } from '@/queries/site';
 import { getMareographTemperatures } from '@/queries/FMI/getMareographTemperatureQuery';
 import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
-import { DepthOptions, IDepthSettings } from './waterQualityModule';
+import { DepthOptions } from './waterQualityModule';
 import { IFmiResult } from '@/apis/fmiApi';
 
 @Module({ generateMutationSetters: true })
@@ -22,7 +22,6 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   public data: object[] | null = null;
   public siteTypes: SiteTypes[] = [];
   private tempIdInVesla = 25; // DeterminationCombinationId for temperature in Vesla
-  private depth: IDepthSettings = { option: DepthOptions.SurfaceLayer, start: null, end: null };
 
   get previewData() {
     return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
@@ -78,7 +77,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
     const tempData: any[] = [];
     let hasVeslaData = false;
     if (params.veslaSites.length) {
-      tempData.push(...await getWaterQuality(params, [this.tempIdInVesla], this.depth));
+      tempData.push(...await getWaterQuality(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer }));
       hasVeslaData = !!tempData.length;
     }
     if (params.mareographSites.length) {
@@ -127,7 +126,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Action
   public async getAvailableVeslaSiteIds(params: CommonParameters) {
     this.loading = true;
-    const res = await getWaterQualitySiteIds(params, [this.tempIdInVesla], this.depth);
+    const res = await getWaterQualitySiteIds(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer });
     this.loading = false;
     return res;
   }

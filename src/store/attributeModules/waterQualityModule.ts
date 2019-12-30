@@ -17,8 +17,8 @@ export enum DepthOptions {
 
 export interface IDepthSettings {
   option: DepthOptions;
-  start: number | null;
-  end: number | null;
+  start?: number;
+  end?: number;
 }
 
 @Module({ generateMutationSetters: true })
@@ -31,7 +31,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public selectedIds: number[] = [];
   public data: object[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
-  public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer, start: null, end: null };
+  public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer };
   private options: IWaterQualityOption[] = [];
 
   get previewData() {
