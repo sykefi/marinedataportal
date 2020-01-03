@@ -142,3 +142,22 @@ export function isDateInPeriod(month: number, day: number, params: CommonParamet
     return day <= params.datePeriodEndDay!;
   }
 }
+
+export function getTimeParametersForVeslaFilter(params: CommonParameters) {
+  let filter = ` and Time ge ${params.formattedDateStart}` +
+  ` and Time le ${params.formattedDateEnd}`;
+
+  if (params.datePeriodMonths) {
+    if (params.datePeriodMonths.start > params.datePeriodMonths.end) {
+      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} or month(Time) le ${params.datePeriodMonths.end})`;
+    } else {
+      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} and month(Time) le ${params.datePeriodMonths.end})`;
+    }
+  }
+
+  if (params.datePeriodDays) {
+    filter += buildODataInFilterFromArray(params.datePeriodDays, 'day(Time)', true);
+  }
+
+  return filter;
+}

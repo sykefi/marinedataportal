@@ -1,6 +1,6 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
-import { buildODataInFilterFromArray, cleanupTimePeriod } from '@/helpers';
+import { buildODataInFilterFromArray, cleanupTimePeriod, getTimeParametersForVeslaFilter } from '@/helpers';
 import { IDepthSettings, DepthOptions } from '@/store/attributeModules/waterQualityModule';
 
 const select = [
@@ -27,9 +27,7 @@ $orderby=DeterminationId,SiteId,Time&\
 $select=' + select.join(',');
 
 async function getFilter(params: CommonParameters, determinationIds: number[], depth: IDepthSettings) {
-  let filter = '&$filter= EnvironmentTypeId in (31,32,33)' +
-    ` and Time ge ${params.formattedDateStart}` +
-    ` and Time le ${params.formattedDateEnd}`;
+  let filter = '&$filter= EnvironmentTypeId in (31,32,33)';
 
   switch (depth.option) {
     case DepthOptions.DepthInterval:
@@ -45,16 +43,8 @@ async function getFilter(params: CommonParameters, determinationIds: number[], d
       filter += ' and IsSeaOrLakeSurfaceLevel eq 1';
       break;
   }
-  if (params.datePeriodMonths) {
-    if (params.datePeriodMonths.start > params.datePeriodMonths.end) {
-      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} or month(Time) le ${params.datePeriodMonths.end})`;
-    } else {
-      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} and month(Time) le ${params.datePeriodMonths.end})`;
-    }
-  }
-  if (params.datePeriodDays) {
-    filter += buildODataInFilterFromArray(params.datePeriodDays, 'day(Time)', true);
-  }
+
+  filter += getTimeParametersForVeslaFilter(params);
 
   filter += buildODataInFilterFromArray(determinationIds, 'DeterminationCombinationId', true);
   filter += buildODataInFilterFromArray(params.veslaSites.map((s) => s.id), 'SiteId', true);

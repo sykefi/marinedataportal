@@ -21,7 +21,8 @@ class SearchParameterModule extends VuexModule {
     public loading = false;
 
     get parameters() {
-        return new CommonParameters();
+        return new CommonParameters(this.timeSpanStart, this.timeSpanEnd,
+            this.periodStart, this.periodEnd, this.selectedSites);
     }
 
     // mutations

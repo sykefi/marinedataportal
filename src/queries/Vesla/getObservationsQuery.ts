@@ -1,6 +1,6 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
-import { buildODataInFilterFromArray, cleanupTimePeriod } from '@/helpers';
+import { buildODataInFilterFromArray, cleanupTimePeriod, getTimeParametersForVeslaFilter } from '@/helpers';
 
 const select = [
   'Time',
@@ -18,20 +18,9 @@ $select=' + select.join(',');
 async function getFilter(params: CommonParameters, obsCode: string) {
   let filter = '&$expand=Site($select=Latitude,Longitude,Depth)' +
     '&$filter=Site/EnvironmentTypeId in (31,32,33)' +
-    ` and Time ge ${params.formattedDateStart}` +
-    ` and Time le ${params.formattedDateEnd}` +
     ` and ParameterCode eq '${obsCode}'`;
 
-  if (params.datePeriodMonths) {
-    if (params.datePeriodMonths.start > params.datePeriodMonths.end) {
-      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} or month(Time) le ${params.datePeriodMonths.end})`;
-    } else {
-      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} and month(Time) le ${params.datePeriodMonths.end})`;
-    }
-  }
-  if (params.datePeriodDays) {
-    filter += buildODataInFilterFromArray(params.datePeriodDays, 'day(Time)', true);
-  }
+  filter += getTimeParametersForVeslaFilter(params);
 
   filter += buildODataInFilterFromArray(params.veslaSites.map((s) => s.id), 'Site/SiteId', true);
 

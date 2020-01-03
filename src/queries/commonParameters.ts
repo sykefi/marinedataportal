@@ -1,5 +1,4 @@
 import { Site, SiteTypes } from './site';
-import { searchParameterModule } from '@/store/searchParameterModule';
 import { DatePickerResult } from '@/components/common/datePicker/datePicker';
 
 export class CommonParameters {
@@ -50,11 +49,25 @@ export class CommonParameters {
     return this.datePeriodStart.getUTCDate();
   }
 
+  public get periodStartTime() {
+    if (!this.datePeriodStart || this.datePeriodStart === 'invalid') {
+      return null;
+    }
+    return this.datePeriodStart.getTime();
+  }
+
   public get datePeriodEndDay() {
     if (!this.datePeriodEnd || this.datePeriodEnd === 'invalid') {
       return null;
     }
     return this.datePeriodEnd.getUTCDate();
+  }
+
+  public get periodEndTime() {
+    if (!this.datePeriodEnd || this.datePeriodEnd === 'invalid') {
+      return null;
+    }
+    return this.datePeriodEnd.getTime();
   }
 
   /** Get a list of day numbers to query.
@@ -86,11 +99,12 @@ export class CommonParameters {
     return days;
   }
 
-  constructor() {
-    this.dateStart = searchParameterModule.timeSpanStart as Date;
-    this.dateEnd = searchParameterModule.timeSpanEnd as Date;
-    this.sites = searchParameterModule.selectedSites;
-    this.datePeriodStart = searchParameterModule.periodStart;
-    this.datePeriodEnd = searchParameterModule.periodEnd;
+  constructor(dateStart: DatePickerResult, dateEnd: DatePickerResult,
+              periodStart: DatePickerResult, periodEnd: DatePickerResult, sites: Site[]) {
+    this.dateStart = dateStart as Date;
+    this.dateEnd = dateEnd as Date;
+    this.sites = sites;
+    this.datePeriodStart = periodStart;
+    this.datePeriodEnd = periodEnd;
   }
 }

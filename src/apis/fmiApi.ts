@@ -35,30 +35,9 @@ export async function GetSimpleFmiResponse(query: string, params: CommonParamete
   // lastResponseId is used to keep track of iterations, so we can get the id for all results accross different queries
   let lastResponseId = 0;
   for (const site of sites) {
-    for (let i = 0; i < dateSpans.length - 1; i++) {
-      const startDate = new Date(dateSpans[i].getTime());
-      if (i > 0) {
-        // Start date was already handled in the previous query
-        addDay(startDate);
-      }
-      startDate.setUTCHours(0);
-      startDate.setUTCMinutes(0);
-      startDate.setUTCSeconds(0);
-
-      const endDate = new Date(dateSpans[i + 1].getTime());
-      endDate.setUTCHours(23);
-      endDate.setUTCMinutes(59);
-      endDate.setUTCSeconds(59);
-
-      // For example, if chosen time span is May 1 - May 7, dateSpans array will contain dates May 1 and May 7.
-      // In this case getDateSpanLengthInDays will return 7 which is > 6, but we don't want to skip it.
-      if (getDateSpanLengthInDays(startDate, endDate) > numberOfDaysInSingleQuery + 1) {
-        // in multi-year queries with time period selection, there are gaps in the days
-        // these gaps will be skipped, and the start of the gap is processed on the next iteration
-        continue;
-      }
-
-      const res = (await getXmlResponse(QUERY_URL + query + formatParams(startDate, endDate, site.id)));
+    const formattedParams = getParams(dateSpans, numberOfDaysInSingleQuery, site.id);
+    for (const fp of formattedParams) {
+      const res = (await getXmlResponse(QUERY_URL + query + fp));
       const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
       results.push(...parseSimpleResponse(Array.from(elements), site, lastResponseId));
       if (results.length) {
@@ -67,6 +46,39 @@ export async function GetSimpleFmiResponse(query: string, params: CommonParamete
     }
   }
   return results;
+}
+
+export function getParams(dateSpans: Date[], numberOfDaysInSingleQuery: number, siteId: number) {
+  const formattedParams: string[] = [];
+  let startDateIsHandled = false;
+  for (let i = 0; i < dateSpans.length - 1; i++) {
+    const startDate = new Date(dateSpans[i].getTime());
+    if (startDateIsHandled) {
+      // Start date was already handled in the previous query
+      addDay(startDate);
+    }
+    startDateIsHandled = true;
+
+    startDate.setUTCHours(0);
+    startDate.setUTCMinutes(0);
+    startDate.setUTCSeconds(0);
+
+    const endDate = new Date(dateSpans[i + 1].getTime());
+    endDate.setUTCHours(23);
+    endDate.setUTCMinutes(59);
+    endDate.setUTCSeconds(59);
+
+    // For example, if chosen time span is May 1 - May 7, dateSpans array will contain dates May 1 and May 7.
+    // In this case getDateSpanLengthInDays will return 7 which is > 6, but we don't want to skip it.
+    if (getDateSpanLengthInDays(startDate, endDate) > numberOfDaysInSingleQuery + 1) {
+      // in multi-year queries with time period selection, there are gaps in the days
+      // these gaps will be skipped, and the start of the gap is processed on the next iteration
+      startDateIsHandled = false;
+      continue;
+    }
+    formattedParams.push(formatParams(startDate, endDate, siteId));
+  }
+  return formattedParams;
 }
 
 function parseSimpleResponse(elements: Element[], site: Site, lastResponseId: number) {
@@ -125,16 +137,24 @@ async function getXmlResponse(url: string) {
 /** Get all the dates between a start and an end date
  * @param blockSizeDays How to split the time range, in number of days. Example: to get a range of weeks, size is 7
  */
-function getDates(params: CommonParameters, blockSizeDays: number) {
+export function getDates(params: CommonParameters, blockSizeDays: number) {
   let dateArray: Date[] = [];
   let currentDate = new Date(params.dateStart.getTime());
   while (currentDate <= params.dateEnd) {
     dateArray.push(new Date(currentDate.getTime()));
-    if (params.datePeriodStartDay === params.datePeriodEndDay) {
+    if (params.periodStartTime === params.periodEndTime) {
       // If only one date is queried, it will serve as end date as well
       dateArray.push(new Date(currentDate.getTime()));
     }
     currentDate = addDay(currentDate);
+  }
+
+  // In case time period starts on the same day as time span ends,
+  // the last day has to serve as a start date and end date
+  const comparableDateEnd = new Date(params.dateEnd.getTime());
+  comparableDateEnd.setUTCFullYear(2000);
+  if (params.periodStartTime === comparableDateEnd.getTime()) {
+    dateArray.push(new Date(params.dateEnd.getTime()));
   }
 
   if (params.datePeriodMonths) {
