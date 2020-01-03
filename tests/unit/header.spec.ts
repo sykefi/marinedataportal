@@ -10,6 +10,7 @@ describe('Header.vue', () => {
   it('shows funding info message', () => {
     const wrapper = shallowMount(Header);
     expect(wrapper.text()).include('The project is funded by the European Maritime and Fisheries Fund');
+    wrapper.destroy();
   });
 
   it('shows language selection options', () => {
@@ -17,6 +18,7 @@ describe('Header.vue', () => {
     const txt = wrapper.text();
     expect(txt).include('FI');
     expect(txt).include('EN');
+    wrapper.destroy();
   });
 
   it('allows changing the display language', () => {
@@ -24,6 +26,8 @@ describe('Header.vue', () => {
     expect(vm.$i18n.locale).eq('en');
     (vm as any).setLanguage('fi');
     expect(vm.$i18n.locale).eq('fi');
+
+    vm.$destroy();
   });
 
 });

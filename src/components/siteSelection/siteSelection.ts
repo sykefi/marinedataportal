@@ -5,6 +5,7 @@ import Map from '@/components/siteSelection/Map.vue';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
 import { validateSearchParameters } from '@/helpers';
+import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
 
 @Component({
   components: {
@@ -48,10 +49,21 @@ export default class SiteSelection extends Vue {
 
   public async populate() {
     this.showNoSitesMessage = false;
-    if (validateSearchParameters(false)) {
+    const errors = [...waterQualityModule.errors];
+    errors.push(...validateSearchParameters(
+      false,
+      searchParameterModule.selectedSites,
+      mainState.selectedAttributeModules,
+      searchParameterModule.timeSpanStart,
+      searchParameterModule.timeSpanEnd,
+      searchParameterModule.periodStart,
+      searchParameterModule.periodEnd),
+    );
+    if (errors.length === 0) {
       searchParameterModule.clearSelectedSites();
       await mainState.populateAvailableSites(searchParameterModule.parameters);
       setTimeout(() => this.showNoSitesMessage = true, 500); // There is a short slag before availableSites is populated
     }
+    mainState.setErrorList(errors);
   }
 }

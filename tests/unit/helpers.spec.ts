@@ -1,7 +1,9 @@
 // tslint:disable:no-unused-expression
-import { getTimeParametersForVeslaFilter, isDateInPeriod } from '@/helpers';
+import { getTimeParametersForVeslaFilter, isDateInPeriod, validateSearchParameters } from '@/helpers';
 import { CommonParameters } from '@/queries/commonParameters';
 import { expect } from 'chai';
+import { SiteTypes } from '@/queries/site';
+import { waterLevelModule } from '@/store/attributeModules/waterLevelModule';
 
 describe('Time parameters tests for Vesla', () => {
     it('returns correct time parameters when one day is picked', () => {
@@ -119,5 +121,89 @@ describe('Time parameters tests for Vesla', () => {
         const actualResult = isDateInPeriod(1, 2, params);
 
         expect(actualResult).true;
+    });
+});
+
+describe('search parameter validation', () => {
+    it('shows all errors for empty data ', () => {
+        const errors = validateSearchParameters(true, [], [], null, null, null, null);
+        expect(errors).contains('$noSitesSelected');
+        expect(errors).contains('$noAttributesSelected');
+        expect(errors).contains('$missingTimeSpanStart');
+        expect(errors).contains('$missingTimeSpanEnd');
+    });
+    it('does not require sites before they are fetched', () => {
+        const errors = validateSearchParameters(false, [], [], null, null, null, null);
+        expect(errors).not.contains('$noSitesSelected');
+    });
+    it('expects at least one selected site when fetching data', () => {
+        let errors = validateSearchParameters(true, [], [], null, null, null, null);
+        expect(errors).contains('$noSitesSelected');
+        errors = validateSearchParameters(true,
+            [
+                {
+                    id: 1,
+                    name: 'test site',
+                    displayName: 'display name',
+                    lat: 31,
+                    long: 12,
+                    depth: null,
+                    type: SiteTypes.Vesla,
+                    mapCoordinates: [],
+                },
+            ], [], null, null, null, null);
+        expect(errors).not.contains('$noSitesSelected');
+    });
+    it('expects at least one selected attribute module', () => {
+        const errors = validateSearchParameters(false, [], [waterLevelModule], null, null, null, null);
+        expect(errors).not.contains('$noAttributesSelected');
+    });
+    it('expects start date to be earlier than end date', () => {
+        let errors = validateSearchParameters(true, [], [],
+            new Date(2012, 1, 1), new Date(),
+            null, null);
+        expect(errors).not.contains('$timeSpanStartAfterTimeSpanEnd');
+
+        errors = validateSearchParameters(true, [], [],
+            new Date(2100, 1, 1), new Date(),
+            null, null);
+        expect(errors).contains('$timeSpanStartAfterTimeSpanEnd');
+    });
+    it('expects start and end date to be set', () => {
+        let errors = validateSearchParameters(true, [], [],
+            null, null,
+            null, null);
+        expect(errors).contains('$missingTimeSpanStart');
+        expect(errors).contains('$missingTimeSpanEnd');
+
+        const startDate = new Date();
+        startDate.setDate(-1);
+        errors = validateSearchParameters(true, [], [],
+            startDate, new Date(),
+            null, null);
+
+        expect(errors).not.contains('$missingTimeSpanStart');
+        expect(errors).not.contains('$missingTimeSpanEnd');
+    });
+    it('properly validates time period', () => {
+        let errors = validateSearchParameters(true, [], [], null, null,
+            new Date(), null);
+
+        expect(errors).contains('$missingPeriodEnd');
+        errors = validateSearchParameters(true, [], [], null, null,
+            null, new Date());
+
+        expect(errors).contains('$missingPeriodStart');
+
+        errors = validateSearchParameters(true, [], [], null, null,
+            'invalid', 'invalid');
+        expect(errors).contains('$incompletePeriodStart');
+        expect(errors).contains('$incompletePeriodEnd');
+
+
+        errors = validateSearchParameters(true, [], [], null, null,
+            new Date(2002, 1, 3), new Date(2002, 3, 7));
+        expect(errors).not.contains('$incompletePeriodStart');
+        expect(errors).not.contains('$incompletePeriodEnd');
     });
 });

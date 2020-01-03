@@ -1,7 +1,7 @@
-import { mainState } from './store/mainState';
-import { searchParameterModule } from './store/searchParameterModule';
 import { CommonParameters } from './queries/commonParameters';
-import { waterQualityModule, DepthOptions } from './store/attributeModules/waterQualityModule';
+import { Site } from './queries/site';
+import { IAttributeModule } from './store/attributeModules/IAttributeModule';
+import { DatePickerResult } from './components/common/datePicker/datePicker';
 
 /**
  * Splits an array into chunks of specified size
@@ -44,61 +44,49 @@ export function buildODataInFilterFromArray(array: any[], variable: string, star
 }
 
 
-export function validateSearchParameters(checkSites: boolean) {
+export function validateSearchParameters(checkSites: boolean,
+                                         selectedSites: Site[],
+                                         selectedAttributeModules: IAttributeModule[],
+                                         timeSpanStart: DatePickerResult,
+                                         timeSpanEnd: DatePickerResult,
+                                         periodStart: DatePickerResult,
+                                         periodEnd: DatePickerResult) {
   const errors: string[] = [];
 
-  if (checkSites && searchParameterModule.selectedSites.length === 0) {
+  if (checkSites && selectedSites.length === 0) {
     errors.push('$noSitesSelected');
   }
 
   // Attribute validation
-  if (mainState.selectedAttributeModules.length === 0) {
+  if (selectedAttributeModules.length === 0) {
     errors.push('$noAttributesSelected');
   }
 
-  const params = searchParameterModule;
   // Time span validation
-  if (!params.timeSpanStart) {
+  if (!timeSpanStart) {
     errors.push('$missingTimeSpanStart');
   }
-  if (!params.timeSpanEnd) {
+  if (!timeSpanEnd) {
     errors.push('$missingTimeSpanEnd');
-  } else if (params.timeSpanStart && params.timeSpanStart > params.timeSpanEnd) {
+  } else if (timeSpanStart && timeSpanStart > timeSpanEnd) {
     errors.push('$timeSpanStartAfterTimeSpanEnd');
   }
 
   // Time period validation
-  if (params.periodStart && !params.periodEnd) {
+  if (periodStart && !periodEnd) {
     errors.push('$missingPeriodEnd');
-  } else if (!params.periodStart && params.periodEnd) {
+  } else if (!periodStart && periodEnd) {
     errors.push('$missingPeriodStart');
-  } else if (params.periodStart && params.periodEnd) {
-    if (params.periodStart === 'invalid') {
+  } else if (periodStart && periodEnd) {
+    if (periodStart === 'invalid') {
       errors.push('$incompletePeriodStart');
     }
-    if (params.periodEnd === 'invalid') {
+    if (periodEnd === 'invalid') {
       errors.push('$incompletePeriodEnd');
     }
   }
 
-  // Water quality Depth validation
-  if (waterQualityModule.isSelected) {
-    if (waterQualityModule.selectedDepth.option === DepthOptions.DepthInterval) {
-      const start = waterQualityModule.selectedDepth.start;
-      const end = waterQualityModule.selectedDepth.end;
-      if (start === undefined) {
-        errors.push('$missingDepthStart');
-      }
-      if (end === undefined) {
-        errors.push('$missingDepthEnd');
-      } else if (start && (start >= end)) {
-        errors.push('$depthStartGreaterThanDepthEnd');
-      }
-    }
-  }
-
-  mainState.setErrorList(errors);
-  return errors.length === 0;
+  return errors;
 }
 
 export function alphabeticCompare(a: string, b: string) {
@@ -145,7 +133,7 @@ export function isDateInPeriod(month: number, day: number, params: CommonParamet
 
 export function getTimeParametersForVeslaFilter(params: CommonParameters) {
   let filter = ` and Time ge ${params.formattedDateStart}` +
-  ` and Time le ${params.formattedDateEnd}`;
+    ` and Time le ${params.formattedDateEnd}`;
 
   if (params.datePeriodMonths) {
     if (params.datePeriodMonths.start > params.datePeriodMonths.end) {

@@ -32,7 +32,7 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
   public data: object[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
   public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer };
-  private options: IWaterQualityOption[] = [];
+  public options: IWaterQualityOption[] = [];
 
   get availableOptions() {
     let options: IAttributeOption[] = [];
@@ -54,6 +54,25 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
 
   get rowCount() {
     return this.data ? this.data.length : 0;
+  }
+
+  get errors() {
+    const errors: string[] = [];
+    if (this.isSelected) {
+      if (this.selectedDepth.option === DepthOptions.DepthInterval) {
+        const start = this.selectedDepth.start;
+        const end = this.selectedDepth.end;
+        if (start === undefined) {
+          errors.push('$missingDepthStart');
+        }
+        if (end === undefined) {
+          errors.push('$missingDepthEnd');
+        } else if (start && (start >= end)) {
+          errors.push('$depthStartGreaterThanDepthEnd');
+        }
+      }
+    }
+    return errors;
   }
 
   @Mutation
