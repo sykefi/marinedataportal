@@ -3,10 +3,10 @@ import Header from '@/components/Header.vue';
 import VueI18n from 'vue-i18n';
 import { expect } from 'chai';
 
-const localVue = createLocalVue();
-localVue.use(VueI18n);
-
 describe('Header.vue', () => {
+  const localVue = createLocalVue();
+  localVue.use(VueI18n);
+
   it('shows funding info message', () => {
     const wrapper = shallowMount(Header);
     expect(wrapper.text()).include('The project is funded by the European Maritime and Fisheries Fund');

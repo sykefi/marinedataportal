@@ -22,7 +22,7 @@ export interface IDepthSettings {
 }
 
 @Module({ generateMutationSetters: true })
-class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
+export class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptions {
 
   public name = '$waterQuality';
   public isSelected = false;
@@ -58,18 +58,16 @@ class WaterQualityModule extends VuexModule implements IAttributeModuleWithOptio
 
   get errors() {
     const errors: string[] = [];
-    if (this.isSelected) {
-      if (this.selectedDepth.option === DepthOptions.DepthInterval) {
-        const start = this.selectedDepth.start;
-        const end = this.selectedDepth.end;
-        if (start === undefined) {
-          errors.push('$missingDepthStart');
-        }
-        if (end === undefined) {
-          errors.push('$missingDepthEnd');
-        } else if (start && (start >= end)) {
-          errors.push('$depthStartGreaterThanDepthEnd');
-        }
+    if (this.selectedDepth.option === DepthOptions.DepthInterval) {
+      const start = this.selectedDepth.start;
+      const end = this.selectedDepth.end;
+      if (start === undefined) {
+        errors.push('$missingDepthStart');
+      }
+      if (end === undefined) {
+        errors.push('$missingDepthEnd');
+      } else if (start && (start > end)) {
+        errors.push('$depthStartGreaterThanDepthEnd');
       }
     }
     return errors;
