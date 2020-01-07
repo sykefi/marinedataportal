@@ -21,9 +21,9 @@ export default class Map extends Vue {
   public currentHoverFeature: IHoverData | null = null;
 
   private selectedMapFeatures: any[] = [];
+  private selectInteraction: any;
 
   get availableFeatures() {
-    this.selectedMapFeatures = [];
     // wrap sites as GeoJSON Features
     return searchParameterModule.availableSites.map(
       (s) => {
@@ -52,6 +52,7 @@ export default class Map extends Vue {
   }
 
   public mounted() {
+    this.selectInteraction = this.$refs.selectInteraction;
     const baseMapLayer = (this.$refs.baseMapLayer as any).$layer;
     if (baseMapLayer) {
       // if the layer has been mounted, set the options here.
@@ -101,6 +102,7 @@ export default class Map extends Vue {
     // clear selection when drawing a new box and when clicking on the map
     dragBox.on('boxstart', () => {
       this.selectedFeatures = [];
+      this.selectInteraction.clearFeatures();
     });
   }
 
@@ -122,12 +124,18 @@ export default class Map extends Vue {
   }
 
   public addSelection(id: number) {
-    (this.$refs.selectInteraction as any).select(id);
+    this.selectInteraction.select(id);
   }
 
   public removeSelection(id: number) {
-    (this.$refs.selectInteraction as any).clearFeatures();
+    this.selectInteraction.clearFeatures();
     const mapFeatureIndex = this.selectedMapFeatures.findIndex((f) => f.id === id);
     this.selectedMapFeatures.splice(mapFeatureIndex, 1);
   }
+
+  public clearSelectedFeatures() {
+    this.selectInteraction.clearFeatures();
+    this.selectedMapFeatures = [];
+  }
+
 }

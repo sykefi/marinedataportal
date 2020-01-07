@@ -61,6 +61,9 @@ export default class SiteSelection extends Vue {
     );
     if (errors.length === 0) {
       searchParameterModule.clearSelectedSites();
+      if (this.$refs.mapView) {
+        (this.$refs.mapView as any).clearSelectedFeatures();
+      }
       await mainState.populateAvailableSites(searchParameterModule.parameters);
       setTimeout(() => this.showNoSitesMessage = true, 500); // There is a short slag before availableSites is populated
     }
