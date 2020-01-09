@@ -34,6 +34,9 @@
         <br />
         <input type="radio" id="bottomLayer" :value="1" name="depth" v-model="selected" />
         <label for="bottomLayer">{{$t('$bottomLayer')}}</label>
+        <br />
+        <input type="radio" id="allLayers" :value="3" name="depth" v-model="selected" />
+        <label for="allLayers">{{$t('$allLayers')}}</label>
       </fieldset>
     </div>
   </div>

@@ -42,6 +42,9 @@ async function getFilter(params: CommonParameters, determinationIds: number[], d
     case DepthOptions.SurfaceLayer:
       filter += ' and IsSeaOrLakeSurfaceLevel eq 1';
       break;
+    case DepthOptions.AllLayers:
+      // no filter for depth
+      break;
   }
 
   filter += getTimeParametersForVeslaFilter(params);

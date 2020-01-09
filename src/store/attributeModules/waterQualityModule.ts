@@ -14,6 +14,7 @@ export enum DepthOptions {
   SurfaceLayer,
   SeaFloorLayer,
   DepthInterval,
+  AllLayers,
 }
 
 export interface IDepthSettings {

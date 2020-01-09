@@ -6,4 +6,5 @@ export default {
     $bottomLayer: 'Near bottom layer',
     $depthStart: 'Start of depth interval',
     $depthEnd: 'End of depth interval',
+    $allLayers: 'All depths',
 };
