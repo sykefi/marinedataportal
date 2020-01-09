@@ -65,11 +65,10 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
 
   @Mutation
   public getOptions() {
-    if (this.availableOptions.length === 0) {
-      this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString() });
-      this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString() });
-      this.availableOptions.push({ id: SiteTypes.Vesla, name: i18n.t('$marineStations').toString() });
-    }
+    this.availableOptions = [];
+    this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString() });
+    this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString() });
+    this.availableOptions.push({ id: SiteTypes.Vesla, name: i18n.t('$marineStations').toString() });
   }
 
   @Action

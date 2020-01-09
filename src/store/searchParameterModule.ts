@@ -13,7 +13,8 @@ import { DatePickerResult } from '@/components/common/datePicker/datePicker';
 export class SearchParameterModule extends VuexModule {
     // state
     public timeSpanStart: DatePickerResult = null;
-    public timeSpanEnd: DatePickerResult = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0));
+    public timeSpanEnd: DatePickerResult = new Date(Date.UTC(new Date().getFullYear(),
+                        new Date().getMonth(), new Date().getDate(), 0, 0, 0));
     public periodStart: DatePickerResult = null;
     public periodEnd: DatePickerResult = null;
     public availableSites: Site[] = [];
