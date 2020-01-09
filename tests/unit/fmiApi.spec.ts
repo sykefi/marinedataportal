@@ -1,6 +1,8 @@
 import { getDates, getParams, IFmiResult, sortByTimeAndParameters } from '@/apis/fmiApi';
 import { CommonParameters } from '@/queries/commonParameters';
 import { expect } from 'chai';
+import { SearchParameterModule } from '@/store/searchParameterModule';
+import Vuex from 'vuex';
 
 describe('Time parameters tests for fmi api', () => {
     it('returns correct time parameters when one day is picked', () => {
@@ -96,6 +98,22 @@ describe('Time parameters tests for fmi api', () => {
             '&starttime=2002-02-23T00:00:00.000Z&endtime=2002-02-28T23:59:59.000Z&fmisid=1',
             '&starttime=2003-02-23T00:00:00.000Z&endtime=2003-02-28T23:59:59.000Z&fmisid=1',
             '&starttime=2004-02-23T00:00:00.000Z&endtime=2004-02-29T23:59:59.000Z&fmisid=1'];
+
+        testDateParams(startDate, endDate, periodStart, periodEnd, expectedParams);
+    });
+    it('returns correct time parameters when end date is unchanged and start date is today', () => {
+        const store = new Vuex.Store({ strict: true });
+        const module = new SearchParameterModule({ store, name: 'testSearchParameters' });
+
+        const today = new Date();
+        const startDate = new Date(Date.UTC(today.getFullYear(),
+            today.getMonth(), today.getDate(), 0, 0, 0));
+        const endDate = module.timeSpanEnd as Date;
+        const periodStart = null;
+        const periodEnd = null;
+
+        const expectedDate = today.toISOString().substr(0, 10);
+        const expectedParams = [`&starttime=${ expectedDate }T00:00:00.000Z&endtime=${ expectedDate }T23:59:59.000Z&fmisid=1`];
 
         testDateParams(startDate, endDate, periodStart, periodEnd, expectedParams);
     });

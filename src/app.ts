@@ -39,6 +39,11 @@ export default class App extends Vue {
       this.hasError = true;
       console.error(e);
     };
+
+    window.onunhandledrejection = (e: any) => {
+      this.hasError = true;
+      console.error(e);
+    };
   }
 
   public mounted() {
