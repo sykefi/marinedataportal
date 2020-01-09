@@ -5,7 +5,5 @@ const query = '&request=getFeature&storedquery_id=fmi::observations::mareograph:
 
 
 export async function getMareographTemperatures(params: CommonParameters) {
-  const response = await GetSimpleFmiResponse(query, params, params.mareographSites);
-  response.map((item) => delete item.responseId);
-  return response;
+  return await GetSimpleFmiResponse(query, params, params.mareographSites);
 }

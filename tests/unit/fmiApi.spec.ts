@@ -1,4 +1,4 @@
-import { getDates, getParams } from '@/apis/fmiApi';
+import { getDates, getParams, IFmiResult, sortByTimeAndParameters } from '@/apis/fmiApi';
 import { CommonParameters } from '@/queries/commonParameters';
 import { expect } from 'chai';
 
@@ -111,9 +111,55 @@ function testDateParams(startDate: Date, endDate: Date, periodStart: Date | null
     if (dateSpans) {
         formattedParams = getParams(dateSpans, numberOfDaysInSingleQuery, 1);
     }
+    compareArrays(formattedParams, expectedParams);
+}
 
-    expect(formattedParams).to.have.lengthOf(expectedParams.length);
-    for (let i = 0; i < expectedParams.length; i++) {
-        expect(formattedParams[i]).equal(expectedParams[i]);
+function compareArrays(a1: any[], a2: any[]) {
+    expect(a1).to.have.lengthOf(a2.length);
+    for (let i = 0; i < a2.length; i++) {
+        expect(a1[i]).to.deep.equal(a2[i]);
     }
+}
+
+describe('Sorting of fmi api responses', () => {
+    it('returns responses in correct order', () => {
+        const sortedResults = [
+            getIFmiResult('2000-01-02', 'test2', 3),
+            getIFmiResult('2000-01-01', 'test2', 1),
+            getIFmiResult('2000-01-01', 'test2', 3),
+            getIFmiResult('2000-01-02', 'test2', 1),
+            getIFmiResult('2000-01-01', 'test1', 1),
+            getIFmiResult('2000-01-02', 'test2', 2),
+            getIFmiResult('2000-01-01', 'test1', 2),
+            getIFmiResult('2000-01-01', 'test1', 3),
+            getIFmiResult('2000-01-01', 'test2', 2),
+        ].sort(sortByTimeAndParameters);
+
+        const expectedResults = [
+            getIFmiResult('2000-01-01', 'test1', 1),
+            getIFmiResult('2000-01-01', 'test1', 2),
+            getIFmiResult('2000-01-01', 'test1', 3),
+            getIFmiResult('2000-01-01', 'test2', 1),
+            getIFmiResult('2000-01-02', 'test2', 1),
+            getIFmiResult('2000-01-01', 'test2', 2),
+            getIFmiResult('2000-01-02', 'test2', 2),
+            getIFmiResult('2000-01-01', 'test2', 3),
+            getIFmiResult('2000-01-02', 'test2', 3),
+        ];
+
+        compareArrays(sortedResults, expectedResults);
+    });
+});
+
+function getIFmiResult(time: string, parameterName: string, siteId: number): IFmiResult {
+    return {
+        time,
+        parameterName,
+        value: '',
+        lat: 0,
+        long: 0,
+        siteId,
+        siteName: '',
+        dataSource: '',
+      };
 }

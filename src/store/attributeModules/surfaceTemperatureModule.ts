@@ -10,7 +10,8 @@ import { SiteTypes } from '@/queries/site';
 import { getMareographTemperatures } from '@/queries/FMI/getMareographTemperatureQuery';
 import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
 import { DepthOptions } from './waterQualityModule';
-import { IFmiResult } from '@/apis/fmiApi';
+import { toCommonFormat, toFmiFormat } from '@/helpers';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 @Module({ generateMutationSetters: true })
 class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -19,7 +20,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   public isSelected = false;
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
-  public data: object[] | null = null;
+  public data: IResponseFormat[] | null = null;
   public siteTypes: SiteTypes[] = [];
   private tempIdInVesla = 25; // DeterminationCombinationId for temperature in Vesla
 
@@ -74,53 +75,24 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Action
   public async getData(params: CommonParameters) {
     this.loading = true;
-    const tempData: any[] = [];
+    const tempData: IResponseFormat[] = [];
     let hasVeslaData = false;
     if (params.veslaSites.length) {
       tempData.push(...await getWaterQuality(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer }));
       hasVeslaData = !!tempData.length;
     }
     if (params.mareographSites.length) {
-      let response: any[] = await getMareographTemperatures(params);
-
-      if (hasVeslaData) {
-        response = response.map((r) => toCommonFormat(r));
-      }
-      tempData.push(...response);
+      const response = await getMareographTemperatures(params);
+      const inCorrectFormat = response.map((r) => hasVeslaData ? toCommonFormat(r, 'Temperature', '°C') : toFmiFormat(r, 'Temperature', '°C'));
+      tempData.push(...inCorrectFormat);
     }
     if (params.buoySites.length) {
-      let response: any[] = await getWaveData(params, [WaveQueryParameters.waterTemperature], false);
-
-      if (hasVeslaData) {
-        response = response.map((r) => toCommonFormat(r));
-      }
-      tempData.push(...response);
+      const response = await getWaveData(params, [WaveQueryParameters.waterTemperature]);
+      const inCorrectFormat = response.map((r) => hasVeslaData ? toCommonFormat(r, 'Temperature', '°C') : toFmiFormat(r, 'Temperature', '°C'));
+      tempData.push(...inCorrectFormat);
     }
     this.data = tempData;
     this.loading = false;
-
-
-    function toCommonFormat(obj: IFmiResult) {
-      return {
-        time: obj.time,
-        analyteName: 'Temperature',
-        value: obj.value,
-        unit: '°C',
-        siteId: obj.siteId,
-        site: obj.siteName,
-        siteLatitudeWGS84: obj.lat,
-        siteLongitudeWGS84: obj.long,
-        samplingLatitudeWGS84: null,
-        samplingLongitudeWGS84: null,
-        sampleDepthM: null,
-        sampleDepthUpperM: null,
-        sampleDepthLowerM: null,
-        siteDepthM: null,
-        totalDepthM: null,
-        laboratory: null,
-        dataSource: obj.dataSource,
-      };
-    }
   }
 
   @Action

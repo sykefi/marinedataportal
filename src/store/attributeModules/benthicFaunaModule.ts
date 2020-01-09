@@ -4,6 +4,7 @@ import { SiteTypes } from '@/queries/site';
 import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { PREVIEW_ROW_COUNT } from '@/config';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 @Module({ generateMutationSetters: true })
 class BenthicFaunaModule extends VuexModule implements IAttributeModule {
@@ -11,7 +12,7 @@ class BenthicFaunaModule extends VuexModule implements IAttributeModule {
   public name = '$benthicFauna';
   public loading = false;
   public isSelected = false;
-  public data: object[] | null = null;
+  public data: IResponseFormat[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
 
   get previewData() {

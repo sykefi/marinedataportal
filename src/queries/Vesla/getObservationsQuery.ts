@@ -1,6 +1,7 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
-import { buildODataInFilterFromArray, cleanupTimePeriod, getTimeParametersForVeslaFilter } from '@/helpers';
+import { buildODataInFilterFromArray, cleanupTimePeriod,
+         getTimeParametersForVeslaFilter, fromObservationToSykeFormat } from '@/helpers';
 
 const select = [
   'Time',
@@ -33,14 +34,7 @@ export async function getObservations(params: CommonParameters, obsCode: string)
   }
   const filter = await getFilter(params, obsCode);
   let results = await getVeslaData(query + filter);
-  results = results.map((r) => {
-    const flat = { ...r };
-    flat.siteLatitudeWGS84 = r.site.latitude;
-    flat.siteLongitudeWGS84 = r.site.longitude;
-    flat.siteDepth = r.site.depth;
-    delete flat.site;
-    return flat;
-  });
+  results = results.map((r) => fromObservationToSykeFormat(r));
   if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
     return cleanupTimePeriod(results, params);
   }

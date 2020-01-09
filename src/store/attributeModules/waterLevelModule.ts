@@ -5,6 +5,8 @@ import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterLevels } from '@/queries/FMI/getWaterLevelQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
+import { toFmiFormat } from '@/helpers';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 @Module({ generateMutationSetters: true })
 class WaterLevelModule extends VuexModule implements IAttributeModule {
@@ -12,7 +14,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   public name = '$waterLevel';
   public loading = false;
   public isSelected = false;
-  public data: object[] | null = null;
+  public data: IResponseFormat[] | null = null;
   public siteTypes = [SiteTypes.FmiBuoy, SiteTypes.Mareograph];
 
   get rowCount() {
@@ -31,7 +33,9 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   @Action
   public async getData(params: CommonParameters) {
     this.loading = true;
-    this.data = await getWaterLevels(params);
+    const results = await getWaterLevels(params);
+    const inFmiFormat = results.map((r) => toFmiFormat(r, 'Water level', 'cm'));
+    this.data = inFmiFormat;
     this.loading = false;
   }
 

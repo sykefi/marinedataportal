@@ -8,6 +8,7 @@ import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { alphabeticCompare } from '@/helpers';
 import { SiteTypes } from '@/queries/site';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 export enum DepthOptions {
   SurfaceLayer,
@@ -29,7 +30,7 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
   public loading = false;
   public language = 'en';
   public selectedIds: number[] = [];
-  public data: object[] | null = null;
+  public data: IResponseFormat[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
   public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer };
   public options: IWaterQualityOption[] = [];

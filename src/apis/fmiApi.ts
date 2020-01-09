@@ -7,7 +7,6 @@ const QUERY_URL =
   'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
 
 export interface IFmiResult {
-  responseId: number;
   time: string;
   parameterName: string;
   value: string;
@@ -31,21 +30,40 @@ export async function GetSimpleFmiResponse(query: string, params: CommonParamete
     return results;
   }
 
-  // FMI API sends one XML entry per parameter. However, the results of a single measurement are grouped by a common id.
-  // lastResponseId is used to keep track of iterations, so we can get the id for all results accross different queries
-  let lastResponseId = 0;
   for (const site of sites) {
     const formattedParams = getParams(dateSpans, numberOfDaysInSingleQuery, site.id);
     for (const fp of formattedParams) {
       const res = (await getXmlResponse(QUERY_URL + query + fp));
       const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
-      results.push(...parseSimpleResponse(Array.from(elements), site, lastResponseId));
-      if (results.length) {
-        lastResponseId = results[results.length - 1].responseId;
-      }
+      results.push(...parseSimpleResponse(Array.from(elements), site));
     }
   }
-  return results;
+
+  return results.sort(sortByTimeAndParameters);
+}
+
+export function sortByTimeAndParameters(a: IFmiResult, b: IFmiResult) {
+  if (a.parameterName > b.parameterName) {
+    return 1;
+  } else if (a.parameterName < b.parameterName) {
+    return -1;
+  }
+
+  if (a.siteId > b.siteId) {
+    return 1;
+  } else if (a.siteId < b.siteId) {
+    return -1;
+  }
+
+  const dateA = new Date(a.time);
+  const dateB = new Date(b.time);
+  if (dateA > dateB) {
+    return 1;
+  } else if (dateA < dateB) {
+    return -1;
+  } else {
+    return 0;
+  }
 }
 
 export function getParams(dateSpans: Date[], numberOfDaysInSingleQuery: number, siteId: number) {
@@ -81,14 +99,13 @@ export function getParams(dateSpans: Date[], numberOfDaysInSingleQuery: number, 
   return formattedParams;
 }
 
-function parseSimpleResponse(elements: Element[], site: Site, lastResponseId: number) {
+function parseSimpleResponse(elements: Element[], site: Site) {
   const results: IFmiResult[] = [];
   for (const element of elements) {
     const time = element.getElementsByTagName('BsWfs:Time')[0].firstChild!.nodeValue!;
     const parameterName = element.getElementsByTagName('BsWfs:ParameterName')[0].firstChild!.nodeValue!;
     const value = element.getElementsByTagName('BsWfs:ParameterValue')[0].firstChild!.nodeValue!;
     const result: IFmiResult = {
-      responseId: lastResponseId + (+element.attributes[0].nodeValue!.split('.')[2]),
       time: new Date(time).toISOString(),
       parameterName,
       value,

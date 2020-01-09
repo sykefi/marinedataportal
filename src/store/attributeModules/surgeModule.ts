@@ -7,6 +7,8 @@ import { IAttributeOption } from './IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { SiteTypes } from '@/queries/site';
 import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
+import { toFmiFormat } from '@/helpers';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 @Module({ generateMutationSetters: true })
 class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -15,7 +17,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   public isSelected = false;
   public availableOptions: IAttributeOption[] = [];
   public selectedIds: number[] = [];
-  public data: object[] | null = null;
+  public data: IResponseFormat[] | null = null;
   public siteTypes = [SiteTypes.FmiBuoy, SiteTypes.Mareograph];
 
   get rowCount() {
@@ -84,7 +86,37 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
       queryParams.push(WaveQueryParameters.directionDeviation);
     }
 
-    this.data = await getWaveData(params, queryParams, true);
+    const results = await getWaveData(params, queryParams);
+    const inFmiFormat = results.map((r) => {
+      let parameterName = '';
+      let unit = '';
+      switch (r.parameterName) {
+        case WaveQueryParameters.direction:
+          parameterName = 'Wave direction';
+          unit = '°';
+          break;
+        case WaveQueryParameters.directionDeviation:
+          parameterName = 'Direction deviation';
+          unit = '°';
+          break;
+        case WaveQueryParameters.modalPeriod:
+          parameterName = 'Modal period';
+          unit = 's';
+          break;
+        case WaveQueryParameters.waterTemperature:
+          parameterName = 'Water temperature';
+          unit = '°C';
+          break;
+        case WaveQueryParameters.waveHeight:
+          parameterName = 'Wave height';
+          unit = 'm';
+          break;
+        default:
+          break;
+      }
+      return toFmiFormat(r, parameterName, unit);
+    });
+    this.data = inFmiFormat;
     this.loading = false;
   }
 

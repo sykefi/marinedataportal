@@ -1,9 +1,13 @@
 // tslint:disable:no-unused-expression
-import { getTimeParametersForVeslaFilter, isDateInPeriod, validateSearchParameters } from '@/helpers';
+import {
+    getTimeParametersForVeslaFilter, isDateInPeriod, validateSearchParameters,
+    toFmiFormat, toCommonFormat, fromObservationToSykeFormat,
+} from '@/helpers';
 import { CommonParameters } from '@/queries/commonParameters';
 import { expect } from 'chai';
 import { SiteTypes } from '@/queries/site';
 import { waterLevelModule } from '@/store/attributeModules/waterLevelModule';
+import { IFmiResult } from '@/apis/fmiApi';
 
 describe('Time parameters tests for Vesla', () => {
     it('returns correct time parameters when one day is picked', () => {
@@ -205,5 +209,105 @@ describe('search parameter validation', () => {
             new Date(2002, 1, 3), new Date(2002, 3, 7));
         expect(errors).not.contains('$incompletePeriodStart');
         expect(errors).not.contains('$incompletePeriodEnd');
+    });
+});
+
+describe('IResponseFormat validation', () => {
+    const time = '2000-01-01T00:00:00.000Z';
+    const analyteName = 'test analyte';
+    const unit = '°C';
+    const value = '0.2';
+    const lat = 59.91683;
+    const long = 25.597;
+    const siteId = 123;
+    const siteName = 'test site';
+    const dataSource = 'FMI';
+    const depth = 10;
+
+    const fmiResult: IFmiResult = {
+        time,
+        parameterName: 'test',
+        value,
+        lat,
+        long,
+        siteId,
+        siteName,
+        dataSource,
+    };
+
+    it('returns correct fmi format for fmi result', () => {
+        const fmiFormat = toFmiFormat(fmiResult, analyteName, unit);
+
+        const expResult = {
+            time,
+            analyteName,
+            value,
+            unit,
+            siteId,
+            site: siteName,
+            siteLatitudeWGS84: lat,
+            siteLongitudeWGS84: long,
+            dataSource,
+        };
+
+        expect(fmiFormat).to.deep.equal(expResult);
+    });
+    it('returns correct common format for fmi result', () => {
+        const commonFormat = toCommonFormat(fmiResult, analyteName, unit);
+
+        const expResult = {
+            time,
+            analyteName,
+            value,
+            unit,
+            siteId,
+            site: siteName,
+            siteLatitudeWGS84: lat,
+            siteLongitudeWGS84: long,
+            samplingLatitudeWGS84: null,
+            samplingLongitudeWGS84: null,
+            sampleDepthM: null,
+            sampleDepthUpperM: null,
+            sampleDepthLowerM: null,
+            siteDepthM: null,
+            totalDepthM: null,
+            laboratory: null,
+            dataSource,
+        };
+
+        expect(commonFormat).to.deep.equal(expResult);
+    });
+    it('returns correct syke format for syke observation result', () => {
+        const observationResult = {
+            dataSource,
+            parameterNameEng: analyteName,
+            site: {
+                depth,
+                latitude: lat,
+                longitude: long,
+            },
+            siteId,
+            siteName,
+            time,
+            unit,
+            value,
+        };
+
+        const sykeFormat = fromObservationToSykeFormat(observationResult);
+
+        const expResult = {
+            time,
+            analyteName,
+            value,
+            unit,
+            siteId,
+            site: siteName,
+            siteLatitudeWGS84: lat,
+            siteLongitudeWGS84: long,
+            siteDepthM: depth,
+            dataSource,
+        };
+
+        expect(sykeFormat).to.deep.equal(expResult);
     });
 });

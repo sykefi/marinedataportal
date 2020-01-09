@@ -2,6 +2,8 @@ import { CommonParameters } from './queries/commonParameters';
 import { Site } from './queries/site';
 import { IAttributeModule } from './store/attributeModules/IAttributeModule';
 import { DatePickerResult } from './components/common/datePicker/datePicker';
+import { IFmiResult } from '@/apis/fmiApi';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 /**
  * Splits an array into chunks of specified size
@@ -148,4 +150,55 @@ export function getTimeParametersForVeslaFilter(params: CommonParameters) {
   }
 
   return filter;
+}
+
+export function fromObservationToSykeFormat(obj: any): IResponseFormat {
+  return {
+    time: obj.time,
+    analyteName: obj.parameterNameEng,
+    value: obj.value,
+    unit: obj.unit,
+    siteId: obj.siteId,
+    site: obj.siteName,
+    siteLatitudeWGS84: obj.site.latitude,
+    siteLongitudeWGS84: obj.site.longitude,
+    siteDepthM: obj.site.depth,
+    dataSource: obj.dataSource,
+  };
+}
+
+export function toCommonFormat(obj: IFmiResult, analyteName: string, unit: string): IResponseFormat {
+  return {
+    time: obj.time,
+    analyteName,
+    value: obj.value,
+    unit,
+    siteId: obj.siteId,
+    site: obj.siteName,
+    siteLatitudeWGS84: obj.lat,
+    siteLongitudeWGS84: obj.long,
+    samplingLatitudeWGS84: null,
+    samplingLongitudeWGS84: null,
+    sampleDepthM: null,
+    sampleDepthUpperM: null,
+    sampleDepthLowerM: null,
+    siteDepthM: null,
+    totalDepthM: null,
+    laboratory: null,
+    dataSource: obj.dataSource,
+  };
+}
+
+export function toFmiFormat(obj: IFmiResult, analyteName: string, unit: string): IResponseFormat {
+  return {
+    time: obj.time,
+    analyteName,
+    value: obj.value,
+    unit,
+    siteId: obj.siteId,
+    site: obj.siteName,
+    siteLatitudeWGS84: obj.lat,
+    siteLongitudeWGS84: obj.long,
+    dataSource: obj.dataSource,
+  };
 }
