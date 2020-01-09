@@ -13,6 +13,7 @@
         </tr>
       </table>
     </div>
+    <br/>
     <div v-if="!hasData && isDataLoaded">
       <strong>{{ $t(module.name) }}</strong>
       - {{ $t("$noRowsFound") }}
