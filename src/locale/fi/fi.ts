@@ -6,6 +6,7 @@ import surgeDetails from './surgeDetailsFi';
 import temperatureDetails from './temperatureDetailsFi';
 import waterQualityDetails from './waterQualityDetailsFi';
 import general from './generalFi';
+import footer from './footerFi';
 export default {
     ...attributeSelection,
     ...timeSpanSelection,
@@ -15,4 +16,5 @@ export default {
     ...temperatureDetails,
     ...waterQualityDetails,
     ...general,
+    ...footer,
 };
