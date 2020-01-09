@@ -4,7 +4,7 @@
       <p>Hanke saa tukea Euroopan meri- ja kalatalousrahastosta</p>
       <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
       <img
-        src="@/assets/logos/emkr_eng.jpg"
+        src="@/assets/logos/emkr_fi.png"
         alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
       />
     </div>
@@ -23,7 +23,7 @@
           <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Suomen ympäristökeskuksen kotisivu." />
         </a>
         <a href="https://ilmatieteenlaitos.fi/">
-          <img id="il-logo" src="@/assets/logos/il_fi.jpg" alt="Ilmatieteenlaitoksen kotisivu." />
+          <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
         </a>
         <div class="header-logos with-divider">
           <a href="http://itameri.fi">
@@ -38,7 +38,7 @@
         <a href="https://en.ilmatieteenlaitos.fi/">
           <img
             id="il-logo"
-            src="@/assets/logos/il_fi.jpg"
+            src="@/assets/logos/il_fi_en.png"
             alt="Finnish Meteorological Institute home."
           />
         </a>
@@ -207,7 +207,7 @@
   }
 
   #il-logo {
-    width: 16rem;
+    width: 18rem;
     height: auto;
   }
 </style>
