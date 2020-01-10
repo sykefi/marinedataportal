@@ -12,6 +12,9 @@ import { waterQualityModule } from '@/store/attributeModules/waterQualityModule'
     },
 })
 export default class DataDownload extends Vue {
+    get isDownloading() {
+        return mainState.loading;
+    }
 
     public downloadData() {
         const errors = [...waterQualityModule.errors];
