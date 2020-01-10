@@ -2,6 +2,7 @@
   <div>
     <SelectionHeader :header="$t('$fileDownloadTitle')" />
     <button
+      :disabled="isDownloading"
       class="download-button"
       @click="downloadData"
     >{{$t('$fetch')}}</button>
