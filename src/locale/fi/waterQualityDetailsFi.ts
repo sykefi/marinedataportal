@@ -6,4 +6,5 @@ export default {
     $bottomLayer: 'Pohjanläheinen kerros',
     $depthStart: 'Syvyysvälin alku',
     $depthEnd: 'Syvyysvälin loppu',
+    $allLayers: 'Kaikki syvyydet',
 };

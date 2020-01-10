@@ -14,6 +14,7 @@ export enum DepthOptions {
   SurfaceLayer,
   SeaFloorLayer,
   DepthInterval,
+  AllLayers,
 }
 
 export interface IDepthSettings {
@@ -32,7 +33,7 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
   public selectedIds: number[] = [];
   public data: IResponseFormat[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
-  public selectedDepth: IDepthSettings = { option: DepthOptions.SurfaceLayer };
+  public selectedDepth: IDepthSettings = { option: DepthOptions.AllLayers };
   public options: IWaterQualityOption[] = [];
 
   get availableOptions() {
