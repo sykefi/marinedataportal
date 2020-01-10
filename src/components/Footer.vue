@@ -5,6 +5,8 @@
       <a :href="$t('$emailWithSubject')">{{$t('$feedback')}}</a>
     </div>
     <div id="logos">
+
+      <!-- Finnish logos -->
       <ul v-if="$i18n.locale === 'fi'">
         <li>
           <a href="https://syke.fi/fi-FI">
@@ -26,7 +28,7 @@
         </li>
         <li>
           <a href="https://ilmatieteenlaitos.fi/">
-            <img id="il-logo" src="@/assets/logos/il_fi.jpg" alt="Ilmatieteenlaitoksen kotisivu." />
+            <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
           </a>
         </li>
         <li>
@@ -57,6 +59,7 @@
         <li>
           <a href="https://www.regeringen.ax/">
             <img
+              id="aland-logo"
               src="@/assets/logos/aland_fi_en.png"
               alt="Ahvenanmaan maakuntahallituksen kotisivu."
             />
@@ -64,6 +67,7 @@
         </li>
       </ul>
 
+      <!-- English logos -->
       <ul v-if="$i18n.locale === 'en'">
         <li>
           <a href="https://syke.fi/en-US">
@@ -87,7 +91,7 @@
           <a href="https://en.ilmatieteenlaitos.fi/">
             <img
               id="il-logo"
-              src="@/assets/logos/il_fi.jpg"
+              src="@/assets/logos/il_fi_en.png"
               alt="Finnish Meteorological Institute home."
             />
           </a>
@@ -126,7 +130,11 @@
         </li>
         <li>
           <a href="https://www.regeringen.ax/">
-            <img src="@/assets/logos/aland_fi_en.png" alt="Ålands landskapsregering home." />
+            <img
+              id="aland-logo"
+              src="@/assets/logos/aland_fi_en.png"
+              alt="Ålands landskapsregering home."
+            />
           </a>
         </li>
       </ul>
@@ -146,76 +154,82 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import i18n from '@/locale/i18n';
+import { Component, Vue } from 'vue-property-decorator';
+import i18n from '@/locale/i18n';
 
-  @Component({ i18n })
-  export default class Footer extends Vue { }
+@Component({ i18n })
+export default class Footer extends Vue { }
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/variables.scss";
-  #feedback {
-    height: 5rem;
-    background-color: $border-dark;
-    margin-top: 5rem;
-    margin-bottom: 1rem;
+@import "@/assets/styles/variables.scss";
+#feedback {
+  height: 5rem;
+  background-color: $border-dark;
+  margin-top: 5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  a {
+    color: $text-white;
+    font-weight: bold;
+    font-size: $font-size-l;
+    letter-spacing: 0.05rem;
+    text-decoration: none;
+  }
+}
+
+#arrow-icon {
+  color: $background-bright-blue;
+  font-size: $font-size-xl;
+  padding-right: 0.5rem;
+}
+
+#logos {
+  ul {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    a {
-      color: $text-white;
-      font-weight: bold;
-      font-size: $font-size-l;
-      letter-spacing: 0.05rem;
-      text-decoration: none;
+    align-items: baseline;
+    justify-content: space-between;
+    height: 3rem;
+    list-style-type: none;
+    width: 100%;
+    padding: 0;
+    li {
+      height: 100%;
     }
   }
-
-  #arrow-icon {
-    color: $background-bright-blue;
-    font-size: $font-size-xl;
-    padding-right: 0.5rem;
+  #mas-logo {
+    width: 9rem;
+    height: auto;
   }
 
-  #logos {
-    ul {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-evenly;
-      height: 3rem;
-      list-style-type: none;
-      width: 100%;
-      padding: 0;
-      li {
-        height: 100%;
-      }
-    }
-    #mas-logo {
-      width: 9rem;
-      height: auto;
-    }
-
-    #gtk-logo {
-      width: 5rem;
-      height: auto;
-    }
-
-    #syke-logo {
-      width: 3rem;
-      height: auto;
-    }
-
-    #il-logo {
-      width: 9rem;
-      height: auto;
-    }
+  #gtk-logo {
+    width: 5rem;
+    height: auto;
+    padding-bottom: 0.4rem;
   }
 
-  #links {
-    ul {
-      list-style: none;
-      text-align: right;
-    }
+  #syke-logo {
+    width: 3rem;
+    height: auto;
   }
+
+  #il-logo {
+    width: 11rem;
+    height: auto;
+  }
+
+  #aland-logo {
+    width: 6rem;
+    height: auto;
+  }
+}
+
+#links {
+  ul {
+    list-style: none;
+    text-align: right;
+  }
+}
 </style>

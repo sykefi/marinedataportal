@@ -1,13 +1,16 @@
 <template>
   <header>
+    <!-- Finnish -->
     <div id="top-logos" v-show="$i18n.locale === 'fi'">
       <p>Hanke saa tukea Euroopan meri- ja kalatalousrahastosta</p>
       <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
       <img
-        src="@/assets/logos/emkr_eng.jpg"
+        src="@/assets/logos/emkr_fi.png"
         alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
       />
     </div>
+
+    <!-- English -->
     <div id="top-logos" v-show="$i18n.locale === 'en'">
       <p>The project is funded by the European Maritime and Fisheries Fund</p>
       <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
@@ -18,12 +21,13 @@
     </div>
 
     <div id="upper-header">
+      <!-- Finnish -->
       <div class="header-logos" v-if="$i18n.locale === 'fi'">
         <a href="https://syke.fi/fi-FI">
           <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Suomen ympäristökeskuksen kotisivu." />
         </a>
         <a href="https://ilmatieteenlaitos.fi/">
-          <img id="il-logo" src="@/assets/logos/il_fi.jpg" alt="Ilmatieteenlaitoksen kotisivu." />
+          <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
         </a>
         <div class="header-logos with-divider">
           <a href="http://itameri.fi">
@@ -31,6 +35,8 @@
           </a>
         </div>
       </div>
+      
+      <!-- English -->
       <div class="header-logos" v-if="$i18n.locale === 'en'">
         <a href="https://syke.fi/en-US">
           <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Finnish Environment Institute home." />
@@ -38,7 +44,7 @@
         <a href="https://en.ilmatieteenlaitos.fi/">
           <img
             id="il-logo"
-            src="@/assets/logos/il_fi.jpg"
+            src="@/assets/logos/il_fi_en.png"
             alt="Finnish Meteorological Institute home."
           />
         </a>
@@ -48,6 +54,7 @@
           </a>
         </div>
       </div>
+
       <div id="lang">
         <a
           href="#"
@@ -207,7 +214,7 @@
   }
 
   #il-logo {
-    width: 16rem;
+    width: 18rem;
     height: auto;
   }
 </style>
