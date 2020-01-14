@@ -130,25 +130,15 @@ function formatParams(dateStart: Date, dateEnd: Date, siteId: number) {
   return s;
 }
 
-async function getXmlResponse(url: string) {
-  return new Promise<Document>((resolve: any, reject: any) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('get', url, true);
-    console.log(url);
-    xhr.responseType = 'text';
-    xhr.onload = () => {
-      const status = xhr.status;
-      if (status === 200) {
-        const oParser = new DOMParser();
-        const oDOM = oParser.parseFromString(xhr.response, 'application/xml');
-        console.log(oDOM);
-        resolve(oDOM);
-      } else {
-        reject(status);
-      }
-    };
-    xhr.send();
-  });
+async function getXmlResponse(url: string): Promise<Document> {
+  console.log(url);
+  const response = await fetch(url);
+  const text = await response.text();
+
+  const oParser = new DOMParser();
+  const document = oParser.parseFromString(text, 'application/xml');
+  console.log(document);
+  return document;
 }
 
 /** Get all the dates between a start and an end date
