@@ -18,7 +18,14 @@ export interface IFmiResult {
 }
 
 export async function GetRawXMLResponse(query: string) {
-  return await getXmlResponse(QUERY_URL + query);
+  let res: Document | null = null;
+  try {
+    res = await getXmlResponse(QUERY_URL + query);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+  return res;
 }
 
 export async function GetSimpleFmiResponse(query: string, params: CommonParameters, sites: Site[]) {
@@ -133,6 +140,9 @@ function formatParams(dateStart: Date, dateEnd: Date, siteId: number) {
 async function getXmlResponse(url: string): Promise<Document> {
   console.log(url);
   const response = await fetch(url);
+  if (!response.ok) {
+    throw Error;
+  }
   const text = await response.text();
 
   const oParser = new DOMParser();

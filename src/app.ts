@@ -14,6 +14,7 @@ import { getBuoys } from '@/queries/FMI/getBuoysQuery';
 import { sykeApiIsOnline } from './queries/Vesla/getApiStatusQuery';
 import { surgeModule } from './store/attributeModules/surgeModule';
 import { surfaceTemperatureModule } from './store/attributeModules/surfaceTemperatureModule';
+import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
 @Component({
   components: {
     AttributeSelection,
@@ -42,20 +43,19 @@ export default class App extends Vue {
       this.hasError = true;
       console.error(e);
     };
-
-    // window.onunhandledrejection = (e: any) => {
-    //   this.hasError = true;
-    //   console.error(e);
-    // };
   }
 
   public async mounted() {
     const sykeIsOnline = await sykeApiIsOnline();
     mainState.setSykeApiOnlineStatus(sykeIsOnline);
+    const fmiIsOnline = await fmiApiIsOnline();
+    mainState.setFmiApiOnlineStatus(fmiIsOnline);
 
-    getMareographs();
-    getBuoys();
-    if (mainState.sykeApiOnline) {
+    if (fmiIsOnline) {
+      getMareographs();
+      getBuoys();
+    }
+    if (sykeIsOnline) {
       mainState.populateSelectionOptions();
     } else {
       // If syke api is not responding, do not try to fetch water quality options
