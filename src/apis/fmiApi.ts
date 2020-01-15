@@ -141,7 +141,7 @@ async function getXmlResponse(url: string): Promise<Document> {
   console.log(url);
   const response = await fetch(url);
   if (!response.ok) {
-    throw Error;
+    throw new Error(response.statusText);
   }
   const text = await response.text();
 
