@@ -57,12 +57,12 @@ class MainState extends VuexModule {
 
   @Mutation
   public setSykeApiOnlineStatus(isOnline: boolean) {
-    isOnline ? this.sykeApiOnline = true : this.sykeApiOnline = false;
+    this.sykeApiOnline = isOnline;
   }
 
   @Mutation
   public setFmiApiOnlineStatus(isOnline: boolean) {
-    isOnline ? this.fmiApiOnline = true : this.fmiApiOnline = false;
+    this.fmiApiOnline = isOnline;
   }
 
   public isError(name: string) {
