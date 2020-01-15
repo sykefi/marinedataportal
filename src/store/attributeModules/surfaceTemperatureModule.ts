@@ -77,7 +77,10 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
     const tempData: IResponseFormat[] = [];
     let hasVeslaData = false;
     if (params.veslaSites.length) {
-      tempData.push(...await getWaterQuality(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer }));
+      const data = await getWaterQuality(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer });
+      if (data) {
+        tempData.push(...data);
+      }
       hasVeslaData = !!tempData.length;
     }
     if (params.mareographSites.length) {

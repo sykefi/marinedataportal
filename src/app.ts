@@ -11,6 +11,7 @@ import { mainState } from '@/store/mainState';
 import { mapModule } from '@/store/mapModule';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { getBuoys } from '@/queries/FMI/getBuoysQuery';
+import { sykeApiIsOnline } from './queries/Vesla/getApiStatusQuery';
 @Component({
   components: {
     AttributeSelection,
@@ -29,7 +30,7 @@ export default class App extends Vue {
     return mainState.loading;
   }
 
-  public created() {
+  public async created() {
     Vue.config.errorHandler = (e) => {
       this.hasError = true;
       console.error(e);
@@ -40,16 +41,21 @@ export default class App extends Vue {
       console.error(e);
     };
 
-    window.onunhandledrejection = (e: any) => {
-      this.hasError = true;
-      console.error(e);
-    };
+    const sykeIsOnline = await sykeApiIsOnline();
+    mainState.setSykeApiOnlineStatus(sykeIsOnline);
+
+    // window.onunhandledrejection = (e: any) => {
+    //   this.hasError = true;
+    //   console.error(e);
+    // };
   }
 
   public mounted() {
     getMareographs();
     getBuoys();
-    mainState.populateSelectionOptions();
+    if (mainState.sykeApiOnline) {
+      mainState.populateSelectionOptions();
+    }
     mapModule.generateMapOptions();
   }
 }
