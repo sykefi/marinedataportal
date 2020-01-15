@@ -9,5 +9,4 @@ export default {
     $phytoplankton: 'Kasviplankton',
     $benthicFauna: 'Pohjaeläimet',
     $selectAll: 'Valitse kaikki',
-    $sykeApiDownInfo: 'Valitettavasti SYKEn tuottamaa dataa ei tällä hetkellä voi ladata. Voit silti ladata Ilmatieteenlaitoksen tuottamaa dataa. Pahoittelemme häiriötä.',
 };

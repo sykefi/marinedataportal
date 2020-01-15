@@ -51,7 +51,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Mutation
   public selectAll() {
     this.availableOptions.forEach((option) => {
-      if (!this.selectedIds.includes(option.id)) {
+      if (!this.selectedIds.includes(option.id) && option.available) {
         this.selectedIds.push(option.id);
         this.siteTypes.push(option.id);
       }
@@ -67,8 +67,10 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Mutation
   public getOptions() {
     this.availableOptions = [];
-    this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString(), available: true });
-    this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString(), available: true });
+    this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString(),
+                                 available: mainState.fmiApiOnline });
+    this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString(),
+                                 available: mainState.fmiApiOnline });
     this.availableOptions.push({ id: SiteTypes.Vesla, name: i18n.t('$marineStations').toString(),
                                  available: mainState.sykeApiOnline });
   }

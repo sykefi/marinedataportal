@@ -14,7 +14,7 @@
       </div>
       {{ $t("$busy") }}
     </div>
-    <div v-if="hasError" id="error-notification">
+    <div v-if="hasError" class="error-notification">
       {{ $t("$errorNotification") }}
     </div>
   </div>
@@ -107,17 +107,5 @@
     transform: scale(1);
     -webkit-transform: scale(1);
   }
-}
-
-#error-notification {
-  position: fixed;
-  padding: 1rem;
-  background: $border-warn;
-  color: #fff;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin: auto;
 }
 </style>

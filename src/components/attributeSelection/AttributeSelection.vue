@@ -1,17 +1,17 @@
 <template>
   <div>
     <SelectionHeader :header="$t('$attributeSelectionTitle')" />
-    <p v-if="!sykeApiOnline" class="info-paragraph">{{ $t("$sykeApiDownInfo") }}</p>
     <p class="error" v-if="showAttributeError">{{$t(attributeErrorMessage)}}</p>
     <div class="selections-grid">
       <SelectionButton name="$secchiDepth" :module="secchiDepthModule" :disabled="!sykeApiOnline" />
-      <SelectionButton name="$waterLevel" :module="waterLevelModule" />
+      <SelectionButton name="$waterLevel" :module="waterLevelModule" :disabled="!fmiApiOnline" />
       <SelectionButton name="$iceThickness" :module="iceThicknessModule" :disabled="!sykeApiOnline" />
-      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" />
+      <SelectionButton name="$surge" :module="surgeModule" :expandable="true" :disabled="!fmiApiOnline" />
       <SelectionButton
         name="$surfaceTemperature"
         :module="surfaceTemperatureModule"
         :expandable="true"
+        :disabled="!sykeApiOnline && !fmiApiOnline"
       />
       <SelectionButton
         name="$waterQuality"

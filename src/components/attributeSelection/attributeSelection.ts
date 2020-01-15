@@ -30,6 +30,10 @@ export default class AttributeSelection extends Vue {
     return mainState.sykeApiOnline;
   }
 
+  get fmiApiOnline() {
+    return mainState.fmiApiOnline;
+  }
+
   get surgeModule() {
     return surgeModule;
   }
