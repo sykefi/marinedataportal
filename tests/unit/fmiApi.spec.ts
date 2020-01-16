@@ -113,13 +113,13 @@ describe('Time parameters tests for fmi api', () => {
         const periodEnd = null;
 
         const expectedDate = today.toISOString().substr(0, 10);
-        const expectedParams = [`&starttime=${ expectedDate }T00:00:00.000Z&endtime=${ expectedDate }T23:59:59.000Z&fmisid=1`];
+        const expectedParams = [`&starttime=${expectedDate}T00:00:00.000Z&endtime=${expectedDate}T23:59:59.000Z&fmisid=1`];
 
         testDateParams(startDate, endDate, periodStart, periodEnd, expectedParams);
     });
     it('returns correct time parameters when period start and period end are within the same month but in subsequent years', () => {
-        const startDate = new Date(Date.UTC(2000, 0, 1, 0, 0, 0));
-        const endDate = new Date(Date.UTC(2002, 11, 31, 0, 0, 0));
+        const startDate = new Date(Date.UTC(2000, 0, 2, 0, 0, 0));
+        const endDate = new Date(Date.UTC(2001, 0, 31, 0, 0, 0));
         const periodStart = new Date(Date.UTC(2000, 0, 31, 0, 0, 0));
         const periodEnd = new Date(Date.UTC(2000, 0, 1, 0, 0, 0));
 
@@ -134,8 +134,10 @@ describe('Time parameters tests for fmi api', () => {
         expect(formattedParams).to.have.length(57);
         expect(formattedParams[0])
             .equal('&starttime=2000-01-31T00:00:00.000Z&endtime=2000-02-06T23:59:59.000Z&fmisid=1');
-        expect(formattedParams[56])
+        expect(formattedParams[55])
             .equal('&starttime=2000-12-27T00:00:00.000Z&endtime=2001-01-01T23:59:59.000Z&fmisid=1');
+        expect(formattedParams[56])
+            .equal('&starttime=2001-01-31T00:00:00.000Z&endtime=2001-01-31T23:59:59.000Z&fmisid=1');
     });
 });
 
@@ -199,5 +201,5 @@ function getIFmiResult(time: string, parameterName: string, siteId: number): IFm
         siteId,
         siteName: '',
         dataSource: '',
-      };
+    };
 }
