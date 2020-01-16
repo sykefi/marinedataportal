@@ -99,7 +99,7 @@ describe('Time parameters tests for Vesla', () => {
 
         expect(actualResult).true;
     });
-    it('returns false when the date, start month, and end month are within the same month but the date is after the time period', () => {
+    it('returns false when the date, period start, and period end are within the same month but the date is after the time period', () => {
         const params = new CommonParameters(
             null, null,
             new Date(Date.UTC(2000, 0, 2, 0, 0, 0)),
@@ -108,7 +108,7 @@ describe('Time parameters tests for Vesla', () => {
 
         expect(actualResult).false;
     });
-    it('returns false when the date, start month, and end month are within the same month but the date is before the time period', () => {
+    it('returns false when the date, period start, and period end are within the same month but the date is before the time period', () => {
         const params = new CommonParameters(
             null, null,
             new Date(Date.UTC(2000, 0, 2, 0, 0, 0)),
@@ -117,12 +117,21 @@ describe('Time parameters tests for Vesla', () => {
 
         expect(actualResult).false;
     });
-    it('returns true when the date, start month, and end month are within the same month and the date is within the time period', () => {
+    it('returns true when the date, period start, and period end are within the same month and the date is within the time period', () => {
         const params = new CommonParameters(
             null, null,
             new Date(Date.UTC(2000, 0, 2, 0, 0, 0)),
             new Date(Date.UTC(2000, 0, 3, 0, 0, 0)), []);
         const actualResult = isDateInPeriod(1, 2, params);
+
+        expect(actualResult).true;
+    });
+    it('returns true when period start and period end are within the same month but in subsequent years and the date is within the time period', () => {
+        const params = new CommonParameters(
+            null, null,
+            new Date(Date.UTC(2000, 0, 4, 0, 0, 0)),
+            new Date(Date.UTC(2000, 0, 3, 0, 0, 0)), []);
+        const actualResult = isDateInPeriod(1, 1, params);
 
         expect(actualResult).true;
     });

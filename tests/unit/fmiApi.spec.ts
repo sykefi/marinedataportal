@@ -117,6 +117,24 @@ describe('Time parameters tests for fmi api', () => {
 
         testDateParams(startDate, endDate, periodStart, periodEnd, expectedParams);
     });
+    it('returns correct time parameters when period start and period end are within the same month but in subsequent years', () => {
+        const startDate = new Date(Date.UTC(2000, 0, 1, 0, 0, 0));
+        const endDate = new Date(Date.UTC(2002, 11, 31, 0, 0, 0));
+        const periodStart = new Date(Date.UTC(2000, 0, 31, 0, 0, 0));
+        const periodEnd = new Date(Date.UTC(2000, 0, 1, 0, 0, 0));
+
+        const numberOfDaysInSingleQuery = 6;
+        const params = new CommonParameters(startDate, endDate, periodStart, periodEnd, []);
+        const dateSpans = getDates(params, numberOfDaysInSingleQuery);
+        let formattedParams: string[] = [];
+        if (dateSpans) {
+            formattedParams = getParams(dateSpans, numberOfDaysInSingleQuery, 1);
+        }
+
+        expect(formattedParams).to.have.length(57);
+        expect(formattedParams[0]).equal('&starttime=2000-01-31T00:00:00.000Z&endtime=2000-02-06T23:59:59.000Z&fmisid=1');
+        expect(formattedParams[56]).equal('&starttime=2000-12-27T00:00:00.000Z&endtime=2001-01-01T23:59:59.000Z&fmisid=1');
+    });
 });
 
 function testDateParams(startDate: Date, endDate: Date, periodStart: Date | null,
