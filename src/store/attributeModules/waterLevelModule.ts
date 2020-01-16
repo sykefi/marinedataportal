@@ -15,7 +15,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   public loading = false;
   public isSelected = false;
   public data: IResponseFormat[] | null = null;
-  public siteTypes = [SiteTypes.FmiBuoy, SiteTypes.Mareograph];
+  public siteTypes = [SiteTypes.Mareograph];
 
   get rowCount() {
     return this.data ? this.data.length : 0;
