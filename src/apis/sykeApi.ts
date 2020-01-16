@@ -2,7 +2,6 @@
 export default async function getVeslaData(query: string) {
   let res: IODataResponse | null = null;
   try {
-
     res = await getJsonResponse('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query);
   } catch (e) {
     console.error(e);

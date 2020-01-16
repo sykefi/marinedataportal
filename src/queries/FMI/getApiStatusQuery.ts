@@ -4,8 +4,5 @@ const query = '&request=DescribeFeatureType&';
 
 export async function fmiApiIsOnline() {
     const result = await GetRawXMLResponse(query);
-    if (result) {
-        return true;
-    }
-    return false;
+    return !!result;
 }

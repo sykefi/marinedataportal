@@ -36,11 +36,12 @@ export async function getObservations(params: CommonParameters, obsCode: string)
   }
   const filter = await getFilter(params, obsCode);
   let results = await getVeslaData(query + filter);
-  if (results) {
-    results = results.map((r) => fromObservationToSykeFormat(r));
-    if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-      return cleanupTimePeriod(results, params);
-    }
+  if (!results) {
+    return [];
+  }
+  results = results.map((r) => fromObservationToSykeFormat(r));
+  if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
+    return cleanupTimePeriod(results, params);
   }
   return results;
 }
