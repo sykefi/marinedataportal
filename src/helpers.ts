@@ -105,13 +105,22 @@ export function cleanupTimePeriod(results: any[], params: CommonParameters) {
 }
 
 export function isDateInPeriod(month: number, day: number, params: CommonParameters) {
-  // example: time period 3/21 - 6/19:
-  // first allow all results from months 4 - 5
-  // check the results days from months 3 and 6, discard those that cross the limits
   const startMonth = params.datePeriodMonths!.start;
   const endMonth = params.datePeriodMonths!.end;
+  const startDay = params.datePeriodStartDay!;
+  const endDay = params.datePeriodEndDay!;
 
-  if (startMonth <= endMonth) {
+  // case: time period stretches from a month to the same month on the next year
+  // example: time period 1/31 - 1/15
+  // allow results from months 2-12
+  const almostYearPeriod = startMonth === endMonth && startDay > endDay;
+  if (almostYearPeriod) {
+    if (month > startMonth || month < startMonth) {
+      return true;
+    }
+    // example: time period 3/21 - 6/19:
+    // allow all results from months 4 - 5
+  } else if (startMonth <= endMonth) {
     if (month > startMonth && month < endMonth) {
       return true;
     }
@@ -122,14 +131,19 @@ export function isDateInPeriod(month: number, day: number, params: CommonParamet
       return true;
     }
   }
+
+  // check the results days from start month and end month, discard those that cross the limits
+  if (almostYearPeriod && month === startMonth) {
+    return day >= startDay || day <= endDay;
+  }
   if (month === startMonth && month === endMonth) {
-    return day >= params.datePeriodStartDay! && day <= params.datePeriodEndDay!;
+    return day >= startDay && day <= endDay;
   }
   if (month === startMonth) {
-    return day >= params.datePeriodStartDay!;
+    return day >= startDay;
   }
   if (month === endMonth) {
-    return day <= params.datePeriodEndDay!;
+    return day <= endDay;
   }
 }
 
