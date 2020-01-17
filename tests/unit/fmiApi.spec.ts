@@ -154,7 +154,7 @@ function testDateParams(startDate: Date, endDate: Date, periodStart: Date | null
     compareArrays(formattedParams, expectedParams);
 }
 
-function compareArrays(a1: any[], a2: any[]) {
+export function compareArrays(a1: any[], a2: any[]) {
     expect(a1).to.have.lengthOf(a2.length);
     for (let i = 0; i < a2.length; i++) {
         expect(a1[i]).to.deep.equal(a2[i]);
