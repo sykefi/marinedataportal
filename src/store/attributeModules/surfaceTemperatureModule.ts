@@ -12,6 +12,7 @@ import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery
 import { DepthOptions } from './waterQualityModule';
 import { toCommonFormat, toFmiFormat } from '@/helpers';
 import { IResponseFormat } from '@/queries/IResponseFormat';
+import { mainState } from '../mainState';
 
 @Module({ generateMutationSetters: true })
 class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
@@ -50,7 +51,7 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Mutation
   public selectAll() {
     this.availableOptions.forEach((option) => {
-      if (!this.selectedIds.includes(option.id)) {
+      if (!this.selectedIds.includes(option.id) && option.available) {
         this.selectedIds.push(option.id);
         this.siteTypes.push(option.id);
       }
@@ -66,9 +67,12 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
   @Mutation
   public getOptions() {
     this.availableOptions = [];
-    this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString() });
-    this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString() });
-    this.availableOptions.push({ id: SiteTypes.Vesla, name: i18n.t('$marineStations').toString() });
+    this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString(),
+                                 available: mainState.fmiApiOnline });
+    this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString(),
+                                 available: mainState.fmiApiOnline });
+    this.availableOptions.push({ id: SiteTypes.Vesla, name: i18n.t('$marineStations').toString(),
+                                 available: mainState.sykeApiOnline });
   }
 
   @Action
@@ -77,7 +81,10 @@ class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWit
     const tempData: IResponseFormat[] = [];
     let hasVeslaData = false;
     if (params.veslaSites.length) {
-      tempData.push(...await getWaterQuality(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer }));
+      const data = await getWaterQuality(params, [this.tempIdInVesla], { option: DepthOptions.SurfaceLayer });
+      if (data) {
+        tempData.push(...data);
+      }
       hasVeslaData = !!tempData.length;
     }
     if (params.mareographSites.length) {

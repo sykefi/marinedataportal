@@ -13,7 +13,7 @@
 
 <style lang="scss">
   @import "@/assets/styles/variables.scss";
-  @import "@/assets/styles/custom_inputs.scss";
+  @import "@/assets/styles/common_styles.scss";
   .selection-button {
     font-family: "OpenSans";
     font-size: $font-size-s;

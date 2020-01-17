@@ -7,6 +7,7 @@ import temperatureDetails from './temperatureDetailsFi';
 import waterQualityDetails from './waterQualityDetailsFi';
 import general from './generalFi';
 import footer from './footerFi';
+import header from './headerFi';
 export default {
     ...attributeSelection,
     ...timeSpanSelection,
@@ -17,4 +18,5 @@ export default {
     ...waterQualityDetails,
     ...general,
     ...footer,
+    ...header,
 };

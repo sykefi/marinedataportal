@@ -76,3 +76,16 @@ img {
   height: 100%;
   width: auto;
 }
+
+.error-notification {
+  position: fixed;
+  padding: 1rem;
+  background: $border-warn;
+  color: #fff;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin: auto;
+  z-index: 100;
+}

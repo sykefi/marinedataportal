@@ -17,7 +17,7 @@
           :key="option.id"
           class="option-label"
         >
-          <input type="checkbox" :value="option.id" v-model="selectedIds" />
+          <input type="checkbox" :value="option.id" v-model="selectedIds" :disabled="!option.available" />
           {{ option.name }}
         </label>
       </div>

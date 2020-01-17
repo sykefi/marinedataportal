@@ -13,7 +13,7 @@
 
 <style lang="scss" scoped>
 @import "@/assets/styles/variables.scss";
-@import "@/assets/styles/custom_inputs.scss";
+@import "@/assets/styles/common_styles.scss";
 .details-button-wrapper {
   display: inline;
   position: relative;

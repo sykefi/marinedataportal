@@ -13,12 +13,14 @@ export interface IWaterQualityOption {
 export async function getWaterQualityOptions() {
   const res = await getVeslaData(query);
   const options: IWaterQualityOption[] = [];
-  res.forEach((value) => {
-    options.push({
-      id: value.MaaritysYhd_Id,
-      name_fi: value.Nimi,
-      name_en: value.NimiEng,
+  if (res) {
+    res.forEach((value) => {
+      options.push({
+        id: value.MaaritysYhd_Id,
+        name_fi: value.Nimi,
+        name_en: value.NimiEng,
+      });
     });
-  });
+  }
   return options;
 }

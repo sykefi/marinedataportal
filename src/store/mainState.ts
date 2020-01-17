@@ -13,6 +13,7 @@ import { surgeModule } from './attributeModules/surgeModule';
 import { waterLevelModule } from './attributeModules/waterLevelModule';
 import { IAttributeModuleWithOptions } from './attributeModules/IAttributeModuleWithOptions';
 import { searchParameterModule } from './searchParameterModule';
+
 @Module
 class MainState extends VuexModule {
 
@@ -33,6 +34,9 @@ class MainState extends VuexModule {
 
   public errorList: string[] = [];
 
+  public sykeApiOnline: boolean = true;
+  public fmiApiOnline: boolean = true;
+
   get attributeModules() {
     return [
       benthicFaunaModule,
@@ -49,6 +53,16 @@ class MainState extends VuexModule {
   @Mutation
   public setErrorList(errors: string[]) {
     this.errorList = errors;
+  }
+
+  @Mutation
+  public setSykeApiOnlineStatus(isOnline: boolean) {
+    this.sykeApiOnline = isOnline;
+  }
+
+  @Mutation
+  public setFmiApiOnlineStatus(isOnline: boolean) {
+    this.fmiApiOnline = isOnline;
   }
 
   public isError(name: string) {

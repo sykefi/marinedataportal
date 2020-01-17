@@ -6,6 +6,9 @@ const query = '&request=getFeature&storedquery_id=fmi::ef::stations&networkid=13
 export async function getMareographs() {
   const sites: Site[] = [];
   const response = await GetRawXMLResponse(query);
+  if (!response) {
+    return [];
+  }
   const facilities = response.getElementsByTagName('ef:EnvironmentalMonitoringFacility');
   for (const facility of facilities) {
     const id = facility.getElementsByTagName('gml:identifier')[0].firstChild!.nodeValue!;
@@ -16,5 +19,4 @@ export async function getMareographs() {
     sites.push(new Site(+id, name, +pos[0], +pos[1], null, SiteTypes.Mareograph));
   }
   return sites;
-
 }

@@ -1,6 +1,12 @@
 // tslint:disable:no-console
 export default async function getVeslaData(query: string) {
-  let res = await getJsonResponse('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query);
+  let res: IODataResponse | null = null;
+  try {
+    res = await getJsonResponse('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
   const data = res.value;
   console.log('res', res);
   while (res.nextLink) {
@@ -19,25 +25,14 @@ interface IODataResponse {
   value: any[];
 }
 
-function getJsonResponse(url: string): Promise<IODataResponse> {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('get', url, true);
-    console.log(url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      const status = xhr.status;
-      if (status === 200) {
-        const response: IODataResponse = {
-          nextLink: xhr.response['@odata.nextLink'],
-          value: xhr.response.value,
-        };
-        resolve(response);
-      } else {
-        reject(status);
-      }
-    };
-    xhr.send();
-  });
+async function getJsonResponse(url: string): Promise<IODataResponse> {
+  const response = await fetch(url);
+  const json = await response.json();
+
+  console.log(json);
+  return {
+    nextLink: json['@odata.nextLink'],
+    value: json.value,
+  };
 }
 
