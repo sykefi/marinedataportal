@@ -1,10 +1,14 @@
-import { getObservations } from '@/queries/Vesla/getObservationsQuery';
 import { CommonParameters } from '@/queries/commonParameters';
 import { Site, SiteTypes } from '@/queries/site';
 import { IResponseFormat } from '@/queries/IResponseFormat';
 import { compareArrays } from '@/../tests/unit/fmiApi.spec';
+import { IceThicknessModule } from '@/store/attributeModules/iceThicknessModule';
+import Vuex from 'vuex';
 
 describe('Integration tests for Vesla api', () => {
+    const store = new Vuex.Store({ strict: true });
+    const module = new IceThicknessModule({ store, name: 'testIceThickness' });
+
     it('returns correct results when ice thickness is queried', async () => {
         const startDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0));
         const endDate = new Date(Date.UTC(2017, 0, 1, 0, 0, 0));
@@ -14,8 +18,8 @@ describe('Integration tests for Vesla api', () => {
         new Site(5663, 'Klobbfjärden', 63.28862, 21.12850, 4.4, SiteTypes.Vesla)];
         const params = new CommonParameters(startDate, endDate, periodStart, periodEnd, sites);
 
-        const actualResults = await getObservations(params, 'THICKI');
-        console.log('ACTUAL', actualResults)
+        module.getData(params);
+
         const expectedResults: IResponseFormat[] = [{
             time: '2016-01-26T14:00:00+02:00',
             analyteName: 'Ice thickness',
@@ -41,6 +45,6 @@ describe('Integration tests for Vesla api', () => {
             dataSource: 'SYKE',
         }];
 
-        compareArrays(actualResults, expectedResults);
+        compareArrays(module.data!, expectedResults);
     });
 })
