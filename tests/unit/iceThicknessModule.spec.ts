@@ -7,7 +7,7 @@ import Vuex from 'vuex';
 import * as sinon from 'sinon';
 import * as sykeApi from '@/apis/sykeApi';
 
-describe('Integration tests for Vesla api', () => {
+describe('Integration tests for ice thickness module', () => {
     const store = new Vuex.Store({ strict: true });
     const module = new IceThicknessModule({ store, name: 'testIceThickness' });
 

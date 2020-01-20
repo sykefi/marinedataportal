@@ -181,6 +181,28 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
   };
 }
 
+export function fromWaterQualityResultToSykeFormat(obj: any): IResponseFormat {
+  return {
+    time: obj.time,
+    analyteName: obj.analyteName,
+    value: obj.value.toString(),
+    unit: obj.unit,
+    siteId: obj.siteId,
+    site: obj.site,
+    siteLatitudeWGS84: obj.siteLatitudeWGS84,
+    siteLongitudeWGS84: obj.siteLongitudeWGS84,
+    samplingLatitudeWGS84: obj.samplingLatitudeWGS84,
+    samplingLongitudeWGS84: obj.samplingLongitudeWGS84,
+    sampleDepthM: obj.sampleDepthM?.toString(),
+    sampleDepthUpperM: obj.sampleDepthUpperM?.toString(),
+    sampleDepthLowerM: obj.sampleDepthLowerM?.toString(),
+    siteDepthM: obj.siteDepthM?.toString(),
+    totalDepthM: obj.totalDepthM?.toString(),
+    laboratory: obj.laboratory,
+    dataSource: obj.dataSource,
+  };
+}
+
 export function toCommonFormat(obj: IFmiResult, analyteName: string, unit: string): IResponseFormat {
   return {
     time: obj.time,

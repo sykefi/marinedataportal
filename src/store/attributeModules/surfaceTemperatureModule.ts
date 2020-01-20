@@ -15,7 +15,7 @@ import { IResponseFormat } from '@/queries/IResponseFormat';
 import { mainState } from '../mainState';
 
 @Module({ generateMutationSetters: true })
-class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
+export class SurfaceTemperatureModule extends VuexModule implements IAttributeModuleWithOptions {
   public name = '$surfaceTemperature';
   public loading = false;
   public isSelected = false;

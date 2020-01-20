@@ -1,6 +1,9 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
-import { buildODataInFilterFromArray, cleanupTimePeriod, getTimeParametersForVeslaFilter } from '@/helpers';
+import {
+  buildODataInFilterFromArray, cleanupTimePeriod,
+  getTimeParametersForVeslaFilter, fromWaterQualityResultToSykeFormat,
+} from '@/helpers';
 import { IDepthSettings, DepthOptions } from '@/store/attributeModules/waterQualityModule';
 
 const select = [
@@ -60,10 +63,11 @@ export async function getWaterQuality(par: CommonParameters, combinationIds: num
     return [];
   }
   const filter = await getFilter(par, combinationIds, depth);
-  const results = await getVeslaData(query + filter);
+  let results = await getVeslaData(query + filter);
   if (!results) {
     return [];
   }
+  results = results.map((r) => fromWaterQualityResultToSykeFormat(r));
   if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
     return cleanupTimePeriod(results, par);
   }
