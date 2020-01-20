@@ -5,10 +5,10 @@ export interface IResponseFormat {
     unit: string;
     siteId: number;
     site: string;
-    siteLatitudeWGS84: number;
-    siteLongitudeWGS84: number;
-    samplingLatitudeWGS84?: number | null;
-    samplingLongitudeWGS84?: number | null;
+    siteLatitudeWGS84: string;
+    siteLongitudeWGS84: string;
+    samplingLatitudeWGS84?: string | null;
+    samplingLongitudeWGS84?: string | null;
     sampleDepthM?: string | null;
     sampleDepthUpperM?: string | null;
     sampleDepthLowerM?: string | null;

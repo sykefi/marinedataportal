@@ -174,8 +174,8 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
     unit: obj.unit,
     siteId: obj.siteId,
     site: obj.siteName,
-    siteLatitudeWGS84: obj.site.latitude,
-    siteLongitudeWGS84: obj.site.longitude,
+    siteLatitudeWGS84: obj.site.latitude.toPrecision(7),
+    siteLongitudeWGS84: obj.site.longitude.toPrecision(7),
     siteDepthM: obj.site.depth.toString(),
     dataSource: obj.dataSource,
   };
@@ -211,8 +211,8 @@ export function toCommonFormat(obj: IFmiResult, analyteName: string, unit: strin
     unit,
     siteId: obj.siteId,
     site: obj.siteName,
-    siteLatitudeWGS84: obj.lat,
-    siteLongitudeWGS84: obj.long,
+    siteLatitudeWGS84: obj.lat.toPrecision(7),
+    siteLongitudeWGS84: obj.long.toPrecision(7),
     samplingLatitudeWGS84: null,
     samplingLongitudeWGS84: null,
     sampleDepthM: null,
@@ -233,8 +233,8 @@ export function toFmiFormat(obj: IFmiResult, analyteName: string, unit: string):
     unit,
     siteId: obj.siteId,
     site: obj.siteName,
-    siteLatitudeWGS84: obj.lat,
-    siteLongitudeWGS84: obj.long,
+    siteLatitudeWGS84: obj.lat.toPrecision(7),
+    siteLongitudeWGS84: obj.long.toPrecision(7),
     dataSource: obj.dataSource,
   };
 }
