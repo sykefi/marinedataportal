@@ -55,7 +55,11 @@ export default class DataPreviewTable extends Vue {
       type: 'text/csv;charset=utf-8;'
     });
 
-    return URL.createObjectURL(csvData);
+    if (window.navigator.msSaveBlob) {
+      navigator.msSaveBlob(csvData, this.module.name + '.csv');
+    } else {
+      return URL.createObjectURL(csvData);
+    }
   }
 }
 </script>
