@@ -1,7 +1,7 @@
 // tslint:disable:no-unused-expression
 import {
     getTimeParametersForVeslaFilter, isDateInPeriod, validateSearchParameters,
-    toFmiFormat, toCommonFormat, fromObservationToSykeFormat,
+    toFmiFormat, toCommonFormat, fromObservationToSykeFormat, fromWaterQualityResultToSykeFormat,
 } from '@/helpers';
 import { CommonParameters } from '@/queries/commonParameters';
 import { expect } from 'chai';
@@ -231,7 +231,8 @@ describe('IResponseFormat validation', () => {
     const siteId = 123;
     const siteName = 'test site';
     const dataSource = 'FMI';
-    const depth = '10';
+    const sampleDepth = '10';
+    const siteDepth = 10;
 
     const fmiResult: IFmiResult = {
         time,
@@ -291,7 +292,7 @@ describe('IResponseFormat validation', () => {
             dataSource,
             parameterNameEng: analyteName,
             site: {
-                depth,
+                depth: siteDepth,
                 latitude: lat,
                 longitude: long,
             },
@@ -313,7 +314,52 @@ describe('IResponseFormat validation', () => {
             site: siteName,
             siteLatitudeWGS84: lat,
             siteLongitudeWGS84: long,
-            siteDepthM: depth,
+            siteDepthM: siteDepth.toString(),
+            dataSource,
+        };
+
+        expect(sykeFormat).to.deep.equal(expResult);
+    });
+    it('returns correct syke format for syke water quality result', () => {
+        const waterQualityResult = {
+            time,
+            analyteName,
+            value,
+            unit,
+            siteId,
+            site: siteName,
+            siteLatitudeWGS84: lat,
+            siteLongitudeWGS84: long,
+            samplingLatitudeWGS84: null,
+            samplingLongitudeWGS84: null,
+            sampleDepthM: sampleDepth,
+            sampleDepthUpperM: sampleDepth,
+            sampleDepthLowerM: null,
+            siteDepthM: siteDepth,
+            totalDepthM: null,
+            laboratory: null,
+            dataSource,
+        };
+
+        const sykeFormat = fromWaterQualityResultToSykeFormat(waterQualityResult);
+
+        const expResult = {
+            time,
+            analyteName,
+            value: value.toString(),
+            unit,
+            siteId,
+            site: siteName,
+            siteLatitudeWGS84: lat,
+            siteLongitudeWGS84: long,
+            samplingLatitudeWGS84: null,
+            samplingLongitudeWGS84: null,
+            sampleDepthM: sampleDepth.toString(),
+            sampleDepthUpperM: sampleDepth.toString(),
+            sampleDepthLowerM: undefined,
+            siteDepthM: siteDepth.toString(),
+            totalDepthM: undefined,
+            laboratory: null,
             dataSource,
         };
 
