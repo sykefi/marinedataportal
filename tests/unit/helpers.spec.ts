@@ -231,7 +231,7 @@ describe('IResponseFormat validation', () => {
     const siteId = 123;
     const siteName = 'test site';
     const dataSource = 'FMI';
-    const depth = 10;
+    const depth = '10';
 
     const fmiResult: IFmiResult = {
         time,

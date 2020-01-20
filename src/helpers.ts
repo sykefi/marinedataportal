@@ -170,13 +170,13 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
   return {
     time: obj.time,
     analyteName: obj.parameterNameEng,
-    value: obj.value,
+    value: obj.value.toString(),
     unit: obj.unit,
     siteId: obj.siteId,
     site: obj.siteName,
     siteLatitudeWGS84: obj.site.latitude,
     siteLongitudeWGS84: obj.site.longitude,
-    siteDepthM: obj.site.depth,
+    siteDepthM: obj.site.depth.toString(),
     dataSource: obj.dataSource,
   };
 }

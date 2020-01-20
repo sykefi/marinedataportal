@@ -16,7 +16,6 @@ export default async function getVeslaData(query: string) {
   if (data.length && data[0] instanceof Object) {
     data.forEach((obj) => { obj.dataSource = 'SYKE'; });
   }
-
   return data;
 }
 

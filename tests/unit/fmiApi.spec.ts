@@ -195,7 +195,7 @@ function getIFmiResult(time: string, parameterName: string, siteId: number): IFm
     return {
         time,
         parameterName,
-        value: '',
+        value: '0',
         lat: 0,
         long: 0,
         siteId,
