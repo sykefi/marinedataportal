@@ -13,7 +13,7 @@
         </tr>
       </table>
     </div>
-    <br/>
+    <br />
     <div v-if="!hasData && isDataLoaded">
       <strong>{{ $t(module.name) }}</strong>
       - {{ $t("$noRowsFound") }}
@@ -22,34 +22,40 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
-  import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
-  @Component
-  export default class DataPreviewTable extends Vue {
-    @Prop({ required: true })
-    public module!: IAttributeModule;
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+@Component
+export default class DataPreviewTable extends Vue {
+  @Prop({ required: true })
+  public module!: IAttributeModule;
 
-    get isDataLoaded() {
-      return this.module.data !== null;
-    }
-
-    get hasData() {
-      return this.module.previewData.length > 0;
-    }
-
-    get columnNames() {
-      return Object.keys(this.module.previewData[0]);
-    }
-
-    get encodedFileUri() {
-      let csvContent = 'data:text/csv;charset=utf-8,\uFEFF';
-      csvContent += this.columnNames.join(';') + ';\r\n';
-
-      this.module.data!.forEach((row) => {
-        const values = Object.keys(row).map((key) => (row as any)[key]);
-        csvContent += values.join(';') + ';\r\n';
-      });
-      return encodeURI(csvContent);
-    }
+  get isDataLoaded() {
+    return this.module.data !== null;
   }
+
+  get hasData() {
+    return this.module.previewData.length > 0;
+  }
+
+  get columnNames() {
+    return Object.keys(this.module.previewData[0]);
+  }
+
+  get encodedFileUri() {
+    let csvContent = '';
+    csvContent += this.columnNames.join(';') + ';\r\n';
+
+    this.module.data!.forEach((row) => {
+      const values = Object.keys(row).map((key) => (row as any)[key]);
+      csvContent += values.join(';') + ';\r\n';
+    });
+
+    // https://stackoverflow.com/questions/23301467/javascript-exporting-large-text-csv-file-crashes-google-chrome
+    const csvData = new Blob([csvContent], {
+      type: 'text/csv;charset=utf-8;'
+    });
+
+    return URL.createObjectURL(csvData);
+  }
+}
 </script>
