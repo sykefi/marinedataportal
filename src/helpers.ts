@@ -170,13 +170,35 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
   return {
     time: obj.time,
     analyteName: obj.parameterNameEng,
-    value: obj.value,
+    value: obj.value.toString(),
     unit: obj.unit,
     siteId: obj.siteId,
     site: obj.siteName,
     siteLatitudeWGS84: obj.site.latitude.toPrecision(7),
     siteLongitudeWGS84: obj.site.longitude.toPrecision(7),
-    siteDepthM: obj.site.depth,
+    siteDepthM: obj.site.depth.toString(),
+    dataSource: obj.dataSource,
+  };
+}
+
+export function fromWaterQualityResultToSykeFormat(obj: any): IResponseFormat {
+  return {
+    time: obj.time,
+    analyteName: obj.analyteName,
+    value: obj.value.toString(),
+    unit: obj.unit,
+    siteId: obj.siteId,
+    site: obj.site,
+    siteLatitudeWGS84: obj.siteLatitudeWGS84.toPrecision(7),
+    siteLongitudeWGS84: obj.siteLongitudeWGS84.toPrecision(7),
+    samplingLatitudeWGS84: obj.samplingLatitudeWGS84?.toPrecision(7),
+    samplingLongitudeWGS84: obj.samplingLongitudeWGS84?.toPrecision(7),
+    sampleDepthM: obj.sampleDepthM?.toString(),
+    sampleDepthUpperM: obj.sampleDepthUpperM?.toString(),
+    sampleDepthLowerM: obj.sampleDepthLowerM?.toString(),
+    siteDepthM: obj.siteDepthM?.toString(),
+    totalDepthM: obj.totalDepthM?.toString(),
+    laboratory: obj.laboratory,
     dataSource: obj.dataSource,
   };
 }

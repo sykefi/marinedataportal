@@ -8,7 +8,7 @@ import { PREVIEW_ROW_COUNT } from '@/config';
 import { IResponseFormat } from '@/queries/IResponseFormat';
 
 @Module({ generateMutationSetters: true })
-class IceThicknessModule extends VuexModule implements IAttributeModule {
+export class IceThicknessModule extends VuexModule implements IAttributeModule {
   public hasOptionsSelected = true;
   public name = '$iceThickness';
   public loading = false;

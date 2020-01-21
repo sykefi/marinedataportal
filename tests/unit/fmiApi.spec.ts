@@ -154,7 +154,7 @@ function testDateParams(startDate: Date, endDate: Date, periodStart: Date | null
     compareArrays(formattedParams, expectedParams);
 }
 
-function compareArrays(a1: any[], a2: any[]) {
+export function compareArrays(a1: any[], a2: any[]) {
     expect(a1).to.have.lengthOf(a2.length);
     for (let i = 0; i < a2.length; i++) {
         expect(a1[i]).to.deep.equal(a2[i]);
@@ -195,7 +195,7 @@ function getIFmiResult(time: string, parameterName: string, siteId: number): IFm
     return {
         time,
         parameterName,
-        value: '',
+        value: '0',
         lat: 0,
         long: 0,
         siteId,
