@@ -1,4 +1,5 @@
 // tslint:disable:no-unused-expression
+// tslint:disable-next-line: max-line-length
 import {
     getTimeParametersForVeslaFilter, isDateInPeriod, validateSearchParameters,
     toFmiFormat, toCommonFormat, fromObservationToSykeFormat, fromWaterQualityResultToSykeFormat,
