@@ -25,6 +25,7 @@ interface IODataResponse {
 }
 
 async function getJsonResponse(url: string): Promise<IODataResponse> {
+  console.log('url', url);
   const response = await fetch(url);
   const json = await response.json();
 
