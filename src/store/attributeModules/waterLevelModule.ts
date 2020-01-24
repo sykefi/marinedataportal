@@ -34,7 +34,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   public async getData(params: CommonParameters) {
     this.loading = true;
     const results = await getWaterLevels(params);
-    const inFmiFormat = results.map((r) => toFmiFormat(r, 'Water level', 'cm'));
+    const inFmiFormat = results.map((r) => toFmiFormat(r, 'Water level', 'mm'));
     this.data = inFmiFormat;
     this.loading = false;
   }
