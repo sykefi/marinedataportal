@@ -152,10 +152,18 @@ export function getTimeParametersForVeslaFilter(params: CommonParameters) {
     ` and Time le ${params.formattedDateEnd}`;
 
   if (params.datePeriodMonths) {
-    if (params.datePeriodMonths.start > params.datePeriodMonths.end) {
-      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} or month(Time) le ${params.datePeriodMonths.end})`;
+    const startMonth = params.datePeriodMonths!.start;
+    const endMonth = params.datePeriodMonths!.end;
+    const startDay = params.datePeriodStartDay!;
+    const endDay = params.datePeriodEndDay!;
+
+    // case: time period stretches from a month to the same month on the next year
+    const almostYearPeriod = startMonth === endMonth && startDay > endDay;
+
+    if (startMonth > endMonth || almostYearPeriod) {
+      filter += ` and (month(Time) ge ${startMonth} or month(Time) le ${endMonth})`;
     } else {
-      filter += ` and (month(Time) ge ${params.datePeriodMonths.start} and month(Time) le ${params.datePeriodMonths.end})`;
+      filter += ` and (month(Time) ge ${startMonth} and month(Time) le ${endMonth})`;
     }
   }
 
@@ -176,7 +184,7 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
     site: obj.siteName,
     siteLatitudeWGS84: obj.site.latitude.toPrecision(7),
     siteLongitudeWGS84: obj.site.longitude.toPrecision(7),
-    siteDepthM: obj.site.depth.toString(),
+    siteDepthM: obj.site.depth?.toString(),
     dataSource: obj.dataSource,
   };
 }
