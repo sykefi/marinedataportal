@@ -50,8 +50,11 @@ export class SurfaceTemperatureModule extends VuexModule implements IAttributeMo
 
   @Mutation
   public selectAll() {
+    // arrays must be emptied before selecting all options, otherwise strange things may happen
+    this.selectedIds = [];
+    this.siteTypes = [];
     this.availableOptions.forEach((option) => {
-      if (!this.selectedIds.includes(option.id) && option.available) {
+      if (option.available) {
         this.selectedIds.push(option.id);
         this.siteTypes.push(option.id);
       }
