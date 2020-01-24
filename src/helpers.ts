@@ -184,7 +184,7 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
     site: obj.siteName,
     siteLatitudeWGS84: obj.site.latitude.toPrecision(7),
     siteLongitudeWGS84: obj.site.longitude.toPrecision(7),
-    siteDepthM: obj.site.depth.toString(),
+    siteDepthM: obj.site.depth?.toString(),
     dataSource: obj.dataSource,
   };
 }
