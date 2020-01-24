@@ -39,9 +39,9 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
   get availableOptions() {
     let options: IAttributeOption[] = [];
     if (this.language === 'fi') {
-      options = this.options.map((o) => ({ id: o.id, name: o.name_fi, available: true }));
+      options = this.options.map((o) => ({ id: o.id, name: o.name_fi, online: true }));
     } else {
-      options = this.options.map((o) => ({ id: o.id, name: o.name_en, available: true }));
+      options = this.options.map((o) => ({ id: o.id, name: o.name_en, online: true }));
     }
     return options.sort((a, b) => alphabeticCompare(a.name, b.name));
   }
@@ -87,7 +87,7 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
 
   @Mutation
   public selectAll() {
-    this.availableOptions.forEach((option) => {
+    this.options.forEach((option) => {
       if (!this.selectedIds.includes(option.id)) {
         this.selectedIds.push(option.id);
       }
@@ -101,7 +101,7 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
 
   @Action
   public async getOptions() {
-    if (this.availableOptions.length === 0) {
+    if (this.options.length === 0) {
       this.loading = true;
       this.options = await getWaterQualityOptions();
       this.loading = false;

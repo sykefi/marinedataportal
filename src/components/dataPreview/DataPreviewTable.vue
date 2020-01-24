@@ -52,7 +52,7 @@ export default class DataPreviewTable extends Vue {
 
     // https://stackoverflow.com/questions/23301467/javascript-exporting-large-text-csv-file-crashes-google-chrome
     const csvData = new Blob([csvContent], {
-      type: 'text/csv;charset=utf-8;'
+      type: 'text/csv;charset=utf-8;',
     });
 
     if (navigator.msSaveBlob) {
