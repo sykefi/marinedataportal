@@ -54,7 +54,7 @@ export class SurfaceTemperatureModule extends VuexModule implements IAttributeMo
     this.selectedIds = [];
     this.siteTypes = [];
     this.availableOptions.forEach((option) => {
-      if (option.available) {
+      if (option.online) {
         this.selectedIds.push(option.id);
         this.siteTypes.push(option.id);
       }
@@ -71,11 +71,11 @@ export class SurfaceTemperatureModule extends VuexModule implements IAttributeMo
   public getOptions() {
     this.availableOptions = [];
     this.availableOptions.push({ id: SiteTypes.FmiBuoy, name: i18n.t('$waveBuoys').toString(),
-                                 available: mainState.fmiApiOnline });
+                                 online: mainState.fmiApiOnline });
     this.availableOptions.push({ id: SiteTypes.Mareograph, name: i18n.t('$mareographs').toString(),
-                                 available: mainState.fmiApiOnline });
+                                 online: mainState.fmiApiOnline });
     this.availableOptions.push({ id: SiteTypes.Vesla, name: i18n.t('$marineStations').toString(),
-                                 available: mainState.sykeApiOnline });
+                                 online: mainState.sykeApiOnline });
   }
 
   @Action
