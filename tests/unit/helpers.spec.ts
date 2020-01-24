@@ -63,7 +63,7 @@ describe('Time parameters tests for Vesla', () => {
         const expectedParams = ' and Time ge 2000-01-01T00:00:00.000Z and Time le 2004-12-31T23:59:59.000Z and (month(Time) ge 2 and month(Time) le 2) and day(Time) in (23,24,25,26,27,28,29)';
         expect(formattedParams).equal(expectedParams);
     });
-    it('returns correct time parameters when leap period start and end days are in the same month but in subsequent years', () => {
+    it('returns correct time parameters when period start and end days are in the same month but in subsequent years', () => {
         const params = new CommonParameters(
             new Date(Date.UTC(2019, 0, 1, 0, 0, 0)),
             new Date(Date.UTC(2020, 0, 1, 0, 0, 0)),
