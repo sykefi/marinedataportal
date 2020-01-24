@@ -87,7 +87,7 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
 
   @Mutation
   public selectAll() {
-    this.availableOptions.forEach((option) => {
+    this.options.forEach((option) => {
       if (!this.selectedIds.includes(option.id)) {
         this.selectedIds.push(option.id);
       }
@@ -101,7 +101,7 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
 
   @Action
   public async getOptions() {
-    if (this.availableOptions.length === 0) {
+    if (this.options.length === 0) {
       this.loading = true;
       this.options = await getWaterQualityOptions();
       this.loading = false;
