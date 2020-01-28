@@ -2,7 +2,16 @@
   <header>
     <!-- Finnish -->
     <div id="top-logos" v-show="$i18n.locale === 'fi'">
-      <p>Hanke saa tukea Euroopan meri- ja kalatalousrahastosta</p>
+      <a href="https://syke.fi/fi-FI">
+        <img
+          id="syke-logo"
+          src="@/assets/logos/SYKE_fi_en.jpg"
+          alt="Suomen ympäristökeskuksen kotisivu."
+        />
+      </a>
+      <a href="https://ilmatieteenlaitos.fi/">
+        <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
+      </a>
       <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
       <img
         src="@/assets/logos/emkr_fi.png"
@@ -12,7 +21,20 @@
 
     <!-- English -->
     <div id="top-logos" v-show="$i18n.locale === 'en'">
-      <p>The project is funded by the European Maritime and Fisheries Fund</p>
+      <a href="https://syke.fi/en-US">
+        <img
+          id="syke-logo"
+          src="@/assets/logos/SYKE_fi_en.jpg"
+          alt="Finnish Environment Institute home."
+        />
+      </a>
+      <a href="https://en.ilmatieteenlaitos.fi/">
+        <img
+          id="il-logo"
+          src="@/assets/logos/il_fi_en.png"
+          alt="Finnish Meteorological Institute home."
+        />
+      </a>
       <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
       <img
         src="@/assets/logos/emkr_eng.jpg"
@@ -23,36 +45,16 @@
     <div id="upper-header">
       <!-- Finnish -->
       <div class="header-logos" v-if="$i18n.locale === 'fi'">
-        <a href="https://syke.fi/fi-FI">
-          <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Suomen ympäristökeskuksen kotisivu." />
+        <a href="http://itameri.fi">
+          <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
         </a>
-        <a href="https://ilmatieteenlaitos.fi/">
-          <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
-        </a>
-        <div class="header-logos with-divider">
-          <a href="http://itameri.fi">
-            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
-          </a>
-        </div>
       </div>
 
       <!-- English -->
       <div class="header-logos" v-if="$i18n.locale === 'en'">
-        <a href="https://syke.fi/en-US">
-          <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Finnish Environment Institute home." />
+        <a href="http://itameri.fi">
+          <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
         </a>
-        <a href="https://en.ilmatieteenlaitos.fi/">
-          <img
-            id="il-logo"
-            src="@/assets/logos/il_fi_en.png"
-            alt="Finnish Meteorological Institute home."
-          />
-        </a>
-        <div class="header-logos with-divider">
-          <a href="http://itameri.fi">
-            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
-          </a>
-        </div>
       </div>
 
       <div id="lang">
@@ -82,7 +84,10 @@
       , on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
       Palautetta ja kehitysideoita voi laittaa sähköpostilla simo.paasisalo@ymparisto.fi. Jos haluat päästä katsomaan projektityökalua, voit pyytää pääsyoikeutta samasta osoitteesta.
     </div>
-    <p v-if="!sykeApiOnline && !fmiApiOnline" class="error-notification">{{ $t("$serviceUnavailable") }}</p>
+    <p
+      v-if="!sykeApiOnline && !fmiApiOnline"
+      class="error-notification"
+    >{{ $t("$serviceUnavailable") }}</p>
     <p v-else-if="!sykeApiOnline" id="error-paragraph">{{ $t("$sykeApiDownInfo") }}</p>
     <p v-else-if="!fmiApiOnline" id="error-paragraph">{{ $t("$fmiApiDownInfo") }}</p>
     <div ref="focus" tabindex="-1" id="focus-to-error">
@@ -140,8 +145,7 @@ export default class Header extends Vue {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem;
-  height: 4rem;
+  height: 6.25rem;
 }
 #lower-header {
   display: flex;
@@ -158,11 +162,12 @@ export default class Header extends Vue {
 #lang {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   width: 5rem;
-  font-weight: bold;
-  height: 60%;
+  height: 30%;
+  padding-right: 2rem;
   a {
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+    padding: 0rem 0.5rem 0rem 0.5rem;
   }
 }
 
@@ -201,24 +206,10 @@ a {
 }
 
 .header-logos {
-  width: 87%;
-  height: 100%;
-  display: flex;
-  align-items: center;
+  padding: 2rem;
+  height: 30%;
   a {
-    height: 100%;
-    display: flex;
     padding-right: 4rem;
-    align-items: center;
-  }
-}
-
-.with-divider {
-  border-right: 0.05rem solid $border-divide;
-  height: 60%;
-  justify-content: flex-end;
-  img {
-    height: 100%;
   }
 }
 
@@ -231,11 +222,17 @@ a {
   img {
     margin: 0 1rem 0 1rem;
     height: 70%;
+    vertical-align: bottom;
   }
 }
 
 #il-logo {
-  width: 18rem;
+  width: 16rem;
+  height: auto;
+}
+
+#syke-logo {
+  width: 4rem;
   height: auto;
 }
 </style>
