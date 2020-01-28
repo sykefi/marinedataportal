@@ -7,12 +7,6 @@ describe('Header.vue', () => {
   const localVue = createLocalVue();
   localVue.use(VueI18n);
 
-  it('shows funding info message', () => {
-    const wrapper = shallowMount(Header);
-    expect(wrapper.text()).include('The project is funded by the European Maritime and Fisheries Fund');
-    wrapper.destroy();
-  });
-
   it('shows language selection options', () => {
     const wrapper = shallowMount(Header);
     const txt = wrapper.text();

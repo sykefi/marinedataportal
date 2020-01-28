@@ -72,31 +72,6 @@
         >EN</a>
       </div>
     </div>
-
-    <div id="lower-header">
-      <img id="title-background" src="@/assets/imgs/auringonlasku.png" />
-      <h1 id="site-title">{{ $t('$siteTitle')}}</h1>
-      <h2 id="title-details">{{ $t('$siteDetails')}}</h2>
-    </div>
-    <div :style="{ textAlign: 'left' }">
-      Tämä on
-      <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
-      <br />
-      <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>
-      , on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
-      Palautetta ja kehitysideoita voi laittaa sähköpostilla simo.paasisalo@ymparisto.fi. Jos haluat päästä katsomaan projektityökalua, voit pyytää pääsyoikeutta samasta osoitteesta.
-    </div>
-    <p
-      v-if="!sykeApiOnline && !fmiApiOnline"
-      class="error-notification"
-    >{{ $t("$serviceUnavailable") }}</p>
-    <p v-else-if="!sykeApiOnline" id="error-paragraph">{{ $t("$sykeApiDownInfo") }}</p>
-    <p v-else-if="!fmiApiOnline" id="error-paragraph">{{ $t("$fmiApiDownInfo") }}</p>
-    <div ref="focus" tabindex="-1" id="focus-to-error">
-      <fieldset id="error-content">
-        <li v-for="error in errorList" :key="error" class="error">{{$t(error)}}</li>
-      </fieldset>
-    </div>
   </header>
 </template>
 
@@ -106,29 +81,9 @@ import i18n from '@/locale/i18n';
 import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
 import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
 import { surgeModule } from '@/store/attributeModules/surgeModule';
-import { mainState } from '@/store/mainState';
 
 @Component({ i18n })
 export default class Header extends Vue {
-
-  get sykeApiOnline() {
-    return mainState.sykeApiOnline;
-  }
-
-  get fmiApiOnline() {
-    return mainState.fmiApiOnline;
-  }
-
-  get errorList() {
-    const errorList = mainState.errorList;
-    if (errorList.length) {
-      const wrapper = this.$refs.focus;
-      (wrapper as Element)?.scrollIntoView(true);
-      (wrapper as HTMLElement)?.focus();
-    }
-    return errorList;
-  }
-
   public setLanguage(tag: string) {
     i18n.locale = tag;
     waterQualityModule.language = tag;
@@ -148,37 +103,6 @@ export default class Header extends Vue {
   justify-content: space-between;
   align-items: center;
   height: 6.25rem;
-}
-
-#lower-header {
-  position: relative;
-}
-
-#title-background {
-  width: 100%;
-  border-bottom: 0.2rem solid $border-red;
-}
-
-#site-title {
-  position: absolute;
-  width: 100%;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -80%);
-  font-family: "TitilliumWeb";
-  font-size: $font-size-xxl;
-  font-weight: bold;
-  color: $text-white;
-}
-
-#title-details {
-  font-size: $font-size-l;
-  color: $text-white;
-  font-weight: normal;
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -10%);
 }
 
 #lang {
@@ -202,28 +126,6 @@ a {
     text-decoration: none;
     background-color: $background-blue;
     cursor: default;
-  }
-}
-
-#error-paragraph {
-  padding: 1rem;
-  background: $border-warn;
-  color: #fff;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-}
-
-#error-content {
-  border: none;
-  text-align: left;
-  padding-top: 2rem;
-  margin: 1rem 7rem 0 7rem;
-}
-
-#focus-to-error {
-  &:focus {
-    outline-color: white;
   }
 }
 
