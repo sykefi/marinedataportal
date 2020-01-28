@@ -74,7 +74,9 @@
     </div>
 
     <div id="lower-header">
+      <img id="title-background" src="@/assets/imgs/auringonlasku.png" />
       <h1 id="site-title">{{ $t('$siteTitle')}}</h1>
+      <h2 id="title-details">{{ $t('$siteDetails')}}</h2>
     </div>
     <div :style="{ textAlign: 'left' }">
       Tämä on
@@ -147,18 +149,38 @@ export default class Header extends Vue {
   align-items: center;
   height: 6.25rem;
 }
+
 #lower-header {
-  display: flex;
-  justify-content: center;
-  background-color: $background-blue;
+  position: relative;
+}
+
+#title-background {
+  width: 100%;
   border-bottom: 0.2rem solid $border-red;
 }
+
 #site-title {
+  position: absolute;
+  width: 100%;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -80%);
   font-family: "TitilliumWeb";
   font-size: $font-size-xxl;
   font-weight: bold;
   color: $text-white;
 }
+
+#title-details {
+  font-size: $font-size-l;
+  color: $text-white;
+  font-weight: normal;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+}
+
 #lang {
   display: flex;
   justify-content: space-evenly;
