@@ -49,10 +49,11 @@ button {
   font-family: "TitilliumWeb";
   font-weight: bold;
   font-size: $font-size-l;
+  letter-spacing: 0.05rem;
   color: $text-white;
   padding: 0 2rem 0 2rem;
   height: 3.5rem;
-  background: $background-blue;
+  background: $background-dark-blue;
   box-shadow: 0 0.2rem 0 $border-shadow;
   border-radius: 5px;
   margin-bottom: 1.5rem;
@@ -60,14 +61,14 @@ button {
     background: $background-blue-hover;
   }
   &:focus {
-    outline-color: $border-focus;
+    outline-color: $border-red;
   }
 }
 
 .info-paragraph {
   text-align: left;
   padding: 1rem 2rem 1rem 2rem;
-  border: 2px solid $border-focus;
+  border: 2px solid $border-red;
   margin-bottom: 1.5rem;
   white-space: pre-line;
 }

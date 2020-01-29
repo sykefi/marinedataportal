@@ -2,10 +2,11 @@
 $background-light: #F5F6FA;
 $background-light-hover: #C9CDD1;
 $background-blue: #095B9D;
-$background-blue-hover: #074679;
+$background-dark-blue: #074679;
+$background-blue-hover: #052D4D;
 $background-bright-blue: #0074D0;
-$background-info: #FF7300;
-$background-info-hover: #EB6A00; 
+$background-info: #C81740;
+$background-info-hover: #9A1231; 
 $background-remove: #60676E;
 $background-remove-hover: #3F4A52;
 
@@ -20,13 +21,12 @@ $border-dark: #052D4D;
 $border-gray: #C5CCD0;
 $border-shadow: #1B3447;
 $border-warn: #CC0000;
-$border-focus: #FF7300;
 $border-red: #C81740;
 $border-divide: #C9CDD1;
 
 //font settings
-$font-size-xxl: 2.7rem;
+$font-size-xxl: 2.625rem;
 $font-size-xl: 1.9rem;
-$font-size-l: 1.2rem;
+$font-size-l: 1.25rem;
 $font-size-m: 1rem;
-$font-size-s: 0.9rem;
+$font-size-s: 0.875rem;

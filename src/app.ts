@@ -7,6 +7,9 @@ import DataDownload from '@/components/dataDownload/DataDownload.vue';
 import DataPreview from '@/components/dataPreview/DataPreview.vue';
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
+import SiteTitle from '@/components/SiteTitle.vue';
+import SiteImage from '@/components/SiteImage.vue';
+import ErrorMessages from '@/components/ErrorMessages.vue';
 import { mainState } from '@/store/mainState';
 import { mapModule } from '@/store/mapModule';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
@@ -24,6 +27,9 @@ import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
     DataPreview,
     Header,
     Footer,
+    SiteTitle,
+    SiteImage,
+    ErrorMessages,
   },
 })
 export default class App extends Vue {

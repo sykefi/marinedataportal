@@ -1,45 +1,33 @@
 <template>
   <header>
-    <!-- Finnish -->
-    <div id="top-logos" v-show="$i18n.locale === 'fi'">
-      <p>Hanke saa tukea Euroopan meri- ja kalatalousrahastosta</p>
-      <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
-      <img
-        src="@/assets/logos/emkr_fi.png"
-        alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
-      />
-    </div>
-
-    <!-- English -->
-    <div id="top-logos" v-show="$i18n.locale === 'en'">
-      <p>The project is funded by the European Maritime and Fisheries Fund</p>
-      <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
-      <img
-        src="@/assets/logos/emkr_eng.jpg"
-        alt="Logo of the European maritime and fisheries fund, operational programme for Finland 2014-2020."
-      />
-    </div>
-
-    <div id="upper-header">
+    <div id="top-header">
       <!-- Finnish -->
-      <div class="header-logos" v-if="$i18n.locale === 'fi'">
+      <div id="top-logos" v-show="$i18n.locale === 'fi'">
         <a href="https://syke.fi/fi-FI">
-          <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Suomen ympäristökeskuksen kotisivu." />
+          <img
+            id="syke-logo"
+            src="@/assets/logos/SYKE_fi_en.jpg"
+            alt="Suomen ympäristökeskuksen kotisivu."
+          />
         </a>
         <a href="https://ilmatieteenlaitos.fi/">
           <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
         </a>
-        <div class="header-logos with-divider">
-          <a href="http://itameri.fi">
-            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
-          </a>
-        </div>
+        <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
+        <img
+          src="@/assets/logos/emkr_fi.png"
+          alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
+        />
       </div>
 
       <!-- English -->
-      <div class="header-logos" v-if="$i18n.locale === 'en'">
+      <div id="top-logos" v-show="$i18n.locale === 'en'">
         <a href="https://syke.fi/en-US">
-          <img src="@/assets/logos/SYKE_fi_en.jpg" alt="Finnish Environment Institute home." />
+          <img
+            id="syke-logo"
+            src="@/assets/logos/SYKE_fi_en.jpg"
+            alt="Finnish Environment Institute home."
+          />
         </a>
         <a href="https://en.ilmatieteenlaitos.fi/">
           <img
@@ -48,47 +36,43 @@
             alt="Finnish Meteorological Institute home."
           />
         </a>
-        <div class="header-logos with-divider">
+        <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
+        <img
+          src="@/assets/logos/emkr_eng.jpg"
+          alt="Logo of the European maritime and fisheries fund, operational programme for Finland 2014-2020."
+        />
+      </div>
+
+      <div id="upper-header">
+        <!-- Finnish -->
+        <div class="header-logos" v-if="$i18n.locale === 'fi'">
+          <a href="http://itameri.fi">
+            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
+          </a>
+        </div>
+
+        <!-- English -->
+        <div class="header-logos" v-if="$i18n.locale === 'en'">
           <a href="http://itameri.fi">
             <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
           </a>
         </div>
-      </div>
 
-      <div id="lang">
-        <a
-          href="#"
-          :class="{current: $i18n.locale === 'fi'}"
-          @click="setLanguage('fi')"
-          aria-label="Vaihda kieleksi suomi."
-        >FI</a>
-        <a
-          href="#"
-          :class="{current: $i18n.locale === 'en'}"
-          @click="setLanguage('en')"
-          aria-label="Change language to English."
-        >EN</a>
+        <div id="lang">
+          <a
+            href="#"
+            :class="{current: $i18n.locale === 'fi'}"
+            @click="setLanguage('fi')"
+            aria-label="Vaihda kieleksi suomi."
+          >FI</a>
+          <a
+            href="#"
+            :class="{current: $i18n.locale === 'en'}"
+            @click="setLanguage('en')"
+            aria-label="Change language to English."
+          >EN</a>
+        </div>
       </div>
-    </div>
-
-    <div id="lower-header">
-      <h1 id="site-title">{{ $t('$siteTitle')}}</h1>
-    </div>
-    <div :style="{ textAlign: 'left' }">
-      Tämä on
-      <b>Meritietoportaalin latauspalvelun kehitysversio</b>. Latauspalvelu hakee dataa FMI:n ja SYKE:n rajapinnoista.
-      <br />
-      <b>Jos sivu näyttää jumittuneen latauspalluran pyörintään</b>
-      , on tapahtunut joku virhe. Sivun päivittäminen nollaa tilanteen. Jos tiedät miten, nappaa virheilmoitus selaimen konsolista ja lähetä se alla mainittuun osoitteeseen.
-      Palautetta ja kehitysideoita voi laittaa sähköpostilla simo.paasisalo@ymparisto.fi. Jos haluat päästä katsomaan projektityökalua, voit pyytää pääsyoikeutta samasta osoitteesta.
-    </div>
-    <p v-if="!sykeApiOnline && !fmiApiOnline" class="error-notification">{{ $t("$serviceUnavailable") }}</p>
-    <p v-else-if="!sykeApiOnline" id="error-paragraph">{{ $t("$sykeApiDownInfo") }}</p>
-    <p v-else-if="!fmiApiOnline" id="error-paragraph">{{ $t("$fmiApiDownInfo") }}</p>
-    <div ref="focus" tabindex="-1" id="focus-to-error">
-      <fieldset id="error-content">
-        <li v-for="error in errorList" :key="error" class="error">{{$t(error)}}</li>
-      </fieldset>
     </div>
   </header>
 </template>
@@ -99,29 +83,9 @@ import i18n from '@/locale/i18n';
 import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
 import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
 import { surgeModule } from '@/store/attributeModules/surgeModule';
-import { mainState } from '@/store/mainState';
 
 @Component({ i18n })
 export default class Header extends Vue {
-
-  get sykeApiOnline() {
-    return mainState.sykeApiOnline;
-  }
-
-  get fmiApiOnline() {
-    return mainState.fmiApiOnline;
-  }
-
-  get errorList() {
-    const errorList = mainState.errorList;
-    if (errorList.length) {
-      const wrapper = this.$refs.focus;
-      (wrapper as Element)?.scrollIntoView(true);
-      (wrapper as HTMLElement)?.focus();
-    }
-    return errorList;
-  }
-
   public setLanguage(tag: string) {
     i18n.locale = tag;
     waterQualityModule.language = tag;
@@ -136,33 +100,30 @@ export default class Header extends Vue {
 
 <style lang="scss" scoped>
 @import "@/assets/styles/variables.scss";
+#top-header {
+  display: grid;
+  grid-template:
+    "fund fund fund"
+    ". lang ."
+    / auto 65rem auto;
+}
+
 #upper-header {
+  grid-area: lang;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem;
-  height: 4rem;
+  height: 6.25rem;
 }
-#lower-header {
-  display: flex;
-  justify-content: center;
-  background-color: $background-blue;
-  border-bottom: 0.2rem solid $border-red;
-}
-#site-title {
-  font-family: "TitilliumWeb";
-  font-size: $font-size-xxl;
-  font-weight: bold;
-  color: $text-white;
-}
+
 #lang {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   width: 5rem;
-  font-weight: bold;
-  height: 60%;
+  height: 30%;
   a {
-    padding: 0.3rem 0.5rem 0.3rem 0.5rem;
+    padding: 0 0.5rem 0 0.5rem;
   }
 }
 
@@ -178,52 +139,16 @@ a {
   }
 }
 
-#error-paragraph {
-  padding: 1rem;
-  background: $border-warn;
-  color: #fff;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-}
-
-#error-content {
-  border: none;
-  text-align: left;
-  padding-top: 2rem;
-  margin: 1rem 7rem 0 7rem;
-}
-
-#focus-to-error {
-  &:focus {
-    outline-color: white;
-  }
-}
-
 .header-logos {
-  width: 87%;
-  height: 100%;
-  display: flex;
-  align-items: center;
+  height: 45%;
   a {
-    height: 100%;
-    display: flex;
     padding-right: 4rem;
-    align-items: center;
-  }
-}
-
-.with-divider {
-  border-right: 0.05rem solid $border-divide;
-  height: 60%;
-  justify-content: flex-end;
-  img {
-    height: 100%;
   }
 }
 
 #top-logos {
-  height: 4.5rem;
+  grid-area: fund;
+  height: 3.5rem;
   background-color: $background-light;
   display: flex;
   justify-content: flex-end;
@@ -231,11 +156,17 @@ a {
   img {
     margin: 0 1rem 0 1rem;
     height: 70%;
+    vertical-align: bottom;
   }
 }
 
 #il-logo {
-  width: 18rem;
+  width: 12rem;
+  height: auto;
+}
+
+#syke-logo {
+  width: 3rem;
   height: auto;
 }
 </style>

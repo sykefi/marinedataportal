@@ -1,5 +1,6 @@
 export default {
-    $siteTitle: 'Meritietoportaalin latauspalvelu',
+    $siteTitle: 'Itämeren tila-aineistojen lataus',
+    $siteDetails: 'Voit ladata täältä käyttöösi Suomen ympäristökeskuksen ja Ilmatieteen laitoksen meren tilan seuranta-aineistot.',
     $missingTimeSpanStart: 'Aikavälin alkupäivä puuttuu.',
     $missingTimeSpanEnd: 'Aikavälin loppupäivä puuttuu.',
     $noAttributesSelected: 'Valitse vähintään yksi haettava suure.',
@@ -14,6 +15,6 @@ export default {
     $noSitesSelected: 'Valitse vähintään yksi paikka.',
     $busy: 'Lataa...',
     $feedback: 'Anna palautetta',
-    $emailWithSubject: 'mailto:avoindata.syke@ymparisto.fi?subject=Palautetta%20Meritietoportaalin%20latauspalvelusta',
+    $emailWithSubject: 'mailto:avoindata.syke@ymparisto.fi?subject=Palautetta%20Itämeren%20tila-aineistojen%20latauksesta',
     $errorNotification: 'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
 };

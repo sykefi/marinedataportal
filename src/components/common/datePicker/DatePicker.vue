@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 1.2rem;
+  border-radius: 0.188rem;
   height: 3rem;
   color: $text-dark;
   padding-left: 0.5rem;
