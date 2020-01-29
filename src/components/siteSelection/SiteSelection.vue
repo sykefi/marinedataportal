@@ -7,7 +7,7 @@
       <p class="info-paragraph">{{ $t("$siteSelectionInfo") }}</p>
       <div id="map-wrapper">
         <div class="multiselect" id="site-selection">
-          <select v-model="selectedId" @change="onSelectSite(+$event.target.value)">
+          <select v-model="selectedId" @change="onSelectSite(+$event.target.value)" :aria-label="$t('$sitePlaceholder')">
             <option :value="0" disabled hidden>{{ $t("$sitePlaceholder") }}</option>
             <option
               v-for="site in unSelectedSites"

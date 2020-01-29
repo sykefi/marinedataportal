@@ -122,7 +122,6 @@ export default class Header extends Vue {
   align-items: center;
   width: 5rem;
   height: 30%;
-  padding-right: 4rem;
   a {
     padding: 0rem 0.5rem 0rem 0.5rem;
   }
@@ -141,8 +140,7 @@ a {
 }
 
 .header-logos {
-  padding: 4rem;
-  height: 30%;
+  height: 45%;
   a {
     padding-right: 4rem;
   }
