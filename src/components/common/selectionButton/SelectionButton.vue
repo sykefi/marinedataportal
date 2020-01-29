@@ -37,7 +37,7 @@
     }
   }
   .selected {
-    background-color: $background-blue;
+    background-color: $background-dark-blue;
     border-color: $border-dark;
     color: $text-white;
     &:not(:disabled):hover {

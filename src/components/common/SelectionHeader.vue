@@ -52,7 +52,7 @@ export default class SelectionHeader extends Vue {
   justify-content: center;
   width: 4rem;
   color: $text-white;
-  background-color: $background-blue-hover;
+  background-color: $background-dark-blue;
   padding: 0;
 }
 </style>

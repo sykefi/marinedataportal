@@ -95,8 +95,8 @@
 }
 
 .small-button {
-  font-size: $font-size-l;
   font-weight: normal;
+  letter-spacing: 0;
   padding: 0 1rem 0 1rem;
   height: 3rem;
 }
