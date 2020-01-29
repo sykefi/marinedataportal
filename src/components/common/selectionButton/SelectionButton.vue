@@ -22,7 +22,7 @@
     width: 10rem;
     height: 3rem;
     border: 0.08rem solid;
-    border-radius: 1.2rem;
+    border-radius: 3.125rem;
     height: 3rem;
     width: 10rem;
     padding-left: 1rem;
