@@ -46,6 +46,10 @@
     / auto 65rem auto;
 }
 
+body {
+  margin: 0;
+}
+
 #site-header {
   grid-area: head;
 }
