@@ -150,7 +150,7 @@ a {
 
 #top-logos {
   grid-area: fund;
-  height: 4.5rem;
+  height: 3.5rem;
   background-color: $background-light;
   display: flex;
   justify-content: flex-end;
@@ -163,12 +163,12 @@ a {
 }
 
 #il-logo {
-  width: 16rem;
+  width: 12rem;
   height: auto;
 }
 
 #syke-logo {
-  width: 4rem;
+  width: 3rem;
   height: auto;
 }
 </style>
