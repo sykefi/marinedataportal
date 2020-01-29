@@ -17,7 +17,6 @@ export default class SiteTitle extends Vue { }
 @import "@/assets/styles/variables.scss";
 
 #site-title {
-  font-family: "TitilliumWeb";
   font-size: $font-size-xxl;
   font-weight: bold;
   color: $text-white;
@@ -25,7 +24,6 @@ export default class SiteTitle extends Vue { }
 }
 
 #title-details {
-  font-family: "TitilliumWeb";
   font-size: $font-size-l;
   font-weight: normal;
   color: $text-white;

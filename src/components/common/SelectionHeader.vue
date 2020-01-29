@@ -43,6 +43,7 @@ export default class SelectionHeader extends Vue {
   text-align: left;
   font-size: $font-size-l;
   font-weight: bold;
+  letter-spacing: 0.05rem;
   color: $text-white;
   background: $background-blue;
 }
