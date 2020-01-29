@@ -1,5 +1,5 @@
 <template>
-  <div id="lower-header">
+  <div>
     <img id="title-background" src="@/assets/imgs/auringonlasku.png" alt="" />
   </div>
 </template>
@@ -15,9 +15,6 @@ export default class SiteImage extends Vue { }
 <style lang="scss" scoped>
 @import "@/assets/styles/variables.scss";
 
-#lower-header {
-  position: relative;
-}
 
 #title-background {
   width: 100%;

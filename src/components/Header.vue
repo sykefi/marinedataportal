@@ -123,7 +123,7 @@ export default class Header extends Vue {
   width: 5rem;
   height: 30%;
   a {
-    padding: 0rem 0.5rem 0rem 0.5rem;
+    padding: 0 0.5rem 0 0.5rem;
   }
 }
 
