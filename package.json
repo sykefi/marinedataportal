@@ -37,7 +37,7 @@
     "@vue/test-utils": "^1.0.0-beta.30",
     "chai": "^4.1.2",
     "node-sass": "^4.13.1",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^8.0.2",
     "typescript": "^3.7.4",
     "vue-template-compiler": "^2.6.11",
     "@babel/plugin-proposal-export-default-from": "^7.8.3",
