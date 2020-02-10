@@ -3,6 +3,7 @@
     <Header id="site-header" />
     <SiteImage id="site-image" />
     <SiteTitle id="site-title" />
+    <InfoMenu id="info-menu" />
     <div id="content">
       <ErrorMessages />
       <AttributeSelection />
@@ -41,6 +42,7 @@
   grid-template:
     "head head head"
     "pict pict pict"
+    "info info info"
     ". cont ."
     "foot foot foot"
     / auto 65rem auto;
@@ -56,10 +58,15 @@ body {
 
 #site-image {
   grid-area: pict;
+  height: 100%;
 }
 
 #site-title {
   grid-area: pict;
+}
+
+#info-menu {
+  grid-area: info;
 }
 
 #content {

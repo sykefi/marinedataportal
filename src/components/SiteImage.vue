@@ -18,6 +18,5 @@ export default class SiteImage extends Vue { }
 
 #title-background {
   width: 100%;
-  border-bottom: 0.2rem solid $border-red;
 }
 </style>

@@ -183,7 +183,7 @@ export default class Footer extends Vue { }
 
 #feedback {
   grid-area: div;
-  height: 5rem;
+  height: 4.4rem;
   background-color: $border-dark;
   margin-top: 5rem;
   margin-bottom: 1rem;
