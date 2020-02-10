@@ -33,7 +33,7 @@ import InfoButton from '@/components/InfoButton.vue';
 @Component({
   components: {
     InfoButton,
-  }
+  },
 })
 export default class InfoMenu extends Vue {
   public showInfo: boolean = false;
