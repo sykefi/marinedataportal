@@ -1,6 +1,6 @@
 <template>
   <div class="selection-box">
-    <fieldset class="selection-content">
+    <fieldset class="selection-content" :style="cssVars">
       <legend class="details-header">{{ header }}</legend>
       <label>
         <input
@@ -30,7 +30,7 @@
 .two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(26, 1fr);
+  grid-template-rows: repeat(var(--length), 1fr);
   grid-auto-flow: column;
 }
 .option-label {

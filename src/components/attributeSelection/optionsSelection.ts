@@ -31,4 +31,10 @@ export default class OptionsSelection extends Vue {
       this.module.deSelectAll();
     }
   }
+
+  get cssVars() {
+    return {
+      '--length': this.module.availableOptions.length / 2,
+    };
+  }
 }
