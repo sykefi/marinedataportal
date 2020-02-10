@@ -34,7 +34,7 @@ export default class OptionsSelection extends Vue {
 
   get cssVars() {
     return {
-      '--length': this.module.availableOptions.length / 2,
+      '--length': Math.ceil(this.module.availableOptions.length / 2),
     };
   }
 }
