@@ -3,9 +3,9 @@
     <div id="app-info">
       <div class="common fill1" />
       <div class="common info">
-        <InfoButton :buttonText="$t('$serviceInfoTitle')" @show-info="onShowInfo" />
-        <InfoButton :buttonText="$t('$instructionsTitle')" @show-info="onShowInstructions" />
-        <InfoButton :buttonText="$t('$termsOfServiceTitle')" @show-info="onShowTerms" />
+        <InfoButton :buttonText="$t('$serviceInfoTitle')" @show-info="showInfo = $event" />
+        <InfoButton :buttonText="$t('$instructionsTitle')" @show-info="showInstructions = $event" />
+        <InfoButton :buttonText="$t('$termsOfServiceTitle')" @show-info="showTerms = $event" />
       </div>
       <div class="common fill2" />
       <div id="info-text">
@@ -39,18 +39,6 @@ export default class InfoMenu extends Vue {
   public showInfo: boolean = false;
   public showInstructions: boolean = false;
   public showTerms: boolean = false;
-
-  public onShowInfo(isPressed: boolean) {
-    this.showInfo = isPressed;
-  }
-
-  public onShowInstructions(isPressed: boolean) {
-    this.showInstructions = isPressed;
-  }
-
-  public onShowTerms(isPressed: boolean) {
-    this.showTerms = isPressed;
-  }
 }
 </script>
 
