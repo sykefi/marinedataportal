@@ -49,8 +49,7 @@
 @import "@/assets/styles/variables.scss";
 #button-wrapper {
   display: grid;
-  grid-template:
-    ". but but but ."
+  grid-template: ". but but but .";
 }
 .selections-grid {
   grid-area: but;
