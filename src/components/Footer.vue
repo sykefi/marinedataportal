@@ -18,58 +18,11 @@
             </a>
           </li>
           <li>
-            <a href="http://www.gtk.fi/">
-              <img
-                id="gtk-logo"
-                src="@/assets/logos/GTK_fi_en.png"
-                alt="Geologian tutkimuskeskuksen kotisivu."
-              />
-            </a>
-          </li>
-          <li>
             <a href="https://ilmatieteenlaitos.fi/">
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
                 alt="Ilmatieteenlaitoksen kotisivu."
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://luke.fi">
-              <img src="@/assets/logos/Luke_fi.jpg" alt="Luonnonvarakeskuksen kotisivu." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.merialuesuunnittelu.fi">
-              <img
-                id="mas-logo"
-                src="@/assets/logos/mas_fi.png"
-                alt="Merialuesuunnittelun kotisivu."
-              />
-            </a>
-          </li>
-          <li>
-            <a href="http://metsa.fi">
-              <img src="@/assets/logos/mh_fi_eng.png" alt="Metsähallituksen kotisivu." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.museovirasto.fi/">
-              <img src="@/assets/logos/Museovirasto_fi_en.jpg" alt="Museoviraston kotisivu." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.utu.fi/">
-              <img src="@/assets/logos/UTU_fi.jpg" alt="Turun yliopiston kotisivu." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.regeringen.ax/">
-              <img
-                id="aland-logo"
-                src="@/assets/logos/aland_fi_en.png"
-                alt="Ahvenanmaan maakuntahallituksen kotisivu."
               />
             </a>
           </li>
@@ -87,61 +40,11 @@
             </a>
           </li>
           <li>
-            <a href="http://en.gtk.fi/">
-              <img
-                id="gtk-logo"
-                src="@/assets/logos/GTK_fi_en.png"
-                alt="Geological Survey of Finland home."
-              />
-            </a>
-          </li>
-          <li>
             <a href="https://en.ilmatieteenlaitos.fi/">
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
                 alt="Finnish Meteorological Institute home."
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://luke.fi/en">
-              <img src="@/assets/logos/Luke_en.png" alt="Natural Resources Institute Finland home." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.merialuesuunnittelu.fi/en">
-              <img
-                id="mas-logo"
-                src="@/assets/logos/mas_eng.png"
-                alt="Maritime spatial planning home."
-              />
-            </a>
-          </li>
-          <li>
-            <a href="http://metsa.fi/web/en">
-              <img src="@/assets/logos/mh_fi_eng.png" alt="Metsähallitus home." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.museovirasto.fi/en/">
-              <img
-                src="@/assets/logos/Museovirasto_fi_en.jpg"
-                alt="The Finnish Heritage Agency home."
-              />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.utu.fi/en">
-              <img src="@/assets/logos/UTU_fi.jpg" alt="University of Turku home." />
-            </a>
-          </li>
-          <li>
-            <a href="https://www.regeringen.ax/">
-              <img
-                id="aland-logo"
-                src="@/assets/logos/aland_fi_en.png"
-                alt="Ålands landskapsregering home."
               />
             </a>
           </li>
@@ -210,38 +113,24 @@ export default class Footer extends Vue { }
   ul {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
+    justify-content: center;
     height: 3rem;
     list-style-type: none;
     width: 100%;
     padding: 0;
     li {
       height: 100%;
+      padding: 2rem;
     }
-  }
-  #mas-logo {
-    width: 9rem;
-    height: auto;
-  }
-
-  #gtk-logo {
-    width: 5rem;
-    height: auto;
-    padding-bottom: 0.4rem;
   }
 
   #syke-logo {
-    width: 3rem;
+    width: 4rem;
     height: auto;
   }
 
   #il-logo {
-    width: 11rem;
-    height: auto;
-  }
-
-  #aland-logo {
-    width: 6rem;
+    width: 15rem;
     height: auto;
   }
 }

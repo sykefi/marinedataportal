@@ -2,7 +2,7 @@
   <header>
     <h1 id="site-title">{{ $t('$siteTitle')}}</h1>
     <h2 id="title-details">{{ $t('$siteDetails')}}</h2>
-    <p id="image-origin" aria-hidden="true">Jan-Erik Bruun</p>
+    <p id="image-origin" aria-hidden="true">Ilkka Lastumäki</p>
   </header>
 </template>
 

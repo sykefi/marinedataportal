@@ -3,16 +3,6 @@
     <div id="top-header">
       <!-- Finnish -->
       <div id="top-logos" v-show="$i18n.locale === 'fi'">
-        <a href="https://syke.fi/fi-FI">
-          <img
-            id="syke-logo"
-            src="@/assets/logos/SYKE_fi_en.jpg"
-            alt="Suomen ympäristökeskuksen kotisivu."
-          />
-        </a>
-        <a href="https://ilmatieteenlaitos.fi/">
-          <img id="il-logo" src="@/assets/logos/il_fi_en.png" alt="Ilmatieteenlaitoksen kotisivu." />
-        </a>
         <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
         <img
           src="@/assets/logos/emkr_fi.png"
@@ -22,20 +12,6 @@
 
       <!-- English -->
       <div id="top-logos" v-show="$i18n.locale === 'en'">
-        <a href="https://syke.fi/en-US">
-          <img
-            id="syke-logo"
-            src="@/assets/logos/SYKE_fi_en.jpg"
-            alt="Finnish Environment Institute home."
-          />
-        </a>
-        <a href="https://en.ilmatieteenlaitos.fi/">
-          <img
-            id="il-logo"
-            src="@/assets/logos/il_fi_en.png"
-            alt="Finnish Meteorological Institute home."
-          />
-        </a>
         <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
         <img
           src="@/assets/logos/emkr_eng.jpg"
@@ -158,15 +134,5 @@ a {
     height: 70%;
     vertical-align: bottom;
   }
-}
-
-#il-logo {
-  width: 12rem;
-  height: auto;
-}
-
-#syke-logo {
-  width: 3rem;
-  height: auto;
 }
 </style>
