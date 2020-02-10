@@ -85,23 +85,6 @@ export default class InfoMenu extends Vue {
   justify-content: space-evenly;
 }
 
-#arrow-icon {
-  color: $background-bright-blue;
-  font-size: $font-size-xl;
-  padding-right: 0.5rem;
-}
-
-.info-button {
-  font-family: "TitilliumWeb";
-  color: $text-white;
-  font-weight: bold;
-  font-size: $font-size-l;
-  letter-spacing: 0.02rem;
-  margin: 0;
-  padding: 0;
-  background-color: $border-dark;
-}
-
 #info-text {
   grid-area: info;
   text-align: left;
