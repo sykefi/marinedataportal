@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img id="title-background" src="@/assets/imgs/auringonlasku.png" alt="" />
+    <img id="title-background" src="@/assets/imgs/Image_Ilkka_Lastumaki.jpg" alt="" />
   </div>
 </template>
 
