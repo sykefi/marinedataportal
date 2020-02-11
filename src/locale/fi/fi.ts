@@ -8,6 +8,7 @@ import waterQualityDetails from './waterQualityDetailsFi';
 import general from './generalFi';
 import footer from './footerFi';
 import header from './headerFi';
+import infoMenu from './infoMenuFi';
 export default {
     ...attributeSelection,
     ...timeSpanSelection,
@@ -19,4 +20,5 @@ export default {
     ...general,
     ...footer,
     ...header,
+    ...infoMenu,
 };

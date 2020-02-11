@@ -6,6 +6,7 @@ import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
 import DataDownload from '@/components/dataDownload/DataDownload.vue';
 import DataPreview from '@/components/dataPreview/DataPreview.vue';
 import Header from '@/components/Header.vue';
+import InfoMenu from '@/components/InfoMenu.vue';
 import Footer from '@/components/Footer.vue';
 import SiteTitle from '@/components/SiteTitle.vue';
 import SiteImage from '@/components/SiteImage.vue';
@@ -26,6 +27,7 @@ import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
     DataDownload,
     DataPreview,
     Header,
+    InfoMenu,
     Footer,
     SiteTitle,
     SiteImage,

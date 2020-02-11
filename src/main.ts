@@ -6,13 +6,13 @@ import VueLayers from 'vuelayers';
 import 'vuelayers/lib/style.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 
 library.add(faTimes);
 library.add(faAngleRight);
+library.add(faAngleDown);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(VueLayers);
