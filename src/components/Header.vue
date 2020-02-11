@@ -54,85 +54,85 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import i18n from '@/locale/i18n';
-import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
-import { surgeModule } from '@/store/attributeModules/surgeModule';
+  import { Component, Vue } from 'vue-property-decorator';
+  import i18n from '@/locale/i18n';
+  import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+  import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
+  import { surgeModule } from '@/store/attributeModules/surgeModule';
 
-@Component({ i18n })
-export default class Header extends Vue {
-  public setLanguage(tag: string) {
-    i18n.locale = tag;
-    waterQualityModule.language = tag;
-    const html = document.documentElement;
-    html.setAttribute('lang', tag);
-    document.title = this.$t('$siteTitle').toString();
-    surfaceTemperatureModule.getOptions();
-    surgeModule.getOptions();
+  @Component({ i18n })
+  export default class Header extends Vue {
+    public setLanguage(tag: string) {
+      i18n.locale = tag;
+      waterQualityModule.language = tag;
+      const html = document.documentElement;
+      html.setAttribute('lang', tag);
+      document.title = this.$t('$siteTitle').toString();
+      surfaceTemperatureModule.getOptions();
+      surgeModule.getOptions();
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
-#top-header {
-  display: grid;
-  grid-template:
-    "fund fund fund"
-    ". lang ."
-    / auto 65rem auto;
-}
-
-#upper-header {
-  grid-area: lang;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 6.25rem;
-}
-
-#lang {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 5rem;
-  height: 30%;
-  a {
-    padding: 0 0.5rem 0 0.5rem;
+  @import "@/assets/styles/variables.scss";
+  #top-header {
+    display: grid;
+    grid-template:
+      "fund fund fund"
+      ". lang ."
+      / auto $content-width auto;
   }
-}
 
-a {
-  color: black;
-  font-size: $font-size-l;
-  text-decoration: none;
-  &.current {
-    color: $text-white;
+  #upper-header {
+    grid-area: lang;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6.25rem;
+  }
+
+  #lang {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 5rem;
+    height: 30%;
+    a {
+      padding: 0 0.5rem 0 0.5rem;
+    }
+  }
+
+  a {
+    color: black;
+    font-size: $font-size-l;
     text-decoration: none;
-    background-color: $background-blue;
-    cursor: default;
+    &.current {
+      color: $text-white;
+      text-decoration: none;
+      background-color: $background-blue;
+      cursor: default;
+    }
   }
-}
 
-.header-logos {
-  height: 45%;
-  a {
-    padding-right: 4rem;
+  .header-logos {
+    height: 45%;
+    a {
+      padding-right: 4rem;
+    }
   }
-}
 
-#top-logos {
-  grid-area: fund;
-  height: 3.5rem;
-  background-color: $background-light;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  img {
-    margin: 0 1rem 0 1rem;
-    height: 70%;
-    vertical-align: bottom;
+  #top-logos {
+    grid-area: fund;
+    height: 3.5rem;
+    background-color: $background-light;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    img {
+      margin: 0 1rem 0 1rem;
+      height: 70%;
+      vertical-align: bottom;
+    }
   }
-}
 </style>
