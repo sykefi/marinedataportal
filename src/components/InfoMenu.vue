@@ -2,9 +2,9 @@
   <div>
     <div id="app-info">
       <div id="buttons">
-        <InfoButton :buttonText="$t('$serviceInfoTitle')" @show-info="onShowInfo" />
-        <InfoButton :buttonText="$t('$instructionsTitle')" @show-info="onShowInstructions" />
-        <InfoButton :buttonText="$t('$termsOfServiceTitle')" @show-info="onShowTerms" />
+        <InfoButton :buttonText="$t('$serviceInfoTitle')" @show-info="showInfo = $event" />
+        <InfoButton :buttonText="$t('$instructionsTitle')" @show-info="showInstructions = $event" />
+        <InfoButton :buttonText="$t('$termsOfServiceTitle')" @show-info="showTerms = $event" />
       </div>
     </div>
     <div id="info-text">
@@ -37,18 +37,6 @@
     public showInfo: boolean = false;
     public showInstructions: boolean = false;
     public showTerms: boolean = false;
-
-    public onShowInfo(isPressed: boolean) {
-      this.showInfo = isPressed;
-    }
-
-    public onShowInstructions(isPressed: boolean) {
-      this.showInstructions = isPressed;
-    }
-
-    public onShowTerms(isPressed: boolean) {
-      this.showTerms = isPressed;
-    }
   }
 </script>
 
