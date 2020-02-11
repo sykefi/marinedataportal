@@ -45,7 +45,7 @@
     "info info info"
     ". cont ."
     "foot foot foot"
-    / auto 65rem auto;
+    / auto $content-width auto;
 }
 
 body {

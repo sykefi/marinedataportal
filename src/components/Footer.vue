@@ -81,7 +81,7 @@ export default class Footer extends Vue { }
     "div div div"
     ". logo ."
     ". links ."
-    / 1fr 65rem 1fr;
+    / 1fr $content-width 1fr;
 }
 
 #feedback {

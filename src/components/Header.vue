@@ -81,7 +81,7 @@ export default class Header extends Vue {
   grid-template:
     "fund fund fund"
     ". lang ."
-    / auto 65rem auto;
+    / auto $content-width auto;
 }
 
 #upper-header {
