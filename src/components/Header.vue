@@ -9,6 +9,15 @@
           alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
         />
       </div>
+      
+      <!-- Swedish -->
+      <div id="top-logos" v-show="$i18n.locale === 'sv'">
+        <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
+        <img
+          src="@/assets/logos/emkr_sve.png"
+          alt="Logo Europeiska havs- och fiskerifonden, Finlands operativa program 2014-2020."
+        />
+      </div>
 
       <!-- English -->
       <div id="top-logos" v-show="$i18n.locale === 'en'">
@@ -27,6 +36,13 @@
           </a>
         </div>
 
+        <!-- Swedish -->
+        <div class="header-logos" v-if="$i18n.locale === 'sv'">
+          <a href="http://itameri.fi">
+            <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi hemsida." />
+          </a>
+        </div>
+
         <!-- English -->
         <div class="header-logos" v-if="$i18n.locale === 'en'">
           <a href="http://itameri.fi">
@@ -41,6 +57,12 @@
             @click="setLanguage('fi')"
             aria-label="Vaihda kieleksi suomi."
           >FI</a>
+          <a
+            href="#"
+            :class="{current: $i18n.locale === 'sv'}"
+            @click="setLanguage('sv')"
+            aria-label="Ändra språk till svenska."
+          >SV</a>
           <a
             href="#"
             :class="{current: $i18n.locale === 'en'}"
