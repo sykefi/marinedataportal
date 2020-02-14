@@ -20,6 +20,8 @@ describe('Header.vue', () => {
     expect(vm.$i18n.locale).eq('en');
     (vm as any).setLanguage('fi');
     expect(vm.$i18n.locale).eq('fi');
+    (vm as any).setLanguage('sv');
+    expect(vm.$i18n.locale).eq('sv');
 
     vm.$destroy();
   });
