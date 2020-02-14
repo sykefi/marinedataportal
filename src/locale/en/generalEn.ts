@@ -17,4 +17,5 @@ export default {
     $feedback: 'Give feedback',
     $emailWithSubject: 'mailto:avoindata.syke@ymparisto.fi?subject=Feedback%20on%20the%20Download%20Service%20of%20the%20Marine%20Data%20Portal',
     $errorNotification: 'An error occurred. Please refresh the page and try again. We apologize for the inconvenience.',
+    $photo: 'Photo',
 };
