@@ -19,12 +19,10 @@
     font-size: $font-size-s;
     text-transform: uppercase;
     margin: 4px;
-    width: 10rem;
+    width: 12rem;
     height: 3rem;
     border: 0.08rem solid;
     border-radius: 3.125rem;
-    height: 3rem;
-    width: 10rem;
     padding-left: 1rem;
     padding-right: 1rem;
   }
