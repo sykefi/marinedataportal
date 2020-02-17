@@ -42,7 +42,7 @@
     "vue-template-compiler": "^2.6.11",
     "@babel/plugin-proposal-export-default-from": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-    "jsdom": "^16.1.0"
+    "jsdom": "^16.2.0"
   },
   "browserslist": [
     "> 1%",
