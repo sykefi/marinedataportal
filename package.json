@@ -14,7 +14,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "@types/ol": "^6.1.0",
     "@types/proj4": "^2.5.0",
-    "@types/sinon": "^7.5.1",
+    "@types/sinon": "^7.5.2",
     "core-js": "^3.6.4",
     "proj4": "^2.6.0",
     "sinon": "^9.0.0",
