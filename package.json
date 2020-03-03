@@ -27,7 +27,7 @@
     "vuex-class-modules": "^1.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.4",
+    "@babel/core": "^7.8.6",
     "@types/chai": "^4.2.10",
     "@types/mocha": "^7.0.1",
     "@vue/cli-plugin-babel": "^4.2.3",
