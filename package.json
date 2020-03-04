@@ -29,7 +29,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@types/chai": "^4.2.10",
-    "@types/mocha": "^7.0.1",
+    "@types/mocha": "^7.0.2",
     "@vue/cli-plugin-babel": "^4.2.3",
     "@vue/cli-service": "^4.2.3",
     "@vue/cli-plugin-typescript": "^4.2.3",
