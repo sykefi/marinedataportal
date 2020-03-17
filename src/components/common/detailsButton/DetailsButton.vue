@@ -29,7 +29,7 @@ button {
   box-shadow: 0 0.1rem 0 $border-shadow;
   color: $text-white;
   background: $background-info;
-  font-size: $font-size-s;
+  font-size: $font-size-xs;
   font-weight: bold;
   &:disabled {
     background: $disabled;
@@ -43,7 +43,7 @@ button {
   display: block;
   border: 1px solid;
   background: white;
-  font-size: $font-size-s;
+  font-size: $font-size-xs;
   font-weight: normal;
   text-transform: none;
   text-align: center;
