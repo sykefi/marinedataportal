@@ -48,7 +48,7 @@
     height: 4.4rem;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   #info-text {

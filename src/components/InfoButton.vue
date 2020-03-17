@@ -36,6 +36,7 @@ export default class InfoButton extends Vue {
 #button-wrapper {
   display: flex;
   align-items: center;
+  padding: 0 7rem 0 7rem;
 }
 
 #info-button {
