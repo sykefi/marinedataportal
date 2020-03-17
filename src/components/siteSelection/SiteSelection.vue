@@ -1,7 +1,7 @@
 <template>
   <div>
     <SelectionHeader :header="$t('$siteSelectionTitle')" />
-    <button class="download-button small-button" @click="populate">{{ $t("$refreshSites") }}</button>
+    <button class="download-button" @click="populate">{{ $t("$refreshSites") }}</button>
     <p class="error" v-if="showSiteRequiredError">{{$t('$noSitesSelected')}}</p>
     <div v-if="availableSites.length">
       <p class="info-paragraph">{{ $t("$siteSelectionInfo") }}</p>
@@ -94,12 +94,6 @@
   }
 }
 
-.small-button {
-  font-weight: normal;
-  letter-spacing: 0;
-  padding: 0 1rem 0 1rem;
-  height: 3rem;
-}
 </style>
 
 <script src="./siteSelection.ts"></script>
