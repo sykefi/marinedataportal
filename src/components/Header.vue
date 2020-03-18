@@ -52,11 +52,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import i18n from "@/locale/i18n";
-import { waterQualityModule } from "@/store/attributeModules/waterQualityModule";
-import { surfaceTemperatureModule } from "@/store/attributeModules/surfaceTemperatureModule";
-import { surgeModule } from "@/store/attributeModules/surgeModule";
+import { Component, Vue } from 'vue-property-decorator';
+import i18n from '@/locale/i18n';
+import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
+import { surgeModule } from '@/store/attributeModules/surgeModule';
 
 @Component({ i18n })
 export default class Header extends Vue {
