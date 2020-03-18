@@ -17,9 +17,6 @@ steps:
 
   - script:
       npm install
-      npm run lint-no-fix
-      npm run test:unit
-      npm run build
     displayName: "npm install"
 
   - script:
