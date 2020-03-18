@@ -31,7 +31,7 @@ export default class SiteTitle extends Vue { }
 }
 
 #image-origin {
-  font-size: $font-size-s;
+  font-size: $font-size-xs;
   font-weight: normal;
   text-align: right;
   padding: 10% 2% 0 0;

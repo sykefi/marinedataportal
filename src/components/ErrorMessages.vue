@@ -6,7 +6,7 @@
     >{{ $t("$serviceUnavailable") }}</p>
     <p v-else-if="!sykeApiOnline" id="error-paragraph">{{ $t("$sykeApiDownInfo") }}</p>
     <p v-else-if="!fmiApiOnline" id="error-paragraph">{{ $t("$fmiApiDownInfo") }}</p>
-    <div ref="focus" tabindex="-1" id="focus-to-error">
+    <div v-if="errorList.length" ref="focus" tabindex="-1" id="focus-to-error">
       <fieldset id="error-content">
         <li v-for="error in errorList" :key="error" class="error">{{$t(error)}}</li>
       </fieldset>

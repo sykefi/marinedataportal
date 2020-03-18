@@ -29,8 +29,8 @@ export default class SelectionHeader extends Vue {
   display: flex;
   align-items: center;
   height: 4rem;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
   border-bottom: 0.1rem solid $border-dark;
 }
 
