@@ -48,5 +48,14 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "gitHooks": {
+    "pre-commit": "lint"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }
