@@ -26,8 +26,4 @@ steps:
   - script:
       npm run test:unit
     displayName: "npm test"
-
-  - script:
-      npm run build
-    displayName: "npm build"
  
