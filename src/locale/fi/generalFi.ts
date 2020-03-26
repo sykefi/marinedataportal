@@ -1,6 +1,6 @@
 export default {
-    $siteTitle: 'Merihavaintojen lataus – olosuhde- ja tila-aineistoja',
-    $siteDetails: 'Voit ladata täältä käyttöösi Suomen ympäristökeskuksen ja Ilmatieteen laitoksen meren tilan seuranta-aineistot.',
+    $siteTitle: 'Itämeren tila-aineistojen lataus',
+    $siteDetails: 'Suomen ympäristökeskuksen ja Ilmatieteen laitoksen meren tilaa ja olosuhteita koskevia havaintoja',
     $missingTimeSpanStart: 'Aikavälin alkupäivä puuttuu.',
     $missingTimeSpanEnd: 'Aikavälin loppupäivä puuttuu.',
     $noAttributesSelected: 'Valitse vähintään yksi haettava suure.',

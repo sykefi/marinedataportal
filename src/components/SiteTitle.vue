@@ -20,14 +20,14 @@ export default class SiteTitle extends Vue { }
 #site-title {
   font-size: $font-size-xxl;
   font-weight: bold;
-  color: $text-white;
-  padding-top: 5%;
+  color: $text-dark;
+  padding-top: 3%;
 }
 
 #title-details {
   font-size: $font-size-l;
   font-weight: normal;
-  color: $text-white;
+  color: $text-dark;
 }
 
 #image-origin {
