@@ -27,6 +27,27 @@
             </a>
           </li>
         </ul>
+        <!-- Swedish logos -->
+        <ul v-if="$i18n.locale === 'sv'">
+          <li>
+            <a href="https://syke.fi/sv-FI">
+              <img
+                id="syke-logo"
+                src="@/assets/logos/SYKE_fi_en.jpg"
+                alt="Finlands miljöcentral hemsida."
+              />
+            </a>
+          </li>
+          <li>
+            <a href="https://sv.ilmatieteenlaitos.fi/">
+              <img
+                id="il-logo"
+                src="@/assets/logos/il_fi_en.png"
+                alt="Meteorologiska institutet hemsida."
+              />
+            </a>
+          </li>
+        </ul>
 
         <!-- English logos -->
         <ul v-if="$i18n.locale === 'en'">
@@ -50,6 +71,7 @@
           </li>
         </ul>
       </div>
+
       <div id="links">
         <ul>
           <li>
