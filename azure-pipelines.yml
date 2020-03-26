@@ -15,9 +15,15 @@ steps:
       versionSpec: "10.x"
     displayName: "Install Node.js"
 
-  - script: |
+  - script:
       npm install
-      npm run lint
+    displayName: "npm install"
+
+  - script:
+      npm run lint-no-fix
+    displayName: "npm lint"
+
+  - script:
       npm run test:unit
-      npm run build
-    displayName: "npm install, test and build"
+    displayName: "npm test"
+ 

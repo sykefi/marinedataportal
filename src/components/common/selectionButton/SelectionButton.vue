@@ -19,8 +19,8 @@
     font-size: $font-size-s;
     text-transform: uppercase;
     margin: 4px;
-    width: 12rem;
-    height: 3rem;
+    width: 14rem;
+    height: 3.3rem;
     border: 0.08rem solid;
     border-radius: 3.125rem;
     padding-left: 1rem;
