@@ -7,6 +7,7 @@ $orderby=DeterminationCombinationId';
 export interface IWaterQualityOption {
   id: number;
   name_fi: string;
+  name_sv: string;
   name_en: string;
 }
 
@@ -18,6 +19,7 @@ export async function getWaterQualityOptions() {
       options.push({
         id: value.determinationCombinationId,
         name_fi: value.nameFi,
+        name_sv: value.nameSv,
         name_en: value.nameEn,
       });
     });
