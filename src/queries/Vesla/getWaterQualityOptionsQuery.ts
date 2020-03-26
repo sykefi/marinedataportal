@@ -1,7 +1,7 @@
 import getVeslaData from '@/apis/sykeApi';
 
 const query = 'determinationCombinations?api-version=1.0&\
-$select=DeterminationCombinationId,NameFi,NameEn&\
+$select=DeterminationCombinationId,NameFi,NameSv,NameEn&\
 $orderby=DeterminationCombinationId';
 
 export interface IWaterQualityOption {
