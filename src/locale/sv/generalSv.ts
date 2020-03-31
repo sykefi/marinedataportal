@@ -1,6 +1,6 @@
 export default {
-    $siteTitle: 'Ladda ner uppgifter om tillståndet i Östersjön',
-    $siteDetails: 'Här kan du ladda ner data om övervakning av havets tillstånd från Finlands miljöcentral och Meteorologiska institutet',
+    $siteTitle: 'Ladda ner data med information om Östersjöns tillstånd',
+    $siteDetails: 'Observationer om havets tillstånd och förhållanden vid Finlands miljöcentral och Meteorologiska institutet',
     $missingTimeSpanStart: 'Startdatum för tidsintervall saknas.',
     $missingTimeSpanEnd: 'Slutdatum för tidsintervall saknas.',
     $noAttributesSelected: 'Välj minst en sökparameter.',
