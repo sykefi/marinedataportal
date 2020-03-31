@@ -1,6 +1,6 @@
 export default {
-    $siteTitle: 'Download Service of the Marine Data Portal',
-    $siteDetails: 'Here you can download Baltic Sea monitoring data from Finnish Environment Institute and Finnish Meteorological Institute',
+    $siteTitle: 'Download data of the Baltic Sea state',
+    $siteDetails: 'Observations on the state and conditions of the sea made by the Finnish Environment Institute (SYKE) and the Finnish Meteorological Institute',
     $missingTimeSpanStart: 'Time span start date is missing.',
     $missingTimeSpanEnd: 'Time span end date is missing.',
     $noAttributesSelected: 'Choose at least one variable.',
