@@ -7,6 +7,13 @@
           <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
         </a>
       </div>
+      
+      <!-- Swedish -->
+      <div id="project-logo" v-if="$i18n.locale === 'sv'">
+        <a href="http://itameri.fi">
+          <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi hemsida." />
+        </a>
+      </div>
 
       <!-- English -->
       <div id="project-logo" v-if="$i18n.locale === 'en'">
@@ -24,13 +31,19 @@
         >FI</a>
         <a
           href="#"
+          :class="{current: $i18n.locale === 'sv'}"
+          @click="setLanguage('sv')"
+          aria-label="Ändra språk till svenska."
+        >SV</a>
+        <a
+          href="#"
           :class="{current: $i18n.locale === 'en'}"
           @click="setLanguage('en')"
           aria-label="Change language to English."
         >EN</a>
 
         <!-- Finnish -->
-        <div id="fund-logos" v-show="$i18n.locale === 'fi'">
+        <div id="fund-logos" v-if="$i18n.locale === 'fi'">
           <img
             src="@/assets/logos/emkr_fi.png"
             alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
@@ -38,13 +51,22 @@
           <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
         </div>
 
+        <!-- Swedish -->
+        <div id="fund-logos" v-if="$i18n.locale === 'sv'">
+          <img
+            src="@/assets/logos/emkr_sve.png"
+            alt="Logo Europeiska havs- och fiskerifonden, Finlands operativa program 2014-2020."
+          />
+          <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
+        </div>
+
         <!-- English -->
-        <div id="fund-logos" v-show="$i18n.locale === 'en'">
+        <div id="fund-logos" v-if="$i18n.locale === 'en'">
           <img
             src="@/assets/logos/emkr_eng.jpg"
             alt="Logo of the European maritime and fisheries fund, operational programme for Finland 2014-2020."
           />
-          <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo" />
+          <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
         </div>
       </div>
     </div>
@@ -90,6 +112,7 @@ export default class Header extends Vue {
   height: 30%;
   a {
     padding: 0 0.5rem 0 0.5rem;
+    margin-right: 1rem;
   }
 }
 

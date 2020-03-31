@@ -40,6 +40,8 @@ export class WaterQualityModule extends VuexModule implements IAttributeModuleWi
     let options: IAttributeOption[] = [];
     if (this.language === 'fi') {
       options = this.options.map((o) => ({ id: o.id, name: o.name_fi, online: true }));
+    } else if (this.language === 'sv') {
+      options = this.options.map((o) => ({ id: o.id, name: o.name_sv, online: true }));
     } else {
       options = this.options.map((o) => ({ id: o.id, name: o.name_en, online: true }));
     }

@@ -17,4 +17,5 @@ export default {
     $feedback: 'Anna palautetta',
     $emailWithSubject: 'mailto:avoindata.syke@ymparisto.fi?subject=Palautetta%20Itämeren%20tila-aineistojen%20latauksesta',
     $errorNotification: 'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
+    $photo: 'Kuva',
 };
