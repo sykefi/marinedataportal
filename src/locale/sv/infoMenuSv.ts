@@ -1,8 +1,8 @@
 export default {
-    $serviceInfoTitle: 'Tietoa palvelusta',
-    $serviceInfo: 'Tietoa palvelusta',
-    $instructionsTitle: 'Käyttöohje',
-    $instructions: 'Käyttöohje',
-    $termsOfServiceTitle: 'Käyttöehdot',
-    $termsOfService: 'Käyttöehdot',
+    $serviceInfoTitle: 'Serviceinformation',
+    $serviceInfo: 'Serviceinformation',
+    $instructionsTitle: 'Bruksanvisning',
+    $instructions: 'Bruksanvisning',
+    $termsOfServiceTitle: 'Användarvillkor',
+    $termsOfService: 'Användarvillkor',
 };

@@ -8,15 +8,15 @@
     <div id="info-text">
       <div v-if="showInfo">
         <h2>{{$t('$serviceInfoTitle')}}</h2>
-        <p>{{$t('$serviceInfo')}}</p>
+        <p v-html="$t('$serviceInfo')"></p>
       </div>
       <div v-if="showInstructions">
         <h2>{{$t('$instructionsTitle')}}</h2>
-        <p>{{$t('$instructions')}}</p>
+        <p v-html="$t('$instructions')"></p>
       </div>
       <div v-if="showTerms">
         <h2>{{$t('$termsOfServiceTitle')}}</h2>
-        <p>{{$t('$termsOfService')}}</p>
+        <p v-html="$t('$termsOfService')"></p>
       </div>
     </div>
   </div>

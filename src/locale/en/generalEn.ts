@@ -1,5 +1,5 @@
 export default {
-    $siteTitle: 'Download data of the Baltic Sea state',
+    $siteTitle: 'Download Data of the Baltic Sea State',
     $siteDetails: 'Observations on the state and conditions of the sea made by the Finnish Environment Institute (SYKE) and the Finnish Meteorological Institute',
     $missingTimeSpanStart: 'Time span start date is missing.',
     $missingTimeSpanEnd: 'Time span end date is missing.',
