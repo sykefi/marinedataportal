@@ -17,7 +17,7 @@
     "@types/proj4": "^2.5.0",
     "@types/sinon": "^9.0.0",
     "core-js": "^3.6.4",
-    "proj4": "^2.6.0",
+    "proj4": "^2.6.1",
     "sinon": "^9.0.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
