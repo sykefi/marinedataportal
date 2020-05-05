@@ -17,7 +17,7 @@
 
       <!-- English -->
       <div id="project-logo" v-if="$i18n.locale === 'en'">
-        <a target="_blank" rel="noopener" href="https://www.itameri.fi/fi-FI">
+        <a target="_blank" rel="noopener" href="https://www.itameri.fi">
           <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
         </a>
       </div>
