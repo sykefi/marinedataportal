@@ -1,8 +1,8 @@
 export default {
     $serviceInfoTitle: 'Serviceinformation',
     $serviceInfo: 'Serviceinformation',
-    $instructionsTitle: 'Bruksanvisning',
-    $instructions: 'Bruksanvisning',
+    $instructionsTitle: 'Instruktioner',
+    $instructions: 'Med tjänsten Merihavainnot.fi kan du söka material som återspeglar vattenkvaliteten och havets egenskaper från Finlands miljöcentral (SYKE) och Meteorologiska institutet (IL). Materialen är kostnadsfria och fria för användning.<br /> <ol><li><b>Välj de variabler som ska hämtas</b> <br />Tryck på den gråa knappen för att välja önskat material. När knappen blir blå är variabeln vald. Du kan söka data från flera variabler samtidigt.<br /><br />När du söker vattenkvalitetsdata väljer du dem genom att kryssa de noggrannare variablerna i listrutan som öppnas. Du kan välja flera variabler samtidigt. Välj sedan om du vill ha data från ett specifikt djup eller från alla djup.</li> <br /> <li><b>Välj ett intervall</b> <br />Välj det datumintervall från vilket du vill hämta data genom att välja start- och slutdatum från rullgardinsmenyn.<br />Å = år<br />MM = månad<br />DD = dag<br /><br />Du kan också välja observationer för en viss period (till exempel bara juni-observationer) genom att välja önskade datum från rullgardinsmenyn för ”Period”.</li> <br /> <li><b>Välj platser</b> <br />Tryck på "Hämta platser" för att öppna kartan. På kartan kan du välja den plats vars observationer du vill hämta genom att trycka på en punkt med musen. Om du vill välja mer än en plats trycker du samtidigt på Shift-tangenten. Du kan också avgränsa ett önskat område genom att trycka på Ctrl-tangenten och rita en ruta med musen. Du kan också välja ett område från rullgardinsmenyn.</li> <br /> <li><b>Ladda ner till fil</b> <br />Tryck på "Hämta data" för att se de tre första raderna av resultatlistan på skärmen. Om filen är av önskad typ, tryck på "Ladda ner CSV-fil" för att ladda ner materialet i csv-format.',
     $termsOfServiceTitle: 'Användarvillkor',
     $termsOfService: 'Användarvillkor',
 };
