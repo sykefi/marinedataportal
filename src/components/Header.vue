@@ -3,21 +3,21 @@
     <div id="upper-header">
       <!-- Finnish -->
       <div id="project-logo" v-if="$i18n.locale === 'fi'">
-        <a href="http://itameri.fi">
+        <a target="_blank" rel="noopener" href="https://www.itameri.fi/fi-FI">
           <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
         </a>
       </div>
       
       <!-- Swedish -->
       <div id="project-logo" v-if="$i18n.locale === 'sv'">
-        <a href="http://itameri.fi">
+        <a target="_blank" rel="noopener" href="https://www.ostersjon.fi/sv-FI">
           <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi hemsida." />
         </a>
       </div>
 
       <!-- English -->
       <div id="project-logo" v-if="$i18n.locale === 'en'">
-        <a href="http://itameri.fi">
+        <a target="_blank" rel="noopener" href="https://www.itameri.fi">
           <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
         </a>
       </div>

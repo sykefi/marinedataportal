@@ -9,7 +9,7 @@
         <!-- Finnish logos -->
         <ul v-if="$i18n.locale === 'fi'">
           <li>
-            <a href="https://syke.fi/fi-FI">
+            <a target="_blank" rel="noopener" href="https://syke.fi/fi-FI">
               <img
                 id="syke-logo"
                 src="@/assets/logos/SYKE_fi_en.jpg"
@@ -18,7 +18,7 @@
             </a>
           </li>
           <li>
-            <a href="https://ilmatieteenlaitos.fi/">
+            <a target="_blank" rel="noopener" href="https://ilmatieteenlaitos.fi/">
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
@@ -30,7 +30,7 @@
         <!-- Swedish logos -->
         <ul v-if="$i18n.locale === 'sv'">
           <li>
-            <a href="https://syke.fi/sv-FI">
+            <a target="_blank" rel="noopener" href="https://syke.fi/sv-FI">
               <img
                 id="syke-logo"
                 src="@/assets/logos/SYKE_fi_en.jpg"
@@ -39,7 +39,7 @@
             </a>
           </li>
           <li>
-            <a href="https://sv.ilmatieteenlaitos.fi/">
+            <a target="_blank" rel="noopener" href="https://sv.ilmatieteenlaitos.fi/">
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
@@ -52,7 +52,7 @@
         <!-- English logos -->
         <ul v-if="$i18n.locale === 'en'">
           <li>
-            <a href="https://syke.fi/en-US">
+            <a target="_blank" rel="noopener" href="https://syke.fi/en-US">
               <img
                 id="syke-logo"
                 src="@/assets/logos/SYKE_fi_en.jpg"
@@ -61,7 +61,7 @@
             </a>
           </li>
           <li>
-            <a href="https://en.ilmatieteenlaitos.fi/">
+            <a target="_blank" rel="noopener" href="https://en.ilmatieteenlaitos.fi/">
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
