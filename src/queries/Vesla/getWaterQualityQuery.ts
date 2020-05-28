@@ -23,6 +23,7 @@ const select = [
   'siteDepthM',
   'totalDepthM',
   'laboratory',
+  'flag',
 ];
 
 const query = 'results?api-version=1.0&\
@@ -30,7 +31,9 @@ $orderby=DeterminationId,SiteId,Time&\
 $select=' + select.join(',');
 
 async function getFilter(params: CommonParameters, determinationIds: number[], depth: IDepthSettings) {
-  let filter = '&$filter= EnvironmentTypeId in (31,32,33)';
+  let filter = '&$filter= EnvironmentTypeId in (31,32,33)' +
+    // results with W flag (W, WL, WG) are uncertain and not shown in the portal
+    ` and (Flag eq null or not contains(Flag, 'W'))`;
 
   switch (depth.option) {
     case DepthOptions.DepthInterval:
