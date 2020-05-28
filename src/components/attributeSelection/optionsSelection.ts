@@ -8,11 +8,13 @@ export default class OptionsSelection extends Vue {
   public module!: IAttributeModuleWithOptions;
   @Prop({ required: false, type: Boolean })
   public twoColumns!: boolean;
+  public showPhosphorusMessage: boolean = false;
 
   get selectedIds() {
     return this.module.selectedIds;
   }
   set selectedIds(e) {
+    this.includesPhosphorus(e) ? this.showPhosphorusMessage = true : this.showPhosphorusMessage = false;
     this.module.setSelectedOptions(e);
   }
 
@@ -27,8 +29,10 @@ export default class OptionsSelection extends Vue {
   set selectAll(value: boolean) {
     if (value) {
       this.module.selectAll();
+      this.showPhosphorusMessage = true;
     } else {
       this.module.deSelectAll();
+      this.showPhosphorusMessage = false;
     }
   }
 
@@ -36,5 +40,9 @@ export default class OptionsSelection extends Vue {
     return {
       '--length': Math.ceil(this.module.availableOptions.length / 2),
     };
+  }
+
+  public includesPhosphorus(ids: number[]) {
+    return ids.some((id) => [20, 33, 44, 55].includes(id));
   }
 }

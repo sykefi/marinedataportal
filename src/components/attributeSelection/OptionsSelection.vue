@@ -22,6 +22,7 @@
         </label>
       </div>
     </fieldset>
+    <p v-if="showPhosphorusMessage" class="info-paragraph">{{ $t("$phosphorusMessage") }}</p>
   </div>
 </template>
 
