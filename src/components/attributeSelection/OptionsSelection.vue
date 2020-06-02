@@ -2,6 +2,7 @@
   <div class="selection-box">
     <fieldset class="selection-content" :style="cssVars">
       <legend class="details-header">{{ header }}</legend>
+      <p v-if="isWaterQualityModule" class="info-paragraph" v-html="$t('$veslaInfo')"></p>
       <label>
         <input
           type="checkbox"
@@ -22,6 +23,7 @@
         </label>
       </div>
     </fieldset>
+    <p v-if="showPhosphorusMessage" class="info-paragraph">{{ $t("$phosphorusMessage") }}</p>
   </div>
 </template>
 
