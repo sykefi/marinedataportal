@@ -18,7 +18,7 @@ export default class OptionsSelection extends Vue {
     return this.module.selectedIds;
   }
   set selectedIds(e) {
-    this.includesPhosphorus(e) ? this.showPhosphorusMessage = true : this.showPhosphorusMessage = false;
+    this.showPhosphorusMessage = this.includesPhosphorus(e);
     this.module.setSelectedOptions(e);
   }
 
