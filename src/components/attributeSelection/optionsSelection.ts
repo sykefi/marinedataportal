@@ -10,6 +10,10 @@ export default class OptionsSelection extends Vue {
   public twoColumns!: boolean;
   public showPhosphorusMessage: boolean = false;
 
+  get isWaterQualityModule() {
+    return this.module.name === '$waterQuality';
+  }
+
   get selectedIds() {
     return this.module.selectedIds;
   }
@@ -29,7 +33,9 @@ export default class OptionsSelection extends Vue {
   set selectAll(value: boolean) {
     if (value) {
       this.module.selectAll();
-      this.showPhosphorusMessage = true;
+      if (this.includesPhosphorus(this.selectedIds)) {
+        this.showPhosphorusMessage = true;
+      }
     } else {
       this.module.deSelectAll();
       this.showPhosphorusMessage = false;
@@ -43,6 +49,9 @@ export default class OptionsSelection extends Vue {
   }
 
   public includesPhosphorus(ids: number[]) {
-    return ids.some((id) => [20, 33, 44, 55].includes(id));
+    if (this.module.name === '$waterQuality') {
+      return ids.some((id) => [20, 33, 44, 55].includes(id));
+    }
+    return false;
   }
 }

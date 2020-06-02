@@ -9,5 +9,6 @@ export default {
     $phytoplankton: 'Växtplankton',
     $benthicFauna: 'Bottendjur',
     $selectAll: 'Välj alla',
-    $phosphorusMessage: 'Itämeren avomeriasemien fosforiaineistot ajanjaksolta 1.1.2000–28.2.2014 on päätetty tarkistaa datassa ilmenneiden poikkeavuuksien takia, eikä kyseisen ajanjakson data ole toistaiseksi ladattavissa.',
+    $phosphorusMessage: 'Fosfordata från Östersjöns offshore-stationer för perioden 1.1.2000–28.2.2014 kommer att kontrolleras på grund av avvikelser i uppgifterna, vilket betyder att data för den perioden är för närvarande inte tillgängliga för nedladdning.',
+    $veslaInfo: 'Informationen finns mer detaljerad från SYKEs <a target="_blank" rel="noopener" href="https://www.syke.fi/fi-FI/Avoin_tieto/Ymparistotietojarjestelmat">Öppen information -tjänsten</a> (bara på finska).',
 };

@@ -190,10 +190,16 @@ export function fromObservationToSykeFormat(obj: any): IResponseFormat {
 }
 
 export function fromWaterQualityResultToSykeFormat(obj: any): IResponseFormat {
+  // results flagged with L are less than the determination limit and multiplied by 0.5
+  // in order to get a value that is closer to the real value
+  let value = obj.value.toString();
+  if (obj.flag && obj.flag.includes('L')) {
+    value = 0.5 * value;
+  }
   return {
     time: obj.time,
     analyteName: obj.analyteName,
-    value: obj.value.toString(),
+    value,
     unit: obj.unit,
     siteId: obj.siteId,
     site: obj.site,
