@@ -1,3 +1,4 @@
+/* tslint:disable */
 export default {
     $siteTitle: 'Itämeren tila-aineistojen lataus',
     $siteDetails: 'Suomen ympäristökeskuksen ja Ilmatieteen laitoksen meren tilaa ja olosuhteita koskevia havaintoja',
@@ -15,7 +16,7 @@ export default {
     $noSitesSelected: 'Valitse vähintään yksi paikka.',
     $busy: 'Lataa...',
     $feedback: 'Anna palautetta',
-    $emailWithSubject: 'mailto:herttapaivystajat@syke.fi?subject=Palaute%20Merihavainnot.fi',
+    $emailWithSubject: 'mailto:herttapaivystajat@syke.fi?subject=Palautetta%20Itämeren%20tila-aineistojen%20latauksesta',
     $errorNotification: 'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
     $photo: 'Kuva',
 };
