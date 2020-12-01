@@ -15,7 +15,7 @@ export default {
     $noSitesSelected: 'Välj minst en plats.',
     $busy: 'Laddar...',
     $feedback: 'Ge oss din feedback',
-    $emailWithSubject: 'mailto:avoindata.syke@syke.fi?subject=Feedback%20om%20laddning%20av%20data%20om%20Östersjöns%20tillstånd',
+    $emailWithSubject: 'mailto:herttapaivystajat@syke.fi?subject=Feedback%20om%20laddning%20av%20data%20om%20Östersjöns%20tillstånd',
     $errorNotification: 'Ett fel inträffade vid körning av programmet. Uppdatera sidan och försök igen. Ledsen för besväret.',
     $photo: 'Foto',
 };

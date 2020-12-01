@@ -15,7 +15,7 @@ export default {
     $noSitesSelected: 'Valitse vähintään yksi paikka.',
     $busy: 'Lataa...',
     $feedback: 'Anna palautetta',
-    $emailWithSubject: 'mailto:avoindata.syke@syke.fi?subject=Palautetta%20Itämeren%20tila-aineistojen%20latauksesta',
+    $emailWithSubject: 'mailto:herttapaivystajat@syke.fi?subject=Palautetta%20Itämeren%20tila-aineistojen%20latauksesta',
     $errorNotification: 'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
     $photo: 'Kuva',
 };
