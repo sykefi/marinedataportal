@@ -35,7 +35,9 @@ import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
   },
 })
 export default class App extends Vue {
-  public hasError = false;
+  get hasError() {
+    return mainState.hasError;
+  }
 
   get loading() {
     return mainState.loading;
@@ -43,12 +45,12 @@ export default class App extends Vue {
 
   public created() {
     Vue.config.errorHandler = (e) => {
-      this.hasError = true;
+      mainState.setError(true);
       console.error(e);
       return true;
     };
     window.onerror = (e) => {
-      this.hasError = true;
+      mainState.setError(true);
       console.error(e);
     };
   }
