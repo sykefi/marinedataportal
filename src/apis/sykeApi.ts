@@ -1,6 +1,6 @@
+// tslint:disable:no-console
 import { mainState } from '@/store/mainState';
 
-// tslint:disable:no-console
 export default async function getVeslaData(query: string) {
   try {
     let res = await getJsonResponse('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query);
