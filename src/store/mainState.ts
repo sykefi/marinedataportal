@@ -36,6 +36,7 @@ class MainState extends VuexModule {
 
   public sykeApiOnline: boolean = true;
   public fmiApiOnline: boolean = true;
+  public hasError: boolean = false;
 
   get attributeModules() {
     return [
@@ -53,6 +54,11 @@ class MainState extends VuexModule {
   @Mutation
   public setErrorList(errors: string[]) {
     this.errorList = errors;
+  }
+
+  @Mutation
+  public setError(hasError: boolean) {
+    this.hasError = hasError;
   }
 
   @Mutation

@@ -2,6 +2,7 @@
 import { CommonParameters } from '@/queries/commonParameters';
 import { Site } from '@/queries/site';
 import { isDateInPeriod } from '@/helpers';
+import { mainState } from '@/store/mainState';
 
 const QUERY_URL =
   'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
@@ -23,6 +24,7 @@ export async function GetRawXMLResponse(query: string) {
     res = await getXmlResponse(QUERY_URL + query);
   } catch (e) {
     console.error(e);
+    mainState.setError(true);
     return null;
   }
   return res;
@@ -40,9 +42,14 @@ export async function GetSimpleFmiResponse(query: string, params: CommonParamete
   for (const site of sites) {
     const formattedParams = getParams(dateSpans, numberOfDaysInSingleQuery, site.id);
     for (const fp of formattedParams) {
-      const res = (await getXmlResponse(QUERY_URL + query + fp));
-      const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
-      results.push(...parseSimpleResponse(Array.from(elements), site));
+      try {
+        const res = (await getXmlResponse(QUERY_URL + query + fp));
+        const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
+        results.push(...parseSimpleResponse(Array.from(elements), site));
+      } catch (e) {
+        console.error(e);
+        mainState.setError(true);
+      }
     }
   }
 
