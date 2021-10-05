@@ -59,7 +59,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   @Mutation
   public getOptions() {
     this.availableOptions = [];
-    const keys = ['$waveDirection', '$waveHeight', '$waveletDivergence', '$modalPeriod', '$waterTemperature'];
+    const keys = ['$waveDirection', '$waterTemperature', '$waveHeight', '$modalPeriod', '$waveletDivergence'];
     keys.forEach((key, id) => {
       this.availableOptions.push({ id, name: i18n.t(key).toString(), online: true });
     });
