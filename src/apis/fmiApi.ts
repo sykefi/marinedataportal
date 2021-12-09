@@ -131,7 +131,6 @@ function parseSimpleResponse(elements: Element[], site: Site) {
     };
     results.push(result);
   }
-  console.log(results);
   return results;
 }
 
@@ -145,7 +144,6 @@ function formatParams(dateStart: Date, dateEnd: Date, siteId: number) {
 }
 
 async function getXmlResponse(url: string): Promise<Document> {
-  console.log(url);
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(response.statusText);
@@ -154,7 +152,6 @@ async function getXmlResponse(url: string): Promise<Document> {
 
   const oParser = new DOMParser();
   const document = oParser.parseFromString(text, 'application/xml');
-  console.log(document);
   return document;
 }
 

@@ -5,7 +5,6 @@ export default async function getVeslaData(query: string) {
   try {
     let res = await getJsonResponse('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query);
     const data = res.value;
-    console.log('res', res);
     while (res.nextLink) {
       res = await getJsonResponse(res.nextLink);
       data.push(...res.value);
@@ -35,7 +34,6 @@ interface ErrorResponse {
 }
 
 async function getJsonResponse(url: string): Promise<IODataResponse> {
-  console.log('url', url);
   const response = await fetch(url);
   if (!response.ok) {
     let errorObj: ErrorResponse | undefined;
