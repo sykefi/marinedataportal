@@ -42,7 +42,7 @@
     "jsdom": "^16.7.0",
     "null-loader": "^4.0.1",
     "sass": "^1.49.4",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^10.2.1",
     "typescript": "^3.9.10",
     "vue-template-compiler": "^2.6.14"
   },
