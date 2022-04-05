@@ -1,10 +1,15 @@
+const ESLintPlugin = require('eslint-webpack-plugin')
+
 module.exports = {
   devServer: {
-    disableHostCheck: true,
-    port: 8080,
-    public: "0.0.0.0:8080"
+    allowedHosts: "all",
+    client: {
+      webSocketURL: {
+        port: 8080,
+      }
+    },
+    plugins: [new ESLintPlugin()],
   },
-  publicPath: "./",
   // https://github.com/vuejs/vue-cli/issues/4053#issuecomment-544641072
   chainWebpack: (config) => {
     if (process.env.NODE_ENV === 'test') {
