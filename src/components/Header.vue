@@ -2,23 +2,53 @@
   <header>
     <div id="upper-header">
       <!-- Finnish -->
-      <div id="project-logo" v-if="$i18n.locale === 'fi'">
-        <a target="_blank" rel="noopener" href="https://www.itameri.fi/fi-FI">
-          <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi kotisivu." />
+      <div
+        id="project-logo"
+        v-if="$i18n.locale === 'fi'"
+      >
+        <a
+          target="_blank"
+          rel="noopener"
+          href="https://www.itameri.fi/fi-FI"
+        >
+          <img
+            src="@/assets/logos/Hankelogo_fi_en.png"
+            alt="Itämeri.fi kotisivu."
+          >
         </a>
       </div>
       
       <!-- Swedish -->
-      <div id="project-logo" v-if="$i18n.locale === 'sv'">
-        <a target="_blank" rel="noopener" href="https://www.ostersjon.fi/sv-FI">
-          <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi hemsida." />
+      <div
+        id="project-logo"
+        v-if="$i18n.locale === 'sv'"
+      >
+        <a
+          target="_blank"
+          rel="noopener"
+          href="https://www.ostersjon.fi/sv-FI"
+        >
+          <img
+            src="@/assets/logos/Hankelogo_fi_en.png"
+            alt="Itämeri.fi hemsida."
+          >
         </a>
       </div>
 
       <!-- English -->
-      <div id="project-logo" v-if="$i18n.locale === 'en'">
-        <a target="_blank" rel="noopener" href="https://www.itameri.fi">
-          <img src="@/assets/logos/Hankelogo_fi_en.png" alt="Itämeri.fi home." />
+      <div
+        id="project-logo"
+        v-if="$i18n.locale === 'en'"
+      >
+        <a
+          target="_blank"
+          rel="noopener"
+          href="https://www.itameri.fi"
+        >
+          <img
+            src="@/assets/logos/Hankelogo_fi_en.png"
+            alt="Itämeri.fi home."
+          >
         </a>
       </div>
 
@@ -43,30 +73,48 @@
         >EN</a>
 
         <!-- Finnish -->
-        <div id="fund-logos" v-if="$i18n.locale === 'fi'">
+        <div
+          id="fund-logos"
+          v-if="$i18n.locale === 'fi'"
+        >
           <img
             src="@/assets/logos/emkr_fi.png"
             alt="Logo Euroopan meri- ja kalatalousrahasto, Suomen toimintaohjelma 2014-2020."
-          />
-          <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
+          >
+          <img
+            src="@/assets/logos/EU_fi_en.jpg"
+            alt="EU logo."
+          >
         </div>
 
         <!-- Swedish -->
-        <div id="fund-logos" v-if="$i18n.locale === 'sv'">
+        <div
+          id="fund-logos"
+          v-if="$i18n.locale === 'sv'"
+        >
           <img
             src="@/assets/logos/emkr_sve.png"
             alt="Logo Europeiska havs- och fiskerifonden, Finlands operativa program 2014-2020."
-          />
-          <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
+          >
+          <img
+            src="@/assets/logos/EU_fi_en.jpg"
+            alt="EU logo."
+          >
         </div>
 
         <!-- English -->
-        <div id="fund-logos" v-if="$i18n.locale === 'en'">
+        <div
+          id="fund-logos"
+          v-if="$i18n.locale === 'en'"
+        >
           <img
             src="@/assets/logos/emkr_eng.jpg"
             alt="Logo of the European maritime and fisheries fund, operational programme for Finland 2014-2020."
-          />
-          <img src="@/assets/logos/EU_fi_en.jpg" alt="EU logo." />
+          >
+          <img
+            src="@/assets/logos/EU_fi_en.jpg"
+            alt="EU logo."
+          >
         </div>
       </div>
     </div>

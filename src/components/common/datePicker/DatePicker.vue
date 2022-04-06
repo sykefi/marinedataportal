@@ -1,14 +1,29 @@
 <template>
-  <div v-bind:class="[error ? 'form-inline warn-border': 'form-inline normal-border']">
-    <div v-if="showYear" class="form-control">
+  <div :class="[error ? 'form-inline warn-border': 'form-inline normal-border']">
+    <div
+      v-if="showYear"
+      class="form-control"
+    >
       <select
         class="form-control year"
         v-model.number="year"
         @change="onChangeYear"
         :aria-label="ariaLabels[2]"
       >
-        <option :value="-1" disabled hidden>{{$t('$yearPlaceholder')}}</option>
-        <option v-for="year in years" v-bind:key="year" :value="year">{{year}}</option>
+        <option
+          :value="-1"
+          disabled
+          hidden
+        >
+          {{ $t('$yearPlaceholder') }}
+        </option>
+        <option
+          v-for="year in years"
+          :key="year"
+          :value="year"
+        >
+          {{ year }}
+        </option>
       </select>
     </div>
     <div class="form-control">
@@ -18,8 +33,20 @@
         @change="onChangeMonth"
         :aria-label="ariaLabels[1]"
       >
-        <option :value="-1" disabled hidden>{{$t('$monthPlaceholder')}}</option>
-        <option v-for="month in months" v-bind:key="month" :value="month">{{month+1}}</option>
+        <option
+          :value="-1"
+          disabled
+          hidden
+        >
+          {{ $t('$monthPlaceholder') }}
+        </option>
+        <option
+          v-for="month in months"
+          :key="month"
+          :value="month"
+        >
+          {{ month+1 }}
+        </option>
       </select>
     </div>
     <div class="form-control">
@@ -29,8 +56,20 @@
         @change="emitUpdate"
         :aria-label="ariaLabels[0]"
       >
-        <option :value="-1" disabled hidden>{{$t('$dayPlaceholder')}}</option>
-        <option v-for="day in days" v-bind:key="day" :value="day">{{day}}</option>
+        <option
+          :value="-1"
+          disabled
+          hidden
+        >
+          {{ $t('$dayPlaceholder') }}
+        </option>
+        <option
+          v-for="day in days"
+          :key="day"
+          :value="day"
+        >
+          {{ day }}
+        </option>
       </select>
     </div>
   </div>

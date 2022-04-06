@@ -8,7 +8,7 @@ export default class OptionsSelection extends Vue {
   public module!: IAttributeModuleWithOptions;
   @Prop({ required: false, type: Boolean })
   public twoColumns!: boolean;
-  public showPhosphorusMessage: boolean = false;
+  public showPhosphorusMessage = false;
 
   get isWaterQualityModule() {
     return this.module.name === '$waterQuality';

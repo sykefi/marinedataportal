@@ -1,7 +1,7 @@
 <template>
   <input
     type="number"
-    v-bind:class="[error ? 'input-box warn-border' : 'input-box']"
+    :class="[error ? 'input-box warn-border' : 'input-box']"
     :min="min"
     :step="'0.'+decimals"
     :max="max"
@@ -9,7 +9,7 @@
     :disabled="disabled"
     @input="input($event.target.value)"
     :aria-label="ariaLabel"
-  />
+  >
 </template>
 
 <script lang="ts">

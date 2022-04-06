@@ -14,7 +14,7 @@ library.add(faTimes);
 library.add(faAngleRight);
 library.add(faAngleDown);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 Vue.use(VueLayers);
 
 Vue.config.productionTip = true;

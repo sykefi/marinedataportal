@@ -1,29 +1,48 @@
 <template>
   <div class="selection-box">
-    <fieldset class="selection-content" :style="cssVars">
-      <legend class="details-header">{{ header }}</legend>
-      <p v-if="isWaterQualityModule" class="info-paragraph" v-html="$t('$veslaInfo')"></p>
+    <fieldset
+      class="selection-content"
+      :style="cssVars"
+    >
+      <legend class="details-header">
+        {{ header }}
+      </legend>
+      <p
+        v-if="isWaterQualityModule"
+        class="info-paragraph"
+        v-html="$t('$veslaInfo')"
+      />
       <label>
         <input
           type="checkbox"
           v-model="selectAll"
           :aria-label="$t('$selectAll')"
-        />
+        >
         <b>{{ $t("$selectAll") }}</b>
       </label>
-      <br />
-      <div v-bind:class="[twoColumns ? 'two-columns' : '']">
+      <br>
+      <div :class="[twoColumns ? 'two-columns' : '']">
         <label
           v-for="option in availableOptions"
           :key="option.id"
           class="option-label"
         >
-          <input type="checkbox" :value="option.id" v-model="selectedIds" :disabled="!option.online" />
+          <input
+            type="checkbox"
+            :value="option.id"
+            v-model="selectedIds"
+            :disabled="!option.online"
+          >
           {{ option.name }}
         </label>
       </div>
     </fieldset>
-    <p v-if="showPhosphorusMessage" class="info-paragraph">{{ $t("$phosphorusMessage") }}</p>
+    <p
+      v-if="showPhosphorusMessage"
+      class="info-paragraph"
+    >
+      {{ $t("$phosphorusMessage") }}
+    </p>
   </div>
 </template>
 

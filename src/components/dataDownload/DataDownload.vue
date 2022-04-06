@@ -5,7 +5,9 @@
       :disabled="isDownloading"
       class="download-button"
       @click="downloadData"
-    >{{$t('$fetch')}}</button>
+    >
+      {{ $t('$fetch') }}
+    </button>
   </div>
 </template>
 

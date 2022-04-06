@@ -6,8 +6,16 @@
       @mouseover="shown=true"
       @mouseleave="shown=false"
       :aria-label="contentKey"
-    >X</button>
-    <div v-if="shown" id="text" @click="shown=false">{{this.contentKey}}</div>
+    >
+      X
+    </button>
+    <div
+      v-if="shown"
+      id="text"
+      @click="shown=false"
+    >
+      {{ this.contentKey }}
+    </div>
   </div>
 </template>
 

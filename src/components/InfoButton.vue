@@ -1,8 +1,23 @@
 <template>
   <div id="button-wrapper">
-    <font-awesome-icon v-if="!showInfo" icon="angle-right" class="arrow-icon" />
-    <font-awesome-icon v-else icon="angle-down" class="arrow-icon" />
-    <button id="info-button" @click="toggle" :aria-pressed="showInfo" :aria-expanded="showInfo">{{ buttonText }}</button>
+    <font-awesome-icon
+      v-if="!showInfo"
+      icon="angle-right"
+      class="arrow-icon"
+    />
+    <font-awesome-icon
+      v-else
+      icon="angle-down"
+      class="arrow-icon"
+    />
+    <button
+      id="info-button"
+      @click="toggle"
+      :aria-pressed="showInfo"
+      :aria-expanded="showInfo"
+    >
+      {{ buttonText }}
+    </button>
   </div>
 </template>
 
@@ -14,7 +29,7 @@ export default class InfoButton extends Vue {
   @Prop({ required: true, type: String })
   public readonly buttonText!: string;
 
-  public showInfo: boolean = false;
+  public showInfo = false;
 
   public toggle() {
     this.showInfo = !this.showInfo;

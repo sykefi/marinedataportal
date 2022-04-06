@@ -1,7 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
-import Map from '@/components/siteSelection/Map.vue';
+import SiteMap from '@/components/siteSelection/SiteMap.vue';
 import { searchParameterModule } from '@/store/searchParameterModule';
 import { mainState } from '@/store/mainState';
 import { validateSearchParameters } from '@/helpers';
@@ -11,7 +11,7 @@ import { waterQualityModule } from '@/store/attributeModules/waterQualityModule'
   components: {
     SelectionHeader,
     SelectionButton,
-    Map,
+    SiteMap,
   },
 })
 export default class SiteSelection extends Vue {

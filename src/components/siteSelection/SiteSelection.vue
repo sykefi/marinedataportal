@@ -1,22 +1,50 @@
 <template>
   <div>
     <SelectionHeader :header="$t('$siteSelectionTitle')" />
-    <button class="download-button" @click="populate">{{ $t("$refreshSites") }}</button>
-    <p class="error" v-if="showSiteRequiredError">{{$t('$noSitesSelected')}}</p>
+    <button
+      class="download-button"
+      @click="populate"
+    >
+      {{ $t("$refreshSites") }}
+    </button>
+    <p
+      class="error"
+      v-if="showSiteRequiredError"
+    >
+      {{ $t('$noSitesSelected') }}
+    </p>
     <div v-if="availableSites.length">
-      <p class="info-paragraph">{{ $t("$siteSelectionInfo") }}</p>
+      <p class="info-paragraph">
+        {{ $t("$siteSelectionInfo") }}
+      </p>
       <div id="map-wrapper">
-        <div class="multiselect" id="site-selection">
-          <select v-model="selectedId" @change="onSelectSite(+$event.target.value)" :aria-label="$t('$sitePlaceholder')">
-            <option :value="0" disabled hidden>{{ $t("$sitePlaceholder") }}</option>
+        <div
+          class="multiselect"
+          id="site-selection"
+        >
+          <select
+            v-model="selectedId"
+            @change="onSelectSite(+$event.target.value)"
+            :aria-label="$t('$sitePlaceholder')"
+          >
+            <option
+              :value="0"
+              disabled
+              hidden
+            >
+              {{ $t("$sitePlaceholder") }}
+            </option>
             <option
               v-for="site in unSelectedSites"
-              v-bind:key="site.id"
+              :key="site.id"
               :value="site.id"
               v-html="site.displayName"
-            ></option>
+            />
           </select>
-          <div v-if="selectedSites.length" class="selection-content">
+          <div
+            v-if="selectedSites.length"
+            class="selection-content"
+          >
             <div
               v-for="selectedSite in selectedSites"
               :key="selectedSite.id"
@@ -35,11 +63,16 @@
           </div>
         </div>
         <div id="map">
-          <Map ref="mapView" />
+          <SiteMap ref="mapView" />
         </div>
       </div>
     </div>
-    <p class="error" v-else-if="showNoSitesMessage">{{ $t("$noAvailableSites") }}</p>
+    <p
+      class="error"
+      v-else-if="showNoSitesMessage"
+    >
+      {{ $t("$noAvailableSites") }}
+    </p>
   </div>
 </template>
 

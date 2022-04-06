@@ -8,24 +8,30 @@
     style="height: 40rem"
     :style="{ cursor: mapCursor }"
   >
-    <vl-view :center="mapCenter" :zoom="mapZoom"></vl-view>
+    <vl-view
+      :center="mapCenter"
+      :zoom="mapZoom"
+    />
 
     <vl-layer-tile
       ref="baseMapLayer"
       @mounted="baseMapLayerMounted"
-    ></vl-layer-tile>
+    />
     <vl-layer-tile
       ref="cityNamesLayer"
       @mounted="cityNamesLayerMounted"
-    ></vl-layer-tile>
+    />
 
     <vl-layer-vector ref="vectorLayer">
-      <vl-source-vector :features="availableFeatures" ref="vectorSource" />
+      <vl-source-vector
+        :features="availableFeatures"
+        ref="vectorSource"
+      />
     </vl-layer-vector>
     <vl-interaction-select
       ref="selectInteraction"
       :features.sync="selectedFeatures"
-    ></vl-interaction-select>
+    />
 
     <vl-overlay
       :offset="[10, -20]"
@@ -33,13 +39,16 @@
       :position="currentHoverFeature.coordinates"
     >
       <template>
-        <div class="map-hover" v-html="currentHoverFeature.name"></div>
+        <div
+          class="map-hover"
+          v-html="currentHoverFeature.name"
+        />
       </template>
     </vl-overlay>
   </vl-map>
 </template>
 
-<script src="./map.ts"></script>
+<script src="./siteMap.ts"></script>
 
 <style lang="scss" scoped>
 .map-hover {

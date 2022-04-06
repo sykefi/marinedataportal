@@ -20,7 +20,7 @@ export default class TimeSpanSelection extends Vue {
   public timeSpanEnd: DatePickerResult = searchParameterModule.timeSpanEnd;
   public periodStart: DatePickerResult = searchParameterModule.periodStart;
   public periodEnd: DatePickerResult = searchParameterModule.periodEnd;
-  public periodEmptied: boolean = false;
+  public periodEmptied = false;
 
   get searchModule() {
     return searchParameterModule;
