@@ -1,5 +1,3 @@
-const ESLintPlugin = require('eslint-webpack-plugin')
-
 module.exports = {
   devServer: {
     allowedHosts: "all",
@@ -8,7 +6,6 @@ module.exports = {
         port: 8080,
       }
     },
-    plugins: [new ESLintPlugin()],
   },
   // https://github.com/vuejs/vue-cli/issues/4053#issuecomment-544641072
   chainWebpack: (config) => {
