@@ -2,7 +2,6 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
 import { IAttributeModule } from './IAttributeModule';
 import { SiteTypes } from '@/queries/site';
 import store from '@/store/store';
-import { CommonParameters } from '@/queries/commonParameters';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { IResponseFormat } from '@/queries/IResponseFormat';
 
@@ -29,12 +28,12 @@ class BenthicFaunaModule extends VuexModule implements IAttributeModule {
   }
 
   @Action
-  public async getData(params: CommonParameters) {
+  public async getData() {
     throw new Error('Method not implemented.');
   }
 
   @Action
-  public async getAvailableVeslaSiteIds(params: CommonParameters) {
+  public async getAvailableVeslaSiteIds() {
     throw new Error('Method not implemented.');
     return [];
   }

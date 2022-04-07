@@ -40,7 +40,7 @@ class WaterLevelModule extends VuexModule implements IAttributeModule {
   }
 
   @Action
-  public async getAvailableVeslaSiteIds(params: CommonParameters) {
+  public async getAvailableVeslaSiteIds() {
     return [];
   }
 }

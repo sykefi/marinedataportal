@@ -13,14 +13,22 @@
       <DataPreview />
     </div>
     <Footer id="footer" />
-    <div id="busy-indicator" v-if="loading">
+    <div
+      id="busy-indicator"
+      v-if="loading"
+    >
       <div class="spinner">
-        <div class="double-bounce1"></div>
-        <div class="double-bounce2"></div>
+        <div class="double-bounce1" />
+        <div class="double-bounce2" />
       </div>
       {{ $t("$busy") }}
     </div>
-    <div v-if="hasError" class="error-notification">{{ $t("$errorNotification") }}</div>
+    <div
+      v-if="hasError"
+      class="error-notification"
+    >
+      {{ $t("$errorNotification") }}
+    </div>
   </div>
 </template>
 

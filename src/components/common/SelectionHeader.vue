@@ -1,7 +1,9 @@
 <template>
   <div id="header-wrapper">
-    <span class="selection-header header-number">{{headerNumber}}</span>
-    <h2 class="selection-header">{{headerWords}}</h2>
+    <span class="selection-header header-number">{{ headerNumber }}</span>
+    <h2 class="selection-header">
+      {{ headerWords }}
+    </h2>
   </div>
 </template>
 

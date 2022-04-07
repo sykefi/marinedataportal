@@ -12,7 +12,7 @@ interface IHoverData {
 }
 
 @Component
-export default class Map extends Vue {
+export default class SiteMap extends Vue {
   public mapCenter: number[] =
     [2466417.9856569725, 8788780.630851416];
   public mapZoom = 5.5;

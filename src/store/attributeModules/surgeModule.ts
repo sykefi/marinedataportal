@@ -120,7 +120,7 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   }
 
   @Action
-  public async getAvailableVeslaSiteIds(params: CommonParameters) {
+  public async getAvailableVeslaSiteIds() {
     return [];
   }
 }

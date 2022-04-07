@@ -1,7 +1,15 @@
 <template>
   <div id="preview-container">
-    <p v-if="showInfo" class="info-paragraph">{{ $t("$dataPreviewInfo") }}</p>
-    <div v-for="module in modules" :key="module.name">
+    <p
+      v-if="showInfo"
+      class="info-paragraph"
+    >
+      {{ $t("$dataPreviewInfo") }}
+    </p>
+    <div
+      v-for="module in modules"
+      :key="module.name"
+    >
       <DataPreviewTable :module="module" />
     </div>
   </div>

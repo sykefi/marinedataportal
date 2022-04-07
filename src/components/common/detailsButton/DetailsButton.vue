@@ -7,8 +7,16 @@
       @mouseleave="shown=false"
       aria-hidden="true"
       :tabIndex="-1"
-    >?</button>
-    <div v-if="shown" id="text" @click="shown=false">{{this.contentKey}}</div>
+    >
+      ?
+    </button>
+    <div
+      v-if="shown"
+      id="text"
+      @click="shown=false"
+    >
+      {{ this.contentKey }}
+    </div>
   </div>
 </template>
 

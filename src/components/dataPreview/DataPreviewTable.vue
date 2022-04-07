@@ -3,17 +3,33 @@
     <div v-if="hasData">
       <strong>{{ $t(module.name) }}</strong>
       <span>{{ ` (${module.rowCount} ${$t("$rows")}) ` }}</span>
-      <a :href="encodedFileUri" :download="$t(module.name) + '.csv'">{{$t("$downloadCSV")}}</a>
+      <a
+        :href="encodedFileUri"
+        :download="$t(module.name) + '.csv'"
+      >{{ $t("$downloadCSV") }}</a>
       <table>
         <tr>
-          <th v-for="(name, index) in columnNames" :key="index">{{ name }}</th>
+          <th
+            v-for="(name, i) in columnNames"
+            :key="i"
+          >
+            {{ name }}
+          </th>
         </tr>
-        <tr v-for="(row, index) in module.previewData" :key="index">
-          <td v-for="(column, index) of row" :key="index">{{ column }}</td>
+        <tr
+          v-for="(row, j) in module.previewData"
+          :key="j"
+        >
+          <td
+            v-for="(column, k) of row"
+            :key="k"
+          >
+            {{ column }}
+          </td>
         </tr>
       </table>
     </div>
-    <br />
+    <br>
     <div v-if="!hasData && isDataLoaded">
       <strong>{{ $t(module.name) }}</strong>
       - {{ $t("$noRowsFound") }}

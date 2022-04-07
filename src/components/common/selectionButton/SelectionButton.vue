@@ -2,12 +2,14 @@
   <div>
     <button
       class="selection-button"
-      v-bind:class="[selected ? 'selected' : 'not-selected']"
+      :class="[selected ? 'selected' : 'not-selected']"
       @click="onClick"
       :aria-pressed="selected"
       :aria-expanded="selected && expandable"
       :disabled="disabled"
-    >{{$t(name)}}</button>
+    >
+      {{ $t(name) }}
+    </button>
   </div>
 </template>
 

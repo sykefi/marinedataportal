@@ -1,22 +1,31 @@
 <template>
   <div>
     <div id="buttons">
-      <InfoButton :buttonText="$t('$serviceInfoTitle')" @show-info="showInfo = $event" />
-      <InfoButton :buttonText="$t('$instructionsTitle')" @show-info="showInstructions = $event" />
-      <InfoButton :buttonText="$t('$termsOfServiceTitle')" @show-info="showTerms = $event" />
+      <InfoButton
+        :button-text="$t('$serviceInfoTitle')"
+        @show-info="showInfo = $event"
+      />
+      <InfoButton
+        :button-text="$t('$instructionsTitle')"
+        @show-info="showInstructions = $event"
+      />
+      <InfoButton
+        :button-text="$t('$termsOfServiceTitle')"
+        @show-info="showTerms = $event"
+      />
     </div>
     <div id="info-text">
       <div v-if="showInfo">
-        <h2>{{$t('$serviceInfoTitle')}}</h2>
-        <p v-html="$t('$serviceInfo')"></p>
+        <h2>{{ $t('$serviceInfoTitle') }}</h2>
+        <p v-html="$t('$serviceInfo')" />
       </div>
       <div v-if="showInstructions">
-        <h2>{{$t('$instructionsTitle')}}</h2>
-        <p v-html="$t('$instructions')"></p>
+        <h2>{{ $t('$instructionsTitle') }}</h2>
+        <p v-html="$t('$instructions')" />
       </div>
       <div v-if="showTerms">
-        <h2>{{$t('$termsOfServiceTitle')}}</h2>
-        <p v-html="$t('$termsOfService')"></p>
+        <h2>{{ $t('$termsOfServiceTitle') }}</h2>
+        <p v-html="$t('$termsOfService')" />
       </div>
     </div>
   </div>
@@ -32,9 +41,9 @@
     },
   })
   export default class InfoMenu extends Vue {
-    public showInfo: boolean = false;
-    public showInstructions: boolean = false;
-    public showTerms: boolean = false;
+    public showInfo = false;
+    public showInstructions = false;
+    public showTerms = false;
   }
 </script>
 

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <OptionsSelection :header="$t('$temperatureDetailsHeader')" :module="module" />
+    <OptionsSelection
+      :header="$t('$temperatureDetailsHeader')"
+      :module="module"
+    />
   </div>
 </template>
 

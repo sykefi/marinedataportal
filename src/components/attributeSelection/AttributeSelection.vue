@@ -1,7 +1,12 @@
 <template>
   <div>
     <SelectionHeader :header="$t('$attributeSelectionTitle')" />
-    <p class="error" v-if="showAttributeError">{{$t(attributeErrorMessage)}}</p>
+    <p
+      class="error"
+      v-if="showAttributeError"
+    >
+      {{ $t(attributeErrorMessage) }}
+    </p>
     <div id="button-wrapper">
       <div class="selections-grid">
         <SelectionButton
@@ -9,7 +14,11 @@
           :module="secchiDepthModule"
           :disabled="!sykeApiOnline"
         />
-        <SelectionButton name="$waterLevel" :module="waterLevelModule" :disabled="!fmiApiOnline" />
+        <SelectionButton
+          name="$waterLevel"
+          :module="waterLevelModule"
+          :disabled="!fmiApiOnline"
+        />
         <SelectionButton
           name="$iceThickness"
           :module="iceThicknessModule"

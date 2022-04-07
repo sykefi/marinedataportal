@@ -34,9 +34,9 @@ class MainState extends VuexModule {
 
   public errorList: string[] = [];
 
-  public sykeApiOnline: boolean = true;
-  public fmiApiOnline: boolean = true;
-  public hasError: boolean = false;
+  public sykeApiOnline = true;
+  public fmiApiOnline = true;
+  public hasError = false;
 
   get attributeModules() {
     return [

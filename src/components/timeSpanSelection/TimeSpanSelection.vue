@@ -2,48 +2,60 @@
   <div>
     <SelectionHeader :header="$t('$timeSpanSelectionTitle')" />
     <div class="title">
-      <h3 aria-hidden="true">{{$t('$timeSpan')}}</h3>
+      <h3 aria-hidden="true">
+        {{ $t('$timeSpan') }}
+      </h3>
       <div class="with-details">
-        <h3 aria-hidden="true">{{$t('$period')}}</h3>
-        <DetailsButton :contentKey="$t('$periodInfoText')" />
+        <h3 aria-hidden="true">
+          {{ $t('$period') }}
+        </h3>
+        <DetailsButton :content-key="$t('$periodInfoText')" />
       </div>
     </div>
     <div class="title sub">
-      <h4 aria-hidden="true">{{$t('$startTimeSpan')}}</h4>
-      <h4 aria-hidden="true">{{$t('$endTimeSpan')}}</h4>
-      <h4 aria-hidden="true">{{$t('$startPeriod')}}</h4>
-      <h4 aria-hidden="true">{{$t('$endPeriod')}}</h4>
+      <h4 aria-hidden="true">
+        {{ $t('$startTimeSpan') }}
+      </h4>
+      <h4 aria-hidden="true">
+        {{ $t('$endTimeSpan') }}
+      </h4>
+      <h4 aria-hidden="true">
+        {{ $t('$startPeriod') }}
+      </h4>
+      <h4 aria-hidden="true">
+        {{ $t('$endPeriod') }}
+      </h4>
     </div>
     <div class="content">
       <DatePicker
         v-model="searchModule.timeSpanStart"
-        :ariaLabels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
+        :aria-labels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
         :error="timeSpanStartError"
       />
       <b>–</b>
       <DatePicker
         v-model="searchModule.timeSpanEnd"
-        :ariaLabels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
+        :aria-labels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
         :error="timeSpanEndError"
       />
       <p />
       <DatePicker
         v-model="searchModule.periodStart"
-        :showYear="false"
-        :ariaLabels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
+        :show-year="false"
+        :aria-labels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
         :emptied="periodEmptied"
         :error="periodStartError"
       />
       <b>–</b>
       <DatePicker
         v-model="searchModule.periodEnd"
-        :showYear="false"
-        :ariaLabels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
+        :show-year="false"
+        :aria-labels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
         :emptied="periodEmptied"
         :error="periodEndError"
       />
       <EmptySelectionButton
-        :contentKey="$t('$emptyPeriodSelection')"
+        :content-key="$t('$emptyPeriodSelection')"
         @empty-selection="emptyPeriodSelection"
       />
     </div>
