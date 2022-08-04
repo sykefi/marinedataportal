@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueI18n from 'vue-i18n';
+import VueI18n, { DateTimeFormats } from 'vue-i18n';
 import fi from './fi/fi';
 import en from './en/en';
 import sv from './sv/sv';
@@ -8,7 +8,7 @@ Vue.use(VueI18n);
 const browserLang = navigator.language.toLocaleLowerCase();
 const locale = browserLang.startsWith('fi') ? 'fi' : browserLang.startsWith('sv') ? 'sv' : 'en';
 
-const dateTimeFormats = {
+const dateTimeFormats: DateTimeFormats = {
   en: {
     short: {
       year: 'numeric',
