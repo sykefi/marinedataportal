@@ -7,7 +7,7 @@ export default class DatePicker extends Vue {
     @Prop({ required: true })
     public value!: DatePickerResult;
 
-    @Prop({ required: false, type: String, default: '1970-01-01T12:00:00' })
+    @Prop({ required: false, type: String, default: '1970-01-01' })
     public readonly start!: string;
 
     @Prop({ required: false, type: String, default: new Date().toISOString() })
