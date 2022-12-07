@@ -78,4 +78,11 @@ export default class DataPreviewTable extends Vue {
     }
   }
 }
+
+declare global {
+    interface Navigator {
+        msSaveBlob?: (blob: any, defaultName?: string) => boolean
+    }
+}
+
 </script>
