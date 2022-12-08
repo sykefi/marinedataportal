@@ -31,14 +31,17 @@ describe('DatePicker.vue', () => {
         ariaLabels: [],
       },
     });
+    await Vue.nextTick();
     // Day selection has a non selectable placeholder value in the beginning
     expect(datePicker.find('.day').findAll('option').length).to.equal(1);
 
-    const yearOption = datePicker.find('.year').findAll('option').at(2).element as HTMLOptionElement;
+    const yearOption = datePicker.find('.year').findAll('option').at(1).element as HTMLOptionElement;
+    expect(yearOption.value).to.equal((new Date().getFullYear()).toString())
     yearOption.selected = true;
     datePicker.find('.year').trigger('change');
 
     const monthOption = datePicker.find('.month').findAll('option').at(1).element as HTMLOptionElement;
+    expect(monthOption.value).to.equal('0')
     monthOption.selected = true;
     datePicker.find('.month').trigger('change');
     await Vue.nextTick();
@@ -62,6 +65,7 @@ describe('DatePicker.vue', () => {
     expect(datePicker.find('.day').findAll('option').length).to.equal(1);
 
     const monthOption = datePicker.find('.month').findAll('option').at(2).element as HTMLOptionElement;
+    expect(monthOption.value).to.equal('1')
     monthOption.selected = true;
     datePicker.find('.month').trigger('change');
     await Vue.nextTick();
@@ -81,6 +85,7 @@ describe('DatePicker.vue', () => {
         ariaLabels: [],
       },
     });
+    await Vue.nextTick();
     const yearOption = datePicker.find('.year').findAll('option').at(1).element as HTMLOptionElement;
     expect(yearOption.value).to.equal(new Date().getFullYear().toString());
 
