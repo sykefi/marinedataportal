@@ -19,7 +19,7 @@
             >
               <img
                 id="syke-logo"
-                src="@/assets/logos/SYKE_fi_en.jpg"
+                src="@/assets/logos/Syke_logo.svg"
                 alt="Suomen ympäristökeskuksen kotisivu."
               >
             </a>
@@ -48,7 +48,7 @@
             >
               <img
                 id="syke-logo"
-                src="@/assets/logos/SYKE_fi_en.jpg"
+                src="@/assets/logos/Syke_logo.svg"
                 alt="Finlands miljöcentral hemsida."
               >
             </a>
@@ -78,7 +78,7 @@
             >
               <img
                 id="syke-logo"
-                src="@/assets/logos/SYKE_fi_en.jpg"
+                src="@/assets/logos/Syke_logo.svg"
                 alt="Finnish Environment Institute home."
               >
             </a>
@@ -163,7 +163,6 @@ export default class Footer extends Vue { }
     display: flex;
     align-items: baseline;
     justify-content: center;
-    height: 3rem;
     list-style-type: none;
     width: 100%;
     padding: 0;
@@ -174,7 +173,7 @@ export default class Footer extends Vue { }
   }
 
   #syke-logo {
-    width: 4rem;
+    width: 12rem;
     height: auto;
   }
 
