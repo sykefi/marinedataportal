@@ -9,18 +9,17 @@
         <a :href="$t('$emailWithSubject')">{{ $t('$feedback') }}</a>
       </div>
       <div id="logos">
-        <!-- Finnish logos -->
-        <ul v-if="$i18n.locale === 'fi'">
+        <ul>
           <li>
             <a
               target="_blank"
               rel="noopener"
-              href="https://syke.fi/fi-FI"
+              :href="$t('$sykeFi')"
             >
               <img
                 id="syke-logo"
                 src="@/assets/logos/Syke_logo.svg"
-                alt="Suomen ympäristökeskuksen kotisivu."
+                :alt="$t('$sykeLogoAltText')"
               >
             </a>
           </li>
@@ -28,71 +27,12 @@
             <a
               target="_blank"
               rel="noopener"
-              href="https://ilmatieteenlaitos.fi/"
+              :href="$t('$fmiFi')"
             >
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
-                alt="Ilmatieteenlaitoksen kotisivu."
-              >
-            </a>
-          </li>
-        </ul>
-        <!-- Swedish logos -->
-        <ul v-if="$i18n.locale === 'sv'">
-          <li>
-            <a
-              target="_blank"
-              rel="noopener"
-              href="https://syke.fi/sv-FI"
-            >
-              <img
-                id="syke-logo"
-                src="@/assets/logos/Syke_logo.svg"
-                alt="Finlands miljöcentral hemsida."
-              >
-            </a>
-          </li>
-          <li>
-            <a
-              target="_blank"
-              rel="noopener"
-              href="https://sv.ilmatieteenlaitos.fi/"
-            >
-              <img
-                id="il-logo"
-                src="@/assets/logos/il_fi_en.png"
-                alt="Meteorologiska institutet hemsida."
-              >
-            </a>
-          </li>
-        </ul>
-
-        <!-- English logos -->
-        <ul v-if="$i18n.locale === 'en'">
-          <li>
-            <a
-              target="_blank"
-              rel="noopener"
-              href="https://syke.fi/en-US"
-            >
-              <img
-                id="syke-logo"
-                src="@/assets/logos/Syke_logo.svg"
-                alt="Finnish Environment Institute home."
-              >
-            </a>
-          </li>
-          <li>
-            <a
-              target="_blank"
-              rel="noopener"
-              href="https://en.ilmatieteenlaitos.fi/"
-            >
-              <img
-                id="il-logo"
-                src="@/assets/logos/il_fi_en.png"
-                alt="Finnish Meteorological Institute home."
+                :alt="$t('$fmiLogoAltText')"
               >
             </a>
           </li>
