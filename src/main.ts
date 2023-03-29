@@ -46,4 +46,4 @@ app.mount("#app");
 //   html.setAttribute('lang', 'fi');
 // },
 
-document.title = i18n.t("$siteTitle").toString();
+document.title = i18n.global.t("$siteTitle").toString();
