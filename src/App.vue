@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header id="site-header" />
+    <AppHeader id="site-header" />
     <SiteImage id="site-image" />
     <SiteTitle id="site-title" />
     <InfoMenu id="info-menu" />
@@ -12,21 +12,15 @@
       <DataDownload />
       <DataPreview />
     </div>
-    <Footer id="footer" />
-    <div
-      id="busy-indicator"
-      v-if="loading"
-    >
+    <AppFooter id="footer" />
+    <div id="busy-indicator" v-if="loading">
       <div class="spinner">
         <div class="double-bounce1" />
         <div class="double-bounce2" />
       </div>
       {{ $t("$busy") }}
     </div>
-    <div
-      v-if="hasError"
-      class="error-notification"
-    >
+    <div v-if="hasError" class="error-notification">
       {{ $t("$errorNotification") }}
     </div>
   </div>

@@ -30,7 +30,7 @@
     </vl-layer-vector>
     <vl-interaction-select
       ref="selectInteraction"
-      :features.sync="selectedFeatures"
+      v-model:features="selectedFeatures"
     />
 
     <vl-overlay

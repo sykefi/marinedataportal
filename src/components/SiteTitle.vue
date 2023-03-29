@@ -1,26 +1,21 @@
 <template>
   <header>
     <h1 id="site-title">
-      {{ $t('$siteTitle') }}
+      {{ $t("$siteTitle") }}
     </h1>
     <h2 id="title-details">
-      {{ $t('$siteDetails') }}
+      {{ $t("$siteDetails") }}
     </h2>
-    <p
-      id="image-origin"
-      aria-hidden="true"
-    >
-      {{ $t('$photo') }}: Ilkka Lastumäki
+    <p id="image-origin" aria-hidden="true">
+      {{ $t("$photo") }}: Ilkka Lastumäki
     </p>
   </header>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import i18n from '@/locale/i18n';
+import { defineComponent } from "vue";
 
-@Component({ i18n })
-export default class SiteTitle extends Vue { }
+export default defineComponent({});
 </script>
 
 <style lang="scss" scoped>

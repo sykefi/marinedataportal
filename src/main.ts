@@ -1,38 +1,49 @@
-import Vue from 'vue';
-import App from './App.vue';
-import store from './store/store';
-import i18n from '@/locale/i18n';
-import VueLayers from 'vuelayers';
-import 'vuelayers/lib/style.css';
+import { createApp } from "vue";
+import App from "./App.vue";
+import store from "./store/store";
+import i18n from "@/locale/i18n";
+import OpenLayersMap from "vue3-openlayers";
+import "vue3-openlayers/dist/vue3-openlayers.css";
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTimes, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faTimes,
+  faAngleRight,
+  faAngleDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { mainState } from "./store/mainState";
 
 library.add(faTimes);
 library.add(faAngleRight);
 library.add(faAngleDown);
 
-Vue.component('FontAwesomeIcon', FontAwesomeIcon);
-Vue.use(VueLayers);
+// Vue.directive("focus", {
+//   inserted(el) {
+//     el.focus();
+//   },
+// });
 
-Vue.config.productionTip = true;
+const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
+app.use(store);
+app.use(i18n);
+app.use(OpenLayersMap);
 
-Vue.directive('focus', {
-  inserted(el) {
-    el.focus();
-  },
-});
+app.config.errorHandler = (e) => {
+  mainState.setError(true);
+  console.error(e);
+  return true;
+};
+window.onerror = (e) => {
+  mainState.setError(true);
+  console.error(e);
+};
 
-new Vue({
-  created() {
-    const html = document.documentElement;
-    html.setAttribute('lang', 'fi');
-  },
-  store,
-  i18n,
-  render: (h) => h(App),
-}).$mount('#app');
+app.mount("#app");
 
-document.title = i18n.t('$siteTitle').toString();
+// created() {
+//   const html = document.documentElement;
+//   html.setAttribute('lang', 'fi');
+// },
+
+document.title = i18n.t("$siteTitle").toString();

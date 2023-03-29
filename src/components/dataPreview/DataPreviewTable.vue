@@ -3,33 +3,23 @@
     <div v-if="hasData">
       <strong>{{ $t(module.name) }}</strong>
       <span>{{ ` (${module.rowCount} ${$t("$rows")}) ` }}</span>
-      <a
-        :href="encodedFileUri"
-        :download="$t(module.name) + '.csv'"
-      >{{ $t("$downloadCSV") }}</a>
+      <a :href="encodedFileUri" :download="$t(module.name) + '.csv'">{{
+        $t("$downloadCSV")
+      }}</a>
       <table>
         <tr>
-          <th
-            v-for="(name, i) in columnNames"
-            :key="i"
-          >
+          <th v-for="(name, i) in columnNames" :key="i">
             {{ name }}
           </th>
         </tr>
-        <tr
-          v-for="(row, j) in module.previewData"
-          :key="j"
-        >
-          <td
-            v-for="(column, k) of row"
-            :key="k"
-          >
+        <tr v-for="(row, j) in module.previewData" :key="j">
+          <td v-for="(column, k) of row" :key="k">
             {{ column }}
           </td>
         </tr>
       </table>
     </div>
-    <br>
+    <br />
     <div v-if="!hasData && isDataLoaded">
       <strong>{{ $t(module.name) }}</strong>
       - {{ $t("$noRowsFound") }}
@@ -38,52 +28,55 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
-@Component
-export default class DataPreviewTable extends Vue {
-  @Prop({ required: true })
-  public module!: IAttributeModule;
+import { IAttributeModule } from "@/store/attributeModules/IAttributeModule";
+import { defineComponent, PropType } from "vue";
 
-  get isDataLoaded() {
-    return this.module.data !== null;
-  }
+export default defineComponent({
+  props: {
+    module: {
+      type: Object as PropType<IAttributeModule>,
+      required: true,
+    },
+  },
+  computed: {
+    isDataLoaded() {
+      return this.module.data !== null;
+    },
+    hasData() {
+      return this.module.previewData.length > 0;
+    },
+    columnNames() {
+      return Object.keys(this.module.previewData[0]);
+    },
+  },
+  methods: {
+    encodedFileUri() {
+      let csvContent = "";
+      csvContent += this.columnNames.join(";") + ";\r\n";
 
-  get hasData() {
-    return this.module.previewData.length > 0;
-  }
+      this.module.data!.forEach((row) => {
+        const values = Object.keys(row).map((key) => (row as any)[key]);
+        csvContent += values.join(";") + ";\r\n";
+      });
 
-  get columnNames() {
-    return Object.keys(this.module.previewData[0]);
-  }
+      // https://stackoverflow.com/questions/23301467/javascript-exporting-large-text-csv-file-crashes-google-chrome
+      const csvData = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
 
-  get encodedFileUri() {
-    let csvContent = '';
-    csvContent += this.columnNames.join(';') + ';\r\n';
-
-    this.module.data!.forEach((row) => {
-      const values = Object.keys(row).map((key) => (row as any)[key]);
-      csvContent += values.join(';') + ';\r\n';
-    });
-
-    // https://stackoverflow.com/questions/23301467/javascript-exporting-large-text-csv-file-crashes-google-chrome
-    const csvData = new Blob([csvContent], {
-      type: 'text/csv;charset=utf-8;',
-    });
-
-    if (navigator.msSaveBlob) {
-      navigator.msSaveBlob(csvData, this.module.name + '.csv');
-    } else {
-      return URL.createObjectURL(csvData);
-    }
-  }
-}
+      if (navigator.msSaveBlob) {
+        navigator.msSaveBlob(csvData, this.module.name + ".csv");
+      } else {
+        return URL.createObjectURL(csvData);
+      }
+    },
+  },
+});
 
 // https://stackoverflow.com/questions/69485778/new-typescript-version-does-not-include-window-navigator-mssaveblob
 declare global {
-    interface Navigator {
-        msSaveBlob?: (blob: any, defaultName?: string) => boolean
-    }
+  interface Navigator {
+    msSaveBlob?: (blob: any, defaultName?: string) => boolean;
+  }
 }
-
 </script>

@@ -1,35 +1,17 @@
 <template>
   <div>
-    <p
-      v-if="!sykeApiOnline && !fmiApiOnline"
-      class="error-notification"
-    >
+    <p v-if="!sykeApiOnline && !fmiApiOnline" class="error-notification">
       {{ $t("$serviceUnavailable") }}
     </p>
-    <p
-      v-else-if="!sykeApiOnline"
-      id="error-paragraph"
-    >
+    <p v-else-if="!sykeApiOnline" id="error-paragraph">
       {{ $t("$sykeApiDownInfo") }}
     </p>
-    <p
-      v-else-if="!fmiApiOnline"
-      id="error-paragraph"
-    >
+    <p v-else-if="!fmiApiOnline" id="error-paragraph">
       {{ $t("$fmiApiDownInfo") }}
     </p>
-    <div
-      v-if="errorList.length"
-      ref="focus"
-      tabindex="-1"
-      id="focus-to-error"
-    >
+    <div v-if="errorList.length" ref="focus" tabindex="-1" id="focus-to-error">
       <fieldset id="error-content">
-        <li
-          v-for="error in errorList"
-          :key="error"
-          class="error"
-        >
+        <li v-for="error in errorList" :key="error" class="error">
           {{ $t(error) }}
         </li>
       </fieldset>
@@ -38,31 +20,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import i18n from '@/locale/i18n';
-import { mainState } from '@/store/mainState';
+import { mainState } from "@/store/mainState";
+import { defineComponent } from "vue";
 
-@Component({ i18n })
-export default class Header extends Vue {
-
-  get sykeApiOnline() {
-    return mainState.sykeApiOnline;
-  }
-
-  get fmiApiOnline() {
-    return mainState.fmiApiOnline;
-  }
-
-  get errorList() {
-    const errorList = mainState.errorList;
-    if (errorList.length) {
-      const wrapper = this.$refs.focus;
-      (wrapper as Element)?.scrollIntoView(true);
-      (wrapper as HTMLElement)?.focus();
-    }
-    return errorList;
-  }
-}
+export default defineComponent({
+  computed: {
+    sykeApiOnline() {
+      return mainState.sykeApiOnline;
+    },
+    fmiApiOnline() {
+      return mainState.fmiApiOnline;
+    },
+    errorList() {
+      const errorList = mainState.errorList;
+      if (errorList.length) {
+        const wrapper = this.$refs.focus;
+        (wrapper as Element)?.scrollIntoView(true);
+        (wrapper as HTMLElement)?.focus();
+      }
+      return errorList;
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>

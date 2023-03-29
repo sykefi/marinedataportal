@@ -8,18 +8,18 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
-  import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
-  @Component({
-    components: {
-      OptionsSelection,
-    },
-  })
-  export default class TemperatureDetails extends Vue {
+import OptionsSelection from "@/components/attributeSelection/OptionsSelection.vue";
+import { surfaceTemperatureModule } from "@/store/attributeModules/surfaceTemperatureModule";
+import { defineComponent } from "vue";
 
-    get module() {
+export default defineComponent({
+  components: {
+    OptionsSelection,
+  },
+  computed: {
+    module() {
       return surfaceTemperatureModule;
-    }
-  }
+    },
+  },
+});
 </script>

@@ -9,13 +9,16 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",
       "mocha",
-      "chai"
+      "chai",
+      "node",
+      "vite/client"
     ],
     "paths": {
       "@/*": [
@@ -30,6 +33,7 @@
     ]
   },
   "include": [
+    "src/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
