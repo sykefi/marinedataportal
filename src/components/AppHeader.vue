@@ -97,12 +97,12 @@ export default defineComponent({
   methods: {
     setLanguage(tag: ILangTag) {
       i18n.global.locale = tag;
-      waterQualityModule.language = tag;
       const html = document.documentElement;
       html.setAttribute("lang", tag);
       document.title = this.$t("$siteTitle").toString();
       surfaceTemperatureModule.getOptions();
       surgeModule.getOptions();
+      waterQualityModule.getOptions();
     },
   },
 });

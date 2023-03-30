@@ -19,6 +19,8 @@ import { surgeModule } from "./store/attributeModules/surgeModule";
 import { surfaceTemperatureModule } from "./store/attributeModules/surfaceTemperatureModule";
 import { fmiApiIsOnline } from "./queries/FMI/getApiStatusQuery";
 import { defineComponent } from "vue";
+import i18n from "./locale/i18n";
+import { waterQualityModule } from "./store/attributeModules/waterQualityModule";
 
 export default defineComponent({
   components: {
