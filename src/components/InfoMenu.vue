@@ -16,15 +16,15 @@
     </div>
     <div id="info-text">
       <div v-if="showInfo">
-        <h2>{{ $t("$serviceInfoTitle") }}</h2>
+        <h2>{{ $t('$serviceInfoTitle') }}</h2>
         <p v-html="$t('$serviceInfo')" />
       </div>
       <div v-if="showInstructions">
-        <h2>{{ $t("$instructionsTitle") }}</h2>
+        <h2>{{ $t('$instructionsTitle') }}</h2>
         <p v-html="$t('$instructions')" />
       </div>
       <div v-if="showTerms">
-        <h2>{{ $t("$termsOfServiceTitle") }}</h2>
+        <h2>{{ $t('$termsOfServiceTitle') }}</h2>
         <p v-html="$t('$termsOfService')" />
       </div>
     </div>
@@ -32,8 +32,8 @@
 </template>
 
 <script lang="ts">
-import InfoButton from "@/components/InfoButton.vue";
-import { defineComponent } from "vue";
+import InfoButton from '@/components/InfoButton.vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {
@@ -50,7 +50,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 #buttons {
   border-top: 0.05rem solid black;
   background-color: $border-dark;

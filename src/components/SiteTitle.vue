@@ -1,25 +1,25 @@
 <template>
   <header>
     <h1 id="site-title">
-      {{ $t("$siteTitle") }}
+      {{ $t('$siteTitle') }}
     </h1>
     <h2 id="title-details">
-      {{ $t("$siteDetails") }}
+      {{ $t('$siteDetails') }}
     </h2>
     <p id="image-origin" aria-hidden="true">
-      {{ $t("$photo") }}: Ilkka Lastumäki
+      {{ $t('$photo') }}: Ilkka Lastumäki
     </p>
   </header>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({});
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 #site-title {
   font-size: $font-size-xxl;

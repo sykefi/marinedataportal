@@ -1,13 +1,13 @@
 <template>
   <div>
     <p v-if="!sykeApiOnline && !fmiApiOnline" class="error-notification">
-      {{ $t("$serviceUnavailable") }}
+      {{ $t('$serviceUnavailable') }}
     </p>
     <p v-else-if="!sykeApiOnline" id="error-paragraph">
-      {{ $t("$sykeApiDownInfo") }}
+      {{ $t('$sykeApiDownInfo') }}
     </p>
     <p v-else-if="!fmiApiOnline" id="error-paragraph">
-      {{ $t("$fmiApiDownInfo") }}
+      {{ $t('$fmiApiDownInfo') }}
     </p>
     <div v-if="errorList.length" ref="focus" tabindex="-1" id="focus-to-error">
       <fieldset id="error-content">
@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts">
-import { mainState } from "@/store/mainState";
-import { defineComponent } from "vue";
+import { mainState } from '@/store/mainState';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   computed: {
@@ -45,7 +45,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 #error-paragraph {
   padding: 1rem;

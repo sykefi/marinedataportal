@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -31,14 +31,14 @@ export default defineComponent({
   methods: {
     toggle() {
       this.showInfo = !this.showInfo;
-      this.$emit("show-info", this.showInfo);
+      this.$emit('show-info', this.showInfo);
     },
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 .arrow-icon {
   color: $background-bright-blue;
@@ -53,7 +53,7 @@ export default defineComponent({
 }
 
 #info-button {
-  font-family: "TitilliumWeb";
+  font-family: 'TitilliumWeb';
   color: $text-white;
   font-weight: bold;
   font-size: $font-size-l;
