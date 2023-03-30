@@ -51,8 +51,5 @@
   ],
   "engines": {
     "node": ">=16.14.2"
-  },
-  "gitHooks": {
-    "pre-commit": "npm run lint && git add ."
   }
 }

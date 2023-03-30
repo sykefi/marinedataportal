@@ -18,12 +18,6 @@ library.add(faTimes);
 library.add(faAngleRight);
 library.add(faAngleDown);
 
-// Vue.directive("focus", {
-//   inserted(el) {
-//     el.focus();
-//   },
-// });
-
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
 app.use(store);
 app.use(i18n);
@@ -40,10 +34,5 @@ window.onerror = (e) => {
 };
 
 app.mount("#app");
-
-// created() {
-//   const html = document.documentElement;
-//   html.setAttribute('lang', 'fi');
-// },
 
 document.title = i18n.global.t("$siteTitle").toString();
