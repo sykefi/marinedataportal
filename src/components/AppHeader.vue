@@ -94,7 +94,8 @@ import { waterQualityModule } from '@/store/attributeModules/waterQualityModule'
 import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
 import { surgeModule } from '@/store/attributeModules/surgeModule';
 import { defineComponent } from 'vue';
-import { ILangTag } from '@/types';
+
+type ILangTag = 'fi' | 'sv' | 'en';
 
 export default defineComponent({
   methods: {

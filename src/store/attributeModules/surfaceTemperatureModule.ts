@@ -1,31 +1,31 @@
-import { Module, VuexModule, Mutation, Action } from "vuex-class-modules";
-import store from "@/store/store";
-import { CommonParameters } from "@/queries/commonParameters";
-import { IAttributeModuleWithOptions } from "./IAttributeModuleWithOptions";
-import i18n from "@/locale/i18n";
-import { IAttributeOption } from "./IAttributeOption";
-import { PREVIEW_ROW_COUNT } from "@/config";
+import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
+import store from '@/store/store';
+import { CommonParameters } from '@/queries/commonParameters';
+import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
+import i18n from '@/locale/i18n';
+import { IAttributeOption } from './IAttributeOption';
+import { PREVIEW_ROW_COUNT } from '@/config';
 import {
   getWaterQuality,
   getWaterQualitySiteIds,
-} from "@/queries/Vesla/getWaterQualityQuery";
-import { SiteTypes } from "@/queries/site";
-import { getMareographTemperatures } from "@/queries/FMI/getMareographTemperatureQuery";
+} from '@/queries/Vesla/getWaterQualityQuery';
+import { SiteTypes } from '@/queries/site';
+import { getMareographTemperatures } from '@/queries/FMI/getMareographTemperatureQuery';
 import {
   getWaveData,
   WaveQueryParameters,
-} from "@/queries/FMI/getWaveDataQuery";
-import { DepthOptions } from "./waterQualityModule";
-import { toCommonFormat, toFmiFormat } from "@/helpers";
-import { IResponseFormat } from "@/queries/IResponseFormat";
-import { mainState } from "../mainState";
+} from '@/queries/FMI/getWaveDataQuery';
+import { DepthOptions } from './waterQualityModule';
+import { toCommonFormat, toFmiFormat } from '@/helpers';
+import { IResponseFormat } from '@/queries/IResponseFormat';
+import { mainState } from '../mainState';
 
 @Module({ generateMutationSetters: true })
 export class SurfaceTemperatureModule
   extends VuexModule
   implements IAttributeModuleWithOptions
 {
-  public name = "$surfaceTemperature";
+  public name = '$surfaceTemperature';
   public loading = false;
   public isSelected = false;
   public availableOptions: IAttributeOption[] = [];
@@ -81,17 +81,17 @@ export class SurfaceTemperatureModule
     this.availableOptions = [];
     this.availableOptions.push({
       id: SiteTypes.FmiBuoy,
-      name: i18n.global.t("$waveBuoys").toString(),
+      name: i18n.global.t('$waveBuoys').toString(),
       online: mainState.fmiApiOnline,
     });
     this.availableOptions.push({
       id: SiteTypes.Mareograph,
-      name: i18n.global.t("$mareographs").toString(),
+      name: i18n.global.t('$mareographs').toString(),
       online: mainState.fmiApiOnline,
     });
     this.availableOptions.push({
       id: SiteTypes.Vesla,
-      name: i18n.global.t("$marineStations").toString(),
+      name: i18n.global.t('$marineStations').toString(),
       online: mainState.sykeApiOnline,
     });
   }
@@ -114,8 +114,8 @@ export class SurfaceTemperatureModule
       const response = await getMareographTemperatures(params);
       const inCorrectFormat = response.map((r) =>
         hasVeslaData
-          ? toCommonFormat(r, "Temperature", "°C")
-          : toFmiFormat(r, "Temperature", "°C")
+          ? toCommonFormat(r, 'Temperature', '°C')
+          : toFmiFormat(r, 'Temperature', '°C')
       );
       tempData.push(...inCorrectFormat);
     }
@@ -125,8 +125,8 @@ export class SurfaceTemperatureModule
       ]);
       const inCorrectFormat = response.map((r) =>
         hasVeslaData
-          ? toCommonFormat(r, "Temperature", "°C")
-          : toFmiFormat(r, "Temperature", "°C")
+          ? toCommonFormat(r, 'Temperature', '°C')
+          : toFmiFormat(r, 'Temperature', '°C')
       );
       tempData.push(...inCorrectFormat);
     }
@@ -147,5 +147,5 @@ export class SurfaceTemperatureModule
 
 export const surfaceTemperatureModule = new SurfaceTemperatureModule({
   store,
-  name: "surfaceTemperature",
+  name: 'surfaceTemperature',
 });

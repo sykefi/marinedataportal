@@ -1,21 +1,21 @@
-import { Module, Mutation, VuexModule, Action } from "vuex-class-modules";
+import { Module, Mutation, VuexModule, Action } from 'vuex-class-modules';
 import {
   getWaterQualityOptions,
   IWaterQualityOption,
-} from "@/queries/Vesla/getWaterQualityOptionsQuery";
-import { IAttributeModuleWithOptions } from "@/store/attributeModules/IAttributeModuleWithOptions";
-import store from "@/store/store";
-import { CommonParameters } from "@/queries/commonParameters";
+} from '@/queries/Vesla/getWaterQualityOptionsQuery';
+import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
+import store from '@/store/store';
+import { CommonParameters } from '@/queries/commonParameters';
 import {
   getWaterQuality,
   getWaterQualitySiteIds,
-} from "@/queries/Vesla/getWaterQualityQuery";
-import { IAttributeOption } from "./IAttributeOption";
-import { PREVIEW_ROW_COUNT } from "@/config";
-import { alphabeticCompare } from "@/helpers";
-import { SiteTypes } from "@/queries/site";
-import { IResponseFormat } from "@/queries/IResponseFormat";
-import i18n from "@/locale/i18n";
+} from '@/queries/Vesla/getWaterQualityQuery';
+import { IAttributeOption } from './IAttributeOption';
+import { PREVIEW_ROW_COUNT } from '@/config';
+import { alphabeticCompare } from '@/helpers';
+import { SiteTypes } from '@/queries/site';
+import { IResponseFormat } from '@/queries/IResponseFormat';
+import i18n from '@/locale/i18n';
 
 export enum DepthOptions {
   SurfaceLayer,
@@ -35,7 +35,7 @@ export class WaterQualityModule
   extends VuexModule
   implements IAttributeModuleWithOptions
 {
-  public name = "$waterQuality";
+  public name = '$waterQuality';
   public isSelected = false;
   public loading = false;
   public language: string | null = null;
@@ -64,12 +64,12 @@ export class WaterQualityModule
       const start = this.selectedDepth.start;
       const end = this.selectedDepth.end;
       if (start === undefined) {
-        errors.push("$missingDepthStart");
+        errors.push('$missingDepthStart');
       }
       if (end === undefined) {
-        errors.push("$missingDepthEnd");
+        errors.push('$missingDepthEnd');
       } else if (start && start > end) {
-        errors.push("$depthStartGreaterThanDepthEnd");
+        errors.push('$depthStartGreaterThanDepthEnd');
       }
     }
     return errors;
@@ -108,7 +108,7 @@ export class WaterQualityModule
       const lang = i18n.global.locale;
       const availableOptions = options.map((o) => ({
         id: o.id,
-        name: lang === "fi" ? o.name_fi : lang === "sv" ? o.name_sv : o.name_en,
+        name: lang === 'fi' ? o.name_fi : lang === 'sv' ? o.name_sv : o.name_en,
         online: true,
       }));
 
@@ -146,5 +146,5 @@ export class WaterQualityModule
 
 export const waterQualityModule = new WaterQualityModule({
   store,
-  name: "waterQuality",
+  name: 'waterQuality',
 });

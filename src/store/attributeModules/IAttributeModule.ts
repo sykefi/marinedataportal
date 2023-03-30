@@ -1,6 +1,6 @@
-import { CommonParameters } from "@/queries/commonParameters";
-import { SiteTypes } from "@/queries/site";
-import { IResponseFormat } from "@/queries/IResponseFormat";
+import { CommonParameters } from '@/queries/commonParameters';
+import { SiteTypes } from '@/queries/site';
+import { IResponseFormat } from '@/queries/IResponseFormat';
 
 export interface IAttributeModule {
   name: string;
