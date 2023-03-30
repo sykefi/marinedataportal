@@ -1,18 +1,21 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
-import store from '@/store/store';
-import { CommonParameters } from '@/queries/commonParameters';
-import i18n from '@/locale/i18n';
-import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
-import { IAttributeOption } from './IAttributeOption';
-import { PREVIEW_ROW_COUNT } from '@/config';
-import { SiteTypes } from '@/queries/site';
-import { getWaveData, WaveQueryParameters } from '@/queries/FMI/getWaveDataQuery';
-import { toFmiFormat } from '@/helpers';
-import { IResponseFormat } from '@/queries/IResponseFormat';
+import { Module, VuexModule, Mutation, Action } from "vuex-class-modules";
+import store from "@/store/store";
+import { CommonParameters } from "@/queries/commonParameters";
+import i18n from "@/locale/i18n";
+import { IAttributeModuleWithOptions } from "./IAttributeModuleWithOptions";
+import { IAttributeOption } from "./IAttributeOption";
+import { PREVIEW_ROW_COUNT } from "@/config";
+import { SiteTypes } from "@/queries/site";
+import {
+  getWaveData,
+  WaveQueryParameters,
+} from "@/queries/FMI/getWaveDataQuery";
+import { toFmiFormat } from "@/helpers";
+import { IResponseFormat } from "@/queries/IResponseFormat";
 
 @Module({ generateMutationSetters: true })
 class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
-  public name = '$surge';
+  public name = "$surge";
   public loading = false;
   public isSelected = false;
   public availableOptions: IAttributeOption[] = [];
@@ -59,9 +62,19 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
   @Mutation
   public getOptions() {
     this.availableOptions = [];
-    const keys = ['$waveDirection', '$waterTemperature', '$waveHeight', '$modalPeriod', '$waveletDivergence'];
+    const keys = [
+      "$waveDirection",
+      "$waterTemperature",
+      "$waveHeight",
+      "$modalPeriod",
+      "$waveletDivergence",
+    ];
     keys.forEach((key, id) => {
-      this.availableOptions.push({ id, name: i18n.t(key).toString(), online: true });
+      this.availableOptions.push({
+        id,
+        name: i18n.global.t(key).toString(),
+        online: true,
+      });
     });
   }
 
@@ -72,43 +85,47 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
     if (this.selectedIds.includes(0)) {
       queryParams.push(WaveQueryParameters.direction);
     }
-    if (this.selectedIds.includes(1)) {// temp
+    if (this.selectedIds.includes(1)) {
+      // temp
       queryParams.push(WaveQueryParameters.waterTemperature);
     }
-    if (this.selectedIds.includes(2)) {// height
+    if (this.selectedIds.includes(2)) {
+      // height
       queryParams.push(WaveQueryParameters.waveHeight);
     }
-    if (this.selectedIds.includes(3)) {// modal period
+    if (this.selectedIds.includes(3)) {
+      // modal period
       queryParams.push(WaveQueryParameters.modalPeriod);
     }
-    if (this.selectedIds.includes(4)) { // deviation
+    if (this.selectedIds.includes(4)) {
+      // deviation
       queryParams.push(WaveQueryParameters.directionDeviation);
     }
 
     const results = await getWaveData(params, queryParams);
     const inFmiFormat = results.map((r) => {
-      let parameterName = '';
-      let unit = '';
+      let parameterName = "";
+      let unit = "";
       switch (r.parameterName) {
         case WaveQueryParameters.direction:
-          parameterName = 'Wave direction';
-          unit = '°';
+          parameterName = "Wave direction";
+          unit = "°";
           break;
         case WaveQueryParameters.directionDeviation:
-          parameterName = 'Direction deviation';
-          unit = '°';
+          parameterName = "Direction deviation";
+          unit = "°";
           break;
         case WaveQueryParameters.modalPeriod:
-          parameterName = 'Modal period';
-          unit = 's';
+          parameterName = "Modal period";
+          unit = "s";
           break;
         case WaveQueryParameters.waterTemperature:
-          parameterName = 'Water temperature';
-          unit = '°C';
+          parameterName = "Water temperature";
+          unit = "°C";
           break;
         case WaveQueryParameters.waveHeight:
-          parameterName = 'Wave height';
-          unit = 'm';
+          parameterName = "Wave height";
+          unit = "m";
           break;
         default:
           break;
@@ -127,5 +144,5 @@ class SurgeModule extends VuexModule implements IAttributeModuleWithOptions {
 
 export const surgeModule = new SurgeModule({
   store,
-  name: 'surge',
+  name: "surge",
 });
