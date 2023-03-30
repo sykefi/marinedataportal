@@ -1,5 +1,5 @@
-import { IAttributeModule } from "@/store/attributeModules/IAttributeModule";
-import { defineComponent, PropType } from "vue";
+import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -51,10 +51,10 @@ export default defineComponent({
   methods: {
     input(target: HTMLInputElement) {
       const value = target.value;
-      if (value !== "") {
-        this.$emit("input", Number((+value).toFixed(this.decimals)));
+      if (value !== '') {
+        this.$emit('input', Number((+value).toFixed(this.decimals)));
       } else {
-        this.$emit("input", null);
+        this.$emit('input', null);
       }
     },
   },
@@ -62,11 +62,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 .input-box {
   width: 3.5rem;
   margin: 0.5rem;
-  font-family: "TitilliumWeb";
+  font-family: 'TitilliumWeb';
   text-align: center;
   font-size: 1rem;
   color: $text-dark;

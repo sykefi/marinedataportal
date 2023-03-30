@@ -34,12 +34,12 @@
 </template>
 
 <script lang="ts">
-import { searchParameterModule } from "@/store/searchParameterModule";
-import { mapModule } from "@/store/mapModule";
-import { DragBox } from "ol/interaction";
-import { platformModifierKeyOnly } from "ol/events/condition";
-import WMTS from "ol/source/WMTS";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { searchParameterModule } from '@/store/searchParameterModule';
+import { mapModule } from '@/store/mapModule';
+import { DragBox } from 'ol/interaction';
+import { platformModifierKeyOnly } from 'ol/events/condition';
+import WMTS from 'ol/source/WMTS';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 
 interface IHoverData {
   name: string;
@@ -57,16 +57,16 @@ export default defineComponent({
     const cityNamesLayer = ref(null as any);
     const vectorSource = ref(null as any);
     const map = ref(null as any);
-    const mapCursor = ref("default");
+    const mapCursor = ref('default');
 
     const availableFeatures = () => {
       // wrap sites as GeoJSON Features
       return searchParameterModule.availableSites.map((s) => {
         return {
-          type: "Feature",
+          type: 'Feature',
           id: s.id,
           geometry: {
-            type: "Point",
+            type: 'Point',
             coordinates: s.mapCoordinates,
           },
           properties: { name: s.displayName },
@@ -135,7 +135,7 @@ export default defineComponent({
       map.$map.addInteraction(dragBox);
 
       // clear selection when drawing a new box and when clicking on the map
-      dragBox.on("boxstart", () => {
+      dragBox.on('boxstart', () => {
         selectedFeatures.value = [];
         selectInteraction.value.clearFeatures();
       });
@@ -156,7 +156,7 @@ export default defineComponent({
       }
       // this.mapCursor = "pointer";
       currentHoverFeature.value = {
-        name: hitFeature.get("name"),
+        name: hitFeature.get('name'),
         coordinates: hitFeature.getGeometry().getCoordinates(),
       };
     };

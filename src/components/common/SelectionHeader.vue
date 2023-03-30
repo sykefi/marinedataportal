@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -19,7 +19,7 @@ export default defineComponent({
   },
   computed: {
     headerNumber() {
-      return this.header.split(" ")[0];
+      return this.header.split(' ')[0];
     },
     headerWords() {
       return this.header.slice(this.headerNumber.length, this.header.length);
@@ -29,7 +29,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 #header-wrapper {
   display: flex;
   align-items: center;

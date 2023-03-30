@@ -15,7 +15,7 @@
           v-model="selectAll"
           :aria-label="$t('$selectAll')"
         />
-        <b>{{ $t("$selectAll") }}</b>
+        <b>{{ $t('$selectAll') }}</b>
       </label>
       <br />
       <div :class="[twoColumns ? 'two-columns' : '']">
@@ -35,14 +35,14 @@
       </div>
     </fieldset>
     <p v-if="showPhosphorusMessage" class="info-paragraph">
-      {{ $t("$phosphorusMessage") }}
+      {{ $t('$phosphorusMessage') }}
     </p>
   </div>
 </template>
 
 <script lang="ts">
-import { IAttributeModuleWithOptions } from "@/store/attributeModules/IAttributeModuleWithOptions";
-import { defineComponent, PropType } from "vue";
+import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
@@ -66,7 +66,7 @@ export default defineComponent({
   },
   computed: {
     isWaterQualityModule() {
-      return this.module.name === "$waterQuality";
+      return this.module.name === '$waterQuality';
     },
     selectedIds: {
       get() {
@@ -104,7 +104,7 @@ export default defineComponent({
   },
   methods: {
     includesPhosphorus(ids: number[]) {
-      if (this.module.name === "$waterQuality") {
+      if (this.module.name === '$waterQuality') {
         return ids.some((id) => [20, 33, 44, 55].includes(id));
       }
       return false;
@@ -114,7 +114,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 .two-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;

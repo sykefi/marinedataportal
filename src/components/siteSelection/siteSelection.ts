@@ -1,11 +1,11 @@
-import SelectionHeader from "@/components/common/SelectionHeader.vue";
-import SelectionButton from "@/components/common/selectionButton/SelectionButton.vue";
-import SiteMap from "@/components/siteSelection/SiteMap.vue";
-import { searchParameterModule } from "@/store/searchParameterModule";
-import { mainState } from "@/store/mainState";
-import { validateSearchParameters } from "@/helpers";
-import { waterQualityModule } from "@/store/attributeModules/waterQualityModule";
-import { defineComponent } from "vue";
+import SelectionHeader from '@/components/common/SelectionHeader.vue';
+import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
+import SiteMap from '@/components/siteSelection/SiteMap.vue';
+import { searchParameterModule } from '@/store/searchParameterModule';
+import { mainState } from '@/store/mainState';
+import { validateSearchParameters } from '@/helpers';
+import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {
@@ -32,7 +32,7 @@ export default defineComponent({
       );
     },
     showSiteRequiredError() {
-      return mainState.isError("$noSitesSelected");
+      return mainState.isError('$noSitesSelected');
     },
   },
   methods: {

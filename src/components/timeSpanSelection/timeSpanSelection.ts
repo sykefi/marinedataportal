@@ -1,10 +1,10 @@
-import SelectionHeader from "@/components/common/SelectionHeader.vue";
-import DetailsButton from "@/components/common/detailsButton/DetailsButton.vue";
-import DatePicker from "@/components/common/datePicker/DatePicker.vue";
-import EmptySelectionButton from "@/components/common/emptySelectionButton/EmptySelectionButton.vue";
-import { searchParameterModule } from "@/store/searchParameterModule";
-import { mainState } from "@/store/mainState";
-import { defineComponent } from "vue";
+import SelectionHeader from '@/components/common/SelectionHeader.vue';
+import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
+import DatePicker from '@/components/common/datePicker/DatePicker.vue';
+import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton.vue';
+import { searchParameterModule } from '@/store/searchParameterModule';
+import { mainState } from '@/store/mainState';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {
@@ -28,26 +28,26 @@ export default defineComponent({
     },
     timeSpanStartError() {
       return (
-        mainState.isError("$missingTimeSpanStart") ||
-        mainState.isError("$timeSpanStartAfterTimeSpanEnd")
+        mainState.isError('$missingTimeSpanStart') ||
+        mainState.isError('$timeSpanStartAfterTimeSpanEnd')
       );
     },
     timeSpanEndError() {
       return (
-        mainState.isError("$missingTimeSpanEnd") ||
-        mainState.isError("$timeSpanStartAfterTimeSpanEnd")
+        mainState.isError('$missingTimeSpanEnd') ||
+        mainState.isError('$timeSpanStartAfterTimeSpanEnd')
       );
     },
     periodEndError() {
       return (
-        mainState.isError("$missingPeriodEnd") ||
-        mainState.isError("$incompletePeriodEnd")
+        mainState.isError('$missingPeriodEnd') ||
+        mainState.isError('$incompletePeriodEnd')
       );
     },
     periodStartError() {
       return (
-        mainState.isError("$missingPeriodStart") ||
-        mainState.isError("$incompletePeriodStart")
+        mainState.isError('$missingPeriodStart') ||
+        mainState.isError('$incompletePeriodStart')
       );
     },
   },

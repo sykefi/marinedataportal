@@ -1,26 +1,24 @@
 // tslint:disable: no-console
-import AttributeSelection from "@/components/attributeSelection/AttributeSelection.vue";
-import TimeSpanSelection from "@/components/timeSpanSelection/TimeSpanSelection.vue";
-import SiteSelection from "@/components/siteSelection/SiteSelection.vue";
-import DataDownload from "@/components/dataDownload/DataDownload.vue";
-import DataPreview from "@/components/dataPreview/DataPreview.vue";
-import AppHeader from "@/components/AppHeader.vue";
-import InfoMenu from "@/components/InfoMenu.vue";
-import AppFooter from "@/components/AppFooter.vue";
-import SiteTitle from "@/components/SiteTitle.vue";
-import SiteImage from "@/components/SiteImage.vue";
-import ErrorMessages from "@/components/ErrorMessages.vue";
-import { mainState } from "@/store/mainState";
-import { mapModule } from "@/store/mapModule";
-import { getMareographs } from "@/queries/FMI/getMareographsQuery";
-import { getBuoys } from "@/queries/FMI/getBuoysQuery";
-import { sykeApiIsOnline } from "./queries/Vesla/getApiStatusQuery";
-import { surgeModule } from "./store/attributeModules/surgeModule";
-import { surfaceTemperatureModule } from "./store/attributeModules/surfaceTemperatureModule";
-import { fmiApiIsOnline } from "./queries/FMI/getApiStatusQuery";
-import { defineComponent } from "vue";
-import i18n from "./locale/i18n";
-import { waterQualityModule } from "./store/attributeModules/waterQualityModule";
+import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue';
+import TimeSpanSelection from '@/components/timeSpanSelection/TimeSpanSelection.vue';
+import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
+import DataDownload from '@/components/dataDownload/DataDownload.vue';
+import DataPreview from '@/components/dataPreview/DataPreview.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import InfoMenu from '@/components/InfoMenu.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import SiteTitle from '@/components/SiteTitle.vue';
+import SiteImage from '@/components/SiteImage.vue';
+import ErrorMessages from '@/components/ErrorMessages.vue';
+import { mainState } from '@/store/mainState';
+import { mapModule } from '@/store/mapModule';
+import { getMareographs } from '@/queries/FMI/getMareographsQuery';
+import { getBuoys } from '@/queries/FMI/getBuoysQuery';
+import { sykeApiIsOnline } from './queries/Vesla/getApiStatusQuery';
+import { surgeModule } from './store/attributeModules/surgeModule';
+import { surfaceTemperatureModule } from './store/attributeModules/surfaceTemperatureModule';
+import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {

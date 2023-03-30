@@ -1,6 +1,6 @@
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType } from 'vue';
 
-export type DatePickerResult = Date | "invalid" | null;
+export type DatePickerResult = Date | 'invalid' | null;
 
 export default defineComponent({
   props: {
@@ -11,7 +11,7 @@ export default defineComponent({
     start: {
       type: String,
       required: false,
-      default: "1970-01-01",
+      default: '1970-01-01',
     },
     end: {
       type: String,
@@ -21,7 +21,7 @@ export default defineComponent({
     ariaLabels: {
       type: [String, Array],
       required: false,
-      default: () => ["year", "month", "day"],
+      default: () => ['year', 'month', 'day'],
     },
     showYear: {
       type: Boolean,
@@ -89,7 +89,7 @@ export default defineComponent({
           return new Date(Date.UTC(2000, this.month, this.day, 0, 0, 0));
         } else if (this.month > -1 || this.day > -1) {
           // This is for checking if time period is incomplete
-          return "invalid";
+          return 'invalid';
         } else {
           return null;
         }
@@ -98,7 +98,7 @@ export default defineComponent({
   },
   methods: {
     emitUpdate() {
-      this.$emit("input", this.currentResult);
+      this.$emit('input', this.currentResult);
     },
     onChangeYear() {
       if (this.month === 1) {

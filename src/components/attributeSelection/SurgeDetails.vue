@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import OptionsSelection from "@/components/attributeSelection/OptionsSelection.vue";
-import { surgeModule } from "@/store/attributeModules/surgeModule";
-import { defineComponent } from "vue";
+import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
+import { surgeModule } from '@/store/attributeModules/surgeModule';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {

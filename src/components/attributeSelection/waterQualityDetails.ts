@@ -1,12 +1,12 @@
-import OptionsSelection from "@/components/attributeSelection/OptionsSelection.vue";
-import DecimalInput from "@/components/common/DecimalInput.vue";
+import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
+import DecimalInput from '@/components/common/DecimalInput.vue';
 import {
   DepthOptions,
   waterQualityModule,
-} from "@/store/attributeModules/waterQualityModule";
-import { mainState } from "@/store/mainState";
-import i18n from "@/locale/i18n";
-import { defineComponent } from "vue";
+} from '@/store/attributeModules/waterQualityModule';
+import { mainState } from '@/store/mainState';
+import i18n from '@/locale/i18n';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   components: {
@@ -19,14 +19,14 @@ export default defineComponent({
     },
     depthStartError() {
       return (
-        mainState.isError("$missingDepthStart") ||
-        mainState.isError("$depthStartGreaterThanDepthEnd")
+        mainState.isError('$missingDepthStart') ||
+        mainState.isError('$depthStartGreaterThanDepthEnd')
       );
     },
     depthEndError() {
       return (
-        mainState.isError("$missingDepthEnd") ||
-        mainState.isError("$depthStartGreaterThanDepthEnd")
+        mainState.isError('$missingDepthEnd') ||
+        mainState.isError('$depthStartGreaterThanDepthEnd')
       );
     },
     selected: {

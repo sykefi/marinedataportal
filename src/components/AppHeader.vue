@@ -37,22 +37,25 @@
           :class="{ current: $i18n.locale === 'fi' }"
           @click="setLanguage('fi')"
           aria-label="Vaihda kieleksi suomi."
-          >FI</a
         >
+          FI
+        </a>
         <a
           href="#"
           :class="{ current: $i18n.locale === 'sv' }"
           @click="setLanguage('sv')"
           aria-label="Ändra språk till svenska."
-          >SV</a
         >
+          SV
+        </a>
         <a
           href="#"
           :class="{ current: $i18n.locale === 'en' }"
           @click="setLanguage('en')"
           aria-label="Change language to English."
-          >EN</a
         >
+          EN
+        </a>
 
         <!-- Finnish -->
         <div id="fund-logos" v-if="$i18n.locale === 'fi'">
@@ -86,20 +89,20 @@
 </template>
 
 <script lang="ts">
-import i18n from "@/locale/i18n";
-import { waterQualityModule } from "@/store/attributeModules/waterQualityModule";
-import { surfaceTemperatureModule } from "@/store/attributeModules/surfaceTemperatureModule";
-import { surgeModule } from "@/store/attributeModules/surgeModule";
-import { defineComponent } from "vue";
-import { ILangTag } from "@/types";
+import i18n from '@/locale/i18n';
+import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
+import { surgeModule } from '@/store/attributeModules/surgeModule';
+import { defineComponent } from 'vue';
+import { ILangTag } from '@/types';
 
 export default defineComponent({
   methods: {
     setLanguage(tag: ILangTag) {
       i18n.global.locale = tag;
       const html = document.documentElement;
-      html.setAttribute("lang", tag);
-      document.title = this.$t("$siteTitle").toString();
+      html.setAttribute('lang', tag);
+      document.title = this.$t('$siteTitle').toString();
       surfaceTemperatureModule.getOptions();
       surgeModule.getOptions();
       waterQualityModule.getOptions();
@@ -109,7 +112,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 #upper-header {
   display: flex;

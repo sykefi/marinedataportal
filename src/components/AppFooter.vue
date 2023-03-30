@@ -3,7 +3,7 @@
     <div id="app-footer">
       <div id="feedback">
         <font-awesome-icon icon="angle-right" id="arrow-icon" />
-        <a :href="$t('$emailWithSubject')">{{ $t("$feedback") }}</a>
+        <a :href="$t('$emailWithSubject')">{{ $t('$feedback') }}</a>
       </div>
       <div id="logos">
         <ul>
@@ -35,8 +35,9 @@
               href="https://github.com/sykefi/marinedataportal"
               target="_blank"
               rel="noopener noreferrer"
-              >{{ $t("$sourceCode") }}</a
             >
+              {{ $t('$sourceCode') }}
+            </a>
           </li>
         </ul>
       </div>
@@ -45,19 +46,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({});
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 #app-footer {
   display: grid;
   grid-template:
-    "div div div"
-    ". logo ."
-    ". links ."
+    'div div div'
+    '. logo .'
+    '. links .'
     / 1fr $content-width 1fr;
 }
 

@@ -2,10 +2,10 @@
   <div>
     <div v-if="hasData">
       <strong>{{ $t(module.name) }}</strong>
-      <span>{{ ` (${module.rowCount} ${$t("$rows")}) ` }}</span>
-      <a :href="encodedFileUri" :download="$t(module.name) + '.csv'">{{
-        $t("$downloadCSV")
-      }}</a>
+      <span>{{ ` (${module.rowCount} ${$t('$rows')}) ` }}</span>
+      <a :href="encodedFileUri" :download="$t(module.name) + '.csv'">
+        {{ $t('$downloadCSV') }}
+      </a>
       <table>
         <tr>
           <th v-for="(name, i) in columnNames" :key="i">
@@ -22,14 +22,14 @@
     <br />
     <div v-if="!hasData && isDataLoaded">
       <strong>{{ $t(module.name) }}</strong>
-      - {{ $t("$noRowsFound") }}
+      - {{ $t('$noRowsFound') }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { IAttributeModule } from "@/store/attributeModules/IAttributeModule";
-import { defineComponent, PropType } from "vue";
+import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
@@ -51,21 +51,21 @@ export default defineComponent({
   },
   methods: {
     encodedFileUri() {
-      let csvContent = "";
-      csvContent += this.columnNames.join(";") + ";\r\n";
+      let csvContent = '';
+      csvContent += this.columnNames.join(';') + ';\r\n';
 
       this.module.data!.forEach((row) => {
         const values = Object.keys(row).map((key) => (row as any)[key]);
-        csvContent += values.join(";") + ";\r\n";
+        csvContent += values.join(';') + ';\r\n';
       });
 
       // https://stackoverflow.com/questions/23301467/javascript-exporting-large-text-csv-file-crashes-google-chrome
       const csvData = new Blob([csvContent], {
-        type: "text/csv;charset=utf-8;",
+        type: 'text/csv;charset=utf-8;',
       });
 
       if (navigator.msSaveBlob) {
-        navigator.msSaveBlob(csvData, this.module.name + ".csv");
+        navigator.msSaveBlob(csvData, this.module.name + '.csv');
       } else {
         return URL.createObjectURL(csvData);
       }
