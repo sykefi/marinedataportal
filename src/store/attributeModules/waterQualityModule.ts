@@ -38,7 +38,6 @@ export class WaterQualityModule
   public name = '$waterQuality';
   public isSelected = false;
   public loading = false;
-  public language: string | null = null;
   public selectedIds: number[] = [];
   public data: IResponseFormat[] | null = null;
   public siteTypes = [SiteTypes.Vesla];
