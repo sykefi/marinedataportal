@@ -6,7 +6,7 @@ export default defineComponent({
   props: {
     value: {
       type: Object as PropType<DatePickerResult>,
-      required: true,
+      required: false,
     },
     start: {
       type: String,
