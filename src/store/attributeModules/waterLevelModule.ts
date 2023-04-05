@@ -1,51 +1,55 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
 import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
 import { SiteTypes } from '@/queries/site';
-import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import { getWaterLevels } from '@/queries/FMI/getWaterLevelQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { toFmiFormat } from '@/helpers';
 import { IResponseFormat } from '@/queries/IResponseFormat';
+import { Commit } from 'vuex';
 
-@Module({ generateMutationSetters: true })
-class WaterLevelModule extends VuexModule implements IAttributeModule {
-  public hasOptionsSelected = true;
-  public name = '$waterLevel';
-  public loading = false;
-  public isSelected = false;
-  public data: IResponseFormat[] | null = null;
-  public siteTypes = [SiteTypes.Mareograph];
-
-  get rowCount() {
-    return this.data ? this.data.length : 0;
-  }
-
-  get previewData() {
-    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
-  }
-
-  @Mutation
-  public toggleSelected() {
-    this.isSelected = !this.isSelected;
-  }
-
-  @Action
-  public async getData(params: CommonParameters) {
-    this.loading = true;
-    const results = await getWaterLevels(params);
-    const inFmiFormat = results.map((r) => toFmiFormat(r, 'Water level', 'mm'));
-    this.data = inFmiFormat;
-    this.loading = false;
-  }
-
-  @Action
-  public async getAvailableVeslaSiteIds() {
-    return [];
-  }
-}
-
-export const waterLevelModule = new WaterLevelModule({
-  store,
-  name: 'waterLevel',
-});
+export const WaterLevelModule = {
+  state: () => ({
+    hasOptionsSelected: true,
+    name: '$waterLevel',
+    loading: false,
+    isSelected: false,
+    data: null as IResponseFormat[] | null,
+    siteTypes: [SiteTypes.Mareograph],
+  }),
+  getters: {
+    rowCount(state: IAttributeModule) {
+      return state.data ? state.data.length : 0;
+    },
+    previewData(state: IAttributeModule) {
+      return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : [];
+    },
+  },
+  mutations: {
+    toggleSelected(state: IAttributeModule) {
+      state.isSelected = !state.isSelected;
+    },
+    startLoading(state: IAttributeModule) {
+      state.loading = true;
+    },
+    stopLoading(state: IAttributeModule) {
+      state.loading = false;
+    },
+    setData(state: IAttributeModule, newData: IResponseFormat[]) {
+      state.data = newData;
+    },
+  },
+  actions: {
+    async getData({ commit }: { commit: Commit }, params: CommonParameters) {
+      commit('startLoading');
+      const results = await getWaterLevels(params);
+      const inFmiFormat = results.map((r) =>
+        toFmiFormat(r, 'Water level', 'mm')
+      );
+      commit('setData', inFmiFormat);
+      commit('stopLoading');
+    },
+    async getAvailableVeslaSiteIds() {
+      return [];
+    },
+  },
+};

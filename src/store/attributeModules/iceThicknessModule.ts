@@ -1,52 +1,57 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-class-modules';
 import { IAttributeModule } from './IAttributeModule';
 import { SiteTypes } from '@/queries/site';
-import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
-import { getObservations, getObservationSiteIds } from '@/queries/Vesla/getObservationsQuery';
+import {
+  getObservations,
+  getObservationSiteIds,
+} from '@/queries/Vesla/getObservationsQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { IResponseFormat } from '@/queries/IResponseFormat';
 
-@Module({ generateMutationSetters: true })
-export class IceThicknessModule extends VuexModule implements IAttributeModule {
-  public hasOptionsSelected = true;
-  public name = '$iceThickness';
-  public loading = false;
-  public isSelected = false;
-  public data: IResponseFormat[] | null = null;
-  public siteTypes = [SiteTypes.Vesla];
-  private obsCode = 'THICKI';
+type IIceThicknessState = IAttributeModule & {
+  obsCode: string;
+};
 
-  get rowCount() {
-    return this.data ? this.data.length : 0;
-  }
-
-  get previewData() {
-    return this.data ? this.data.slice(0, PREVIEW_ROW_COUNT) : [];
-  }
-
-  @Mutation
-  public toggleSelected() {
-    this.isSelected = !this.isSelected;
-  }
-
-  @Action
-  public async getData(params: CommonParameters) {
-    this.loading = true;
-    this.data = await getObservations(params, this.obsCode);
-    this.loading = false;
-  }
-
-  @Action
-  public async getAvailableVeslaSiteIds(params: CommonParameters) {
-    this.loading = true;
-    const res = await getObservationSiteIds(params, this.obsCode);
-    this.loading = false;
-    return res;
-  }
-}
-
-export const iceThicknessModule = new IceThicknessModule({
-  store,
-  name: 'iceThickness',
-});
+export const IceThicknessModule = {
+  state: () => ({
+    hasOptionsSelected: true,
+    name: '$iceThickness',
+    loading: false,
+    isSelected: false,
+    data: null as IResponseFormat[] | null,
+    siteTypes: [SiteTypes.Vesla],
+    obsCode: 'THICKI',
+  }),
+  getters: {
+    rowCount(state: IIceThicknessState) {
+      return state.data ? state.data.length : 0;
+    },
+    previewData(state: IIceThicknessState) {
+      return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : [];
+    },
+  },
+  mutations: {
+    toggleSelected(state: IIceThicknessState) {
+      state.isSelected = !state.isSelected;
+    },
+  },
+  actions: {
+    async getData(
+      { state }: { state: IIceThicknessState },
+      params: CommonParameters
+    ) {
+      state.loading = true;
+      state.data = await getObservations(params, state.obsCode);
+      state.loading = false;
+    },
+    async getAvailableVeslaSiteIds(
+      { state }: { state: IIceThicknessState },
+      params: CommonParameters
+    ) {
+      state.loading = true;
+      const res = await getObservationSiteIds(params, state.obsCode);
+      state.loading = false;
+      return res;
+    },
+  },
+};
