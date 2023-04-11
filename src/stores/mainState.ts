@@ -1,4 +1,3 @@
-import { Module, VuexModule, Action, Mutation } from 'vuex-class-modules';
 import store from './store';
 import { waterQualityModule } from './attributeModules/waterQualityModule';
 import { CommonParameters } from '@/queries/commonParameters';
@@ -14,42 +13,45 @@ import { waterLevelModule } from './attributeModules/waterLevelModule';
 import { IAttributeModuleWithOptions } from './attributeModules/IAttributeModuleWithOptions';
 import { searchParameterModule } from './searchParameterModule';
 
-@Module
-class MainState extends VuexModule {
-
-  get loading() {
-    return searchParameterModule.loading || this.attributeModules.find((m) => m.loading);
+export const MainState = {
+  state: () => ({
+  errorList: [] as string[],
+  sykeApiOnline: true,
+  fmiApiOnline: true,
+  hasError: false
+  }),
+  getters: {
+    get loading() {
+      return searchParameterModule.loading || this.attributeModules.find((m) => m.loading);
+    }
+  
+    get selectedAttributeModules() {
+      return this.attributeModules.filter((m) =>
+        m.isSelected && m.hasOptionsSelected);
+    }
+  
+    get selectedSiteTypes() {
+      const allSiteTypes: SiteTypes[] = [];
+      this.selectedAttributeModules.forEach((a) => { allSiteTypes.push(...a.siteTypes); });
+      return [...new Set(allSiteTypes)];
+    }
+  
+  
+    get attributeModules() {
+      return [
+        benthicFaunaModule,
+        iceThicknessModule,
+        phytoPlanktonModule,
+        secchiDepthModule,
+        surfaceTemperatureModule,
+        surgeModule,
+        waterLevelModule,
+        waterQualityModule,
+      ];
+    }
   }
 
-  get selectedAttributeModules() {
-    return this.attributeModules.filter((m) =>
-      m.isSelected && m.hasOptionsSelected);
-  }
 
-  get selectedSiteTypes() {
-    const allSiteTypes: SiteTypes[] = [];
-    this.selectedAttributeModules.forEach((a) => { allSiteTypes.push(...a.siteTypes); });
-    return [...new Set(allSiteTypes)];
-  }
-
-  public errorList: string[] = [];
-
-  public sykeApiOnline = true;
-  public fmiApiOnline = true;
-  public hasError = false;
-
-  get attributeModules() {
-    return [
-      benthicFaunaModule,
-      iceThicknessModule,
-      phytoPlanktonModule,
-      secchiDepthModule,
-      surfaceTemperatureModule,
-      surgeModule,
-      waterLevelModule,
-      waterQualityModule,
-    ];
-  }
 
   @Mutation
   public setErrorList(errors: string[]) {

@@ -1,7 +1,7 @@
 import { CommonParameters } from '@/queries/commonParameters';
 import i18n from '@/locale/i18n';
-import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
-import { IAttributeOption } from './IAttributeOption';
+import { IAttributeModuleWithOptions } from './types/IAttributeStoreStateWithOptions';
+import { IAttributeOption } from './types/IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { SiteTypes } from '@/queries/site';
 import {

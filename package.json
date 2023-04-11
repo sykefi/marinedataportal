@@ -9,22 +9,22 @@
     "lint": "eslint --ext .ts,.vue --ignore-path .gitignore --fix src"
   },
   "dependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
-    "@vue/compat": "^3.2.47",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@types/ol": "^7.0.0",
     "@types/proj4": "^2.5.0",
     "@types/sinon": "^10.0.13",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/compat": "^3.2.47",
     "core-js": "^3.27.1",
+    "pinia": "^2.0.34",
     "proj4": "^2.9.0",
     "sinon": "^15.0.3",
     "vite": "^4.1.4",
     "vue": "^3.2.47",
     "vue-i18n": "^9.2.2",
-    "vue3-openlayers": "^0.1.74",
-    "vuex": "^4.1.0"
+    "vue3-openlayers": "^0.1.74"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",

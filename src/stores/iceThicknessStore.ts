@@ -1,4 +1,4 @@
-import { IAttributeModule } from './IAttributeModule';
+import { IAttributeStoreState } from './types/IAttributeStoreState';
 import { SiteTypes } from '@/queries/site';
 import { CommonParameters } from '@/queries/commonParameters';
 import {
@@ -6,19 +6,18 @@ import {
   getObservationSiteIds,
 } from '@/queries/Vesla/getObservationsQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
-import { IResponseFormat } from '@/queries/IResponseFormat';
+import { defineStore } from 'pinia';
 
-type IIceThicknessState = IAttributeModule & {
+type IIceThicknessState = IAttributeStoreState & {
   obsCode: string;
 };
 
-export const IceThicknessModule = {
-  state: () => ({
+export const useIceThicknessStore = defineStore('iceThickness', {
+  state: (): IIceThicknessState => ({
     hasOptionsSelected: true,
-    name: '$iceThickness',
     loading: false,
     isSelected: false,
-    data: null as IResponseFormat[] | null,
+    data: null,
     siteTypes: [SiteTypes.Vesla],
     obsCode: 'THICKI',
   }),
@@ -30,19 +29,11 @@ export const IceThicknessModule = {
       return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : [];
     },
   },
-  mutations: {
-    toggleSelected(state: IIceThicknessState) {
-      state.isSelected = !state.isSelected;
-    },
-  },
   actions: {
-    async getData(
-      { state }: { state: IIceThicknessState },
-      params: CommonParameters
-    ) {
-      state.loading = true;
-      state.data = await getObservations(params, state.obsCode);
-      state.loading = false;
+    async getData(params: CommonParameters) {
+      this.loading = true;
+      this.data = await getObservations(params, this.obsCode);
+      this.loading = false;
     },
     async getAvailableVeslaSiteIds(
       { state }: { state: IIceThicknessState },
@@ -53,5 +44,8 @@ export const IceThicknessModule = {
       state.loading = false;
       return res;
     },
+    toggleSelected() {
+      this.isSelected = !this.isSelected;
+    },
   },
-};
+});

@@ -1,7 +1,7 @@
 import { CommonParameters } from '@/queries/commonParameters';
-import { IAttributeModuleWithOptions } from './IAttributeModuleWithOptions';
+import { IAttributeStoreStateWithOptions } from './types/IAttributeStoreStateWithOptions';
 import i18n from '@/locale/i18n';
-import { IAttributeOption } from './IAttributeOption';
+import { IAttributeOption } from './types/IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import {
   getWaterQuality,
@@ -17,80 +17,28 @@ import { DepthOptions } from './waterQualityModule';
 import { toCommonFormat, toFmiFormat } from '@/helpers';
 import { IResponseFormat } from '@/queries/IResponseFormat';
 import { mainState } from '../mainState';
-import { Commit } from 'vuex';
+import { defineStore } from 'pinia';
 
 const TEMP_ID_IN_VESLA = 25; // DeterminationCombinationId for temperature in Vesla
 
-export const SurfaceTemperatureModule = {
-  state: () => ({
-    name: '$surfaceTemperature',
+export const useSurfaceTemperatureStore = defineStore('surfaceTemperature', {
+  state: (): IAttributeStoreStateWithOptions => ({
     loading: false,
     isSelected: false,
-    availableOptions: [] as IAttributeOption[],
+    availableOptions: [],
     selectedIds: [] as number[],
-    data: null as IResponseFormat[] | null,
-    siteTypes: [] as SiteTypes[],
+    data: null,
+    siteTypes: [],
   }),
   getters: {
-    previewData(state: IAttributeModuleWithOptions) {
+    previewData(state) {
       return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : [];
     },
-    hasOptionsSelected(state: IAttributeModuleWithOptions) {
+    hasOptionsSelected(state) {
       return !!state.selectedIds.length;
     },
-    rowCount(state: IAttributeModuleWithOptions) {
+    rowCount(state) {
       return state.data ? state.data.length : 0;
-    },
-  },
-  mutations: {
-    toggleSelected(state: IAttributeModuleWithOptions) {
-      state.isSelected = !state.isSelected;
-    },
-    setSelectedOptions(state: IAttributeModuleWithOptions, ids: number[]) {
-      state.selectedIds = ids;
-      state.siteTypes = ids;
-    },
-    selectAll(state: IAttributeModuleWithOptions) {
-      // arrays must be emptied before selecting all options, otherwise strange things may happen
-      state.selectedIds = [];
-      state.siteTypes = [];
-      state.availableOptions.forEach((option) => {
-        if (option.online) {
-          state.selectedIds.push(option.id);
-          state.siteTypes.push(option.id);
-        }
-      });
-    },
-    deSelectAll(state: IAttributeModuleWithOptions) {
-      state.selectedIds = [];
-      state.siteTypes = [];
-    },
-    getOptions(state: IAttributeModuleWithOptions) {
-      state.availableOptions = [];
-      state.availableOptions.push({
-        id: SiteTypes.FmiBuoy,
-        name: i18n.global.t('$waveBuoys').toString(),
-        online: mainState.fmiApiOnline,
-      });
-      state.availableOptions.push({
-        id: SiteTypes.Mareograph,
-        name: i18n.global.t('$mareographs').toString(),
-        online: mainState.fmiApiOnline,
-      });
-      state.availableOptions.push({
-        id: SiteTypes.Vesla,
-        name: i18n.global.t('$marineStations').toString(),
-        online: mainState.sykeApiOnline,
-      });
-    },
-    startLoading(state: IAttributeModuleWithOptions) {
-      state.loading = true;
-    },
-    stopLoading(state: IAttributeModuleWithOptions) {
-      state.loading = false;
-    },
-    setData(state: IAttributeModuleWithOptions, newData: IResponseFormat[]) {
-      state.data = newData;
     },
   },
   actions: {
@@ -141,5 +89,48 @@ export const SurfaceTemperatureModule = {
       commit('stopLoading');
       return res;
     },
+    toggleSelected(state: IAttributeModuleWithOptions) {
+      state.isSelected = !state.isSelected;
+    },
+    setSelectedOptions(state: IAttributeModuleWithOptions, ids: number[]) {
+      state.selectedIds = ids;
+      state.siteTypes = ids;
+    },
+    selectAll(state: IAttributeModuleWithOptions) {
+      // arrays must be emptied before selecting all options, otherwise strange things may happen
+      state.selectedIds = [];
+      state.siteTypes = [];
+      state.availableOptions.forEach((option) => {
+        if (option.online) {
+          state.selectedIds.push(option.id);
+          state.siteTypes.push(option.id);
+        }
+      });
+    },
+    deSelectAll(state: IAttributeModuleWithOptions) {
+      state.selectedIds = [];
+      state.siteTypes = [];
+    },
+    getOptions(state: IAttributeModuleWithOptions) {
+      state.availableOptions = [];
+      state.availableOptions.push({
+        id: SiteTypes.FmiBuoy,
+        name: i18n.global.t('$waveBuoys').toString(),
+        online: mainState.fmiApiOnline,
+      });
+      state.availableOptions.push({
+        id: SiteTypes.Mareograph,
+        name: i18n.global.t('$mareographs').toString(),
+        online: mainState.fmiApiOnline,
+      });
+      state.availableOptions.push({
+        id: SiteTypes.Vesla,
+        name: i18n.global.t('$marineStations').toString(),
+        online: mainState.sykeApiOnline,
+      });
+    },
+    setData(state: IAttributeModuleWithOptions, newData: IResponseFormat[]) {
+      state.data = newData;
+    },
   },
-};
+});

@@ -3,13 +3,12 @@ import {
   IWaterQualityOption,
 } from '@/queries/Vesla/getWaterQualityOptionsQuery';
 import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
-import store from '@/store/store';
 import { CommonParameters } from '@/queries/commonParameters';
 import {
   getWaterQuality,
   getWaterQualitySiteIds,
 } from '@/queries/Vesla/getWaterQualityQuery';
-import { IAttributeOption } from './IAttributeOption';
+import { IAttributeOption } from './types/IAttributeOption';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { alphabeticCompare } from '@/helpers';
 import { SiteTypes } from '@/queries/site';
