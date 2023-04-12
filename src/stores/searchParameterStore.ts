@@ -49,6 +49,18 @@ export const useSearchParameterStore = defineStore('searchParameter', {
     },
   },
   actions: {
+    setTimeSpanStart(payload: DatePickerResult | null) {
+      this.timeSpanStart = payload;
+    },
+    setTimeSpanEnd(payload: DatePickerResult) {
+      this.timeSpanEnd = payload;
+    },
+    setPeriodStart(payload: DatePickerResult | null) {
+      this.periodStart = payload;
+    },
+    setPeriodEnd(payload: DatePickerResult | null) {
+      this.periodEnd = payload;
+    },
     selectSite(id: number) {
       if (this.selectedSites.find((s) => s.id === id)) {
         return;

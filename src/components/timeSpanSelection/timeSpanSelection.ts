@@ -6,6 +6,7 @@ import { defineComponent } from 'vue';
 import { useMainStateStore } from '@/stores/mainStateStore';
 import { mapStores } from 'pinia';
 import { useSearchParameterStore } from '@/stores/searchParameterStore';
+import { DatePickerResult } from '../common/datePicker/datePicker';
 
 export default defineComponent({
   components: {
@@ -21,20 +22,37 @@ export default defineComponent({
   },
   computed: {
     ...mapStores(useMainStateStore, useSearchParameterStore),
-    searchStore() {
-      return this.searchParameterStore;
+    timeSpanStart: {
+      get() {
+        return this.searchParameterStore.timeSpanStart;
+      },
+      set(payload: DatePickerResult | null) {
+        this.searchParameterStore.setTimeSpanStart(payload);
+      },
     },
-    timeSpanStart() {
-      return this.searchParameterStore.timeSpanStart;
+    timeSpanEnd: {
+      get() {
+        return this.searchParameterStore.timeSpanEnd;
+      },
+      set(payload: DatePickerResult) {
+        this.searchParameterStore.setTimeSpanEnd(payload);
+      },
     },
-    timeSpanEnd() {
-      return this.searchParameterStore.timeSpanEnd;
+    periodStart: {
+      get() {
+        return this.searchParameterStore.periodStart;
+      },
+      set(payload: DatePickerResult | null) {
+        this.searchParameterStore.setPeriodStart(payload);
+      },
     },
-    periodStart() {
-      return this.searchParameterStore.periodStart;
-    },
-    periodEnd() {
-      return this.searchParameterStore.periodEnd;
+    periodEnd: {
+      get() {
+        return this.searchParameterStore.periodEnd;
+      },
+      set(payload: DatePickerResult | null) {
+        this.searchParameterStore.setPeriodEnd(payload);
+      },
     },
     timeSpanStartError() {
       return (
