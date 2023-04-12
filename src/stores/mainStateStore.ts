@@ -10,7 +10,7 @@ import { useSurfaceTemperatureStore } from './surfaceTemperatureStore';
 import { useWaterLevelStore } from './waterLevelStore';
 import { useWaterQualityStore } from './waterQualityStore';
 import { useSurgeStore } from './surgeStore';
-import { IAttributeStoreStateProperties } from 'pinia';
+import { IAttributeStoreProperties } from 'pinia';
 
 interface MainState {
   errorList: string[];
@@ -29,24 +29,21 @@ export const useMainStateStore = defineStore('mainState', {
   getters: {
     loading() {
       const searchParameterStore = useSearchParameterStore();
-      return (
-        searchParameterStore.loading ||
-        this.attributeStores().find((s) => s.loading)
-      );
+      const stores = this.attributeStores as IAttributeStoreProperties[];
+      return searchParameterStore.loading || stores.find((s) => s.loading);
     },
-    selectedAttributeModules() {
-      return this.attributeStores().filter(
-        (s) => s.isSelected && s.hasOptionsSelected
-      );
+    selectedAttributeStores() {
+      const stores = this.attributeStores as IAttributeStoreProperties[];
+      return stores.filter((s) => s.isSelected && s.hasOptionsSelected);
     },
     selectedSiteTypes() {
       const allSiteTypes: SiteTypes[] = [];
-      this.selectedAttributeModules.forEach((a) => {
+      this.selectedAttributeStores.forEach((a) => {
         allSiteTypes.push(...a.siteTypes);
       });
       return [...new Set(allSiteTypes)];
     },
-    attributeStores(): IAttributeStoreStateProperties[] {
+    attributeStores(): IAttributeStoreProperties[] {
       return [
         useBenthicFaunaStore(),
         useIceThicknessStore(),
@@ -84,7 +81,7 @@ export const useMainStateStore = defineStore('mainState', {
     },
     async populateAvailableSites(params: CommonParameters) {
       const veslaIds: number[] = [];
-      for (const store of this.selectedAttributeModules) {
+      for (const store of this.selectedAttributeStores) {
         const ids = store.getAvailableVeslaSiteIds
           ? await store.getAvailableVeslaSiteIds(params)
           : [];

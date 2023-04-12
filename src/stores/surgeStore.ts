@@ -13,6 +13,7 @@ import { defineStore } from 'pinia';
 
 export const useSurgeStore = defineStore('surge', {
   state: (): IAttributeStoreStateWithOptions => ({
+    name: '$surge',
     loading: false,
     isSelected: false,
     availableOptions: [],

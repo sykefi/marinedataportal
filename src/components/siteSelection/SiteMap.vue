@@ -34,12 +34,13 @@
 </template>
 
 <script lang="ts">
-import { searchParameterModule } from '@/store/searchParameterModule';
-import { mapModule } from '@/store/mapModule';
 import { DragBox } from 'ol/interaction';
 import { platformModifierKeyOnly } from 'ol/events/condition';
 import WMTS from 'ol/source/WMTS';
 import { computed, defineComponent, onMounted, ref } from 'vue';
+import { useSearchParameterStore } from '@/stores/searchParameterStore';
+import { useMapStore } from '@/stores/mapStore';
+import { Options } from 'ol/source/WMTS';
 
 interface IHoverData {
   name: string;
@@ -59,9 +60,12 @@ export default defineComponent({
     const map = ref(null as any);
     const mapCursor = ref('default');
 
+    const searchParameterStore = useSearchParameterStore();
+    const mapStore = useMapStore();
+
     const availableFeatures = () => {
       // wrap sites as GeoJSON Features
-      return searchParameterModule.availableSites.map((s) => {
+      return searchParameterStore.availableSites.map((s) => {
         return {
           type: 'Feature',
           id: s.id,
@@ -79,9 +83,9 @@ export default defineComponent({
         return selectedMapFeatures.value;
       },
       set(feats: any[]) {
-        searchParameterModule.clearSelectedSites();
+        searchParameterStore.clearSelectedSites();
         feats.forEach((feat) => {
-          searchParameterModule.selectSite(feat.id);
+          searchParameterStore.selectSite(feat.id);
         });
         selectedMapFeatures.value = feats;
       },
@@ -91,25 +95,29 @@ export default defineComponent({
       if (baseMapLayer.value.$layer) {
         // if the layer has been mounted, set the options here.
         // otherwise use the layerMounted event
-        baseMapLayer.value.setSource(new WMTS(mapModule.baseMapOptions!));
+        baseMapLayer.value.setSource(
+          new WMTS(mapStore.baseMapOptions! as Options)
+        );
       }
 
       if (cityNamesLayer.value.$layer) {
         cityNamesLayer.value.setSource(
-          new WMTS(mapModule.cityNameLayerOptions!)
+          new WMTS(mapStore.cityNameLayerOptions! as Options)
         );
       }
     });
 
     const baseMapLayerMounted = (layer: any) => {
-      if (mapModule.baseMapOptions) {
-        layer.$layer.setSource(new WMTS(mapModule.baseMapOptions));
+      if (mapStore.baseMapOptions) {
+        layer.$layer.setSource(new WMTS(mapStore.baseMapOptions as Options));
       }
     };
 
     const cityNamesLayerMounted = (layer: any) => {
-      if (mapModule.cityNameLayerOptions) {
-        layer.$layer.setSource(new WMTS(mapModule.cityNameLayerOptions));
+      if (mapStore.cityNameLayerOptions) {
+        layer.$layer.setSource(
+          new WMTS(mapStore.cityNameLayerOptions as Options)
+        );
       }
     };
 

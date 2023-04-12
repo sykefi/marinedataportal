@@ -5,7 +5,7 @@
         {{ header }}
       </legend>
       <p
-        v-if="isWaterQualityModule"
+        v-if="isWaterQualityStore"
         class="info-paragraph"
         v-html="$t('$veslaInfo')"
       />
@@ -41,7 +41,8 @@
 </template>
 
 <script lang="ts">
-import { IAttributeModuleWithOptions } from '@/store/attributeModules/IAttributeModuleWithOptions';
+import { IAttributeStoreStateWithOptions } from '@/stores/types/IAttributeStoreStateWithOptions';
+import { IAttributeStoreProperties, Store } from 'pinia';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
@@ -50,8 +51,8 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    module: {
-      type: Object as PropType<IAttributeModuleWithOptions>,
+    store: {
+      type: Object as PropType<IAttributeStoreProperties>,
       required: true,
     },
     twoColumns: {
@@ -65,46 +66,48 @@ export default defineComponent({
     };
   },
   computed: {
-    isWaterQualityModule() {
-      return this.module.name === '$waterQuality';
+    isWaterQualityStore() {
+      return this.store.$id === 'waterQuality';
     },
     selectedIds: {
       get() {
-        return this.module.selectedIds;
+        return this.store.selectedIds;
       },
       set(e: number[]) {
         this.showPhosphorusMessage = this.includesPhosphorus(e);
-        this.module.setSelectedOptions(e);
+        if (this.store.setSelectedOptions) {
+          this.store.setSelectedOptions(e);
+        }
       },
     },
     availableOptions() {
-      return this.module.availableOptions;
+      return this.store.availableOptions;
     },
     selectAll: {
       get() {
         return this.selectedIds
-          ? this.selectedIds.length === this.module.availableOptions.length
+          ? this.selectedIds.length === this.store.availableOptions?.length
           : false;
       },
       set(value: boolean) {
-        if (value) {
-          this.module.selectAll();
-          if (this.includesPhosphorus(this.selectedIds)) {
+        if (value && this.store.selectAll) {
+          this.store.selectAll();
+          if (this.includesPhosphorus(this.selectedIds ?? [])) {
             this.showPhosphorusMessage = true;
           }
-        } else {
-          this.module.deSelectAll();
+        } else if (this.store.deSelectAll) {
+          this.store.deSelectAll();
           this.showPhosphorusMessage = false;
         }
       },
     },
     length() {
-      return Math.ceil(this.module.availableOptions.length / 2);
+      return Math.ceil(this.store.availableOptions?.length ?? 0 / 2);
     },
   },
   methods: {
     includesPhosphorus(ids: number[]) {
-      if (this.module.name === '$waterQuality') {
+      if (this.isWaterQualityStore) {
         return ids.some((id) => [20, 33, 44, 55].includes(id));
       }
       return false;

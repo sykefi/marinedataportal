@@ -6,6 +6,7 @@ import { IAttributeStoreState } from './types/IAttributeStoreState';
 
 export const useBenthicFaunaStore = defineStore('benthicFauna', {
   state: (): IAttributeStoreState => ({
+    name: '$benthicFauna',
     hasOptionsSelected: true,
     loading: false,
     isSelected: false,

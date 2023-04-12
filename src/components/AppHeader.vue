@@ -90,9 +90,9 @@
 
 <script lang="ts">
 import i18n from '@/locale/i18n';
-import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
-import { surgeModule } from '@/store/attributeModules/surgeModule';
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore';
+import { useSurgeStore } from '@/stores/surgeStore';
+import { useWaterQualityStore } from '@/stores/waterQualityStore';
 import { defineComponent } from 'vue';
 
 type ILangTag = 'fi' | 'sv' | 'en';
@@ -100,13 +100,17 @@ type ILangTag = 'fi' | 'sv' | 'en';
 export default defineComponent({
   methods: {
     setLanguage(tag: ILangTag) {
+      const surfaceTemperatureStore = useSurfaceTemperatureStore();
+      const surgeStore = useSurgeStore();
+      const waterQualityStore = useWaterQualityStore();
+
       i18n.global.locale = tag;
       const html = document.documentElement;
       html.setAttribute('lang', tag);
       document.title = this.$t('$siteTitle').toString();
-      surfaceTemperatureModule.getOptions();
-      surgeModule.getOptions();
-      waterQualityModule.getOptions();
+      surfaceTemperatureStore.getOptions();
+      surgeStore.getOptions();
+      waterQualityStore.getOptions();
     },
   },
 });

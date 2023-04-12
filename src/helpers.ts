@@ -1,9 +1,9 @@
 import { CommonParameters } from './queries/commonParameters';
 import { Site } from './queries/site';
-import { IAttributeModule } from './store/attributeModules/IAttributeModule';
 import { DatePickerResult } from './components/common/datePicker/datePicker';
 import { IFmiResult } from '@/apis/fmiApi';
 import { IResponseFormat } from '@/queries/IResponseFormat';
+import { IAttributeStoreProperties } from 'pinia';
 
 /**
  * Splits an array into chunks of specified size
@@ -11,9 +11,9 @@ import { IResponseFormat } from '@/queries/IResponseFormat';
  * @param size the size of the resulting chunks
  */
 export function chunkArray<T>(array: T[], size: number) {
-  return Array.from({ length: Math.ceil(array.length / size) })
-    .map((_, i) => Array.from({ length: size })
-      .map((x, j) => array[i * size + j]));
+  return Array.from({ length: Math.ceil(array.length / size) }).map((_, i) =>
+    Array.from({ length: size }).map((x, j) => array[i * size + j])
+  );
 }
 
 /**
@@ -23,7 +23,11 @@ export function chunkArray<T>(array: T[], size: number) {
  * @param variable the variable name
  * @param startWithAnd if this filter is not the first, set this true to add the 'and' to the start of the query
  */
-export function buildODataInFilterFromArray(array: any[], variable: string, startWithAnd: boolean) {
+export function buildODataInFilterFromArray(
+  array: any[],
+  variable: string,
+  startWithAnd: boolean
+) {
   if (array.length === 0) {
     return '';
   }
@@ -45,14 +49,15 @@ export function buildODataInFilterFromArray(array: any[], variable: string, star
   return filter;
 }
 
-
-export function validateSearchParameters(checkSites: boolean,
-                                         selectedSites: Site[],
-                                         selectedAttributeModules: IAttributeModule[],
-                                         timeSpanStart: DatePickerResult,
-                                         timeSpanEnd: DatePickerResult,
-                                         periodStart: DatePickerResult,
-                                         periodEnd: DatePickerResult) {
+export function validateSearchParameters(
+  checkSites: boolean,
+  selectedSites: Site[],
+  selectedAttributeStores: IAttributeStoreProperties[],
+  timeSpanStart: DatePickerResult,
+  timeSpanEnd: DatePickerResult,
+  periodStart: DatePickerResult,
+  periodEnd: DatePickerResult
+) {
   const errors: string[] = [];
 
   if (checkSites && selectedSites.length === 0) {
@@ -60,7 +65,7 @@ export function validateSearchParameters(checkSites: boolean,
   }
 
   // Attribute validation
-  if (selectedAttributeModules.length === 0) {
+  if (selectedAttributeStores.length === 0) {
     errors.push('$noAttributesSelected');
   }
 
@@ -104,7 +109,11 @@ export function cleanupTimePeriod(results: any[], params: CommonParameters) {
   });
 }
 
-export function isDateInPeriod(month: number, day: number, params: CommonParameters) {
+export function isDateInPeriod(
+  month: number,
+  day: number,
+  params: CommonParameters
+) {
   const startMonth = params.datePeriodMonths!.start;
   const endMonth = params.datePeriodMonths!.end;
   const startDay = params.datePeriodStartDay!;
@@ -148,7 +157,8 @@ export function isDateInPeriod(month: number, day: number, params: CommonParamet
 }
 
 export function getTimeParametersForVeslaFilter(params: CommonParameters) {
-  let filter = ` and Time ge ${params.formattedDateStart}` +
+  let filter =
+    ` and Time ge ${params.formattedDateStart}` +
     ` and Time le ${params.formattedDateEnd}`;
 
   if (params.datePeriodMonths) {
@@ -168,7 +178,11 @@ export function getTimeParametersForVeslaFilter(params: CommonParameters) {
   }
 
   if (params.datePeriodDays) {
-    filter += buildODataInFilterFromArray(params.datePeriodDays, 'day(Time)', true);
+    filter += buildODataInFilterFromArray(
+      params.datePeriodDays,
+      'day(Time)',
+      true
+    );
   }
 
   return filter;
@@ -218,7 +232,11 @@ export function fromWaterQualityResultToSykeFormat(obj: any): IResponseFormat {
   };
 }
 
-export function toCommonFormat(obj: IFmiResult, analyteName: string, unit: string): IResponseFormat {
+export function toCommonFormat(
+  obj: IFmiResult,
+  analyteName: string,
+  unit: string
+): IResponseFormat {
   return {
     time: obj.time,
     analyteName,
@@ -240,7 +258,11 @@ export function toCommonFormat(obj: IFmiResult, analyteName: string, unit: strin
   };
 }
 
-export function toFmiFormat(obj: IFmiResult, analyteName: string, unit: string): IResponseFormat {
+export function toFmiFormat(
+  obj: IFmiResult,
+  analyteName: string,
+  unit: string
+): IResponseFormat {
   return {
     time: obj.time,
     analyteName,

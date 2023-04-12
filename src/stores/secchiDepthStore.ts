@@ -15,6 +15,7 @@ type ISecchiDepthState = IAttributeStoreState & {
 
 export const useSecchiDepthStore = defineStore('secchiDepth', {
   state: (): ISecchiDepthState => ({
+    name: '$secchiDept',
     hasOptionsSelected: true,
     loading: false,
     isSelected: false,

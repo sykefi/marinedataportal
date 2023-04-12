@@ -2,9 +2,10 @@ import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import DetailsButton from '@/components/common/detailsButton/DetailsButton.vue';
 import DatePicker from '@/components/common/datePicker/DatePicker.vue';
 import EmptySelectionButton from '@/components/common/emptySelectionButton/EmptySelectionButton.vue';
-import { searchParameterModule } from '@/store/searchParameterModule';
-import { mainState } from '@/store/mainState';
 import { defineComponent } from 'vue';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { mapStores } from 'pinia';
+import { useSearchParameterStore } from '@/stores/searchParameterStore';
 
 export default defineComponent({
   components: {
@@ -15,48 +16,57 @@ export default defineComponent({
   },
   data() {
     return {
-      timeSpanStart: searchParameterModule.timeSpanStart,
-      timeSpanEnd: searchParameterModule.timeSpanEnd,
-      periodStart: searchParameterModule.periodStart,
-      periodEnd: searchParameterModule.periodEnd,
       periodEmptied: false,
     };
   },
   computed: {
-    searchModule() {
-      return searchParameterModule;
+    ...mapStores(useMainStateStore, useSearchParameterStore),
+    searchStore() {
+      return this.searchParameterStore;
+    },
+    timeSpanStart() {
+      return this.searchParameterStore.timeSpanStart;
+    },
+    timeSpanEnd() {
+      return this.searchParameterStore.timeSpanEnd;
+    },
+    periodStart() {
+      return this.searchParameterStore.periodStart;
+    },
+    periodEnd() {
+      return this.searchParameterStore.periodEnd;
     },
     timeSpanStartError() {
       return (
-        mainState.isError('$missingTimeSpanStart') ||
-        mainState.isError('$timeSpanStartAfterTimeSpanEnd')
+        this.mainStateStore.isError('$missingTimeSpanStart') ||
+        this.mainStateStore.isError('$timeSpanStartAfterTimeSpanEnd')
       );
     },
     timeSpanEndError() {
       return (
-        mainState.isError('$missingTimeSpanEnd') ||
-        mainState.isError('$timeSpanStartAfterTimeSpanEnd')
+        this.mainStateStore.isError('$missingTimeSpanEnd') ||
+        this.mainStateStore.isError('$timeSpanStartAfterTimeSpanEnd')
       );
     },
     periodEndError() {
       return (
-        mainState.isError('$missingPeriodEnd') ||
-        mainState.isError('$incompletePeriodEnd')
+        this.mainStateStore.isError('$missingPeriodEnd') ||
+        this.mainStateStore.isError('$incompletePeriodEnd')
       );
     },
     periodStartError() {
       return (
-        mainState.isError('$missingPeriodStart') ||
-        mainState.isError('$incompletePeriodStart')
+        this.mainStateStore.isError('$missingPeriodStart') ||
+        this.mainStateStore.isError('$incompletePeriodStart')
       );
     },
   },
   methods: {
     resetPeriodStart() {
-      searchParameterModule.periodStart = null;
+      this.searchParameterStore.periodStart = null;
     },
     resetPeriodEnd() {
-      searchParameterModule.periodEnd = null;
+      this.searchParameterStore.periodEnd = null;
     },
     emptyPeriodSelection() {
       this.resetPeriodStart();

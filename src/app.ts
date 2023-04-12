@@ -10,15 +10,15 @@ import AppFooter from '@/components/AppFooter.vue';
 import SiteTitle from '@/components/SiteTitle.vue';
 import SiteImage from '@/components/SiteImage.vue';
 import ErrorMessages from '@/components/ErrorMessages.vue';
-import { mainState } from '@/store/mainState';
-import { mapModule } from '@/store/mapModule';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { getBuoys } from '@/queries/FMI/getBuoysQuery';
 import { sykeApiIsOnline } from './queries/Vesla/getApiStatusQuery';
-import { surgeModule } from './store/attributeModules/surgeModule';
-import { surfaceTemperatureModule } from './store/attributeModules/surfaceTemperatureModule';
 import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
 import { defineComponent } from 'vue';
+import { useMainStateStore } from './stores/mainStateStore';
+import { useSurgeStore } from './stores/surgeStore';
+import { useSurfaceTemperatureStore } from './stores/surfaceTemperatureStore';
+import { useMapStore } from './stores/mapStore';
 
 export default defineComponent({
   components: {
@@ -36,13 +36,20 @@ export default defineComponent({
   },
   computed: {
     hasError() {
+      const mainState = useMainStateStore();
       return mainState.hasError;
     },
     loading() {
+      const mainState = useMainStateStore();
       return mainState.loading;
     },
   },
   async mounted() {
+    const mainState = useMainStateStore();
+    const surgeStore = useSurgeStore();
+    const surfaceTemperatureStore = useSurfaceTemperatureStore();
+    const mapStore = useMapStore();
+
     const sykeIsOnline = await sykeApiIsOnline();
     mainState.setSykeApiOnlineStatus(sykeIsOnline);
     const fmiIsOnline = await fmiApiIsOnline();
@@ -56,10 +63,10 @@ export default defineComponent({
       mainState.populateSelectionOptions();
     } else {
       // If syke api is not responding, do not try to fetch water quality options
-      surgeModule.getOptions();
-      surfaceTemperatureModule.getOptions();
+      surgeStore.getOptions();
+      surfaceTemperatureStore.getOptions();
     }
 
-    mapModule.generateMapOptions();
+    mapStore.generateMapOptions();
   },
 });

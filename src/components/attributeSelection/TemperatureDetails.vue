@@ -2,14 +2,15 @@
   <div>
     <OptionsSelection
       :header="$t('$temperatureDetailsHeader')"
-      :module="module"
+      :store="store"
     />
   </div>
 </template>
 
 <script lang="ts">
 import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
-import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore';
+import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -17,8 +18,9 @@ export default defineComponent({
     OptionsSelection,
   },
   computed: {
-    module() {
-      return surfaceTemperatureModule;
+    ...mapStores(useSurfaceTemperatureStore),
+    store() {
+      return this.surfaceTemperatureStore;
     },
   },
 });

@@ -3,16 +3,17 @@ import SelectionButton from '@/components/common/selectionButton/SelectionButton
 import SurgeDetails from '@/components/attributeSelection/SurgeDetails.vue';
 import TemperatureDetails from '@/components/attributeSelection/TemperatureDetails.vue';
 import WaterQualityDetails from '@/components/attributeSelection/WaterQualityDetails.vue';
-import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
-import { surgeModule } from '@/store/attributeModules/surgeModule';
-import { iceThicknessModule } from '@/store/attributeModules/iceThicknessModule';
-import { benthicFaunaModule } from '@/store/attributeModules/benthicFaunaModule';
-import { phytoPlanktonModule } from '@/store/attributeModules/phytoPlanktonModule';
-import { secchiDepthModule } from '@/store/attributeModules/secchiDepthModule';
-import { waterLevelModule } from '@/store/attributeModules/waterLevelModule';
-import { mainState } from '@/store/mainState';
 import { defineComponent } from 'vue';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { useSurgeStore } from '@/stores/surgeStore';
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore';
+import { useWaterQualityStore } from '@/stores/waterQualityStore';
+import { useIceThicknessStore } from '@/stores/iceThicknessStore';
+import { useBenthicFaunaStore } from '@/stores/benthicFaunaStore';
+import { usePhytoPlanktonStore } from '@/stores/phytoPlanktonStore';
+import { useSecchiDepthStore } from '@/stores/secchiDepthStore';
+import { useWaterLevelStore } from '@/stores/waterLevelStore';
+import { mapStores } from 'pinia';
 
 export default defineComponent({
   components: {
@@ -28,38 +29,25 @@ export default defineComponent({
     };
   },
   computed: {
+    ...mapStores(
+      useMainStateStore,
+      useSurgeStore,
+      useSurfaceTemperatureStore,
+      useWaterQualityStore,
+      useIceThicknessStore,
+      useBenthicFaunaStore,
+      usePhytoPlanktonStore,
+      useSecchiDepthStore,
+      useWaterLevelStore
+    ),
     sykeApiOnline() {
-      return mainState.sykeApiOnline;
+      return this.mainStateStore.sykeApiOnline;
     },
     fmiApiOnline() {
-      return mainState.fmiApiOnline;
-    },
-    surgeModule() {
-      return surgeModule;
-    },
-    surfaceTemperatureModule() {
-      return surfaceTemperatureModule;
-    },
-    waterQualityModule() {
-      return waterQualityModule;
-    },
-    iceThicknessModule() {
-      return iceThicknessModule;
-    },
-    benthicFaunaModule() {
-      return benthicFaunaModule;
-    },
-    phytoplanktonModule() {
-      return phytoPlanktonModule;
-    },
-    secchiDepthModule() {
-      return secchiDepthModule;
-    },
-    waterLevelModule() {
-      return waterLevelModule;
+      return this.mainStateStore.fmiApiOnline;
     },
     showAttributeError() {
-      return mainState.isError(this.attributeErrorMessage);
+      return this.mainStateStore.isError(this.attributeErrorMessage);
     },
   },
 });

@@ -1,4 +1,4 @@
-import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+import { IAttributeStoreProperties } from 'pinia';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
@@ -7,8 +7,8 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    module: {
-      type: Object as PropType<IAttributeModule>,
+    store: {
+      type: Object as PropType<IAttributeStoreProperties>,
       required: true,
     },
     expandable: {
@@ -22,12 +22,12 @@ export default defineComponent({
   },
   computed: {
     selected() {
-      return this.module.isSelected;
+      return this.store.isSelected;
     },
   },
   methods: {
     onClick() {
-      this.module.toggleSelected();
+      this.store.toggleSelected();
     },
   },
 });

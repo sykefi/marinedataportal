@@ -20,19 +20,21 @@
 </template>
 
 <script lang="ts">
-import { mainState } from '@/store/mainState';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   computed: {
+    ...mapStores(useMainStateStore),
     sykeApiOnline() {
-      return mainState.sykeApiOnline;
+      return this.mainStateStore.sykeApiOnline;
     },
     fmiApiOnline() {
-      return mainState.fmiApiOnline;
+      return this.mainStateStore.fmiApiOnline;
     },
     errorList() {
-      const errorList = mainState.errorList;
+      const errorList = this.mainStateStore.errorList;
       if (errorList.length) {
         const wrapper = this.$refs.focus;
         (wrapper as Element)?.scrollIntoView(true);

@@ -14,6 +14,7 @@ type IIceThicknessState = IAttributeStoreState & {
 
 export const useIceThicknessStore = defineStore('iceThickness', {
   state: (): IIceThicknessState => ({
+    name: '$iceThickness',
     hasOptionsSelected: true,
     loading: false,
     isSelected: false,

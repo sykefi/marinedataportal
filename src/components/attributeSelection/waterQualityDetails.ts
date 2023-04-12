@@ -1,12 +1,9 @@
 import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
 import DecimalInput from '@/components/common/DecimalInput.vue';
-import {
-  DepthOptions,
-  waterQualityModule,
-} from '@/store/attributeModules/waterQualityModule';
-import { mainState } from '@/store/mainState';
-import i18n from '@/locale/i18n';
 import { defineComponent } from 'vue';
+import { DepthOptions, useWaterQualityStore } from '@/stores/waterQualityStore';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { mapStores } from 'pinia';
 
 export default defineComponent({
   components: {
@@ -14,53 +11,51 @@ export default defineComponent({
     DecimalInput,
   },
   computed: {
-    module() {
-      return waterQualityModule;
+    ...mapStores(useWaterQualityStore, useMainStateStore),
+    store() {
+      return this.waterQualityStore;
     },
     depthStartError() {
       return (
-        mainState.isError('$missingDepthStart') ||
-        mainState.isError('$depthStartGreaterThanDepthEnd')
+        this.mainStateStore.isError('$missingDepthStart') ||
+        this.mainStateStore.isError('$depthStartGreaterThanDepthEnd')
       );
     },
     depthEndError() {
       return (
-        mainState.isError('$missingDepthEnd') ||
-        mainState.isError('$depthStartGreaterThanDepthEnd')
+        this.mainStateStore.isError('$missingDepthEnd') ||
+        this.mainStateStore.isError('$depthStartGreaterThanDepthEnd')
       );
     },
     selected: {
       get() {
-        return waterQualityModule.selectedDepth.option;
+        return this.waterQualityStore.selectedDepth.option;
       },
       set(value: DepthOptions) {
-        const copy = { ...waterQualityModule.selectedDepth };
+        const copy = { ...this.waterQualityStore.selectedDepth };
         copy.option = value;
-        waterQualityModule.selectedDepth = copy;
+        this.waterQualityStore.selectedDepth = copy;
       },
     },
     depthStart: {
       get() {
-        return waterQualityModule.selectedDepth.start!;
+        return this.waterQualityStore.selectedDepth.start!;
       },
       set(value: number) {
-        const copy = { ...waterQualityModule.selectedDepth };
+        const copy = { ...this.waterQualityStore.selectedDepth };
         copy.start = value;
-        waterQualityModule.selectedDepth = copy;
+        this.waterQualityStore.selectedDepth = copy;
       },
     },
     depthEnd: {
       get() {
-        return waterQualityModule.selectedDepth.end!;
+        return this.waterQualityStore.selectedDepth.end!;
       },
       set(value: number) {
-        const copy = { ...waterQualityModule.selectedDepth };
+        const copy = { ...this.waterQualityStore.selectedDepth };
         copy.end = value;
-        waterQualityModule.selectedDepth = copy;
+        this.waterQualityStore.selectedDepth = copy;
       },
     },
-  },
-  mounted() {
-    waterQualityModule.language = i18n.global.locale;
   },
 });

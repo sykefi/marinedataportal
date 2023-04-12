@@ -5,6 +5,7 @@ import { IAttributeStoreState } from './types/IAttributeStoreState';
 
 export const usePhytoPlanktonStore = defineStore('phytoPlankton', {
   state: (): IAttributeStoreState => ({
+    name: '$phytoplankton',
     hasOptionsSelected: true,
     loading: false,
     isSelected: false,

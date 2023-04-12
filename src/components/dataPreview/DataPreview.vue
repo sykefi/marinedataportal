@@ -3,15 +3,16 @@
     <p v-if="showInfo" class="info-paragraph">
       {{ $t('$dataPreviewInfo') }}
     </p>
-    <div v-for="module in modules" :key="module.name">
-      <DataPreviewTable :module="module" />
+    <div v-for="store in stores" :key="store.name">
+      <DataPreviewTable :store="store" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import DataPreviewTable from '@/components/dataPreview/DataPreviewTable.vue';
-import { mainState } from '@/store/mainState';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -19,18 +20,19 @@ export default defineComponent({
     DataPreviewTable,
   },
   computed: {
+    ...mapStores(useMainStateStore),
     showInfo() {
       let isTrue = false;
-      const modules = mainState.selectedAttributeModules;
-      modules.forEach((module) => {
-        if (module.rowCount > 3) {
+      const stores = this.mainStateStore.selectedAttributeStores;
+      stores.forEach((store) => {
+        if (store.rowCount > 3) {
           isTrue = true;
         }
       });
       return isTrue;
     },
-    modules() {
-      return mainState.selectedAttributeModules;
+    stores() {
+      return this.mainStateStore.selectedAttributeStores;
     },
   },
 });

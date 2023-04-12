@@ -36,6 +36,7 @@ type IWaterQualityState = IAttributeStoreStateWithOptions & {
 
 export const useWaterQualityStore = defineStore('waterQuality', {
   state: (): IWaterQualityState => ({
+    name: '$waterQuality',
     isSelected: false,
     loading: false,
     selectedIds: [],

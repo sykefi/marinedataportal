@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="hasData">
-      <strong>{{ $t(module.name) }}</strong>
-      <span>{{ ` (${module.rowCount} ${$t('$rows')}) ` }}</span>
-      <a :href="encodedFileUri" :download="$t(module.name) + '.csv'">
+      <strong>{{ $t(store.name) }}</strong>
+      <span>{{ ` (${store.rowCount} ${$t('$rows')}) ` }}</span>
+      <a :href="encodedFileUri" :download="$t(store.name) + '.csv'">
         {{ $t('$downloadCSV') }}
       </a>
       <table>
@@ -12,7 +12,7 @@
             {{ name }}
           </th>
         </tr>
-        <tr v-for="(row, j) in module.previewData" :key="j">
+        <tr v-for="(row, j) in store.previewData" :key="j">
           <td v-for="(column, k) of row" :key="k">
             {{ column }}
           </td>
@@ -21,32 +21,32 @@
     </div>
     <br />
     <div v-if="!hasData && isDataLoaded">
-      <strong>{{ $t(module.name) }}</strong>
+      <strong>{{ $t(store.name) }}</strong>
       - {{ $t('$noRowsFound') }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { IAttributeModule } from '@/store/attributeModules/IAttributeModule';
+import { IAttributeStoreProperties } from 'pinia';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
-    module: {
-      type: Object as PropType<IAttributeModule>,
+    store: {
+      type: Object as PropType<IAttributeStoreProperties>,
       required: true,
     },
   },
   computed: {
     isDataLoaded() {
-      return this.module.data !== null;
+      return this.store.data !== null;
     },
     hasData() {
-      return this.module.previewData.length > 0;
+      return this.store.previewData.length > 0;
     },
     columnNames() {
-      return Object.keys(this.module.previewData[0]);
+      return Object.keys(this.store.previewData[0]);
     },
   },
   methods: {
@@ -54,7 +54,7 @@ export default defineComponent({
       let csvContent = '';
       csvContent += this.columnNames.join(';') + ';\r\n';
 
-      this.module.data!.forEach((row) => {
+      this.store.data!.forEach((row) => {
         const values = Object.keys(row).map((key) => (row as any)[key]);
         csvContent += values.join(';') + ';\r\n';
       });
@@ -65,7 +65,7 @@ export default defineComponent({
       });
 
       if (navigator.msSaveBlob) {
-        navigator.msSaveBlob(csvData, this.module.name + '.csv');
+        navigator.msSaveBlob(csvData, this.store.name + '.csv');
       } else {
         return URL.createObjectURL(csvData);
       }

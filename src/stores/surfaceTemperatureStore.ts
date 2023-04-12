@@ -22,6 +22,7 @@ const TEMP_ID_IN_VESLA = 25; // DeterminationCombinationId for temperature in Ve
 
 export const useSurfaceTemperatureStore = defineStore('surfaceTemperature', {
   state: (): IAttributeStoreStateWithOptions => ({
+    name: '$surfaceTemperature',
     loading: false,
     isSelected: false,
     availableOptions: [],

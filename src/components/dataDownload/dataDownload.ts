@@ -1,9 +1,10 @@
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
-import { mainState } from '@/store/mainState';
 import { validateSearchParameters } from '@/helpers';
-import { searchParameterModule } from '@/store/searchParameterModule';
-import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { useSearchParameterStore } from '@/stores/searchParameterStore';
+import { useWaterQualityStore } from '@/stores/waterQualityStore';
+import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -12,29 +13,34 @@ export default defineComponent({
     SelectionButton,
   },
   computed: {
+    ...mapStores(
+      useMainStateStore,
+      useWaterQualityStore,
+      useSearchParameterStore
+    ),
     isDownloading() {
-      return mainState.loading;
+      return this.mainStateStore.loading;
     },
   },
   methods: {
     downloadData() {
-      const errors = [...waterQualityModule.errors];
+      const errors = [...this.waterQualityStore.errors];
       errors.push(
         ...validateSearchParameters(
           true,
-          searchParameterModule.selectedSites,
-          mainState.selectedAttributeModules,
-          searchParameterModule.timeSpanStart,
-          searchParameterModule.timeSpanEnd,
-          searchParameterModule.periodStart,
-          searchParameterModule.periodEnd
+          this.searchParameterStore.selectedSites,
+          this.mainStateStore.selectedAttributeStores,
+          this.searchParameterStore.timeSpanStart,
+          this.searchParameterStore.timeSpanEnd,
+          this.searchParameterStore.periodStart,
+          this.searchParameterStore.periodEnd
         )
       );
 
       if (errors.length === 0) {
-        mainState.downloadData();
+        this.mainStateStore.downloadData();
       }
-      mainState.setErrorList(errors);
+      this.mainStateStore.setErrorList(errors);
     },
   },
 });

@@ -2,7 +2,7 @@
   <div>
     <OptionsSelection
       :header="$t('$waterQualityDetailsHeader')"
-      :module="module"
+      :store="store"
       :two-columns="true"
     />
     <div class="selection-box attached">
@@ -17,27 +17,27 @@
           :value="3"
           name="depth"
           v-model="selected"
-        >
+        />
         <label for="allLayers">{{ $t('$allLayers') }}</label>
-        <br>
+        <br />
         <input
           type="radio"
           id="surfaceLayer"
           :value="0"
           name="depth"
           v-model="selected"
-        >
+        />
         <label for="surfaceLayer">{{ $t('$surfaceLayer') }}</label>
-        <br>
+        <br />
         <input
           type="radio"
           id="depthInterval"
           :value="2"
           name="depth"
           v-model="selected"
-        >
+        />
         <label for="depthInterval">{{ $t('$depthInterval') }}</label>
-        <span v-if="selected===2">
+        <span v-if="selected === 2">
           <DecimalInput
             :max="1000"
             :decimals="5"
@@ -45,30 +45,32 @@
             v-model="depthStart"
             v-focus
             :error="depthStartError"
-          />–
+          />
+          –
           <DecimalInput
             :max="1000"
             :decimals="5"
             :aria-label="$t('$depthEnd')"
             v-model="depthEnd"
             :error="depthEndError"
-          />m
+          />
+          m
         </span>
-        <br>
+        <br />
         <input
           type="radio"
           id="bottomLayer"
           :value="1"
           name="depth"
           v-model="selected"
-        >
+        />
         <label for="bottomLayer">{{ $t('$bottomLayer') }}</label>
       </fieldset>
     </div>
   </div>
 </template>
 
-<script src="./waterQualityDetails.ts"/>
+<script src="./waterQualityDetails.ts" />
 
 <style lang="scss" scoped>
 .attached {

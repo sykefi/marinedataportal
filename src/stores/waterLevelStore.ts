@@ -9,6 +9,7 @@ import { IAttributeStoreState } from './types/IAttributeStoreState';
 
 export const useWaterLevelStore = defineStore('waterLevel', {
   state: (): IAttributeStoreState => ({
+    name: '$waterLevel',
     hasOptionsSelected: true,
     loading: false,
     isSelected: false,
