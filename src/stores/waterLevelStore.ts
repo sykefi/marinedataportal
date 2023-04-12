@@ -1,26 +1,19 @@
 import { SiteTypes } from '@/queries/site';
 import { CommonParameters } from '@/queries/commonParameters';
-import {
-  getObservations,
-  getObservationSiteIds,
-} from '@/queries/Vesla/getObservationsQuery';
+import { getWaterLevels } from '@/queries/FMI/getWaterLevelQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
+import { toFmiFormat } from '@/helpers';
 import { IResponseFormat } from '@/queries/IResponseFormat';
 import { defineStore } from 'pinia';
 import { IAttributeStoreState } from './types/IAttributeStoreState';
 
-type ISecchiDepthState = IAttributeStoreState & {
-  obsCode: string;
-};
-
-export const useSecchiDepthStore = defineStore('secchiDepth', {
-  state: (): ISecchiDepthState => ({
+export const useWaterLevelStore = defineStore('waterLevel', {
+  state: (): IAttributeStoreState => ({
     hasOptionsSelected: true,
     loading: false,
     isSelected: false,
-    data: null,
-    siteTypes: [SiteTypes.Vesla],
-    obsCode: 'SDT',
+    data: null as IResponseFormat[] | null,
+    siteTypes: [SiteTypes.Mareograph],
   }),
   getters: {
     rowCount(state) {
@@ -33,15 +26,12 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true;
-      const res = await getObservations(params, this.obsCode);
-      this.setData(res);
+      const results = await getWaterLevels(params);
+      const inFmiFormat = results.map((r) =>
+        toFmiFormat(r, 'Water level', 'mm')
+      );
+      this.setData(inFmiFormat);
       this.loading = false;
-    },
-    async getAvailableVeslaSiteIds(params: CommonParameters) {
-      this.loading = true;
-      const res = await getObservationSiteIds(params, this.obsCode);
-      this.loading = false;
-      return res;
     },
     toggleSelected() {
       this.isSelected = !this.isSelected;

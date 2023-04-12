@@ -1,7 +1,7 @@
-import { IAttributeStoreState } from './types/IAttributeStoreState';
 import { SiteTypes } from '@/queries/site';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { defineStore } from 'pinia';
+import { IAttributeStoreState } from './types/IAttributeStoreState';
 
 export const usePhytoPlanktonStore = defineStore('phytoPlankton', {
   state: (): IAttributeStoreState => ({

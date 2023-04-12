@@ -1,4 +1,3 @@
-import { IAttributeStoreState } from './types/IAttributeStoreState';
 import { SiteTypes } from '@/queries/site';
 import { CommonParameters } from '@/queries/commonParameters';
 import {
@@ -7,6 +6,7 @@ import {
 } from '@/queries/Vesla/getObservationsQuery';
 import { PREVIEW_ROW_COUNT } from '@/config';
 import { defineStore } from 'pinia';
+import { IAttributeStoreState } from './types/IAttributeStoreState';
 
 type IIceThicknessState = IAttributeStoreState & {
   obsCode: string;
@@ -35,13 +35,10 @@ export const useIceThicknessStore = defineStore('iceThickness', {
       this.data = await getObservations(params, this.obsCode);
       this.loading = false;
     },
-    async getAvailableVeslaSiteIds(
-      { state }: { state: IIceThicknessState },
-      params: CommonParameters
-    ) {
-      state.loading = true;
-      const res = await getObservationSiteIds(params, state.obsCode);
-      state.loading = false;
+    async getAvailableVeslaSiteIds(params: CommonParameters) {
+      this.loading = true;
+      const res = await getObservationSiteIds(params, this.obsCode);
+      this.loading = false;
       return res;
     },
     toggleSelected() {
