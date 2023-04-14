@@ -4,7 +4,7 @@ export type DatePickerResult = Date | 'invalid' | null;
 
 export default defineComponent({
   props: {
-    value: {
+    modelValue: {
       type: Object as PropType<DatePickerResult>,
       required: false,
     },
@@ -69,9 +69,11 @@ export default defineComponent({
     this.getDays();
     this.startDate = new Date(this.start);
     this.endDate = new Date(this.end);
-    this.year = this.value ? (this.value as Date).getUTCFullYear() : -1;
-    this.month = this.value ? (this.value as Date).getUTCMonth() : -1;
-    this.day = this.value ? (this.value as Date).getUTCDate() : -1;
+    this.year = this.modelValue
+      ? (this.modelValue as Date).getUTCFullYear()
+      : -1;
+    this.month = this.modelValue ? (this.modelValue as Date).getUTCMonth() : -1;
+    this.day = this.modelValue ? (this.modelValue as Date).getUTCDate() : -1;
   },
   computed: {
     startDateAndEndDate() {
@@ -98,7 +100,7 @@ export default defineComponent({
   },
   methods: {
     emitUpdate() {
-      this.$emit('input', this.currentResult);
+      this.$emit('update:modelValue', this.currentResult);
     },
     onChangeYear() {
       if (this.month === 1) {
