@@ -2,6 +2,7 @@
   <ol-map
     :loadTilesWhileAnimating="true"
     :loadTilesWhileInteracting="true"
+    @pointermove="onMapPointerMove"
     ref="map"
     style="height: 40rem"
     :style="{ cursor: mapCursor }"
@@ -21,20 +22,20 @@
       :features="selectedFeatures"
     >
       <ol-style>
-        <ol-style-circle radius="6">
+        <ol-style-circle :radius="6">
           <ol-style-fill color="#0099ff"></ol-style-fill>
           <ol-style-stroke color="white"></ol-style-stroke>
         </ol-style-circle>
       </ol-style>
     </ol-interaction-select>
 
-    <!-- <ol-overlay
+    <ol-overlay
       :offset="[10, -20]"
       v-if="currentHoverFeature"
       :position="currentHoverFeature.coordinates"
     >
       <div class="map-hover" v-html="currentHoverFeature.name" />
-    </ol-overlay> -->
+    </ol-overlay>
   </ol-map>
 </template>
 
@@ -50,6 +51,7 @@ import Feature from 'ol/Feature';
 import { Geometry } from 'ol/geom';
 import Collection from 'ol/Collection';
 import { GeoJSON } from 'ol/format';
+import Map from 'ol/Map';
 
 interface IHoverData {
   name: string;
@@ -69,7 +71,7 @@ export default defineComponent({
   setup() {
     const searchParameterStore = useSearchParameterStore();
 
-    const map = ref('');
+    const map = ref(null as Map | null);
     const center = ref([2466417.9856569725, 8788780.630851416]);
     const zoom = ref(5.5);
     const currentHoverFeature = ref(null as IHoverData | null);
@@ -135,25 +137,25 @@ export default defineComponent({
     //   });
     // };
 
-    // const onMapPointerMove = ({ dragging, pixel }: any) => {
-    //   if (dragging) {
-    //     return;
-    //   }
-    //   const hitFeature = map.value.forEachFeatureAtPixel(
-    //     pixel,
-    //     (feat: any) => feat
-    //   );
-    //   if (!hitFeature) {
-    //     currentHoverFeature.value = null;
-    //     // this.mapCursor = "default";
-    //     return;
-    //   }
-    //   // this.mapCursor = "pointer";
-    //   currentHoverFeature.value = {
-    //     name: hitFeature.get('name'),
-    //     coordinates: hitFeature.getGeometry().getCoordinates(),
-    //   };
-    // };
+    const onMapPointerMove = (e: any) => {
+      if (!e.pixel || e.dragging) {
+        return;
+      }
+      const hitFeature = map.value?.forEachFeatureAtPixel(
+        e.pixel,
+        (feat: any) => feat
+      );
+      if (!hitFeature) {
+        currentHoverFeature.value = null;
+        mapCursor.value = 'default';
+        return;
+      }
+      mapCursor.value = 'pointer';
+      currentHoverFeature.value = {
+        name: hitFeature.get('name'),
+        coordinates: hitFeature.getGeometry().getCoordinates(),
+      };
+    };
 
     // const addSelection = (id: number) => {
     //   selectInteraction.value.select(id);
@@ -182,7 +184,7 @@ export default defineComponent({
       availableFeatures,
       featureSelected,
       mouseClick,
-      // onMapPointerMove,
+      onMapPointerMove,
       // addSelection,
       // removeSelection,
       // clearSelectedFeatures,
