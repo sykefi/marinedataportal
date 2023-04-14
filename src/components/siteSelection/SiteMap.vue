@@ -1,35 +1,37 @@
 <template>
   <ol-map
-    :load-tiles-while-animating="true"
-    :load-tiles-while-interacting="true"
-    @created="mapCreated"
-    @pointermove="onMapPointerMove"
+    :loadTilesWhileAnimating="true"
+    :loadTilesWhileInteracting="true"
     ref="map"
     style="height: 40rem"
     :style="{ cursor: mapCursor }"
   >
     <ol-view :center="mapCenter" :zoom="mapZoom" />
 
-    <ol-tile-layer ref="baseMapLayer" @mounted="baseMapLayerMounted" />
-    <ol-tile-layer ref="cityNamesLayer" @mounted="cityNamesLayerMounted" />
+    <ol-tile-layer ref="baseMapLayer" />
+    <ol-tile-layer ref="cityNamesLayer" />
 
-    <ol-vector-layer ref="vectorLayer">
-      <ol-source-vector :features="availableFeatures" ref="vectorSource" />
+    <ol-vector-layer>
+      <ol-source-vector :features="availableFeatures"></ol-source-vector>
     </ol-vector-layer>
-    <ol-interaction-select
-      ref="selectInteraction"
-      v-model:features="selectedFeatures"
-    />
 
-    <ol-overlay
+    <ol-interaction-select
+      @select="featureSelected"
+      :condition="mouseClick"
+      :features="selectedFeatures"
+    >
+      <ol-style>
+        <ol-style-fill color="blue" />
+      </ol-style>
+    </ol-interaction-select>
+
+    <!-- <ol-overlay
       :offset="[10, -20]"
       v-if="currentHoverFeature"
       :position="currentHoverFeature.coordinates"
     >
-      <template>
-        <div class="map-hover" v-html="currentHoverFeature.name" />
-      </template>
-    </ol-overlay>
+      <div class="map-hover" v-html="currentHoverFeature.name" />
+    </ol-overlay> -->
   </ol-map>
 </template>
 
@@ -37,10 +39,14 @@
 import { DragBox } from 'ol/interaction';
 import { platformModifierKeyOnly } from 'ol/events/condition';
 import WMTS from 'ol/source/WMTS';
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, inject, ref } from 'vue';
 import { useSearchParameterStore } from '@/stores/searchParameterStore';
 import { useMapStore } from '@/stores/mapStore';
 import { Options } from 'ol/source/WMTS';
+import Feature from 'ol/Feature';
+import { Geometry } from 'ol/geom';
+import Collection from 'ol/Collection';
+import { GeoJSON } from 'ol/format';
 
 interface IHoverData {
   name: string;
@@ -48,160 +54,139 @@ interface IHoverData {
 }
 
 export default defineComponent({
+  mounted() {
+    const mapStore = useMapStore();
+    (this.$refs.baseMapLayer as any).tileLayer.setSource(
+      new WMTS(mapStore.baseMapOptions! as Options)
+    );
+    (this.$refs.cityNamesLayer as any).tileLayer.setSource(
+      new WMTS(mapStore.cityNameLayerOptions! as Options)
+    );
+  },
   setup() {
+    const searchParameterStore = useSearchParameterStore();
+
     const center = ref([2466417.9856569725, 8788780.630851416]);
     const zoom = ref(5.5);
     const currentHoverFeature = ref(null as IHoverData | null);
-    const selectedMapFeatures = ref([] as any[]);
-    const selectInteraction = ref(null as any);
-    const baseMapLayer = ref(null as any);
-    const cityNamesLayer = ref(null as any);
-    const vectorSource = ref(null as any);
-    const map = ref(null as any);
+    const selectedFeatures = ref(new Collection());
+    const availableFeatures = ref([] as Feature<Geometry>[]);
     const mapCursor = ref('default');
 
-    const searchParameterStore = useSearchParameterStore();
-    const mapStore = useMapStore();
+    // const format = inject('ol-format');
+    // const GeoJSON = new format.GeoJSON();
+    const selectConditions = inject('ol-selectconditions');
+    const mouseClick = selectConditions.singleClick;
 
-    const availableFeatures = () => {
-      // wrap sites as GeoJSON Features
-      return searchParameterStore.availableSites.map((s) => {
-        return {
-          type: 'Feature',
-          id: s.id,
-          geometry: {
-            type: 'Point',
-            coordinates: s.mapCoordinates,
-          },
-          properties: { name: s.displayName },
-        };
-      });
+    const features = searchParameterStore.availableSites.map((s) => ({
+      type: 'Feature',
+      id: s.id,
+      geometry: { type: 'Point', coordinates: s.mapCoordinates },
+      properties: { name: s.displayName },
+    }));
+
+    const geoJsonObject = {
+      type: 'FeatureCollection',
+      features,
     };
 
-    const selectedFeatures = computed({
-      get(): any[] {
-        return selectedMapFeatures.value;
-      },
-      set(feats: any[]) {
-        searchParameterStore.clearSelectedSites();
-        feats.forEach((feat) => {
-          searchParameterStore.selectSite(feat.id);
-        });
-        selectedMapFeatures.value = feats;
-      },
-    });
+    availableFeatures.value = new GeoJSON().readFeatures(geoJsonObject);
 
-    onMounted(() => {
-      if (baseMapLayer.value.$layer) {
-        // if the layer has been mounted, set the options here.
-        // otherwise use the layerMounted event
-        baseMapLayer.value.setSource(
-          new WMTS(mapStore.baseMapOptions! as Options)
-        );
-      }
+    console.log('a', availableFeatures);
+    // set(feats: any[]) {
+    //   searchParameterStore.clearSelectedSites();
+    //   feats.forEach((feat) => {
+    //     searchParameterStore.selectSite(feat.id);
+    //   });
+    //   selectedMapFeatures.value = feats;
+    // },
 
-      if (cityNamesLayer.value.$layer) {
-        cityNamesLayer.value.setSource(
-          new WMTS(mapStore.cityNameLayerOptions! as Options)
-        );
-      }
-    });
-
-    const baseMapLayerMounted = (layer: any) => {
-      if (mapStore.baseMapOptions) {
-        layer.$layer.setSource(new WMTS(mapStore.baseMapOptions as Options));
-      }
+    const featureSelected = (event: any) => {
+      console.log('e', event);
+      selectedFeatures.value = event.target.getFeatures();
+      searchParameterStore.selectSite(event.value);
     };
 
-    const cityNamesLayerMounted = (layer: any) => {
-      if (mapStore.cityNameLayerOptions) {
-        layer.$layer.setSource(
-          new WMTS(mapStore.cityNameLayerOptions as Options)
-        );
-      }
-    };
+    console.log('s', selectedFeatures);
+    // const mapCreated = (map: any) => {
+    //   console.log('map created');
+    //   // a DragBox interaction used to select features by drawing boxes
+    //   const dragBox = new DragBox({
+    //     condition: platformModifierKeyOnly,
+    //     onBoxEnd: () => {
+    //       // features that intersect the box are selected
+    //       const extent = dragBox.getGeometry().getExtent();
+    //       const source = vectorSource.value.$source;
 
-    const mapCreated = (map: any) => {
-      // a DragBox interaction used to select features by drawing boxes
-      const dragBox = new DragBox({
-        condition: platformModifierKeyOnly,
-        onBoxEnd: () => {
-          // features that intersect the box are selected
-          const extent = dragBox.getGeometry().getExtent();
-          const source = vectorSource.value.$source;
+    //       const selectedFeats: any[] = [];
+    //       source.forEachFeatureIntersectingExtent(extent, (feature: any) => {
+    //         // feature = olExt.writeGeoJsonFeature(feature);
 
-          const selectedFeats: any[] = [];
-          source.forEachFeatureIntersectingExtent(extent, (feature: any) => {
-            // feature = olExt.writeGeoJsonFeature(feature);
+    //         selectedFeats.push(feature);
+    //       });
+    //       selectedFeatures.value = selectedFeats;
+    //     },
+    //   });
 
-            selectedFeats.push(feature);
-          });
-          selectedFeatures.value = selectedFeats;
-        },
-      });
+    //   map.$map.addInteraction(dragBox);
 
-      map.$map.addInteraction(dragBox);
+    //   // clear selection when drawing a new box and when clicking on the map
+    //   dragBox.on('boxstart', () => {
+    //     selectedFeatures.value = [];
+    //     selectInteraction.value.clearFeatures();
+    //   });
+    // };
 
-      // clear selection when drawing a new box and when clicking on the map
-      dragBox.on('boxstart', () => {
-        selectedFeatures.value = [];
-        selectInteraction.value.clearFeatures();
-      });
-    };
+    // const onMapPointerMove = ({ dragging, pixel }: any) => {
+    //   if (dragging) {
+    //     return;
+    //   }
+    //   const hitFeature = map.value.forEachFeatureAtPixel(
+    //     pixel,
+    //     (feat: any) => feat
+    //   );
+    //   if (!hitFeature) {
+    //     currentHoverFeature.value = null;
+    //     // this.mapCursor = "default";
+    //     return;
+    //   }
+    //   // this.mapCursor = "pointer";
+    //   currentHoverFeature.value = {
+    //     name: hitFeature.get('name'),
+    //     coordinates: hitFeature.getGeometry().getCoordinates(),
+    //   };
+    // };
 
-    const onMapPointerMove = ({ dragging, pixel }: any) => {
-      if (dragging) {
-        return;
-      }
-      const hitFeature = map.value.forEachFeatureAtPixel(
-        pixel,
-        (feat: any) => feat
-      );
-      if (!hitFeature) {
-        currentHoverFeature.value = null;
-        // this.mapCursor = "default";
-        return;
-      }
-      // this.mapCursor = "pointer";
-      currentHoverFeature.value = {
-        name: hitFeature.get('name'),
-        coordinates: hitFeature.getGeometry().getCoordinates(),
-      };
-    };
+    // const addSelection = (id: number) => {
+    //   selectInteraction.value.select(id);
+    // };
 
-    const addSelection = (id: number) => {
-      selectInteraction.value.select(id);
-    };
+    // const removeSelection = (id: number) => {
+    //   selectInteraction.value.clearFeatures();
+    //   const mapFeatureIndex = selectedFeatures.value.findIndex(
+    //     (f) => f.id === id
+    //   );
+    //   selectedFeatures.value.splice(mapFeatureIndex, 1);
+    // };
 
-    const removeSelection = (id: number) => {
-      selectInteraction.value.clearFeatures();
-      const mapFeatureIndex = selectedMapFeatures.value.findIndex(
-        (f) => f.id === id
-      );
-      selectedMapFeatures.value.splice(mapFeatureIndex, 1);
-    };
-
-    const clearSelectedFeatures = () => {
-      selectInteraction.value.clearFeatures();
-      selectedMapFeatures.value = [];
-    };
+    // const clearSelectedFeatures = () => {
+    //   selectInteraction.value.clearFeatures();
+    //   selectedFeatures.value = [];
+    // };
 
     return {
       mapCenter: center,
       mapZoom: zoom,
       mapCursor,
       currentHoverFeature,
-      selectedMapFeatures,
-      selectInteraction,
-      availableFeatures,
       selectedFeatures,
-      baseMapLayerMounted,
-      cityNamesLayerMounted,
-      mapCreated,
-      onMapPointerMove,
-      addSelection,
-      removeSelection,
-      clearSelectedFeatures,
+      availableFeatures,
+      featureSelected,
+      mouseClick,
+      // onMapPointerMove,
+      // addSelection,
+      // removeSelection,
+      // clearSelectedFeatures,
     };
   },
 });

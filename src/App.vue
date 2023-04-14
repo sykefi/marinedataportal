@@ -6,6 +6,7 @@
       <SiteTitle id="site-title" />
       <InfoMenu id="info-menu" />
       <div id="content">
+        <ExampleMap />
         <ErrorMessages />
         <AttributeSelection />
         <TimeSpanSelection />
@@ -19,10 +20,10 @@
           <div class="double-bounce1" />
           <div class="double-bounce2" />
         </div>
-        {{ $t("$busy") }}
+        {{ $t('$busy') }}
       </div>
       <div v-if="hasError" class="error-notification">
-        {{ $t("$errorNotification") }}
+        {{ $t('$errorNotification') }}
       </div>
     </div>
   </div>
@@ -32,8 +33,8 @@
 
 <style lang="scss">
 //global styles
-@import "@/assets/styles/font_faces.scss";
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/font_faces.scss';
+@import '@/assets/styles/variables.scss';
 #app * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,14 +42,14 @@
 
 #app-container {
   display: grid;
-  font-family: "TitilliumWeb", sans-serif;
+  font-family: 'TitilliumWeb', sans-serif;
   text-align: center;
   grid-template:
-    "head head head"
-    "pict pict pict"
-    "info info info"
-    ". cont ."
-    "foot foot foot"
+    'head head head'
+    'pict pict pict'
+    'info info info'
+    '. cont .'
+    'foot foot foot'
     / auto $content-width auto;
 }
 
