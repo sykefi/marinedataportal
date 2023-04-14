@@ -10,7 +10,6 @@ import AppFooter from '@/components/AppFooter.vue';
 import SiteTitle from '@/components/SiteTitle.vue';
 import SiteImage from '@/components/SiteImage.vue';
 import ErrorMessages from '@/components/ErrorMessages.vue';
-import ExampleMap from '@/components/siteSelection/ExampleMap.vue';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { getBuoys } from '@/queries/FMI/getBuoysQuery';
 import { sykeApiIsOnline } from './queries/Vesla/getApiStatusQuery';
@@ -34,7 +33,6 @@ export default defineComponent({
     SiteTitle,
     SiteImage,
     ErrorMessages,
-    ExampleMap,
   },
   computed: {
     hasError() {

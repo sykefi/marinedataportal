@@ -6,7 +6,7 @@
     style="height: 40rem"
     :style="{ cursor: mapCursor }"
   >
-    <ol-view :center="mapCenter" :zoom="mapZoom" />
+    <ol-view ref="view" :center="mapCenter" :zoom="mapZoom" />
 
     <ol-tile-layer ref="baseMapLayer" />
     <ol-tile-layer ref="cityNamesLayer" />
@@ -21,7 +21,10 @@
       :features="selectedFeatures"
     >
       <ol-style>
-        <ol-style-fill color="blue" />
+        <ol-style-circle radius="6">
+          <ol-style-fill color="#0099ff"></ol-style-fill>
+          <ol-style-stroke color="white"></ol-style-stroke>
+        </ol-style-circle>
       </ol-style>
     </ol-interaction-select>
 
@@ -66,6 +69,7 @@ export default defineComponent({
   setup() {
     const searchParameterStore = useSearchParameterStore();
 
+    const map = ref('');
     const center = ref([2466417.9856569725, 8788780.630851416]);
     const zoom = ref(5.5);
     const currentHoverFeature = ref(null as IHoverData | null);
@@ -73,10 +77,8 @@ export default defineComponent({
     const availableFeatures = ref([] as Feature<Geometry>[]);
     const mapCursor = ref('default');
 
-    // const format = inject('ol-format');
-    // const GeoJSON = new format.GeoJSON();
     const selectConditions = inject('ol-selectconditions');
-    const mouseClick = selectConditions.singleClick;
+    const mouseClick = selectConditions.click;
 
     const features = searchParameterStore.availableSites.map((s) => ({
       type: 'Feature',
@@ -92,22 +94,18 @@ export default defineComponent({
 
     availableFeatures.value = new GeoJSON().readFeatures(geoJsonObject);
 
-    console.log('a', availableFeatures);
-    // set(feats: any[]) {
-    //   searchParameterStore.clearSelectedSites();
-    //   feats.forEach((feat) => {
-    //     searchParameterStore.selectSite(feat.id);
-    //   });
-    //   selectedMapFeatures.value = feats;
-    // },
-
     const featureSelected = (event: any) => {
-      console.log('e', event);
-      selectedFeatures.value = event.target.getFeatures();
-      searchParameterStore.selectSite(event.value);
+      const features = event.target.getFeatures();
+      selectedFeatures.value = features;
+      searchParameterStore.clearSelectedSites();
+      features.forEach((feat: Feature) => {
+        const id = feat.getId() as number;
+        if (id) {
+          searchParameterStore.selectSite(id);
+        }
+      });
     };
 
-    console.log('s', selectedFeatures);
     // const mapCreated = (map: any) => {
     //   console.log('map created');
     //   // a DragBox interaction used to select features by drawing boxes
@@ -175,6 +173,7 @@ export default defineComponent({
     // };
 
     return {
+      map,
       mapCenter: center,
       mapZoom: zoom,
       mapCursor,

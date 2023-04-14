@@ -6,7 +6,6 @@
       <SiteTitle id="site-title" />
       <InfoMenu id="info-menu" />
       <div id="content">
-        <ExampleMap />
         <ErrorMessages />
         <AttributeSelection />
         <TimeSpanSelection />
