@@ -13,7 +13,10 @@
     <ol-tile-layer ref="cityNamesLayer" />
 
     <ol-vector-layer>
-      <ol-source-vector :features="availableFeatures"></ol-source-vector>
+      <ol-source-vector
+        :features="availableFeatures"
+        ref="vectorSource"
+      ></ol-source-vector>
     </ol-vector-layer>
 
     <ol-interaction-select
@@ -43,7 +46,7 @@
 import { DragBox } from 'ol/interaction';
 import { platformModifierKeyOnly } from 'ol/events/condition';
 import WMTS from 'ol/source/WMTS';
-import { defineComponent, inject, ref } from 'vue';
+import { defineComponent, inject, onMounted, ref } from 'vue';
 import { useSearchParameterStore } from '@/stores/searchParameterStore';
 import { useMapStore } from '@/stores/mapStore';
 import { Options } from 'ol/source/WMTS';
@@ -78,6 +81,7 @@ export default defineComponent({
     const selectedFeatures = ref(new Collection());
     const availableFeatures = ref([] as Feature<Geometry>[]);
     const mapCursor = ref('default');
+    const vectorSource = ref(null as any);
 
     const selectConditions = inject('ol-selectconditions');
     const mouseClick = selectConditions.click;
@@ -108,34 +112,35 @@ export default defineComponent({
       });
     };
 
-    // const mapCreated = (map: any) => {
-    //   console.log('map created');
-    //   // a DragBox interaction used to select features by drawing boxes
-    //   const dragBox = new DragBox({
-    //     condition: platformModifierKeyOnly,
-    //     onBoxEnd: () => {
-    //       // features that intersect the box are selected
-    //       const extent = dragBox.getGeometry().getExtent();
-    //       const source = vectorSource.value.$source;
+    onMounted(() => {
+      // a DragBox interaction used to select features by drawing boxes
+      const dragBox = new DragBox({
+        condition: platformModifierKeyOnly,
+      });
+      map.value?.map.addInteraction(dragBox);
 
-    //       const selectedFeats: any[] = [];
-    //       source.forEachFeatureIntersectingExtent(extent, (feature: any) => {
-    //         // feature = olExt.writeGeoJsonFeature(feature);
+      dragBox.on('boxend', function () {
+        // features that intersect the box are selected
+        const extent = dragBox.getGeometry().getExtent();
+        const boxFeatures: Feature[] = vectorSource.value.features.filter(
+          (feature: Feature) => feature.getGeometry()?.intersectsExtent(extent)
+        );
 
-    //         selectedFeats.push(feature);
-    //       });
-    //       selectedFeatures.value = selectedFeats;
-    //     },
-    //   });
+        selectedFeatures.value.extend(boxFeatures);
+        boxFeatures.forEach((feat: Feature) => {
+          const id = feat.getId() as number;
+          if (id) {
+            searchParameterStore.selectSite(id);
+          }
+        });
+      });
 
-    //   map.$map.addInteraction(dragBox);
-
-    //   // clear selection when drawing a new box and when clicking on the map
-    //   dragBox.on('boxstart', () => {
-    //     selectedFeatures.value = [];
-    //     selectInteraction.value.clearFeatures();
-    //   });
-    // };
+      // clear selection when drawing a new box and when clicking on the map
+      dragBox.on('boxstart', () => {
+        selectedFeatures.value.clear();
+        searchParameterStore.clearSelectedSites();
+      });
+    });
 
     const onMapPointerMove = (e: any) => {
       if (!e.pixel || e.dragging) {
@@ -176,6 +181,7 @@ export default defineComponent({
 
     return {
       map,
+      vectorSource,
       mapCenter: center,
       mapZoom: zoom,
       mapCursor,
