@@ -48,8 +48,6 @@ export default defineComponent({
     columnNames() {
       return Object.keys(this.store.previewData[0]);
     },
-  },
-  methods: {
     encodedFileUri() {
       let csvContent = '';
       csvContent += this.columnNames.join(';') + ';\r\n';
@@ -64,19 +62,8 @@ export default defineComponent({
         type: 'text/csv;charset=utf-8;',
       });
 
-      if (navigator.msSaveBlob) {
-        navigator.msSaveBlob(csvData, this.store.name + '.csv');
-      } else {
-        return URL.createObjectURL(csvData);
-      }
+      return URL.createObjectURL(csvData);
     },
   },
 });
-
-// https://stackoverflow.com/questions/69485778/new-typescript-version-does-not-include-window-navigator-mssaveblob
-declare global {
-  interface Navigator {
-    msSaveBlob?: (blob: any, defaultName?: string) => boolean;
-  }
-}
 </script>
