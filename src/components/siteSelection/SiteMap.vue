@@ -55,6 +55,7 @@ import { Geometry } from 'ol/geom';
 import Collection from 'ol/Collection';
 import { GeoJSON } from 'ol/format';
 import Map from 'ol/Map';
+import { SelectEvent } from 'ol/interaction/Select';
 
 interface IHoverData {
   name: string;
@@ -100,16 +101,35 @@ export default defineComponent({
 
     availableFeatures.value = new GeoJSON().readFeatures(geoJsonObject);
 
-    const featureSelected = (event: any) => {
-      const features = event.target.getFeatures();
-      selectedFeatures.value = features;
+    const featureSelected = (event: SelectEvent) => {
+      const newFeatures = event.target.getFeatures() as Collection<Feature>;
+      selectedFeatures.value = newFeatures;
       searchParameterStore.clearSelectedSites();
-      features.forEach((feat: Feature) => {
-        const id = feat.getId() as number;
+      newFeatures.forEach((feat) => {
+        const id = feat.getId();
         if (id) {
-          searchParameterStore.selectSite(id);
+          searchParameterStore.selectSite(id as number);
         }
       });
+    };
+
+    const addSelection = (id: number) => {
+      const feature = availableFeatures.value.find((f) => f.getId() === id);
+      selectedFeatures.value.push(feature);
+      searchParameterStore.selectSite(id);
+    };
+
+    const removeSelection = (id: number) => {
+      const selectedFeatureIndex = (
+        selectedFeatures.value.getArray() as Feature[]
+      ).findIndex((f) => f.getId() === id);
+      selectedFeatures.value.removeAt(selectedFeatureIndex);
+      searchParameterStore.removeSite(id);
+    };
+
+    const clearSelectedFeatures = () => {
+      selectedFeatures.value.clear();
+      searchParameterStore.clearSelectedSites();
     };
 
     onMounted(() => {
@@ -162,23 +182,6 @@ export default defineComponent({
       };
     };
 
-    // const addSelection = (id: number) => {
-    //   selectInteraction.value.select(id);
-    // };
-
-    // const removeSelection = (id: number) => {
-    //   selectInteraction.value.clearFeatures();
-    //   const mapFeatureIndex = selectedFeatures.value.findIndex(
-    //     (f) => f.id === id
-    //   );
-    //   selectedFeatures.value.splice(mapFeatureIndex, 1);
-    // };
-
-    // const clearSelectedFeatures = () => {
-    //   selectInteraction.value.clearFeatures();
-    //   selectedFeatures.value = [];
-    // };
-
     return {
       map,
       vectorSource,
@@ -191,9 +194,9 @@ export default defineComponent({
       featureSelected,
       mouseClick,
       onMapPointerMove,
-      // addSelection,
-      // removeSelection,
-      // clearSelectedFeatures,
+      addSelection,
+      removeSelection,
+      clearSelectedFeatures,
     };
   },
 });
