@@ -18,7 +18,6 @@ export async function getMareographs() {
       facility.getElementsByTagName('gml:identifier')[0].firstChild!.nodeValue!
     const name =
       facility.getElementsByTagName('ef:name')[0].firstChild!.nodeValue!
-    // tslint:disable-next-line:max-line-length
     const pos = facility
       .getElementsByTagName('ef:representativePoint')[0]
       .firstElementChild!.firstElementChild!.textContent!.split(' ')

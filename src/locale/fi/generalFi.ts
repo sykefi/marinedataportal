@@ -1,4 +1,3 @@
-/* tslint:disable */
 export default {
   $siteTitle: 'Itämeren tila-aineistojen lataus',
   $siteDetails:

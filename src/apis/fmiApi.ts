@@ -1,4 +1,3 @@
-// tslint:disable:no-console
 import { CommonParameters } from '@/queries/commonParameters'
 import { Site } from '@/queries/site'
 import { isDateInPeriod } from '@/helpers'

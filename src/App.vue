@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-// tslint:disable: no-console
 import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue'
 import TimeSpanSelection from '@/components/TimeSpanSelection.vue'
 import SiteSelection from '@/components/siteSelection/SiteSelection.vue'

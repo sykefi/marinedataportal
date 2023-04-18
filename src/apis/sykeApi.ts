@@ -1,5 +1,3 @@
-// tslint:disable:no-console
-
 import { useMainStateStore } from '@/stores/mainStateStore'
 
 export default async function getVeslaData(query: string) {
