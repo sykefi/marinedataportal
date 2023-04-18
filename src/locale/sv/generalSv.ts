@@ -22,4 +22,4 @@ export default {
   $errorNotification:
     'Ett fel inträffade vid körning av programmet. Uppdatera sidan och försök igen. Ledsen för besväret.',
   $photo: 'Foto',
-};
+}

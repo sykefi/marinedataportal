@@ -3,5 +3,5 @@ export default {
   $fmiLogoAltText: 'Meteorologiska institutet hemsida.',
   $sourceCode: 'Öppen källkod',
   $sykeFi: 'https://syke.fi/sv-FI',
-  $sykeLogoAltText: 'Finlands miljöcentral hemsida.'
-};
+  $sykeLogoAltText: 'Finlands miljöcentral hemsida.',
+}

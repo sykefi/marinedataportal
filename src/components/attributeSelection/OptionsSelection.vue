@@ -41,9 +41,8 @@
 </template>
 
 <script lang="ts">
-import { IAttributeStoreStateWithOptions } from '@/stores/types/IAttributeStoreStateWithOptions';
-import { IAttributeStoreProperties, Store } from 'pinia';
-import { defineComponent, PropType } from 'vue';
+import { IAttributeStoreProperties } from 'pinia'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   props: {
@@ -63,57 +62,57 @@ export default defineComponent({
   data() {
     return {
       showPhosphorusMessage: false,
-    };
+    }
   },
   computed: {
     isWaterQualityStore() {
-      return this.store.$id === 'waterQuality';
+      return this.store.$id === 'waterQuality'
     },
     selectedIds: {
       get() {
-        return this.store.selectedIds;
+        return this.store.selectedIds
       },
       set(e: number[]) {
-        this.showPhosphorusMessage = this.includesPhosphorus(e);
+        this.showPhosphorusMessage = this.includesPhosphorus(e)
         if (this.store.setSelectedOptions) {
-          this.store.setSelectedOptions(e);
+          this.store.setSelectedOptions(e)
         }
       },
     },
     availableOptions() {
-      return this.store.availableOptions;
+      return this.store.availableOptions
     },
     selectAll: {
       get() {
         return this.selectedIds
           ? this.selectedIds.length === this.store.availableOptions?.length
-          : false;
+          : false
       },
       set(value: boolean) {
         if (value && this.store.selectAll) {
-          this.store.selectAll();
+          this.store.selectAll()
           if (this.includesPhosphorus(this.selectedIds ?? [])) {
-            this.showPhosphorusMessage = true;
+            this.showPhosphorusMessage = true
           }
         } else if (this.store.deSelectAll) {
-          this.store.deSelectAll();
-          this.showPhosphorusMessage = false;
+          this.store.deSelectAll()
+          this.showPhosphorusMessage = false
         }
       },
     },
     length() {
-      return Math.ceil(this.store.availableOptions?.length ?? 0 / 2);
+      return Math.ceil(this.store.availableOptions?.length ?? 0 / 2)
     },
   },
   methods: {
     includesPhosphorus(ids: number[]) {
       if (this.isWaterQualityStore) {
-        return ids.some((id) => [20, 33, 44, 55].includes(id));
+        return ids.some((id) => [20, 33, 44, 55].includes(id))
       }
-      return false;
+      return false
     },
   },
-});
+})
 </script>
 
 <style lang="scss">

@@ -1,4 +1,3 @@
-/* tslint:disable */
 export default {
   $siteTitle: 'Itämeren tila-aineistojen lataus',
   $siteDetails:
@@ -23,4 +22,4 @@ export default {
   $errorNotification:
     'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
   $photo: 'Kuva',
-};
+}

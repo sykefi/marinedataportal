@@ -1,19 +1,20 @@
-import getVeslaData from '@/apis/sykeApi';
+import getVeslaData from '@/apis/sykeApi'
 
-const query = 'determinationCombinations?api-version=1.0&\
+const query =
+  'determinationCombinations?api-version=1.0&\
 $select=DeterminationCombinationId,NameFi,NameSv,NameEn&\
-$orderby=DeterminationCombinationId';
+$orderby=DeterminationCombinationId'
 
 export interface IWaterQualityOption {
-  id: number;
-  name_fi: string;
-  name_sv: string;
-  name_en: string;
+  id: number
+  name_fi: string
+  name_sv: string
+  name_en: string
 }
 
 export async function getWaterQualityOptions() {
-  const res = await getVeslaData(query);
-  const options: IWaterQualityOption[] = [];
+  const res = await getVeslaData(query)
+  const options: IWaterQualityOption[] = []
   if (res) {
     res.forEach((value) => {
       options.push({
@@ -21,8 +22,8 @@ export async function getWaterQualityOptions() {
         name_fi: value.nameFi,
         name_sv: value.nameSv,
         name_en: value.nameEn,
-      });
-    });
+      })
+    })
   }
-  return options;
+  return options
 }

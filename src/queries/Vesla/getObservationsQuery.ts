@@ -1,9 +1,11 @@
-import { CommonParameters } from '../commonParameters';
-import getVeslaData from '@/apis/sykeApi';
+import { CommonParameters } from '../commonParameters'
+import getVeslaData from '@/apis/sykeApi'
 import {
-  buildODataInFilterFromArray, cleanupTimePeriod,
-  getTimeParametersForVeslaFilter, fromObservationToSykeFormat,
-} from '@/helpers';
+  buildODataInFilterFromArray,
+  cleanupTimePeriod,
+  getTimeParametersForVeslaFilter,
+  fromObservationToSykeFormat,
+} from '@/helpers'
 
 const select = [
   'Time',
@@ -12,46 +14,58 @@ const select = [
   'SiteId',
   'SiteName',
   'ParameterNameEng',
-];
+]
 
-const query = 'Observations?api-version=1.0&\
+const query =
+  'Observations?api-version=1.0&\
 $orderby=SiteId,Time&\
-$select=' + select.join(',');
+$select=' + select.join(',')
 
 async function getFilter(params: CommonParameters, obsCode: string) {
-  let filter = '&$expand=Site($select=Latitude,Longitude,Depth)' +
+  let filter =
+    '&$expand=Site($select=Latitude,Longitude,Depth)' +
     '&$filter=Site/EnvironmentTypeId in (31,32,33)' +
-    ` and ParameterCode eq '${obsCode}'`;
+    ` and ParameterCode eq '${obsCode}'`
 
-  filter += getTimeParametersForVeslaFilter(params);
+  filter += getTimeParametersForVeslaFilter(params)
 
-  filter += buildODataInFilterFromArray(params.veslaSites.map((s) => s.id), 'Site/SiteId', true);
+  filter += buildODataInFilterFromArray(
+    params.veslaSites.map((s) => s.id),
+    'Site/SiteId',
+    true
+  )
 
-  return filter;
+  return filter
 }
 
-export async function getObservations(params: CommonParameters, obsCode: string) {
+export async function getObservations(
+  params: CommonParameters,
+  obsCode: string
+) {
   if (params.veslaSites.length === 0) {
-    return [];
+    return []
   }
-  const filter = await getFilter(params, obsCode);
-  let results = await getVeslaData(query + filter);
+  const filter = await getFilter(params, obsCode)
+  let results = await getVeslaData(query + filter)
   if (!results) {
-    return [];
+    return []
   }
-  results = results.map((r) => fromObservationToSykeFormat(r));
+  results = results.map((r) => fromObservationToSykeFormat(r))
   if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-    return cleanupTimePeriod(results, params);
+    return cleanupTimePeriod(results, params)
   }
-  return results;
+  return results
 }
 
-export async function getObservationSiteIds(params: CommonParameters, obsCode: string) {
-  const filter = await getFilter(params, obsCode);
-  const q = 'Observations?api-version=1.0&$select=siteId' + filter;
-  let data = await getVeslaData(q);
+export async function getObservationSiteIds(
+  params: CommonParameters,
+  obsCode: string
+) {
+  const filter = await getFilter(params, obsCode)
+  const q = 'Observations?api-version=1.0&$select=siteId' + filter
+  let data = await getVeslaData(q)
   if (data) {
-    data = data.map((d) => d.siteId);
+    data = data.map((d) => d.siteId)
   }
-  return data as number[];
+  return data as number[]
 }

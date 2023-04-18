@@ -1,17 +1,17 @@
-import { SiteTypes } from '@/queries/site';
-import { CommonParameters } from '@/queries/commonParameters';
+import { SiteTypes } from '@/queries/site'
+import { CommonParameters } from '@/queries/commonParameters'
 import {
   getObservations,
   getObservationSiteIds,
-} from '@/queries/Vesla/getObservationsQuery';
-import { PREVIEW_ROW_COUNT } from '@/config';
-import { IResponseFormat } from '@/queries/IResponseFormat';
-import { defineStore } from 'pinia';
-import { IAttributeStoreState } from './types/IAttributeStoreState';
+} from '@/queries/Vesla/getObservationsQuery'
+import { PREVIEW_ROW_COUNT } from '@/config'
+import { IResponseFormat } from '@/queries/IResponseFormat'
+import { defineStore } from 'pinia'
+import { IAttributeStoreState } from './types/IAttributeStoreState'
 
 type ISecchiDepthState = IAttributeStoreState & {
-  obsCode: string;
-};
+  obsCode: string
+}
 
 export const useSecchiDepthStore = defineStore('secchiDepth', {
   state: (): ISecchiDepthState => ({
@@ -25,30 +25,30 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
   }),
   getters: {
     rowCount(state) {
-      return state.data ? state.data.length : 0;
+      return state.data ? state.data.length : 0
     },
     previewData(state) {
-      return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : [];
+      return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : []
     },
   },
   actions: {
     async getData(params: CommonParameters) {
-      this.loading = true;
-      const res = await getObservations(params, this.obsCode);
-      this.setData(res);
-      this.loading = false;
+      this.loading = true
+      const res = await getObservations(params, this.obsCode)
+      this.setData(res)
+      this.loading = false
     },
     async getAvailableVeslaSiteIds(params: CommonParameters) {
-      this.loading = true;
-      const res = await getObservationSiteIds(params, this.obsCode);
-      this.loading = false;
-      return res;
+      this.loading = true
+      const res = await getObservationSiteIds(params, this.obsCode)
+      this.loading = false
+      return res
     },
     toggleSelected() {
-      this.isSelected = !this.isSelected;
+      this.isSelected = !this.isSelected
     },
     setData(newData: IResponseFormat[]) {
-      this.data = newData;
+      this.data = newData
     },
   },
-});
+})

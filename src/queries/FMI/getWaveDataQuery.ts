@@ -1,6 +1,5 @@
-import { GetSimpleFmiResponse } from '@/apis/fmiApi';
-import { CommonParameters } from '@/queries/commonParameters';
-
+import { GetSimpleFmiResponse } from '@/apis/fmiApi'
+import { CommonParameters } from '@/queries/commonParameters'
 
 export enum WaveQueryParameters {
   waveHeight = 'WaveHs',
@@ -10,8 +9,12 @@ export enum WaveQueryParameters {
   waterTemperature = 'TWATER',
 }
 
-export async function getWaveData(params: CommonParameters, queryParams: WaveQueryParameters[]) {
-  const query = '&request=getFeature&storedquery_id=fmi::observations::wave::simple&parameters='
-    + queryParams.join(',');
-  return await GetSimpleFmiResponse(query, params, params.buoySites);
+export async function getWaveData(
+  params: CommonParameters,
+  queryParams: WaveQueryParameters[]
+) {
+  const query =
+    '&request=getFeature&storedquery_id=fmi::observations::wave::simple&parameters=' +
+    queryParams.join(',')
+  return await GetSimpleFmiResponse(query, params, params.buoySites)
 }

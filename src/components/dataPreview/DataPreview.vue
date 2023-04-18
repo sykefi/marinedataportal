@@ -10,10 +10,10 @@
 </template>
 
 <script lang="ts">
-import DataPreviewTable from '@/components/dataPreview/DataPreviewTable.vue';
-import { useMainStateStore } from '@/stores/mainStateStore';
-import { mapStores } from 'pinia';
-import { defineComponent } from 'vue';
+import DataPreviewTable from '@/components/dataPreview/DataPreviewTable.vue'
+import { useMainStateStore } from '@/stores/mainStateStore'
+import { mapStores } from 'pinia'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {
@@ -22,20 +22,20 @@ export default defineComponent({
   computed: {
     ...mapStores(useMainStateStore),
     showInfo() {
-      let isTrue = false;
-      const stores = this.mainStateStore.selectedAttributeStores;
+      let isTrue = false
+      const stores = this.mainStateStore.selectedAttributeStores
       stores.forEach((store) => {
         if (store.rowCount > 3) {
-          isTrue = true;
+          isTrue = true
         }
-      });
-      return isTrue;
+      })
+      return isTrue
     },
     stores() {
-      return this.mainStateStore.selectedAttributeStores;
+      return this.mainStateStore.selectedAttributeStores
     },
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

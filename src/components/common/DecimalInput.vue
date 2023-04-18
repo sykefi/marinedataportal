@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -50,15 +50,15 @@ export default defineComponent({
   },
   methods: {
     input(target: HTMLInputElement) {
-      const value = target.value;
+      const value = target.value
       if (value !== '') {
-        this.$emit('input', Number((+value).toFixed(this.decimals)));
+        this.$emit('input', Number((+value).toFixed(this.decimals)))
       } else {
-        this.$emit('input', null);
+        this.$emit('input', null)
       }
     },
   },
-});
+})
 </script>
 
 <style lang="scss">
