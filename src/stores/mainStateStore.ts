@@ -27,10 +27,10 @@ export const useMainStateStore = defineStore('mainState', {
     hasError: false,
   }),
   getters: {
-    loading() {
+    loading(): boolean {
       const searchParameterStore = useSearchParameterStore();
       const stores = this.attributeStores as IAttributeStoreProperties[];
-      return searchParameterStore.loading || stores.find((s) => s.loading);
+      return searchParameterStore.loading || !!stores.find((s) => s.loading);
     },
     selectedAttributeStores() {
       const stores = this.attributeStores as IAttributeStoreProperties[];

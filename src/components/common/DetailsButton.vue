@@ -2,27 +2,42 @@
   <div class="details-button-wrapper">
     <button
       type="button"
-      @click.prevent="shown=true"
-      @mouseover="shown=true"
-      @mouseleave="shown=false"
+      @click.prevent="shown = true"
+      @mouseover="shown = true"
+      @mouseleave="shown = false"
       aria-hidden="true"
       :tabIndex="-1"
     >
       ?
     </button>
-    <div
-      v-if="shown"
-      id="text"
-      @click="shown=false"
-    >
-      {{ this.contentKey }}
+    <div v-if="shown" id="text" @click="shown = false">
+      {{ contentKey }}
     </div>
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  props: {
+    contentKey: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      shown: false,
+      rightOverFlow: false,
+    };
+  },
+});
+</script>
+
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
-@import "@/assets/styles/common_styles.scss";
+@import '@/assets/styles/variables.scss';
+@import '@/assets/styles/common_styles.scss';
 .details-button-wrapper {
   display: inline;
   position: relative;
@@ -66,5 +81,3 @@ button {
   white-space: pre-line;
 }
 </style>
-
-<script src="./detailsButton.ts"></script>

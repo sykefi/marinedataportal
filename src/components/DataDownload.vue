@@ -1,5 +1,18 @@
+<template>
+  <div>
+    <SelectionHeader :header="$t('$fileDownloadTitle')" />
+    <button
+      :disabled="isDownloading"
+      class="download-button"
+      @click="downloadData"
+    >
+      {{ $t('$fetch') }}
+    </button>
+  </div>
+</template>
+
+<script lang="ts">
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
-import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 import { validateSearchParameters } from '@/helpers';
 import { useMainStateStore } from '@/stores/mainStateStore';
 import { useSearchParameterStore } from '@/stores/searchParameterStore';
@@ -10,7 +23,6 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   components: {
     SelectionHeader,
-    SelectionButton,
   },
   computed: {
     ...mapStores(
@@ -44,3 +56,4 @@ export default defineComponent({
     },
   },
 });
+</script>

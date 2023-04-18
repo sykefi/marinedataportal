@@ -1,3 +1,56 @@
+<template>
+  <div
+    :class="[error ? 'form-inline warn-border' : 'form-inline normal-border']"
+  >
+    <div v-if="showYear" class="form-control">
+      <select
+        class="form-control year"
+        v-model.number="year"
+        @change="onChangeYear"
+        :aria-label="ariaLabels[2]"
+      >
+        <option :value="-1" disabled hidden>
+          {{ $t('$yearPlaceholder') }}
+        </option>
+        <option v-for="year in years" :key="year" :value="year">
+          {{ year }}
+        </option>
+      </select>
+    </div>
+    <div class="form-control">
+      <select
+        class="form-control month"
+        v-model.number="month"
+        @change="onChangeMonth"
+        :aria-label="ariaLabels[1]"
+      >
+        <option :value="-1" disabled hidden>
+          {{ $t('$monthPlaceholder') }}
+        </option>
+        <option v-for="month in months" :key="month" :value="month">
+          {{ month + 1 }}
+        </option>
+      </select>
+    </div>
+    <div class="form-control">
+      <select
+        class="form-control day"
+        v-model.number="day"
+        @change="emitUpdate"
+        :aria-label="ariaLabels[0]"
+      >
+        <option :value="-1" disabled hidden>
+          {{ $t('$dayPlaceholder') }}
+        </option>
+        <option v-for="day in days" :key="day" :value="day">
+          {{ day }}
+        </option>
+      </select>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 export type DatePickerResult = Date | 'invalid' | null;
@@ -19,9 +72,9 @@ export default defineComponent({
       default: new Date().toISOString(),
     },
     ariaLabels: {
-      type: [String, Array],
+      type: Object as PropType<[string, string, string]>,
       required: false,
-      default: () => ['year', 'month', 'day'],
+      default: () => ['year', 'month', 'day'] as [string, string, string],
     },
     showYear: {
       type: Boolean,
@@ -185,3 +238,38 @@ export default defineComponent({
     },
   },
 });
+</script>
+
+<style lang="scss" scoped>
+@import '@/assets/styles/variables.scss';
+.form-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.188rem;
+  height: 3rem;
+  color: $text-dark;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background-color: $background-light;
+}
+.normal-border {
+  border: 0.08rem solid $border-light;
+}
+.form-control {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  width: 90%;
+  font-family: 'OpenSans';
+  font-size: $font-size-xs;
+  background-color: $background-light;
+}
+.year {
+  width: 4rem;
+}
+select {
+  -moz-appearance: none;
+  text-align-last: center;
+}
+</style>

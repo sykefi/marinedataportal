@@ -4,7 +4,7 @@ import { CommonParameters } from '@/queries/commonParameters';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { alphabeticCompare } from '@/helpers';
 import { getBuoys } from '@/queries/FMI/getBuoysQuery';
-import { DatePickerResult } from '@/components/common/datePicker/datePicker';
+import { DatePickerResult } from '@/components/common/DatePicker.vue';
 import { defineStore } from 'pinia';
 import { useMainStateStore } from './mainStateStore';
 
