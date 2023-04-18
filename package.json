@@ -45,6 +45,6 @@
     "last 2 versions"
   ],
   "engines": {
-    "node": ">=16.14.2"
+    "node": ">=18.14.1"
   }
 }
