@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import { IAttributeStoreProperties } from 'pinia';
-import { defineComponent, PropType } from 'vue';
+import { IAttributeStoreProperties } from 'pinia'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   props: {
@@ -38,15 +38,15 @@ export default defineComponent({
   },
   computed: {
     selected() {
-      return this.store.isSelected;
+      return this.store.isSelected
     },
   },
   methods: {
     onClick() {
-      this.store.toggleSelected();
+      this.store.toggleSelected()
     },
   },
-});
+})
 </script>
 
 <style lang="scss">

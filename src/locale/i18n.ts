@@ -1,14 +1,14 @@
-import { createI18n, I18nOptions } from 'vue-i18n';
-import fi from './fi/fi';
-import en from './en/en';
-import sv from './sv/sv';
+import { createI18n, I18nOptions } from 'vue-i18n'
+import fi from './fi/fi'
+import en from './en/en'
+import sv from './sv/sv'
 
-const browserLang = navigator.language.toLocaleLowerCase();
+const browserLang = navigator.language.toLocaleLowerCase()
 const locale = browserLang.startsWith('fi')
   ? 'fi'
   : browserLang.startsWith('sv')
   ? 'sv'
-  : 'en';
+  : 'en'
 
 const dateTimeFormats: I18nOptions['datetimeFormats'] = {
   en: {
@@ -57,13 +57,13 @@ const dateTimeFormats: I18nOptions['datetimeFormats'] = {
       minute: 'numeric',
     },
   },
-};
+}
 
-const messages = { en, fi, sv };
+const messages = { en, fi, sv }
 export default createI18n({
   locale,
   fallbackLocale: 'en',
   messages,
   dateTimeFormats,
   warnHtmlInMessage: 'warn',
-});
+})

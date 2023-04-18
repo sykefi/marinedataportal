@@ -1,22 +1,31 @@
-import { GetRawXMLResponse } from '@/apis/fmiApi';
-import { Site, SiteTypes } from '../site';
+import { GetRawXMLResponse } from '@/apis/fmiApi'
+import { Site, SiteTypes } from '../site'
 
-const query = '&request=getFeature&storedquery_id=fmi::ef::stations&networkid=133&';
+const query =
+  '&request=getFeature&storedquery_id=fmi::ef::stations&networkid=133&'
 
 export async function getMareographs() {
-  const sites: Site[] = [];
-  const response = await GetRawXMLResponse(query);
+  const sites: Site[] = []
+  const response = await GetRawXMLResponse(query)
   if (!response) {
-    return [];
+    return []
   }
-  const facilities = response.getElementsByTagName('ef:EnvironmentalMonitoringFacility');
+  const facilities = response.getElementsByTagName(
+    'ef:EnvironmentalMonitoringFacility'
+  )
   for (const facility of facilities) {
-    const id = facility.getElementsByTagName('gml:identifier')[0].firstChild!.nodeValue!;
-    const name = facility.getElementsByTagName('ef:name')[0].firstChild!.nodeValue!;
+    const id =
+      facility.getElementsByTagName('gml:identifier')[0].firstChild!.nodeValue!
+    const name =
+      facility.getElementsByTagName('ef:name')[0].firstChild!.nodeValue!
     // tslint:disable-next-line:max-line-length
-    const pos = facility.getElementsByTagName('ef:representativePoint')[0].firstElementChild!.firstElementChild!.textContent!.split(' ');
+    const pos = facility
+      .getElementsByTagName('ef:representativePoint')[0]
+      .firstElementChild!.firstElementChild!.textContent!.split(' ')
 
-    sites.push(new Site(+id, name, +pos[0], +pos[1], null, SiteTypes.Mareograph));
+    sites.push(
+      new Site(+id, name, +pos[0], +pos[1], null, SiteTypes.Mareograph)
+    )
   }
-  return sites;
+  return sites
 }

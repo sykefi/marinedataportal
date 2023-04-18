@@ -12,13 +12,13 @@
 </template>
 
 <script lang="ts">
-import SelectionHeader from '@/components/common/SelectionHeader.vue';
-import { validateSearchParameters } from '@/helpers';
-import { useMainStateStore } from '@/stores/mainStateStore';
-import { useSearchParameterStore } from '@/stores/searchParameterStore';
-import { useWaterQualityStore } from '@/stores/waterQualityStore';
-import { mapStores } from 'pinia';
-import { defineComponent } from 'vue';
+import SelectionHeader from '@/components/common/SelectionHeader.vue'
+import { validateSearchParameters } from '@/helpers'
+import { useMainStateStore } from '@/stores/mainStateStore'
+import { useSearchParameterStore } from '@/stores/searchParameterStore'
+import { useWaterQualityStore } from '@/stores/waterQualityStore'
+import { mapStores } from 'pinia'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {
@@ -31,12 +31,12 @@ export default defineComponent({
       useSearchParameterStore
     ),
     isDownloading() {
-      return this.mainStateStore.loading;
+      return this.mainStateStore.loading
     },
   },
   methods: {
     downloadData() {
-      const errors = [...this.waterQualityStore.errors];
+      const errors = [...this.waterQualityStore.errors]
       errors.push(
         ...validateSearchParameters(
           true,
@@ -47,13 +47,13 @@ export default defineComponent({
           this.searchParameterStore.periodStart,
           this.searchParameterStore.periodEnd
         )
-      );
+      )
 
       if (errors.length === 0) {
-        this.mainStateStore.downloadData();
+        this.mainStateStore.downloadData()
       }
-      this.mainStateStore.setErrorList(errors);
+      this.mainStateStore.setErrorList(errors)
     },
   },
-});
+})
 </script>

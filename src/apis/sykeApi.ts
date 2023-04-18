@@ -1,52 +1,52 @@
 // tslint:disable:no-console
 
-import { useMainStateStore } from '@/stores/mainStateStore';
+import { useMainStateStore } from '@/stores/mainStateStore'
 
 export default async function getVeslaData(query: string) {
-  const mainState = useMainStateStore();
+  const mainState = useMainStateStore()
   try {
     let res = await getJsonResponse(
       'https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query
-    );
-    const data = res.value;
+    )
+    const data = res.value
     while (res.nextLink) {
-      res = await getJsonResponse(res.nextLink);
-      data.push(...res.value);
+      res = await getJsonResponse(res.nextLink)
+      data.push(...res.value)
     }
     if (data.length && data[0] instanceof Object) {
       data.forEach((obj) => {
-        obj.dataSource = 'SYKE';
-      });
+        obj.dataSource = 'SYKE'
+      })
     }
-    return data;
+    return data
   } catch (e) {
-    console.error(e);
-    mainState.setError(true);
-    return null;
+    console.error(e)
+    mainState.setError(true)
+    return null
   }
 }
 
 interface IODataResponse {
-  nextLink: string;
-  value: any[];
+  nextLink: string
+  value: any[]
 }
 
 interface ErrorResponse {
   error: {
     innererror: {
-      message: string;
-    };
-  };
+      message: string
+    }
+  }
 }
 
 async function getJsonResponse(url: string): Promise<IODataResponse> {
-  const response = await fetch(url);
+  const response = await fetch(url)
   if (!response.ok) {
-    let errorObj: ErrorResponse | undefined;
+    let errorObj: ErrorResponse | undefined
     try {
-      errorObj = (await response.json()) as ErrorResponse;
+      errorObj = (await response.json()) as ErrorResponse
     } catch {
-      errorObj = undefined;
+      errorObj = undefined
     }
     throw new Error(`Server responded with error:
         status=${response.status}
@@ -56,12 +56,12 @@ async function getJsonResponse(url: string): Promise<IODataResponse> {
           errorObj
             ? errorObj.error.innererror.message
             : 'Error message not defined by the server'
-        }`);
+        }`)
   }
 
-  const json = await response.json();
+  const json = await response.json()
   return {
     nextLink: json['@odata.nextLink'],
     value: json.value,
-  };
+  }
 }

@@ -32,8 +32,8 @@
 </template>
 
 <script lang="ts">
-import InfoButton from '@/components/InfoButton.vue';
-import { defineComponent } from 'vue';
+import InfoButton from '@/components/InfoButton.vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {
@@ -44,9 +44,9 @@ export default defineComponent({
       showInfo: false,
       showInstructions: false,
       showTerms: false,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

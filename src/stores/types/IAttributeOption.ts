@@ -1,5 +1,5 @@
 export interface IAttributeOption {
-  id: number;
-  name: string;
-  online: boolean;
+  id: number
+  name: string
+  online: boolean
 }

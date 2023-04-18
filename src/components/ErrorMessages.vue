@@ -20,30 +20,30 @@
 </template>
 
 <script lang="ts">
-import { useMainStateStore } from '@/stores/mainStateStore';
-import { mapStores } from 'pinia';
-import { defineComponent } from 'vue';
+import { useMainStateStore } from '@/stores/mainStateStore'
+import { mapStores } from 'pinia'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   computed: {
     ...mapStores(useMainStateStore),
     sykeApiOnline() {
-      return this.mainStateStore.sykeApiOnline;
+      return this.mainStateStore.sykeApiOnline
     },
     fmiApiOnline() {
-      return this.mainStateStore.fmiApiOnline;
+      return this.mainStateStore.fmiApiOnline
     },
     errorList() {
-      const errorList = this.mainStateStore.errorList;
+      const errorList = this.mainStateStore.errorList
       if (errorList.length) {
-        const wrapper = this.$refs.focus;
-        (wrapper as Element)?.scrollIntoView(true);
-        (wrapper as HTMLElement)?.focus();
+        const wrapper = this.$refs.focus
+        ;(wrapper as Element)?.scrollIntoView(true)
+        ;(wrapper as HTMLElement)?.focus()
       }
-      return errorList;
+      return errorList
     },
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

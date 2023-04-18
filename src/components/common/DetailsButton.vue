@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -30,9 +30,9 @@ export default defineComponent({
     return {
       shown: false,
       rightOverFlow: false,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

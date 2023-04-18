@@ -51,9 +51,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue'
 
-export type DatePickerResult = Date | 'invalid' | null;
+export type DatePickerResult = Date | 'invalid' | null
 
 export default defineComponent({
   props: {
@@ -100,144 +100,144 @@ export default defineComponent({
       years: [] as number[],
       months: [] as number[],
       days: [] as number[],
-    };
+    }
   },
   watch: {
     emptied(val: boolean, oldVal: boolean) {
       if (val !== oldVal) {
-        this.year = -1;
-        this.month = -1;
-        this.day = -1;
+        this.year = -1
+        this.month = -1
+        this.day = -1
       }
     },
     startDateAndEndDate() {
-      this.getYears();
-      this.getMonths();
-      this.getDays();
+      this.getYears()
+      this.getMonths()
+      this.getDays()
     },
   },
   created() {
-    this.getYears();
-    this.getMonths();
-    this.getDays();
-    this.startDate = new Date(this.start);
-    this.endDate = new Date(this.end);
+    this.getYears()
+    this.getMonths()
+    this.getDays()
+    this.startDate = new Date(this.start)
+    this.endDate = new Date(this.end)
     this.year = this.modelValue
       ? (this.modelValue as Date).getUTCFullYear()
-      : -1;
-    this.month = this.modelValue ? (this.modelValue as Date).getUTCMonth() : -1;
-    this.day = this.modelValue ? (this.modelValue as Date).getUTCDate() : -1;
+      : -1
+    this.month = this.modelValue ? (this.modelValue as Date).getUTCMonth() : -1
+    this.day = this.modelValue ? (this.modelValue as Date).getUTCDate() : -1
   },
   computed: {
     startDateAndEndDate() {
-      return `${this.startDate}${this.endDate}`;
+      return `${this.startDate}${this.endDate}`
     },
     currentResult(): DatePickerResult {
       if (this.showYear) {
         if (this.year > -1 && this.month > -1 && this.day > -1) {
-          return new Date(Date.UTC(this.year, this.month, this.day, 0, 0, 0));
+          return new Date(Date.UTC(this.year, this.month, this.day, 0, 0, 0))
         } else {
-          return null;
+          return null
         }
       } else {
         if (this.month > -1 && this.day > -1) {
-          return new Date(Date.UTC(2000, this.month, this.day, 0, 0, 0));
+          return new Date(Date.UTC(2000, this.month, this.day, 0, 0, 0))
         } else if (this.month > -1 || this.day > -1) {
           // This is for checking if time period is incomplete
-          return 'invalid';
+          return 'invalid'
         } else {
-          return null;
+          return null
         }
       }
     },
   },
   methods: {
     emitUpdate() {
-      this.$emit('update:modelValue', this.currentResult);
+      this.$emit('update:modelValue', this.currentResult)
     },
     onChangeYear() {
       if (this.month === 1) {
-        this.day = -1;
+        this.day = -1
       }
-      this.getMonths();
-      this.getDays();
-      this.emitUpdate();
+      this.getMonths()
+      this.getDays()
+      this.emitUpdate()
     },
     onChangeMonth() {
       if (this.month === 1) {
-        this.day = -1;
+        this.day = -1
       }
-      this.getDays();
-      this.emitUpdate();
+      this.getDays()
+      this.emitUpdate()
     },
     getYears() {
       if (!this.startDate || !this.endDate) {
-        return [];
+        return []
       }
-      const to = this.startDate.getFullYear();
+      const to = this.startDate.getFullYear()
       for (let y = this.endDate.getFullYear(); y >= to; y--) {
-        this.years.push(y);
+        this.years.push(y)
       }
     },
     getMonths() {
-      this.months = [];
+      this.months = []
 
-      let to = 11;
-      let m = 0;
+      let to = 11
+      let m = 0
       if (this.showYear && this.endDate && this.startDate) {
         if (this.year >= this.endDate.getUTCFullYear()) {
-          to = this.endDate.getUTCMonth();
+          to = this.endDate.getUTCMonth()
         }
         if (this.year <= this.startDate.getUTCFullYear()) {
-          m = this.startDate.getUTCMonth();
+          m = this.startDate.getUTCMonth()
         }
       }
       for (; m <= to; m++) {
-        this.months.push(m);
+        this.months.push(m)
       }
     },
     getDays() {
-      this.days = [];
+      this.days = []
       if (this.month === -1) {
-        return;
+        return
       }
-      let to;
+      let to
       if (this.year === -1) {
         if (this.month === 1) {
           // If year is not picked, February always has 29 days.
           // this way we don't need to worry about leap years.
-          to = 29;
+          to = 29
         } else {
-          to = this.daysInMonth(this.month, 2001);
+          to = this.daysInMonth(this.month, 2001)
         }
       } else {
-        to = this.daysInMonth(this.month, this.year);
+        to = this.daysInMonth(this.month, this.year)
       }
-      let d = 1;
+      let d = 1
       if (this.showYear && this.startDate && this.endDate) {
         if (
           this.year <= this.startDate.getUTCFullYear() &&
           this.month <= this.startDate?.getUTCMonth()
         ) {
-          d = this.startDate?.getUTCDate() ?? 0;
+          d = this.startDate?.getUTCDate() ?? 0
         }
         if (
           this.year >= this.endDate.getUTCFullYear() &&
           this.month >= this.endDate.getUTCMonth()
         ) {
-          to = this.endDate.getUTCDate();
+          to = this.endDate.getUTCDate()
         }
       }
       for (; d <= to; d++) {
-        this.days.push(d);
+        this.days.push(d)
       }
     },
     daysInMonth(month: number, year: number) {
       // Returns the number of days in the selected month of the selected year
-      return new Date(year, month + 1, 0).getDate();
+      return new Date(year, month + 1, 0).getDate()
     },
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

@@ -23,4 +23,4 @@ export default {
   $errorNotification:
     'Ohjelman suorituksessa tapahtui virhe. Päivitä sivu ja yritä uudelleen. Pahoittelemme häiriötä.',
   $photo: 'Kuva',
-};
+}

@@ -3,5 +3,5 @@ export default {
   $fmiLogoAltText: 'Ilmatieteenlaitoksen kotisivu.',
   $sourceCode: 'Avoin lähdekoodi',
   $sykeFi: 'https://syke.fi/fi-FI',
-  $sykeLogoAltText: 'Suomen ympäristökeskuksen kotisivu.'
-};
+  $sykeLogoAltText: 'Suomen ympäristökeskuksen kotisivu.',
+}

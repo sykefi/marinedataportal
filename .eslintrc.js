@@ -7,6 +7,7 @@ module.exports = {
     '@vue/typescript/recommended',
     'plugin:vue/vue3-essential',
     'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended', // must be last to override other configs
   ],
   plugins: ['@typescript-eslint'],
   parser: 'vue-eslint-parser',
@@ -35,4 +36,4 @@ module.exports = {
       },
     },
   ],
-};
+}

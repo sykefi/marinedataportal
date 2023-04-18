@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts">
-import { IAttributeStoreProperties } from 'pinia';
-import { defineComponent, PropType } from 'vue';
+import { IAttributeStoreProperties } from 'pinia'
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   props: {
@@ -40,30 +40,30 @@ export default defineComponent({
   },
   computed: {
     isDataLoaded() {
-      return this.store.data !== null;
+      return this.store.data !== null
     },
     hasData() {
-      return this.store.previewData.length > 0;
+      return this.store.previewData.length > 0
     },
     columnNames() {
-      return Object.keys(this.store.previewData[0]);
+      return Object.keys(this.store.previewData[0])
     },
     encodedFileUri() {
-      let csvContent = '';
-      csvContent += this.columnNames.join(';') + ';\r\n';
+      let csvContent = ''
+      csvContent += this.columnNames.join(';') + ';\r\n'
 
       this.store.data!.forEach((row) => {
-        const values = Object.keys(row).map((key) => (row as any)[key]);
-        csvContent += values.join(';') + ';\r\n';
-      });
+        const values = Object.keys(row).map((key) => (row as any)[key])
+        csvContent += values.join(';') + ';\r\n'
+      })
 
       // https://stackoverflow.com/questions/23301467/javascript-exporting-large-text-csv-file-crashes-google-chrome
       const csvData = new Blob([csvContent], {
         type: 'text/csv;charset=utf-8;',
-      });
+      })
 
-      return URL.createObjectURL(csvData);
+      return URL.createObjectURL(csvData)
     },
   },
-});
+})
 </script>

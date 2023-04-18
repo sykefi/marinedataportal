@@ -58,14 +58,14 @@
 </template>
 
 <script lang="ts">
-import SelectionHeader from '@/components/common/SelectionHeader.vue';
-import SiteMap from '@/components/siteSelection/SiteMap.vue';
-import { validateSearchParameters } from '@/helpers';
-import { useMainStateStore } from '@/stores/mainStateStore';
-import { useSearchParameterStore } from '@/stores/searchParameterStore';
-import { useWaterQualityStore } from '@/stores/waterQualityStore';
-import { mapStores } from 'pinia';
-import { defineComponent } from 'vue';
+import SelectionHeader from '@/components/common/SelectionHeader.vue'
+import SiteMap from '@/components/siteSelection/SiteMap.vue'
+import { validateSearchParameters } from '@/helpers'
+import { useMainStateStore } from '@/stores/mainStateStore'
+import { useSearchParameterStore } from '@/stores/searchParameterStore'
+import { useWaterQualityStore } from '@/stores/waterQualityStore'
+import { mapStores } from 'pinia'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {
@@ -76,7 +76,7 @@ export default defineComponent({
     return {
       selectedId: 0,
       showNoSitesMessage: false,
-    };
+    }
   },
   computed: {
     ...mapStores(
@@ -85,33 +85,33 @@ export default defineComponent({
       useWaterQualityStore
     ),
     availableSites() {
-      return this.searchParameterStore.availableSites;
+      return this.searchParameterStore.availableSites
     },
     selectedSites() {
-      return this.searchParameterStore.selectedSites;
+      return this.searchParameterStore.selectedSites
     },
     unSelectedSites() {
       return this.searchParameterStore.availableSites.filter(
         (s) => !this.selectedSites.find((ss) => ss.id === s.id)
-      );
+      )
     },
     showSiteRequiredError() {
-      return this.mainStateStore.isError('$noSitesSelected');
+      return this.mainStateStore.isError('$noSitesSelected')
     },
   },
   methods: {
     onSelectSite(id: number) {
-      this.searchParameterStore.selectSite(id);
-      this.selectedId = 0;
-      (this.$refs.mapView as any).addSelection(id);
+      this.searchParameterStore.selectSite(id)
+      this.selectedId = 0
+      ;(this.$refs.mapView as any).addSelection(id)
     },
     onRemoveSite(id: number) {
-      this.searchParameterStore.removeSite(id);
-      (this.$refs.mapView as any).removeSelection(id);
+      this.searchParameterStore.removeSite(id)
+      ;(this.$refs.mapView as any).removeSelection(id)
     },
     async populate() {
-      this.showNoSitesMessage = false;
-      const errors = [...this.waterQualityStore.errors];
+      this.showNoSitesMessage = false
+      const errors = [...this.waterQualityStore.errors]
       errors.push(
         ...validateSearchParameters(
           false,
@@ -122,21 +122,21 @@ export default defineComponent({
           this.searchParameterStore.periodStart,
           this.searchParameterStore.periodEnd
         )
-      );
+      )
       if (errors.length === 0) {
-        this.searchParameterStore.clearSelectedSites();
+        this.searchParameterStore.clearSelectedSites()
         if (this.$refs.mapView) {
-          (this.$refs.mapView as any).clearSelectedFeatures();
+          ;(this.$refs.mapView as any).clearSelectedFeatures()
         }
         await this.mainStateStore.populateAvailableSites(
           this.searchParameterStore.parameters
-        );
-        setTimeout(() => (this.showNoSitesMessage = true), 500); // There is a short slag before availableSites is populated
+        )
+        setTimeout(() => (this.showNoSitesMessage = true), 500) // There is a short slag before availableSites is populated
       }
-      this.mainStateStore.setErrorList(errors);
+      this.mainStateStore.setErrorList(errors)
     },
   },
-});
+})
 </script>
 
 <style lang="scss">

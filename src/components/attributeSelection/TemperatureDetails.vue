@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
-import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore';
-import { mapStores } from 'pinia';
-import { defineComponent } from 'vue';
+import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue'
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore'
+import { mapStores } from 'pinia'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {
@@ -20,8 +20,8 @@ export default defineComponent({
   computed: {
     ...mapStores(useSurfaceTemperatureStore),
     store() {
-      return this.surfaceTemperatureStore;
+      return this.surfaceTemperatureStore
     },
   },
-});
+})
 </script>

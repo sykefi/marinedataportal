@@ -1,8 +1,8 @@
-import { GetRawXMLResponse } from '@/apis/fmiApi';
+import { GetRawXMLResponse } from '@/apis/fmiApi'
 
-const query = '&request=DescribeFeatureType&';
+const query = '&request=DescribeFeatureType&'
 
 export async function fmiApiIsOnline() {
-    const result = await GetRawXMLResponse(query);
-    return !!result;
+  const result = await GetRawXMLResponse(query)
+  return !!result
 }

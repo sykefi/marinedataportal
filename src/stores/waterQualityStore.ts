@@ -1,20 +1,20 @@
 import {
   getWaterQualityOptions,
   IWaterQualityOption,
-} from '@/queries/Vesla/getWaterQualityOptionsQuery';
-import { CommonParameters } from '@/queries/commonParameters';
+} from '@/queries/Vesla/getWaterQualityOptionsQuery'
+import { CommonParameters } from '@/queries/commonParameters'
 import {
   getWaterQuality,
   getWaterQualitySiteIds,
-} from '@/queries/Vesla/getWaterQualityQuery';
-import { IAttributeOption } from './types/IAttributeOption';
-import { PREVIEW_ROW_COUNT } from '@/config';
-import { alphabeticCompare } from '@/helpers';
-import { SiteTypes } from '@/queries/site';
-import { IResponseFormat } from '@/queries/IResponseFormat';
-import i18n from '@/locale/i18n';
-import { defineStore } from 'pinia';
-import { IAttributeStoreStateWithOptions } from './types/IAttributeStoreStateWithOptions';
+} from '@/queries/Vesla/getWaterQualityQuery'
+import { IAttributeOption } from './types/IAttributeOption'
+import { PREVIEW_ROW_COUNT } from '@/config'
+import { alphabeticCompare } from '@/helpers'
+import { SiteTypes } from '@/queries/site'
+import { IResponseFormat } from '@/queries/IResponseFormat'
+import i18n from '@/locale/i18n'
+import { defineStore } from 'pinia'
+import { IAttributeStoreStateWithOptions } from './types/IAttributeStoreStateWithOptions'
 
 export enum DepthOptions {
   SurfaceLayer,
@@ -24,15 +24,15 @@ export enum DepthOptions {
 }
 
 export interface IDepthSettings {
-  option: DepthOptions;
-  start?: number;
-  end?: number;
+  option: DepthOptions
+  start?: number
+  end?: number
 }
 
 type IWaterQualityState = IAttributeStoreStateWithOptions & {
-  selectedDepth: IDepthSettings;
-  options: IWaterQualityOption[];
-};
+  selectedDepth: IDepthSettings
+  options: IWaterQualityOption[]
+}
 
 export const useWaterQualityStore = defineStore('waterQuality', {
   state: (): IWaterQualityState => ({
@@ -48,93 +48,93 @@ export const useWaterQualityStore = defineStore('waterQuality', {
   }),
   getters: {
     previewData(state) {
-      return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : [];
+      return state.data ? state.data.slice(0, PREVIEW_ROW_COUNT) : []
     },
     hasOptionsSelected(state) {
-      return !!state.selectedIds.length;
+      return !!state.selectedIds.length
     },
     rowCount(state) {
-      return state.data ? state.data.length : 0;
+      return state.data ? state.data.length : 0
     },
     errors(state) {
-      const errors: string[] = [];
+      const errors: string[] = []
       if (state.selectedDepth.option === DepthOptions.DepthInterval) {
-        const start = state.selectedDepth.start;
-        const end = state.selectedDepth.end;
+        const start = state.selectedDepth.start
+        const end = state.selectedDepth.end
         if (start === undefined) {
-          errors.push('$missingDepthStart');
+          errors.push('$missingDepthStart')
         }
         if (end === undefined) {
-          errors.push('$missingDepthEnd');
+          errors.push('$missingDepthEnd')
         } else if (start && start > end) {
-          errors.push('$depthStartGreaterThanDepthEnd');
+          errors.push('$depthStartGreaterThanDepthEnd')
         }
       }
-      return errors;
+      return errors
     },
   },
   actions: {
     async getOptions() {
       if (this.options.length === 0) {
-        this.loading = true;
-        const options = await getWaterQualityOptions();
+        this.loading = true
+        const options = await getWaterQualityOptions()
 
-        const lang = i18n.global.locale;
+        const lang = i18n.global.locale
         const availableOptions = options.map((o) => ({
           id: o.id,
           name:
             lang === 'fi' ? o.name_fi : lang === 'sv' ? o.name_sv : o.name_en,
           online: true,
-        }));
+        }))
 
         this.setAvailableOptions(
           availableOptions.sort((a, b) => alphabeticCompare(a.name, b.name))
-        );
+        )
 
-        this.loading = false;
+        this.loading = false
       }
     },
     async getAvailableVeslaSiteIds(params: CommonParameters) {
-      this.loading = true;
+      this.loading = true
       const res = await getWaterQualitySiteIds(
         params,
         this.selectedIds,
         this.selectedDepth
-      );
-      this.loading = false;
-      return res;
+      )
+      this.loading = false
+      return res
     },
     async getData(params: CommonParameters) {
-      this.loading = true;
+      this.loading = true
       const data = await getWaterQuality(
         params,
         this.selectedIds,
         this.selectedDepth
-      );
-      this.setData(data);
-      this.loading = false;
+      )
+      this.setData(data)
+      this.loading = false
     },
     toggleSelected() {
-      this.isSelected = !this.isSelected;
+      this.isSelected = !this.isSelected
     },
     setSelectedOptions(ids: number[]) {
-      this.selectedIds = ids;
+      this.selectedIds = ids
     },
     selectAll() {
       this.options.forEach((option) => {
         if (!this.selectedIds.includes(option.id)) {
-          this.selectedIds.push(option.id);
+          this.selectedIds.push(option.id)
         }
-      });
+      })
     },
     deSelectAll() {
-      this.selectedIds = [];
+      this.selectedIds = []
     },
     setAvailableOptions(newOptions: IAttributeOption[]) {
-      this.availableOptions = newOptions;
+      this.availableOptions = newOptions
     },
     setData(newData: IResponseFormat[]) {
-      this.data = newData;
+      this.data = newData
     },
   },
-});
+})

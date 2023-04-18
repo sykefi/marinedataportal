@@ -22,4 +22,4 @@ export default {
   $errorNotification:
     'An error occurred. Please refresh the page and try again. We apologize for the inconvenience.',
   $photo: 'Photo',
-};
+}

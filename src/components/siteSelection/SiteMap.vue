@@ -43,144 +43,144 @@
 </template>
 
 <script lang="ts">
-import { DragBox } from 'ol/interaction';
-import { platformModifierKeyOnly } from 'ol/events/condition';
-import WMTS from 'ol/source/WMTS';
-import { defineComponent, inject, onMounted, ref } from 'vue';
-import { useSearchParameterStore } from '@/stores/searchParameterStore';
-import { useMapStore } from '@/stores/mapStore';
-import { Options } from 'ol/source/WMTS';
-import Feature from 'ol/Feature';
-import { Geometry } from 'ol/geom';
-import Collection from 'ol/Collection';
-import { GeoJSON } from 'ol/format';
-import Map from 'ol/Map';
-import { SelectEvent } from 'ol/interaction/Select';
+import { DragBox } from 'ol/interaction'
+import { platformModifierKeyOnly } from 'ol/events/condition'
+import WMTS from 'ol/source/WMTS'
+import { defineComponent, inject, onMounted, ref } from 'vue'
+import { useSearchParameterStore } from '@/stores/searchParameterStore'
+import { useMapStore } from '@/stores/mapStore'
+import { Options } from 'ol/source/WMTS'
+import Feature from 'ol/Feature'
+import { Geometry } from 'ol/geom'
+import Collection from 'ol/Collection'
+import { GeoJSON } from 'ol/format'
+import Map from 'ol/Map'
+import { SelectEvent } from 'ol/interaction/Select'
 
 interface IHoverData {
-  name: string;
-  coordinates: number[];
+  name: string
+  coordinates: number[]
 }
 
 export default defineComponent({
   mounted() {
-    const mapStore = useMapStore();
-    (this.$refs.baseMapLayer as any).tileLayer.setSource(
+    const mapStore = useMapStore()
+    ;(this.$refs.baseMapLayer as any).tileLayer.setSource(
       new WMTS(mapStore.baseMapOptions! as Options)
-    );
-    (this.$refs.cityNamesLayer as any).tileLayer.setSource(
+    )
+    ;(this.$refs.cityNamesLayer as any).tileLayer.setSource(
       new WMTS(mapStore.cityNameLayerOptions! as Options)
-    );
+    )
   },
   setup() {
-    const searchParameterStore = useSearchParameterStore();
+    const searchParameterStore = useSearchParameterStore()
 
-    const map = ref(null as Map | null);
-    const center = ref([2466417.9856569725, 8788780.630851416]);
-    const zoom = ref(5.5);
-    const currentHoverFeature = ref(null as IHoverData | null);
-    const selectedFeatures = ref(new Collection());
-    const availableFeatures = ref([] as Feature<Geometry>[]);
-    const mapCursor = ref('default');
-    const vectorSource = ref(null as any);
+    const map = ref(null as Map | null)
+    const center = ref([2466417.9856569725, 8788780.630851416])
+    const zoom = ref(5.5)
+    const currentHoverFeature = ref(null as IHoverData | null)
+    const selectedFeatures = ref(new Collection())
+    const availableFeatures = ref([] as Feature<Geometry>[])
+    const mapCursor = ref('default')
+    const vectorSource = ref(null as any)
 
-    const selectConditions = inject('ol-selectconditions');
-    const mouseClick = selectConditions.click;
+    const selectConditions = inject('ol-selectconditions')
+    const mouseClick = selectConditions.click
 
     const features = searchParameterStore.availableSites.map((s) => ({
       type: 'Feature',
       id: s.id,
       geometry: { type: 'Point', coordinates: s.mapCoordinates },
       properties: { name: s.displayName },
-    }));
+    }))
 
     const geoJsonObject = {
       type: 'FeatureCollection',
       features,
-    };
+    }
 
-    availableFeatures.value = new GeoJSON().readFeatures(geoJsonObject);
+    availableFeatures.value = new GeoJSON().readFeatures(geoJsonObject)
 
     const featureSelected = (event: SelectEvent) => {
-      const newFeatures = event.target.getFeatures() as Collection<Feature>;
-      selectedFeatures.value = newFeatures;
-      searchParameterStore.clearSelectedSites();
+      const newFeatures = event.target.getFeatures() as Collection<Feature>
+      selectedFeatures.value = newFeatures
+      searchParameterStore.clearSelectedSites()
       newFeatures.forEach((feat) => {
-        const id = feat.getId();
+        const id = feat.getId()
         if (id) {
-          searchParameterStore.selectSite(id as number);
+          searchParameterStore.selectSite(id as number)
         }
-      });
-    };
+      })
+    }
 
     const addSelection = (id: number) => {
-      const feature = availableFeatures.value.find((f) => f.getId() === id);
-      selectedFeatures.value.push(feature);
-      searchParameterStore.selectSite(id);
-    };
+      const feature = availableFeatures.value.find((f) => f.getId() === id)
+      selectedFeatures.value.push(feature)
+      searchParameterStore.selectSite(id)
+    }
 
     const removeSelection = (id: number) => {
       const selectedFeatureIndex = (
         selectedFeatures.value.getArray() as Feature[]
-      ).findIndex((f) => f.getId() === id);
-      selectedFeatures.value.removeAt(selectedFeatureIndex);
-      searchParameterStore.removeSite(id);
-    };
+      ).findIndex((f) => f.getId() === id)
+      selectedFeatures.value.removeAt(selectedFeatureIndex)
+      searchParameterStore.removeSite(id)
+    }
 
     const clearSelectedFeatures = () => {
-      selectedFeatures.value.clear();
-      searchParameterStore.clearSelectedSites();
-    };
+      selectedFeatures.value.clear()
+      searchParameterStore.clearSelectedSites()
+    }
 
     onMounted(() => {
       // a DragBox interaction used to select features by drawing boxes
       const dragBox = new DragBox({
         condition: platformModifierKeyOnly,
-      });
-      map.value?.map.addInteraction(dragBox);
+      })
+      map.value?.map.addInteraction(dragBox)
 
       dragBox.on('boxend', function () {
         // features that intersect the box are selected
-        const extent = dragBox.getGeometry().getExtent();
+        const extent = dragBox.getGeometry().getExtent()
         const boxFeatures: Feature[] = vectorSource.value.features.filter(
           (feature: Feature) => feature.getGeometry()?.intersectsExtent(extent)
-        );
+        )
 
-        selectedFeatures.value.extend(boxFeatures);
+        selectedFeatures.value.extend(boxFeatures)
         boxFeatures.forEach((feat: Feature) => {
-          const id = feat.getId() as number;
+          const id = feat.getId() as number
           if (id) {
-            searchParameterStore.selectSite(id);
+            searchParameterStore.selectSite(id)
           }
-        });
-      });
+        })
+      })
 
       // clear selection when drawing a new box and when clicking on the map
       dragBox.on('boxstart', () => {
-        selectedFeatures.value.clear();
-        searchParameterStore.clearSelectedSites();
-      });
-    });
+        selectedFeatures.value.clear()
+        searchParameterStore.clearSelectedSites()
+      })
+    })
 
     const onMapPointerMove = (e: any) => {
       if (!e.pixel || e.dragging) {
-        return;
+        return
       }
       const hitFeature = map.value?.forEachFeatureAtPixel(
         e.pixel,
         (feat: any) => feat
-      );
+      )
       if (!hitFeature) {
-        currentHoverFeature.value = null;
-        mapCursor.value = 'default';
-        return;
+        currentHoverFeature.value = null
+        mapCursor.value = 'default'
+        return
       }
-      mapCursor.value = 'pointer';
+      mapCursor.value = 'pointer'
       currentHoverFeature.value = {
         name: hitFeature.get('name'),
         coordinates: hitFeature.getGeometry().getCoordinates(),
-      };
-    };
+      }
+    }
 
     return {
       map,
@@ -197,9 +197,9 @@ export default defineComponent({
       addSelection,
       removeSelection,
       clearSelectedFeatures,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
