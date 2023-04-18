@@ -1,10 +1,12 @@
 import { CommonParameters } from '../commonParameters';
 import getVeslaData from '@/apis/sykeApi';
 import {
-  buildODataInFilterFromArray, cleanupTimePeriod,
-  getTimeParametersForVeslaFilter, fromWaterQualityResultToSykeFormat,
+  buildODataInFilterFromArray,
+  cleanupTimePeriod,
+  getTimeParametersForVeslaFilter,
+  fromWaterQualityResultToSykeFormat,
 } from '@/helpers';
-import { IDepthSettings, DepthOptions } from '@/store/attributeModules/waterQualityModule';
+import { DepthOptions, IDepthSettings } from '@/stores/waterQualityStore';
 
 const select = [
   'time',
@@ -26,19 +28,26 @@ const select = [
   'flag',
 ];
 
-const query = 'results?api-version=1.0&\
+const query =
+  'results?api-version=1.0&\
 $orderby=DeterminationId,SiteId,Time&\
 $select=' + select.join(',');
 
-async function getFilter(params: CommonParameters, determinationIds: number[], depth: IDepthSettings) {
-  let filter = '&$filter= EnvironmentTypeId in (31,32,33)' +
+async function getFilter(
+  params: CommonParameters,
+  determinationIds: number[],
+  depth: IDepthSettings
+) {
+  let filter =
+    '&$filter= EnvironmentTypeId in (31,32,33)' +
     // results with W flag (W, WL, WG) are uncertain and not shown in the portal
     ` and (Flag eq null or not contains(Flag, 'W'))`;
 
   switch (depth.option) {
     case DepthOptions.DepthInterval:
       // the lower depth is always null, unless the result is of a combination sample
-      filter += ` and (SampleDepthLowerM eq null or` +
+      filter +=
+        ` and (SampleDepthLowerM eq null or` +
         `(SampleDepthLowerM ge ${depth.start} and SampleDepthLowerM le ${depth.end}))` +
         ` and SampleDepthUpperM ge ${depth.start} and SampleDepthUpperM le ${depth.end}`;
       break;
@@ -55,13 +64,25 @@ async function getFilter(params: CommonParameters, determinationIds: number[], d
 
   filter += getTimeParametersForVeslaFilter(params);
 
-  filter += buildODataInFilterFromArray(determinationIds, 'DeterminationCombinationId', true);
-  filter += buildODataInFilterFromArray(params.veslaSites.map((s) => s.id), 'SiteId', true);
+  filter += buildODataInFilterFromArray(
+    determinationIds,
+    'DeterminationCombinationId',
+    true
+  );
+  filter += buildODataInFilterFromArray(
+    params.veslaSites.map((s) => s.id),
+    'SiteId',
+    true
+  );
 
   return filter;
 }
 
-export async function getWaterQuality(par: CommonParameters, combinationIds: number[], depth: IDepthSettings) {
+export async function getWaterQuality(
+  par: CommonParameters,
+  combinationIds: number[],
+  depth: IDepthSettings
+) {
   if (par.veslaSites.length === 0) {
     return [];
   }
@@ -77,8 +98,12 @@ export async function getWaterQuality(par: CommonParameters, combinationIds: num
   return results;
 }
 
-export async function getWaterQualitySiteIds(par: CommonParameters, combinationIds: number[], depth: IDepthSettings) {
+export async function getWaterQualitySiteIds(
+  par: CommonParameters,
+  combinationIds: number[],
+  depth: IDepthSettings
+) {
   const filter = await getFilter(par, combinationIds, depth);
   const q = 'results/siteids?api-version=1.0&' + filter;
-  return await getVeslaData(q) as number[];
+  return (await getVeslaData(q)) as number[];
 }

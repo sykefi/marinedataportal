@@ -2,10 +2,9 @@
 import { CommonParameters } from '@/queries/commonParameters';
 import { Site } from '@/queries/site';
 import { isDateInPeriod } from '@/helpers';
-import { mainState } from '@/store/mainState';
+import { useMainStateStore } from '@/stores/mainStateStore';
 
-const QUERY_URL =
-  'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
+const QUERY_URL = 'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0';
 
 export interface IFmiResult {
   time: string;
@@ -20,6 +19,7 @@ export interface IFmiResult {
 
 export async function GetRawXMLResponse(query: string) {
   let res: Document | null = null;
+  const mainState = useMainStateStore();
   try {
     res = await getXmlResponse(QUERY_URL + query);
   } catch (e) {
@@ -30,20 +30,29 @@ export async function GetRawXMLResponse(query: string) {
   return res;
 }
 
-export async function GetSimpleFmiResponse(query: string, params: CommonParameters, sites: Site[]) {
+export async function GetSimpleFmiResponse(
+  query: string,
+  params: CommonParameters,
+  sites: Site[]
+) {
   const numberOfDaysInSingleQuery = 6;
   const dateSpans = getDates(params, numberOfDaysInSingleQuery);
   const results: IFmiResult[] = [];
+  const mainState = useMainStateStore();
 
   if (!dateSpans) {
     return results;
   }
 
   for (const site of sites) {
-    const formattedParams = getParams(dateSpans, numberOfDaysInSingleQuery, site.id);
+    const formattedParams = getParams(
+      dateSpans,
+      numberOfDaysInSingleQuery,
+      site.id
+    );
     for (const fp of formattedParams) {
       try {
-        const res = (await getXmlResponse(QUERY_URL + query + fp));
+        const res = await getXmlResponse(QUERY_URL + query + fp);
         const elements = res.getElementsByTagName('BsWfs:BsWfsElement');
         results.push(...parseSimpleResponse(Array.from(elements), site));
       } catch (e) {
@@ -80,7 +89,11 @@ export function sortByTimeAndParameters(a: IFmiResult, b: IFmiResult) {
   }
 }
 
-export function getParams(dateSpans: Date[], numberOfDaysInSingleQuery: number, siteId: number) {
+export function getParams(
+  dateSpans: Date[],
+  numberOfDaysInSingleQuery: number,
+  siteId: number
+) {
   const formattedParams: string[] = [];
   let startDateIsHandled = false;
   for (let i = 0; i < dateSpans.length - 1; i++) {
@@ -102,7 +115,10 @@ export function getParams(dateSpans: Date[], numberOfDaysInSingleQuery: number, 
 
     // For example, if chosen time span is May 1 - May 7, dateSpans array will contain dates May 1 and May 7.
     // In this case getDateSpanLengthInDays will return 7 which is > 6, but we don't want to skip it.
-    if (getDateSpanLengthInDays(startDate, endDate) > numberOfDaysInSingleQuery + 1) {
+    if (
+      getDateSpanLengthInDays(startDate, endDate) >
+      numberOfDaysInSingleQuery + 1
+    ) {
       // in multi-year queries with time period selection, there are gaps in the days
       // these gaps will be skipped, and the start of the gap is processed on the next iteration
       startDateIsHandled = false;
@@ -116,9 +132,12 @@ export function getParams(dateSpans: Date[], numberOfDaysInSingleQuery: number, 
 function parseSimpleResponse(elements: Element[], site: Site) {
   const results: IFmiResult[] = [];
   for (const element of elements) {
-    const time = element.getElementsByTagName('BsWfs:Time')[0].firstChild!.nodeValue!;
-    const parameterName = element.getElementsByTagName('BsWfs:ParameterName')[0].firstChild!.nodeValue!;
-    const value = element.getElementsByTagName('BsWfs:ParameterValue')[0].firstChild!.nodeValue!;
+    const time =
+      element.getElementsByTagName('BsWfs:Time')[0].firstChild!.nodeValue!;
+    const parameterName = element.getElementsByTagName('BsWfs:ParameterName')[0]
+      .firstChild!.nodeValue!;
+    const value = element.getElementsByTagName('BsWfs:ParameterValue')[0]
+      .firstChild!.nodeValue!;
     const result: IFmiResult = {
       time: new Date(time).toISOString(),
       parameterName,
@@ -195,7 +214,9 @@ export function getDates(params: CommonParameters, blockSizeDays: number) {
     if (i === dateArray.length - 1) {
       filtered.push(dateArray[i]);
     } else {
-      const nextInRange = getDateSpanLengthInDays(previousLast, dateArray[i + 1]) <= blockSizeDays;
+      const nextInRange =
+        getDateSpanLengthInDays(previousLast, dateArray[i + 1]) <=
+        blockSizeDays;
       if (!nextInRange) {
         filtered.push(dateArray[i]);
       }
@@ -203,7 +224,10 @@ export function getDates(params: CommonParameters, blockSizeDays: number) {
     }
   }
 
-  if (!isInArray(filtered, params.dateEnd) && (!params.datePeriodMonths || checkDatePeriod(params.dateEnd))) {
+  if (
+    !isInArray(filtered, params.dateEnd) &&
+    (!params.datePeriodMonths || checkDatePeriod(params.dateEnd))
+  ) {
     filtered.push(params.dateEnd);
   }
 

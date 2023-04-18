@@ -28,19 +28,27 @@
     </div>
     <div class="content">
       <DatePicker
-        v-model="searchModule.timeSpanStart"
-        :aria-labels="[ $t('$timeSpanStartDay'), $t('$timeSpanStartMonth'), $t('$timeSpanStartYear')]"
+        v-model="timeSpanStart"
+        :aria-labels="[
+          $t('$timeSpanStartDay'),
+          $t('$timeSpanStartMonth'),
+          $t('$timeSpanStartYear'),
+        ]"
         :error="timeSpanStartError"
       />
       <b>–</b>
       <DatePicker
-        v-model="searchModule.timeSpanEnd"
-        :aria-labels="[$t('$timeSpanEndDay'), $t('$timeSpanEndMonth'), $t('$timeSpanEndYear')]"
+        v-model="timeSpanEnd"
+        :aria-labels="[
+          $t('$timeSpanEndDay'),
+          $t('$timeSpanEndMonth'),
+          $t('$timeSpanEndYear'),
+        ]"
         :error="timeSpanEndError"
       />
       <p />
       <DatePicker
-        v-model="searchModule.periodStart"
+        v-model="periodStart"
         :show-year="false"
         :aria-labels="[$t('$periodStartDay'), $t('$periodStartMonth')]"
         :emptied="periodEmptied"
@@ -48,7 +56,7 @@
       />
       <b>–</b>
       <DatePicker
-        v-model="searchModule.periodEnd"
+        v-model="periodEnd"
         :show-year="false"
         :aria-labels="[$t('$periodEndDay'), $t('$periodEndMonth')]"
         :emptied="periodEmptied"
@@ -63,10 +71,10 @@
 </template>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 .title {
   display: grid;
-  font-family: "TitilliumWeb";
+  font-family: 'TitilliumWeb';
   grid-template-columns: 50% 50%;
   grid-template-rows: 3rem;
   align-items: center;

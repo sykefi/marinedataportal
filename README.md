@@ -15,5 +15,5 @@ Simple typo fixes and such can be sent as a PR directly, but for features or mor
 
 ```
 npm install
-npm run serve
+npm run dev
 ```

@@ -2,24 +2,26 @@
   <div>
     <OptionsSelection
       :header="$t('$temperatureDetailsHeader')"
-      :module="module"
+      :store="store"
     />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
-  import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
-  @Component({
-    components: {
-      OptionsSelection,
-    },
-  })
-  export default class TemperatureDetails extends Vue {
+import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore';
+import { mapStores } from 'pinia';
+import { defineComponent } from 'vue';
 
-    get module() {
-      return surfaceTemperatureModule;
-    }
-  }
+export default defineComponent({
+  components: {
+    OptionsSelection,
+  },
+  computed: {
+    ...mapStores(useSurfaceTemperatureStore),
+    store() {
+      return this.surfaceTemperatureStore;
+    },
+  },
+});
 </script>

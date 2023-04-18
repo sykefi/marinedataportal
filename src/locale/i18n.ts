@@ -1,14 +1,16 @@
-import Vue from 'vue';
-import VueI18n, { DateTimeFormats } from 'vue-i18n';
+import { createI18n, I18nOptions } from 'vue-i18n';
 import fi from './fi/fi';
 import en from './en/en';
 import sv from './sv/sv';
 
-Vue.use(VueI18n);
 const browserLang = navigator.language.toLocaleLowerCase();
-const locale = browserLang.startsWith('fi') ? 'fi' : browserLang.startsWith('sv') ? 'sv' : 'en';
+const locale = browserLang.startsWith('fi')
+  ? 'fi'
+  : browserLang.startsWith('sv')
+  ? 'sv'
+  : 'en';
 
-const dateTimeFormats: DateTimeFormats = {
+const dateTimeFormats: I18nOptions['datetimeFormats'] = {
   en: {
     short: {
       year: 'numeric',
@@ -58,9 +60,10 @@ const dateTimeFormats: DateTimeFormats = {
 };
 
 const messages = { en, fi, sv };
-export default new VueI18n({
+export default createI18n({
   locale,
   fallbackLocale: 'en',
   messages,
   dateTimeFormats,
+  warnHtmlInMessage: 'warn',
 });

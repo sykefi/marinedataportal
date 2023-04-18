@@ -8,25 +8,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
 
-@Component
-export default class SelectionHeader extends Vue {
-  @Prop({ type: String })
-  public readonly header!: string;
-
-  get headerNumber() {
-    return this.header.split(' ')[0];
-  }
-
-  get headerWords() {
-    return this.header.slice(this.headerNumber.length, this.header.length);
-  }
-}
+export default defineComponent({
+  props: {
+    header: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    headerNumber() {
+      return this.header.split(' ')[0];
+    },
+    headerWords() {
+      return this.header.slice(this.headerNumber.length, this.header.length);
+    },
+  },
+});
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 #header-wrapper {
   display: flex;
   align-items: center;

@@ -1,19 +1,21 @@
-import { Component, Vue } from 'vue-property-decorator';
 import SelectionHeader from '@/components/common/SelectionHeader.vue';
 import SelectionButton from '@/components/common/selectionButton/SelectionButton.vue';
 import SurgeDetails from '@/components/attributeSelection/SurgeDetails.vue';
 import TemperatureDetails from '@/components/attributeSelection/TemperatureDetails.vue';
 import WaterQualityDetails from '@/components/attributeSelection/WaterQualityDetails.vue';
-import { waterQualityModule } from '@/store/attributeModules/waterQualityModule';
-import { surfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule';
-import { surgeModule } from '@/store/attributeModules/surgeModule';
-import { iceThicknessModule } from '@/store/attributeModules/iceThicknessModule';
-import { benthicFaunaModule } from '@/store/attributeModules/benthicFaunaModule';
-import { phytoPlanktonModule } from '@/store/attributeModules/phytoPlanktonModule';
-import { secchiDepthModule } from '@/store/attributeModules/secchiDepthModule';
-import { waterLevelModule } from '@/store/attributeModules/waterLevelModule';
-import { mainState } from '@/store/mainState';
-@Component({
+import { defineComponent } from 'vue';
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { useSurgeStore } from '@/stores/surgeStore';
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore';
+import { useWaterQualityStore } from '@/stores/waterQualityStore';
+import { useIceThicknessStore } from '@/stores/iceThicknessStore';
+import { useBenthicFaunaStore } from '@/stores/benthicFaunaStore';
+import { usePhytoPlanktonStore } from '@/stores/phytoPlanktonStore';
+import { useSecchiDepthStore } from '@/stores/secchiDepthStore';
+import { useWaterLevelStore } from '@/stores/waterLevelStore';
+import { mapStores } from 'pinia';
+
+export default defineComponent({
   components: {
     SelectionHeader,
     SelectionButton,
@@ -21,52 +23,31 @@ import { mainState } from '@/store/mainState';
     TemperatureDetails,
     WaterQualityDetails,
   },
-})
-export default class AttributeSelection extends Vue {
-
-  public attributeErrorMessage = '$noAttributesSelected';
-
-  get sykeApiOnline() {
-    return mainState.sykeApiOnline;
-  }
-
-  get fmiApiOnline() {
-    return mainState.fmiApiOnline;
-  }
-
-  get surgeModule() {
-    return surgeModule;
-  }
-
-  get surfaceTemperatureModule() {
-    return surfaceTemperatureModule;
-  }
-
-  get waterQualityModule() {
-    return waterQualityModule;
-  }
-
-  get iceThicknessModule() {
-    return iceThicknessModule;
-  }
-
-  get benthicFaunaModule() {
-    return benthicFaunaModule;
-  }
-
-  get phytoplanktonModule() {
-    return phytoPlanktonModule;
-  }
-
-  get secchiDepthModule() {
-    return secchiDepthModule;
-  }
-
-  get waterLevelModule() {
-    return waterLevelModule;
-  }
-
-  get showAttributeError() {
-    return mainState.isError(this.attributeErrorMessage);
-  }
-}
+  data() {
+    return {
+      attributeErrorMessage: '$noAttributesSelected',
+    };
+  },
+  computed: {
+    ...mapStores(
+      useMainStateStore,
+      useSurgeStore,
+      useSurfaceTemperatureStore,
+      useWaterQualityStore,
+      useIceThicknessStore,
+      useBenthicFaunaStore,
+      usePhytoPlanktonStore,
+      useSecchiDepthStore,
+      useWaterLevelStore
+    ),
+    sykeApiOnline() {
+      return this.mainStateStore.sykeApiOnline;
+    },
+    fmiApiOnline() {
+      return this.mainStateStore.fmiApiOnline;
+    },
+    showAttributeError() {
+      return this.mainStateStore.isError(this.attributeErrorMessage);
+    },
+  },
+});

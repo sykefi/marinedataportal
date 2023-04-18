@@ -1,24 +1,24 @@
 <template>
   <div>
-    <OptionsSelection
-      :header="$t('$surgeDetailsHeader')"
-      :module="module"
-    />
+    <OptionsSelection :header="$t('$surgeDetailsHeader')" :store="store" />
   </div>
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
-  import { surgeModule } from '@/store/attributeModules/surgeModule';
-  @Component({
-    components: {
-      OptionsSelection,
+import OptionsSelection from '@/components/attributeSelection/OptionsSelection.vue';
+import { useSurgeStore } from '@/stores/surgeStore';
+import { mapStores } from 'pinia';
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  components: {
+    OptionsSelection,
+  },
+  computed: {
+    ...mapStores(useSurgeStore),
+    store() {
+      return this.surgeStore;
     },
-  })
-  export default class SurgeDetails extends Vue {
-    get module() {
-      return surgeModule;
-    }
-  }
+  },
+});
 </script>

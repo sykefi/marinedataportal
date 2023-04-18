@@ -1,9 +1,16 @@
-import { Component, Prop, Vue } from 'vue-property-decorator';
-@Component
-export default class EmptySelectionButton extends Vue {
-    @Prop({ required: true, type: String })
-    public readonly contentKey!: string;
+import { defineComponent } from 'vue';
 
-    public shown = false;
-    public rightOverFlow = false;
-}
+export default defineComponent({
+  props: {
+    contentKey: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      shown: false,
+      rightOverFlow: false,
+    };
+  },
+});

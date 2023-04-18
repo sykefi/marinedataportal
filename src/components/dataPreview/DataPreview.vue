@@ -1,48 +1,42 @@
 <template>
   <div id="preview-container">
-    <p
-      v-if="showInfo"
-      class="info-paragraph"
-    >
-      {{ $t("$dataPreviewInfo") }}
+    <p v-if="showInfo" class="info-paragraph">
+      {{ $t('$dataPreviewInfo') }}
     </p>
-    <div
-      v-for="module in modules"
-      :key="module.name"
-    >
-      <DataPreviewTable :module="module" />
+    <div v-for="store in stores" :key="store.name">
+      <DataPreviewTable :store="store" />
     </div>
   </div>
 </template>
 
-
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
 import DataPreviewTable from '@/components/dataPreview/DataPreviewTable.vue';
-import { mainState } from '@/store/mainState';
-@Component({
+import { useMainStateStore } from '@/stores/mainStateStore';
+import { mapStores } from 'pinia';
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   components: {
     DataPreviewTable,
   },
-})
-export default class DataPreview extends Vue {
-  get showInfo() {
-    let isTrue = false;
-    const modules = mainState.selectedAttributeModules;
-    modules.forEach((module) => {
-      if (module.rowCount > 3) {
-        isTrue = true;
-      }
-    });
-    return isTrue;
-  }
-
-  get modules() {
-    return mainState.selectedAttributeModules;
-  }
-}
+  computed: {
+    ...mapStores(useMainStateStore),
+    showInfo() {
+      let isTrue = false;
+      const stores = this.mainStateStore.selectedAttributeStores;
+      stores.forEach((store) => {
+        if (store.rowCount > 3) {
+          isTrue = true;
+        }
+      });
+      return isTrue;
+    },
+    stores() {
+      return this.mainStateStore.selectedAttributeStores;
+    },
+  },
+});
 </script>
-
 
 <style lang="scss" scoped>
 #preview-container {

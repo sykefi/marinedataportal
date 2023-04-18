@@ -1,61 +1,55 @@
 // tslint:disable: no-console
-import { Component, Vue } from 'vue-property-decorator';
 import AttributeSelection from '@/components/attributeSelection/AttributeSelection.vue';
 import TimeSpanSelection from '@/components/timeSpanSelection/TimeSpanSelection.vue';
 import SiteSelection from '@/components/siteSelection/SiteSelection.vue';
 import DataDownload from '@/components/dataDownload/DataDownload.vue';
 import DataPreview from '@/components/dataPreview/DataPreview.vue';
-import Header from '@/components/Header.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import InfoMenu from '@/components/InfoMenu.vue';
-import Footer from '@/components/Footer.vue';
+import AppFooter from '@/components/AppFooter.vue';
 import SiteTitle from '@/components/SiteTitle.vue';
 import SiteImage from '@/components/SiteImage.vue';
 import ErrorMessages from '@/components/ErrorMessages.vue';
-import { mainState } from '@/store/mainState';
-import { mapModule } from '@/store/mapModule';
 import { getMareographs } from '@/queries/FMI/getMareographsQuery';
 import { getBuoys } from '@/queries/FMI/getBuoysQuery';
 import { sykeApiIsOnline } from './queries/Vesla/getApiStatusQuery';
-import { surgeModule } from './store/attributeModules/surgeModule';
-import { surfaceTemperatureModule } from './store/attributeModules/surfaceTemperatureModule';
 import { fmiApiIsOnline } from './queries/FMI/getApiStatusQuery';
-@Component({
+import { defineComponent } from 'vue';
+import { useMainStateStore } from './stores/mainStateStore';
+import { useSurgeStore } from './stores/surgeStore';
+import { useSurfaceTemperatureStore } from './stores/surfaceTemperatureStore';
+import { useMapStore } from './stores/mapStore';
+
+export default defineComponent({
   components: {
     AttributeSelection,
     TimeSpanSelection,
     SiteSelection,
     DataDownload,
     DataPreview,
-    Header,
+    AppHeader,
     InfoMenu,
-    Footer,
+    AppFooter,
     SiteTitle,
     SiteImage,
     ErrorMessages,
   },
-})
-export default class App extends Vue {
-  get hasError() {
-    return mainState.hasError;
-  }
+  computed: {
+    hasError() {
+      const mainState = useMainStateStore();
+      return mainState.hasError;
+    },
+    loading() {
+      const mainState = useMainStateStore();
+      return mainState.loading;
+    },
+  },
+  async mounted() {
+    const mainState = useMainStateStore();
+    const surgeStore = useSurgeStore();
+    const surfaceTemperatureStore = useSurfaceTemperatureStore();
+    const mapStore = useMapStore();
 
-  get loading() {
-    return mainState.loading;
-  }
-
-  public created() {
-    Vue.config.errorHandler = (e) => {
-      mainState.setError(true);
-      console.error(e);
-      return true;
-    };
-    window.onerror = (e) => {
-      mainState.setError(true);
-      console.error(e);
-    };
-  }
-
-  public async mounted() {
     const sykeIsOnline = await sykeApiIsOnline();
     mainState.setSykeApiOnlineStatus(sykeIsOnline);
     const fmiIsOnline = await fmiApiIsOnline();
@@ -69,10 +63,10 @@ export default class App extends Vue {
       mainState.populateSelectionOptions();
     } else {
       // If syke api is not responding, do not try to fetch water quality options
-      surgeModule.getOptions();
-      surfaceTemperatureModule.getOptions();
+      surgeStore.getOptions();
+      surfaceTemperatureStore.getOptions();
     }
 
-    mapModule.generateMapOptions();
-  }
-}
+    mapStore.generateMapOptions();
+  },
+});

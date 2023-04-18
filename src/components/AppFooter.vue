@@ -2,38 +2,27 @@
   <footer>
     <div id="app-footer">
       <div id="feedback">
-        <font-awesome-icon
-          icon="angle-right"
-          id="arrow-icon"
-        />
+        <font-awesome-icon icon="angle-right" id="arrow-icon" />
         <a :href="$t('$emailWithSubject')">{{ $t('$feedback') }}</a>
       </div>
       <div id="logos">
         <ul>
           <li>
-            <a
-              target="_blank"
-              rel="noopener"
-              :href="$t('$sykeFi')"
-            >
+            <a target="_blank" rel="noopener" :href="$t('$sykeFi')">
               <img
                 id="syke-logo"
                 src="@/assets/logos/Syke_logo.svg"
                 :alt="$t('$sykeLogoAltText')"
-              >
+              />
             </a>
           </li>
           <li>
-            <a
-              target="_blank"
-              rel="noopener"
-              :href="$t('$fmiFi')"
-            >
+            <a target="_blank" rel="noopener" :href="$t('$fmiFi')">
               <img
                 id="il-logo"
                 src="@/assets/logos/il_fi_en.png"
                 :alt="$t('$fmiLogoAltText')"
-              >
+              />
             </a>
           </li>
         </ul>
@@ -46,7 +35,9 @@
               href="https://github.com/sykefi/marinedataportal"
               target="_blank"
               rel="noopener noreferrer"
-            >{{ $t('$sourceCode') }}</a>
+            >
+              {{ $t('$sourceCode') }}
+            </a>
           </li>
         </ul>
       </div>
@@ -55,21 +46,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import i18n from '@/locale/i18n';
+import { defineComponent } from 'vue';
 
-@Component({ i18n })
-export default class Footer extends Vue { }
+export default defineComponent({});
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 #app-footer {
   display: grid;
   grid-template:
-    "div div div"
-    ". logo ."
-    ". links ."
+    'div div div'
+    '. logo .'
+    '. links .'
     / 1fr $content-width 1fr;
 }
 

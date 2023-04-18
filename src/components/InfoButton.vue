@@ -1,15 +1,7 @@
 <template>
   <div id="button-wrapper">
-    <font-awesome-icon
-      v-if="!showInfo"
-      icon="angle-right"
-      class="arrow-icon"
-    />
-    <font-awesome-icon
-      v-else
-      icon="angle-down"
-      class="arrow-icon"
-    />
+    <font-awesome-icon v-if="!showInfo" icon="angle-right" class="arrow-icon" />
+    <font-awesome-icon v-else icon="angle-down" class="arrow-icon" />
     <button
       id="info-button"
       @click="toggle"
@@ -22,25 +14,31 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
 
-@Component({})
-export default class InfoButton extends Vue {
-  @Prop({ required: true, type: String })
-  public readonly buttonText!: string;
-
-  public showInfo = false;
-
-  public toggle() {
-    this.showInfo = !this.showInfo;
-    this.$emit('show-info', this.showInfo);
-  }
-
-}
+export default defineComponent({
+  props: {
+    buttonText: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      showInfo: false,
+    };
+  },
+  methods: {
+    toggle() {
+      this.showInfo = !this.showInfo;
+      this.$emit('show-info', this.showInfo);
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 
 .arrow-icon {
   color: $background-bright-blue;
@@ -55,7 +53,7 @@ export default class InfoButton extends Vue {
 }
 
 #info-button {
-  font-family: "TitilliumWeb";
+  font-family: 'TitilliumWeb';
   color: $text-white;
   font-weight: bold;
   font-size: $font-size-l;

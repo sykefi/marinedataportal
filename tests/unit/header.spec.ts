@@ -1,5 +1,5 @@
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
-import Header from '@/components/Header.vue';
+import Header from '@/components/AppHeader.vue';
 import VueI18n from 'vue-i18n';
 import { expect } from 'chai';
 
@@ -25,5 +25,4 @@ describe('Header.vue', () => {
 
     vm.$destroy();
   });
-
 });

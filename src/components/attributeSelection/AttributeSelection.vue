@@ -1,65 +1,63 @@
 <template>
   <div>
     <SelectionHeader :header="$t('$attributeSelectionTitle')" />
-    <p
-      class="error"
-      v-if="showAttributeError"
-    >
+    <p class="error" v-if="showAttributeError">
       {{ $t(attributeErrorMessage) }}
     </p>
     <div id="button-wrapper">
       <div class="selections-grid">
         <SelectionButton
           name="$secchiDepth"
-          :module="secchiDepthModule"
+          :store="secchiDepthStore"
           :disabled="!sykeApiOnline"
         />
         <SelectionButton
           name="$waterLevel"
-          :module="waterLevelModule"
+          :store="waterLevelStore"
           :disabled="!fmiApiOnline"
         />
         <SelectionButton
           name="$iceThickness"
-          :module="iceThicknessModule"
+          :store="iceThicknessStore"
           :disabled="!sykeApiOnline"
         />
         <SelectionButton
           name="$surge"
-          :module="surgeModule"
+          :store="surgeStore"
           :expandable="true"
           :disabled="!fmiApiOnline"
         />
         <SelectionButton
           name="$surfaceTemperature"
-          :module="surfaceTemperatureModule"
+          :store="surfaceTemperatureStore"
           :expandable="true"
           :disabled="!sykeApiOnline && !fmiApiOnline"
         />
         <SelectionButton
           name="$waterQuality"
-          :module="waterQualityModule"
+          :store="waterQualityStore"
           :expandable="true"
           :disabled="!sykeApiOnline"
         />
       </div>
     </div>
     <div class="detail-box-container">
-      <SurgeDetails v-if="surgeModule.isSelected" />
-      <TemperatureDetails v-if="surfaceTemperatureModule.isSelected" />
+      <SurgeDetails v-if="surgeStore.isSelected" />
+      <TemperatureDetails v-if="surfaceTemperatureStore.isSelected" />
     </div>
-    <div v-if="waterQualityModule.isSelected">
+    <div v-if="waterQualityStore.isSelected">
       <WaterQualityDetails />
     </div>
   </div>
 </template>
 
 <style lang="scss">
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/variables.scss';
 #button-wrapper {
   display: grid;
-  grid-template: ". but ."
-  / 4rem 1fr 4rem;
+  grid-template:
+    '. but .'
+    / 4rem 1fr 4rem;
 }
 .selections-grid {
   grid-area: but;

@@ -32,48 +32,50 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
-  import InfoButton from '@/components/InfoButton.vue';
+import InfoButton from '@/components/InfoButton.vue';
+import { defineComponent } from 'vue';
 
-  @Component({
-    components: {
-      InfoButton,
-    },
-  })
-  export default class InfoMenu extends Vue {
-    public showInfo = false;
-    public showInstructions = false;
-    public showTerms = false;
-  }
+export default defineComponent({
+  components: {
+    InfoButton,
+  },
+  data() {
+    return {
+      showInfo: false,
+      showInstructions: false,
+      showTerms: false,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/styles/variables.scss";
-  #buttons {
-    border-top: 0.05rem solid black;
-    background-color: $border-dark;
-    border-bottom: 0.2rem solid $border-red;
-    margin: 0 auto;
-    height: 4.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+@import '@/assets/styles/variables.scss';
+#buttons {
+  border-top: 0.05rem solid black;
+  background-color: $border-dark;
+  border-bottom: 0.2rem solid $border-red;
+  margin: 0 auto;
+  height: 4.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  #info-text {
-    width: $content-width;
-    text-align: left;
-    padding: 0 4rem 0 4rem;
-    margin-top: 2rem;
-    margin: 0 auto;
-    h2 {
-      padding-top: 1rem;
-      font-size: $font-size-l;
-      font-weight: bold;
-      letter-spacing: 0.05rem;
-    }
-    p {
-      font-size: $font-size-m;
-    }
+#info-text {
+  width: $content-width;
+  text-align: left;
+  padding: 0 4rem 0 4rem;
+  margin-top: 2rem;
+  margin: 0 auto;
+  h2 {
+    padding-top: 1rem;
+    font-size: $font-size-l;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
   }
+  p {
+    font-size: $font-size-m;
+  }
+}
 </style>

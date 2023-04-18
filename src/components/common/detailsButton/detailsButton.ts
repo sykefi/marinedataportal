@@ -1,10 +1,16 @@
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { defineComponent } from 'vue';
 
-@Component
-export default class DetailsButton extends Vue {
-    @Prop({ required: true, type: String })
-    public readonly contentKey!: string;
-
-    public shown = false;
-    public rightOverFlow = false;
-}
+export default defineComponent({
+  props: {
+    contentKey: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      shown: false,
+      rightOverFlow: false,
+    };
+  },
+});

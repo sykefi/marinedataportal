@@ -1,33 +1,29 @@
 <template>
   <div id="app">
-    <Header id="site-header" />
-    <SiteImage id="site-image" />
-    <SiteTitle id="site-title" />
-    <InfoMenu id="info-menu" />
-    <div id="content">
-      <ErrorMessages />
-      <AttributeSelection />
-      <TimeSpanSelection />
-      <SiteSelection />
-      <DataDownload />
-      <DataPreview />
-    </div>
-    <Footer id="footer" />
-    <div
-      id="busy-indicator"
-      v-if="loading"
-    >
-      <div class="spinner">
-        <div class="double-bounce1" />
-        <div class="double-bounce2" />
+    <div id="app-container">
+      <AppHeader id="site-header" />
+      <SiteImage id="site-image" />
+      <SiteTitle id="site-title" />
+      <InfoMenu id="info-menu" />
+      <div id="content">
+        <ErrorMessages />
+        <AttributeSelection />
+        <TimeSpanSelection />
+        <SiteSelection />
+        <DataDownload />
+        <DataPreview />
       </div>
-      {{ $t("$busy") }}
-    </div>
-    <div
-      v-if="hasError"
-      class="error-notification"
-    >
-      {{ $t("$errorNotification") }}
+      <AppFooter id="footer" />
+      <div id="busy-indicator" v-if="loading">
+        <div class="spinner">
+          <div class="double-bounce1" />
+          <div class="double-bounce2" />
+        </div>
+        {{ $t('$busy') }}
+      </div>
+      <div v-if="hasError" class="error-notification">
+        {{ $t('$errorNotification') }}
+      </div>
     </div>
   </div>
 </template>
@@ -36,23 +32,23 @@
 
 <style lang="scss">
 //global styles
-@import "@/assets/styles/font_faces.scss";
-@import "@/assets/styles/variables.scss";
+@import '@/assets/styles/font_faces.scss';
+@import '@/assets/styles/variables.scss';
 #app * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#app {
+#app-container {
   display: grid;
-  font-family: "TitilliumWeb", sans-serif;
+  font-family: 'TitilliumWeb', sans-serif;
   text-align: center;
   grid-template:
-    "head head head"
-    "pict pict pict"
-    "info info info"
-    ". cont ."
-    "foot foot foot"
+    'head head head'
+    'pict pict pict'
+    'info info info'
+    '. cont .'
+    'foot foot foot'
     / auto $content-width auto;
 }
 
