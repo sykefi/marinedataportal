@@ -38,16 +38,15 @@ describe('DatePicker.vue', () => {
     // Day selection has a non selectable placeholder value in the beginning
     expect(datePicker.find('.day').findAll('option').length).to.equal(1)
 
-    const yearOptions = datePicker.find('.year').findAll('option')
-    expect(yearOptions.at(2)?.element.value).to.equal(
+    const yearOption = datePicker.find('.year').findAll('option')?.at(2)
+    expect(yearOption?.element.value).to.equal(
       (new Date().getFullYear() - 1).toString()
     )
-    const yearOption = yearOptions.at(2)
     await yearOption?.setSelected()
 
     const monthOptions = datePicker.find('.month').findAll('option')
-    expect(monthOptions.at(1)?.element.value).to.equal('0')
     const monthOption = monthOptions.at(1)
+    expect(monthOption?.element.value).to.equal('0')
     await monthOption?.setSelected()
 
     const dayOptions = datePicker.find('.day').findAll('option')
