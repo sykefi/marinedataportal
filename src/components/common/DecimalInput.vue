@@ -5,7 +5,7 @@
     :min="min"
     :step="'0.' + decimals"
     :max="max"
-    :value="value"
+    :value="modelValue"
     :disabled="disabled"
     @input="input($event.target as HTMLInputElement)"
     :aria-label="ariaLabel"
@@ -35,7 +35,7 @@ export default defineComponent({
       type: Number,
       required: false,
     },
-    value: {
+    modelValue: {
       type: Number,
       required: false,
     },
@@ -52,9 +52,9 @@ export default defineComponent({
     input(target: HTMLInputElement) {
       const value = target.value
       if (value !== '') {
-        this.$emit('input', Number((+value).toFixed(this.decimals)))
+        this.$emit('update:modelValue', Number((+value).toFixed(this.decimals)))
       } else {
-        this.$emit('input', null)
+        this.$emit('update:modelValue', null)
       }
     },
   },
