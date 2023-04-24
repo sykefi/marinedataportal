@@ -8,10 +8,11 @@ import {
   fromWaterQualityResultToSykeFormat,
 } from '@/helpers'
 import { CommonParameters } from '@/queries/commonParameters'
-import { expect } from 'chai'
+import { describe, it, expect } from 'vitest'
 import { SiteTypes } from '@/queries/site'
 import { IFmiResult } from '@/apis/fmiApi'
 import { useWaterLevelStore } from '@/stores/waterLevelStore'
+import { createPinia, setActivePinia } from 'pinia'
 
 describe('Time parameters tests for Vesla', () => {
   it('returns correct time parameters when one day is picked', () => {
@@ -250,6 +251,7 @@ describe('search parameter validation', () => {
     expect(errors).not.contains('$noSitesSelected')
   })
   it('expects at least one selected attribute module', () => {
+    setActivePinia(createPinia())
     const waterLevelStore = useWaterLevelStore()
     const errors = validateSearchParameters(
       false,

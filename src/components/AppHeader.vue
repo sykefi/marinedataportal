@@ -37,6 +37,7 @@
           :class="{ current: $i18n.locale === 'fi' }"
           @click="setLanguage('fi')"
           aria-label="Vaihda kieleksi suomi."
+          id="fi-link"
         >
           FI
         </a>
@@ -45,6 +46,7 @@
           :class="{ current: $i18n.locale === 'sv' }"
           @click="setLanguage('sv')"
           aria-label="Ändra språk till svenska."
+          id="sv-link"
         >
           SV
         </a>
@@ -53,6 +55,7 @@
           :class="{ current: $i18n.locale === 'en' }"
           @click="setLanguage('en')"
           aria-label="Change language to English."
+          id="en-link"
         >
           EN
         </a>
