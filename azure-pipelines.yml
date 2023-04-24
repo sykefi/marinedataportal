@@ -21,6 +21,5 @@ steps:
   - script: npm run lint-no-fix
     displayName: 'npm lint'
 
-  # - script:
-  #     npm run test:unit
-  #   displayName: "npm test"
+  - script: npm run test:unit
+    displayName: 'npm test'
