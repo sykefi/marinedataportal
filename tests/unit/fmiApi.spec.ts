@@ -5,9 +5,9 @@ import {
   sortByTimeAndParameters,
 } from '@/apis/fmiApi'
 import { CommonParameters } from '@/queries/commonParameters'
-import { expect } from 'chai'
-import { SearchParameterModule } from '@/store/searchParameterModule'
-import Vuex from 'vuex'
+import { describe, it, expect } from 'vitest'
+import { useSearchParameterStore } from '@/stores/searchParameterStore'
+import { createPinia, setActivePinia } from 'pinia'
 
 describe('Time parameters tests for fmi api', () => {
   it('returns correct time parameters when one day is picked', () => {
@@ -121,17 +121,15 @@ describe('Time parameters tests for fmi api', () => {
     testDateParams(startDate, endDate, periodStart, periodEnd, expectedParams)
   })
   it('returns correct time parameters when end date is unchanged and start date is today', () => {
-    const store = new Vuex.Store({ strict: true })
-    const module = new SearchParameterModule({
-      store,
-      name: 'testSearchParameters',
-    })
+    setActivePinia(createPinia())
+
+    const store = useSearchParameterStore()
 
     const today = new Date()
     const startDate = new Date(
       Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0)
     )
-    const endDate = module.timeSpanEnd as Date
+    const endDate = store.timeSpanEnd as Date
     const periodStart = null
     const periodEnd = null
 

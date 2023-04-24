@@ -2,22 +2,19 @@ import { CommonParameters } from '@/queries/commonParameters'
 import { Site, SiteTypes } from '@/queries/site'
 import { IResponseFormat } from '@/queries/IResponseFormat'
 import { compareArrays } from '@/../tests/unit/fmiApi.spec'
-import { SurfaceTemperatureModule } from '@/store/attributeModules/surfaceTemperatureModule'
-import { IceThicknessModule } from '@/store/attributeModules/iceThicknessModule'
-import Vuex from 'vuex'
+import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore'
+import { useIceThicknessStore } from '@/stores/iceThicknessStore'
 import * as sinon from 'sinon'
 import * as sykeApi from '@/apis/sykeApi'
 import { IFmiResult } from '@/apis/fmiApi'
 import * as fmiApi from '@/apis/fmiApi'
+import { describe, it } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
 
 describe('Integration tests for surface temperature module', () => {
-  const store = new Vuex.Store({ strict: true })
-  const module = new SurfaceTemperatureModule({
-    store,
-    name: 'testSurfaceTemperature',
-  })
-
   it('returns correct results when surface temperature is queried', async () => {
+    setActivePinia(createPinia())
+    const store = useSurfaceTemperatureStore()
     const veslaApiResponse: Promise<any[] | null> = new Promise((resolve) => {
       setTimeout(() => {
         resolve([
@@ -62,9 +59,7 @@ describe('Integration tests for surface temperature module', () => {
     const veslaApiStub = sinon
       .stub(sykeApi, 'default')
       .returns(veslaApiResponse)
-    const fmiApiStub = sinon
-      .stub(fmiApi, 'GetSimpleFmiResponse')
-      .returns(fmiApiResponse)
+    const fmiApiStub = sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
 
     const startDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
     const endDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
@@ -89,8 +84,8 @@ describe('Integration tests for surface temperature module', () => {
       sites
     )
 
-    await module.getData(params)
-    const actualResults = module.data!
+    await store.getData(params)
+    const actualResults = store.data!
 
     const expectedResults: IResponseFormat[] = [
       {
@@ -141,8 +136,8 @@ describe('Integration tests for surface temperature module', () => {
 })
 
 describe('Integration tests for ice thickness module', () => {
-  const store = new Vuex.Store({ strict: true })
-  const module = new IceThicknessModule({ store, name: 'testIceThickness' })
+  setActivePinia(createPinia())
+  const store = useIceThicknessStore()
 
   it('returns correct results when ice thickness is queried', async () => {
     const stubResponse: Promise<any[] | null> = new Promise((resolve) => {
@@ -204,8 +199,8 @@ describe('Integration tests for ice thickness module', () => {
       sites
     )
 
-    await module.getData(params)
-    const actualResults = module.data!
+    await store.getData(params)
+    const actualResults = store.data!
 
     const expectedResults: IResponseFormat[] = [
       {

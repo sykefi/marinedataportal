@@ -29,7 +29,7 @@ export async function GetRawXMLResponse(query: string) {
   return res
 }
 
-export async function GetSimpleFmiResponse(
+export default async function GetSimpleFmiResponse(
   query: string,
   params: CommonParameters,
   sites: Site[]
