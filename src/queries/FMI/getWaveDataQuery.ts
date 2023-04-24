@@ -1,4 +1,4 @@
-import { GetSimpleFmiResponse } from '@/apis/fmiApi'
+import GetSimpleFmiResponse from '@/apis/fmiApi'
 import { CommonParameters } from '@/queries/commonParameters'
 
 export enum WaveQueryParameters {
