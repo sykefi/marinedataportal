@@ -101,7 +101,7 @@ export default defineComponent({
       },
     },
     length() {
-      return Math.ceil(this.store.availableOptions?.length ?? 0 / 2)
+      return Math.ceil((this.store.availableOptions?.length ?? 0) / 2)
     },
   },
   methods: {
