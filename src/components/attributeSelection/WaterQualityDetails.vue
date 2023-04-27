@@ -78,7 +78,14 @@ import { DepthOptions, useWaterQualityStore } from '@/stores/waterQualityStore'
 import { useMainStateStore } from '@/stores/mainStateStore'
 import { mapStores } from 'pinia'
 
+const focus = {
+  mounted: (el: HTMLElement) => el.focus(),
+}
+
 export default defineComponent({
+  directives: {
+    focus,
+  },
   components: {
     OptionsSelection,
     DecimalInput,
