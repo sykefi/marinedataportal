@@ -1,9 +1,10 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 
-const path = require('path');
+const path = require('path')
 
 export default defineConfig({
+  base: process.env.NODE_ENV === 'production' ? '/merihavainnot/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -13,4 +14,4 @@ export default defineConfig({
     port: 8080,
   },
   plugins: [vue()],
-});
+})
