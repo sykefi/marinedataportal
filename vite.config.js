@@ -3,8 +3,8 @@ import vue from '@vitejs/plugin-vue'
 
 const path = require('path')
 
-export default defineConfig({
-  base: import.meta.env.MODE === 'production' ? '/merihavainnot/' : '',
+export default defineConfig(({ command, mode }) => {
+  base: mode === 'production' ? '/merihavainnot/' : '',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
