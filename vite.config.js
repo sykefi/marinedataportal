@@ -4,14 +4,16 @@ import vue from '@vitejs/plugin-vue'
 const path = require('path')
 
 export default defineConfig(({ command, mode }) => {
-  base: mode === 'production' ? '/merihavainnot/' : '',
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+  return {
+    base: mode === 'production' ? '/merihavainnot/' : '',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
     },
-  },
-  server: {
-    port: 8080,
-  },
-  plugins: [vue()],
+    server: {
+      port: 8080,
+    },
+    plugins: [vue()],
+  }
 })
