@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 const path = require('path')
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/merihavainnot/' : '',
+  base: import.meta.env.MODE === 'production' ? '/merihavainnot/' : '',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
