@@ -21,9 +21,10 @@ jobs:
         if: github.event.action != 'closed' # You might want to skip the build if the PR has been closed
         run: |
           npm install
-          npm run build
+          npm run build-preview
 
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
         with:
           source-dir: ./dist/
+          preview-branch: master
