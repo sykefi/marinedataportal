@@ -6,6 +6,7 @@
     "dev": "vite",
     "serve": "vite preview",
     "build": "vite build",
+    "build-preview": "vite build --mode preview",
     "test": "vitest",
     "lint": "eslint --ext .ts,.vue --ignore-path .gitignore --fix src tests",
     "lint-no-fix": "eslint --ext .ts,.vue --ignore-path .gitignore src tests"
