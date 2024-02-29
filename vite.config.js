@@ -3,15 +3,17 @@ import vue from '@vitejs/plugin-vue'
 
 const path = require('path')
 
-export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/merihavainnot/' : '/',
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+export default defineConfig(({ command, mode }) => {
+  return {
+    base: mode === 'production' ? '/merihavainnot/' : '',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
     },
-  },
-  server: {
-    port: 8080,
-  },
-  plugins: [vue()],
+    server: {
+      port: 8080,
+    },
+    plugins: [vue()],
+  }
 })
