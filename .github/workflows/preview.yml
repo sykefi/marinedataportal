@@ -23,7 +23,7 @@ jobs:
           npm ci
           npm install
           npm run test
-          npm run build-preview
+          npm run build
 
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
