@@ -51,9 +51,8 @@ import { useSearchParameterStore } from '@/stores/searchParameterStore'
 import { useMapStore } from '@/stores/mapStore'
 import { Options } from 'ol/source/WMTS'
 import Feature from 'ol/Feature'
-import { Geometry } from 'ol/geom'
+import { Point } from 'ol/geom'
 import Collection from 'ol/Collection'
-import { GeoJSON } from 'ol/format'
 import Map from 'ol/Map'
 import { SelectEvent } from 'ol/interaction/Select'
 
@@ -75,31 +74,24 @@ export default defineComponent({
   setup() {
     const searchParameterStore = useSearchParameterStore()
 
-    const map = ref(null as Map | null)
+    const map = ref<{ map: Map }>(null!)
     const center = ref([2466417.9856569725, 8788780.630851416])
     const zoom = ref(5.5)
     const currentHoverFeature = ref(null as IHoverData | null)
     const selectedFeatures = ref(new Collection())
-    const availableFeatures = ref([] as Feature<Geometry>[])
+    const availableFeatures = searchParameterStore.availableSites.map(
+      (s) =>
+        new Feature({
+          id: s.id,
+          geometry: new Point(s.mapCoordinates),
+          properties: { name: s.displayName },
+        })
+    )
     const mapCursor = ref('default')
     const vectorSource = ref(null as any)
 
     const selectConditions = inject('ol-selectconditions')
     const mouseClick = selectConditions.click
-
-    const features = searchParameterStore.availableSites.map((s) => ({
-      type: 'Feature',
-      id: s.id,
-      geometry: { type: 'Point', coordinates: s.mapCoordinates },
-      properties: { name: s.displayName },
-    }))
-
-    const geoJsonObject = {
-      type: 'FeatureCollection',
-      features,
-    }
-
-    availableFeatures.value = new GeoJSON().readFeatures(geoJsonObject)
 
     const featureSelected = (event: SelectEvent) => {
       const newFeatures = event.target.getFeatures() as Collection<Feature>
@@ -114,7 +106,7 @@ export default defineComponent({
     }
 
     const addSelection = (id: number) => {
-      const feature = availableFeatures.value.find((f) => f.getId() === id)
+      const feature = availableFeatures.find((f) => f.getId() === id)
       selectedFeatures.value.push(feature)
       searchParameterStore.selectSite(id)
     }
@@ -166,7 +158,7 @@ export default defineComponent({
       if (!e.pixel || e.dragging) {
         return
       }
-      const hitFeature = map.value?.forEachFeatureAtPixel(
+      const hitFeature = map.value?.map.forEachFeatureAtPixel(
         e.pixel,
         (feat: any) => feat
       )

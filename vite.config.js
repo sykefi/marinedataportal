@@ -5,15 +5,18 @@ const path = require('path')
 
 export default defineConfig(({ command, mode }) => {
   return {
-    base: mode === 'production' ? '/merihavainnot/' : '',
+    base: '',
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@': path.resolve(__dirname, './src')
       },
     },
     server: {
       port: 8080,
     },
     plugins: [vue()],
+    build: {
+      sourcemap: mode !== 'production',
+    }
   }
 })
