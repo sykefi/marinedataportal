@@ -1,14 +1,13 @@
 /// <reference types="vitest" />
-
-import { mergeConfig } from 'vite'
-import { defineConfig } from 'vitest/config'
+import { defineConfig, mergeConfig } from 'vitest/config'
 import viteConfig from './vite.config'
 
-export default defineConfig(
-  mergeConfig(viteConfig, {
+export default defineConfig(configEnv => mergeConfig(
+  viteConfig(configEnv),
+  defineConfig({
     // extending app vite config
     test: {
       environment: 'jsdom',
     },
   })
-)
+))
