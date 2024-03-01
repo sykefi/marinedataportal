@@ -13,10 +13,7 @@
     <ol-tile-layer ref="cityNamesLayer" />
 
     <ol-vector-layer>
-      <ol-source-vector
-        :features="availableFeatures"
-        ref="vectorSource"
-      ></ol-source-vector>
+      <ol-source-vector :features="availableFeatures"></ol-source-vector>
     </ol-vector-layer>
 
     <ol-interaction-select
@@ -51,7 +48,6 @@ import { useSearchParameterStore } from '@/stores/searchParameterStore'
 import { useMapStore } from '@/stores/mapStore'
 import { Options } from 'ol/source/WMTS'
 import Feature from 'ol/Feature'
-import { Point } from 'ol/geom'
 import Collection from 'ol/Collection'
 import Map from 'ol/Map'
 import { SelectEvent } from 'ol/interaction/Select'
@@ -71,6 +67,7 @@ export default defineComponent({
       new WMTS(mapStore.cityNameLayerOptions! as Options)
     )
   },
+
   setup() {
     const searchParameterStore = useSearchParameterStore()
 
@@ -79,16 +76,10 @@ export default defineComponent({
     const zoom = ref(5.5)
     const currentHoverFeature = ref(null as IHoverData | null)
     const selectedFeatures = ref(new Collection())
-    const availableFeatures = searchParameterStore.availableSites.map(
-      (s) =>
-        new Feature({
-          id: s.id,
-          geometry: new Point(s.mapCoordinates),
-          properties: { name: s.displayName },
-        })
-    )
+
+    const availableFeatures = searchParameterStore.availableSites.map((s) => s.createFeature())
+
     const mapCursor = ref('default')
-    const vectorSource = ref(null as any)
 
     const selectConditions = inject('ol-selectconditions')
     const mouseClick = selectConditions.click
@@ -106,7 +97,10 @@ export default defineComponent({
     }
 
     const addSelection = (id: number) => {
+      console.log(id)
+      console.log(availableFeatures.map((f) => f.getId()))
       const feature = availableFeatures.find((f) => f.getId() === id)
+      console.log(feature)
       selectedFeatures.value.push(feature)
       searchParameterStore.selectSite(id)
     }
@@ -134,7 +128,7 @@ export default defineComponent({
       dragBox.on('boxend', function () {
         // features that intersect the box are selected
         const extent = dragBox.getGeometry().getExtent()
-        const boxFeatures: Feature[] = vectorSource.value.features.filter(
+        const boxFeatures: Feature[] = availableFeatures.filter(
           (feature: Feature) => feature.getGeometry()?.intersectsExtent(extent)
         )
 
@@ -176,7 +170,6 @@ export default defineComponent({
 
     return {
       map,
-      vectorSource,
       mapCenter: center,
       mapZoom: zoom,
       mapCursor,

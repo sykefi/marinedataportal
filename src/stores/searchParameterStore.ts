@@ -66,6 +66,8 @@ export const useSearchParameterStore = defineStore('searchParameter', {
         return
       }
       const site = this.availableSites.find((s) => s.id === id)
+      console.log(site)
+      console.log(this.selectedSites)
       if (site) {
         this.selectedSites.push(site)
         this.selectedSites.sort((a, b) => alphabeticCompare(a.name, b.name))
@@ -95,7 +97,10 @@ export const useSearchParameterStore = defineStore('searchParameter', {
         sites.push(...(await getBuoys()))
       }
       sites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
+      console.log('1')
       this.availableSites = sites
+      console.log('2')
+
       this.loading = false
     },
   },
