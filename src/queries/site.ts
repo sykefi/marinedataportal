@@ -26,7 +26,6 @@ export class Site {
   }
 
   createFeature() {
-    console.log('createSite')
     const feat = new Feature({
       geometry: new Point(this.mapCoordinates),
       name: this.displayName,

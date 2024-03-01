@@ -15,7 +15,6 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
-    "@types/proj4": "^2.5.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "core-js": "^3.36.0",
     "ol": "^9.0.0",
@@ -26,6 +25,7 @@
     "vue3-openlayers": "^4.0.2"
   },
   "devDependencies": {
+    "@types/proj4": "^2.5.5",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "@types/sinon": "^17.0.3",

@@ -99,10 +99,7 @@ export default defineComponent({
     }
 
     const addSelection = (id: number) => {
-      console.log(id)
-      console.log(availableFeatures.map((f) => f.getId()))
       const feature = availableFeatures.find((f) => f.getId() === id)
-      console.log(feature)
       selectedFeatures.value.push(feature)
       searchParameterStore.selectSite(id)
     }
