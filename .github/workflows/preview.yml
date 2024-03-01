@@ -17,11 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install and Build
+      - name: Verify and deploy preview version
         if: github.event.action != 'closed' # You might want to skip the build if the PR has been closed
         run: |
           npm ci
-          npm install
           npm run test
           npm run build -- --mode preview
           npm run lint-no-fix
