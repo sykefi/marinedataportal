@@ -5,7 +5,7 @@ const path = require('path')
 
 export default defineConfig(({ command, mode }) => {
   return {
-    base: mode === 'production' ? '/merihavainnot/' : '',
+    base: '',
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
