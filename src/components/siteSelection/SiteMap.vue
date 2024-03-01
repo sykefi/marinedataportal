@@ -77,7 +77,9 @@ export default defineComponent({
     const currentHoverFeature = ref(null as IHoverData | null)
     const selectedFeatures = ref(new Collection())
 
-    const availableFeatures = searchParameterStore.availableSites.map((s) => s.createFeature())
+    const availableFeatures = searchParameterStore.availableSites.map((s) =>
+      s.createFeature()
+    )
 
     const mapCursor = ref('default')
 
