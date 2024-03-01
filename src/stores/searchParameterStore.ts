@@ -86,7 +86,10 @@ export const useSearchParameterStore = defineStore('searchParameter', {
       let sites: Site[] = []
       const siteTypes = mainState.selectedSiteTypes
       if (siteTypes.includes(SiteTypes.Vesla)) {
-        sites = await getVeslaSites(veslaIds)
+        var veslaSitesGenerator = getVeslaSites(veslaIds);
+        for await (const itItem of veslaSitesGenerator) {
+          this.availableSites.push(...itItem)
+        }
       }
       if (siteTypes.includes(SiteTypes.Mareograph)) {
         sites.push(...(await getMareographs()))
@@ -95,7 +98,6 @@ export const useSearchParameterStore = defineStore('searchParameter', {
         sites.push(...(await getBuoys()))
       }
       sites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
-      this.availableSites = sites
       this.loading = false
     },
   },

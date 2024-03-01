@@ -6,9 +6,8 @@ const query =
   'sites?api-version=1.0&\
 $select=SiteId,Name,Latitude,Longitude,Depth&'
 
-export async function getVeslaSites(ids: number[]) {
+export async function* getVeslaSites(ids: number[]) {
   const chunks = chunkArray(ids, 200)
-  const sites: Site[] = []
   for (const chunk of chunks) {
     if (chunk.find((i) => i > 0)) {
       const filter =
@@ -20,8 +19,8 @@ export async function getVeslaSites(ids: number[]) {
         longitude: number
         depth: number | null
       }>
-      res.map((r) =>
-        sites.push(
+
+      yield res.map((r) =>
           new Site(
             r.siteId,
             r.name,
@@ -30,9 +29,7 @@ export async function getVeslaSites(ids: number[]) {
             r.depth,
             SiteTypes.Vesla
           )
-        )
       )
     }
   }
-  return sites
 }
