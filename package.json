@@ -6,7 +6,6 @@
     "dev": "vite",
     "serve": "vite preview",
     "build": "vite build",
-    "build-preview": "vite build --mode preview",
     "test": "vitest",
     "lint": "eslint --ext .ts,.vue --ignore-path .gitignore --fix src tests",
     "lint-no-fix": "eslint --ext .ts,.vue --ignore-path .gitignore src tests"
@@ -24,14 +23,15 @@
     "proj4": "^2.10.0",
     "sinon": "^15.2.0",
     "vite": "^4.5.2",
-    "vue": "^3.4.20",
+    "vue": "=3.3.10",
     "vue-i18n": "^9.9.1",
     "vue3-openlayers": "=0.1.70"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "@vue/compiler-sfc": "^3.4.20",
+    "@vue/compiler-sfc": "=3.3.10",
+    "@vue/compiler-dom": "=3.3.10",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.4.4",
     "eslint": "^8.57.0",

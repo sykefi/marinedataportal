@@ -23,7 +23,8 @@ jobs:
           npm ci
           npm install
           npm run test
-          npm run build-preview
+          npm run build -- --mode preview
+          npm run lint-no-fix
 
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
