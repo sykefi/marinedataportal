@@ -83,21 +83,21 @@ export const useSearchParameterStore = defineStore('searchParameter', {
     async populateAvailableSites(veslaIds: number[]) {
       const mainState = useMainStateStore()
       this.loading = true
-      let sites: Site[] = []
+      this.availableSites = [] //reset previously loaded sites
       const siteTypes = mainState.selectedSiteTypes
       if (siteTypes.includes(SiteTypes.Vesla)) {
-        var veslaSitesGenerator = getVeslaSites(veslaIds);
-        for await (const itItem of veslaSitesGenerator) {
-          this.availableSites.push(...itItem)
+        const veslaSitesGenerator = getVeslaSites(veslaIds)
+        for await (const siteBatch of veslaSitesGenerator) {
+          this.availableSites.push(...siteBatch) //assumption: our API calls produce no duplicates
         }
       }
       if (siteTypes.includes(SiteTypes.Mareograph)) {
-        sites.push(...(await getMareographs()))
+        this.availableSites.push(...(await getMareographs()))
       }
       if (siteTypes.includes(SiteTypes.FmiBuoy)) {
-        sites.push(...(await getBuoys()))
+        this.availableSites.push(...(await getBuoys()))
       }
-      sites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
+      this.availableSites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
       this.loading = false
     },
   },

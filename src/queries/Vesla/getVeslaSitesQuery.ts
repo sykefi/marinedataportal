@@ -6,8 +6,11 @@ const query =
   'sites?api-version=1.0&\
 $select=SiteId,Name,Latitude,Longitude,Depth&'
 
+//use a generator function to get at most 200 sites at once
+//the staggered loading makes the UI more responsive when the user is loading hundreds of sites
 export async function* getVeslaSites(ids: number[]) {
-  const chunks = chunkArray(ids, 200)
+  const uniqueIds = [...new Set(ids)] //first remove duplicates
+  const chunks = chunkArray(uniqueIds, 200)
   for (const chunk of chunks) {
     if (chunk.find((i) => i > 0)) {
       const filter =
@@ -20,7 +23,8 @@ export async function* getVeslaSites(ids: number[]) {
         depth: number | null
       }>
 
-      yield res.map((r) =>
+      yield res.map(
+        (r) =>
           new Site(
             r.siteId,
             r.name,
