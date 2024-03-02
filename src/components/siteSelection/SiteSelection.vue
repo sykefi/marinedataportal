@@ -66,6 +66,7 @@ import { useSearchParameterStore } from '@/stores/searchParameterStore'
 import { useWaterQualityStore } from '@/stores/waterQualityStore'
 import { mapStores } from 'pinia'
 import { defineComponent } from 'vue'
+import { alphabeticCompare } from '@/helpers'
 
 export default defineComponent({
   components: {
@@ -85,7 +86,7 @@ export default defineComponent({
       useWaterQualityStore
     ),
     availableSites() {
-      return this.searchParameterStore.availableSites
+      return this.searchParameterStore.availableSites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
     },
     selectedSites() {
       return this.searchParameterStore.selectedSites

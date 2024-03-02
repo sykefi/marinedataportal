@@ -97,7 +97,6 @@ export const useSearchParameterStore = defineStore('searchParameter', {
       if (siteTypes.includes(SiteTypes.FmiBuoy)) {
         this.availableSites.push(...(await getBuoys()))
       }
-      this.availableSites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
       this.loading = false
     },
   },
