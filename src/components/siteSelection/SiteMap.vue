@@ -69,6 +69,7 @@ export default defineComponent({
     )
   },
 
+
   setup() {
     const searchParameterStore = useSearchParameterStore()
 
