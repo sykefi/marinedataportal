@@ -1,5 +1,7 @@
 import { fromLonLat } from 'ol/proj'
 import { Coordinate } from 'ol/coordinate'
+import Feature from 'ol/Feature'
+import { Point } from 'ol/geom'
 
 export enum SiteTypes {
   Vesla,
@@ -21,6 +23,15 @@ export class Site {
       return this.name
     }
     return `${this.name} (${this.depth}&nbsp;m)`
+  }
+
+  createFeature() {
+    const feat = new Feature({
+      geometry: new Point(this.mapCoordinates),
+      name: this.displayName,
+    })
+    feat.setId(this.id)
+    return feat
   }
 
   constructor(
