@@ -86,13 +86,15 @@ export default defineComponent({
       useWaterQualityStore
     ),
     availableSites() {
-      return this.searchParameterStore.availableSites.sort((s1, s2) => alphabeticCompare(s1.name, s2.name))
+      return this.searchParameterStore.availableSites.toSorted((s1, s2) =>
+        alphabeticCompare(s1.name, s2.name)
+      )
     },
     selectedSites() {
       return this.searchParameterStore.selectedSites
     },
     unSelectedSites() {
-      return this.searchParameterStore.availableSites.filter(
+      return this.availableSites.filter(
         (s) => !this.selectedSites.find((ss) => ss.id === s.id)
       )
     },
