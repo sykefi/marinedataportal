@@ -19,7 +19,7 @@
             :aria-label="$t('$sitePlaceholder')"
           >
             <option :value="0" disabled hidden>
-              {{ $t('$sitePlaceholder') + ' (' + availableSites.length + ')' }}
+              {{ $t('$sitePlaceholder') }}
             </option>
             <option
               v-for="site in unSelectedSites"
