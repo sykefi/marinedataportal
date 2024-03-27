@@ -51,6 +51,7 @@ import Feature from 'ol/Feature'
 import Collection from 'ol/Collection'
 import Map from 'ol/Map'
 import { SelectEvent } from 'ol/interaction/Select'
+import { computed } from 'vue'
 
 interface IHoverData {
   name: string
@@ -77,8 +78,8 @@ export default defineComponent({
     const currentHoverFeature = ref(null as IHoverData | null)
     const selectedFeatures = ref(new Collection())
 
-    const availableFeatures = searchParameterStore.availableSites.map((s) =>
-      s.createFeature()
+    const availableFeatures = computed(() =>
+      searchParameterStore.availableSites.map((s) => s.createFeature())
     )
 
     const mapCursor = ref('default')
@@ -99,7 +100,7 @@ export default defineComponent({
     }
 
     const addSelection = (id: number) => {
-      const feature = availableFeatures.find((f) => f.getId() === id)
+      const feature = availableFeatures.value.find((f) => f.getId() === id)
       selectedFeatures.value.push(feature)
       searchParameterStore.selectSite(id)
     }
@@ -127,7 +128,7 @@ export default defineComponent({
       dragBox.on('boxend', function () {
         // features that intersect the box are selected
         const extent = dragBox.getGeometry().getExtent()
-        const boxFeatures: Feature[] = availableFeatures.filter(
+        const boxFeatures: Feature[] = availableFeatures.value.filter(
           (feature: Feature) => feature.getGeometry()?.intersectsExtent(extent)
         )
 
