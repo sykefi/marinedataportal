@@ -50,6 +50,6 @@
     "last 2 versions"
   ],
   "engines": {
-    "node": ">=18.14.1"
+    "node": ">=20"
   }
 }
