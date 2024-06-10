@@ -1,14 +1,18 @@
 import { useMainStateStore } from '@/stores/mainStateStore'
 
-export default async function getVeslaData(query: string) {
+export default async function getVeslaData(resource: string, parameters: string) {
   const mainState = useMainStateStore()
   try {
-    let res = await getJsonResponse(
-      'https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/' + query
-    )
+    let res = await getJsonResponse(resource, parameters)
     const data = res.value
+
+    
     while (res.nextLink) {
-      res = await getJsonResponse(res.nextLink)
+      const params = new URLSearchParams(res.nextLink.split('?')[1]);
+      const skipValue = params.get('$skip');
+      var newParams = parameters=+'&$skip='+skipValue!;
+
+      res = await getJsonResponse(resource, newParams)
       data.push(...res.value)
     }
     if (data.length && data[0] instanceof Object) {
@@ -37,8 +41,15 @@ interface ErrorResponse {
   }
 }
 
-async function getJsonResponse(url: string): Promise<IODataResponse> {
-  const response = await fetch(url)
+async function getJsonResponse(resource: string, parameters: string): Promise<IODataResponse> {
+  const response = await fetch('https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/'+resource+'/$query?api-version=1.0',{
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'text/plain'
+    },
+    body: parameters
+  })
   if (!response.ok) {
     let errorObj: ErrorResponse | undefined
     try {
