@@ -28,10 +28,9 @@ const select = [
   'flag',
 ]
 
-const query =
-  'results?api-version=1.0&\
-$orderby=DeterminationId,SiteId,Time&\
-$select=' + select.join(',')
+const resource = 'Results'
+
+const query = '$orderby=DeterminationId,SiteId,Time&$select=' + select.join(',')
 
 async function getFilter(
   params: CommonParameters,
@@ -39,7 +38,7 @@ async function getFilter(
   depth: IDepthSettings
 ) {
   let filter =
-    '&$filter= EnvironmentTypeId in (31,32,33)' +
+    '$filter= EnvironmentTypeId in (31,32,33)' +
     // results with W flag (W, WL, WG) are uncertain and not shown in the portal
     ` and (Flag eq null or not contains(Flag, 'W'))`
 
@@ -87,7 +86,7 @@ export async function getWaterQuality(
     return []
   }
   const filter = await getFilter(par, combinationIds, depth)
-  let results = await getVeslaData(query + filter)
+  let results = await getVeslaData(resource, query + '&' + filter)
   if (!results) {
     return []
   }
@@ -104,6 +103,5 @@ export async function getWaterQualitySiteIds(
   depth: IDepthSettings
 ) {
   const filter = await getFilter(par, combinationIds, depth)
-  const q = 'results/siteids?api-version=1.0&' + filter
-  return (await getVeslaData(q)) as number[]
+  return (await getVeslaData(resource, filter)) as number[]
 }

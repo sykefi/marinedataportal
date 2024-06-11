@@ -16,10 +16,9 @@ const select = [
   'ParameterNameEng',
 ]
 
-const query =
-  'Observations?api-version=1.0&\
-$orderby=SiteId,Time&\
-$select=' + select.join(',')
+const resource = 'Observations'
+
+const query = '$orderby=SiteId,Time&$select=' + select.join(',')
 
 async function getFilter(params: CommonParameters, obsCode: string) {
   let filter =
@@ -46,7 +45,7 @@ export async function getObservations(
     return []
   }
   const filter = await getFilter(params, obsCode)
-  let results = await getVeslaData(query + filter)
+  let results = await getVeslaData(resource, query + '&' + filter)
   if (!results) {
     return []
   }
@@ -62,8 +61,7 @@ export async function getObservationSiteIds(
   obsCode: string
 ) {
   const filter = await getFilter(params, obsCode)
-  const q = 'Observations?api-version=1.0&$select=siteId' + filter
-  let data = await getVeslaData(q)
+  let data = await getVeslaData(resource, '$select=siteId' + filter)
   if (data) {
     data = data.map((d) => d.siteId)
   }

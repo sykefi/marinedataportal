@@ -1,9 +1,6 @@
 import getVeslaData from '@/apis/sykeApi'
 
-const query =
-  'MaaritysYhd?\
-$select=MaaritysYhd_Id,Nimi, NimiEng,&\
-$orderby=MaaritysYhd_Id&'
+const query = '$select=MaaritysYhd_Id,Nimi, NimiEng&$orderby=MaaritysYhd_Id'
 
 export interface IWaterQualityOption {
   id: number
@@ -12,7 +9,7 @@ export interface IWaterQualityOption {
 }
 
 export async function getWaterQualityOptions() {
-  const res = await getVeslaData(query)
+  const res = await getVeslaData('MaaritysYhd', query)
   const options: IWaterQualityOption[] = []
   if (res) {
     res.forEach((value) => {
