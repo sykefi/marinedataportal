@@ -2,9 +2,7 @@ import getVeslaData from '@/apis/sykeApi'
 import { Site, SiteTypes } from '../site'
 import { chunkArray, buildODataInFilterFromArray } from '@/helpers'
 
-const query =
-  'sites?api-version=1.0&\
-$select=SiteId,Name,Latitude,Longitude,Depth&'
+const query = '$select=SiteId,Name,Latitude,Longitude,Depth&'
 
 //use a generator function to get at most 200 sites at once
 //the staggered loading makes the UI more responsive when the user is loading hundreds of sites
@@ -15,7 +13,7 @@ export async function* getVeslaSites(ids: number[]) {
     if (chunk.find((i) => i > 0)) {
       const filter =
         '$filter=' + buildODataInFilterFromArray(chunk, 'SiteId', false)
-      const res = (await getVeslaData(query + filter)) as Array<{
+      const res = (await getVeslaData('Sites', query + filter)) as Array<{
         siteId: number
         name: string
         latitude: number
