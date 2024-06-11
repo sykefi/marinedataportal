@@ -9,7 +9,10 @@ export default async function getVeslaData(resource: string, query: string) {
     while (res.nextLink) {
       const params = new URLSearchParams(res.nextLink.split('?')[1])
       const skipValue = params.get('$skip')
-      var newQuery = query + '&$skip=' + skipValue!
+      if (!skipValue) {
+        break
+      }
+      const newQuery = query + '&$skip=' + skipValue!
       res = await getJsonResponse(resource, newQuery)
       data.push(...res.value)
     }
