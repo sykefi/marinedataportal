@@ -45,7 +45,7 @@ export async function getObservations(
     return []
   }
   const filter = await getFilter(params, obsCode)
-  let results = await getVeslaData(resource, query + filter)
+  let results = await getVeslaData(resource, query + '&' + filter)
   if (!results) {
     return []
   }
