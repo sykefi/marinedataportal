@@ -43,9 +43,14 @@ export async function getObservations(
   if (params.veslaSites.length === 0) {
     return []
   }
-  let filter = getFilter(params, obsCode)
-  filter += '&$expand=Site($select=Latitude,Longitude,Depth)'
-  let results = await getVeslaData(resource, query + '&$filter=' + filter)
+  const filter = getFilter(params, obsCode)
+  let results = await getVeslaData(
+    resource,
+    query +
+      '&$filter=' +
+      filter +
+      '&$expand=Site($select=Latitude,Longitude,Depth)'
+  )
   if (!results) {
     return []
   }
