@@ -31,6 +31,36 @@ export async function getVeslaData(resource: string, query: string) {
   }
 }
 
+/** provide a generator to loop through response OData pages */
+export async function* getPagedODataResponse(resource: string, query: string) : AsyncGenerator<IODataResponse>{
+  const mainState = useMainStateStore()
+  try {
+    let activeQuery = query;
+    do{
+      let res = await postODataQuery(resource, activeQuery)
+      yield res;
+      if (res.value.length == 0){
+        return
+      }
+      if (!res.nextLink){
+        return
+      }
+      const params = new URLSearchParams(res.nextLink.split('?')[1])
+      const skipValue = params.get('$skip')
+      if (skipValue) {
+        activeQuery = query + '&$skip=' + skipValue!
+      }
+      else{
+        activeQuery = ''
+      }
+    }while(activeQuery.length>0)
+  } catch (e) {
+    console.error(e)
+    mainState.setError(true)
+    return null
+  }
+}
+
 export async function getSinglePageVeslaData(resource: string, query: string) {
   const mainState = useMainStateStore()
   try {
@@ -60,11 +90,6 @@ export async function getODataNextPage(resource: string, nextLink: string) {
       return
     }
     let res = await postODataQuery(resource, queryParams)
-    if (res.value.length && res.value[0] instanceof Object) {
-      res.value.forEach((obj) => {
-        obj.dataSource = 'SYKE'
-      })
-    }
     return res
   } catch (e) {
     console.error(e)
@@ -129,6 +154,11 @@ async function parseResponse(response: Response){
   }
 
   const json = await response.json()
+  if (json.value.length && json.value[0] instanceof Object) {
+    json.value.forEach((obj: any) => {
+      obj.dataSource = 'SYKE'
+    })
+  }
   return {
     nextLink: json['@odata.nextLink'],
     value: json.value,
