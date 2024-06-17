@@ -1,4 +1,4 @@
-import {getVeslaData} from '@/apis/sykeApi'
+import { getVeslaData } from '@/apis/sykeApi'
 import { Site, SiteTypes } from '../site'
 import { chunkArray, buildODataInFilterFromArray } from '@/helpers'
 

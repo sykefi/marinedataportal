@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import {getVeslaData, getSinglePageVeslaData, getODataNextPage, getPagedODataResponse} from '@/apis/sykeApi'
+import { getVeslaData, getPagedODataResponse } from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
@@ -41,18 +41,18 @@ export async function* getObservations(
   params: CommonParameters,
   obsCode: string
 ) {
-    if (params.veslaSites.length === 0) {
-      return []
+  if (params.veslaSites.length === 0) {
+    return []
+  }
+  const filter = getFilter(params, obsCode)
+  const resultGenerator = getPagedODataResponse(resource, query + '&' + filter)
+  for await (const batch of resultGenerator) {
+    batch.value.map((r) => fromObservationToSykeFormat(r))
+    if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
+      yield cleanupTimePeriod(batch.value, params)
     }
-    const filter = getFilter(params, obsCode)
-    const resultGenerator = getPagedODataResponse(resource, query + '&' + filter)
-    for await (const batch of resultGenerator) {
-      batch.value.map((r) => fromObservationToSykeFormat(r))
-      if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-        yield cleanupTimePeriod(batch.value, params)
-      }
-      yield batch.value
-    }
+    yield batch.value
+  }
 }
 
 export async function getObservationSiteIds(

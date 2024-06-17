@@ -1,4 +1,4 @@
-import {getVeslaData} from '@/apis/sykeApi'
+import { getVeslaData } from '@/apis/sykeApi'
 
 const query = '$select=MaaritysYhd_Id,Nimi, NimiEng&$orderby=MaaritysYhd_Id'
 
