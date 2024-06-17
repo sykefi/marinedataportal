@@ -121,7 +121,7 @@ export const useWaterQualityStore = defineStore('waterQuality', {
       this.selectedIds = ids
     },
     selectAll() {
-      this.options.forEach((option) => {
+      this.availableOptions.forEach((option) => {
         if (!this.selectedIds.includes(option.id)) {
           this.selectedIds.push(option.id)
         }
