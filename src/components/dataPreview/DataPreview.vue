@@ -1,5 +1,5 @@
 <template>
-  <div id="preview-container">
+  <div v-if="showInfo" id="preview-container">
     <p class="info-paragraph">
       {{ $t('$dataPreviewInfo') }}
     </p>
@@ -20,7 +20,7 @@ export default defineComponent({
     DataPreviewTable,
   },
   computed: {
-    ...mapStores(useMainStateStore), // is this the reason?
+    ...mapStores(useMainStateStore),
     showInfo() {
       let isTrue = false
       const stores = this.mainStateStore.selectedAttributeStores

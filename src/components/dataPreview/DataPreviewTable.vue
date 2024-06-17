@@ -2,7 +2,7 @@
   <div>
     <div v-if="hasData">
       <strong>{{ $t(store.name) }}</strong>
-      <span>{{ ` (${store.data.length} ${$t('$rows')}) ` }}</span>
+      <span>{{ ` (${store.rowCount} ${$t('$rows')}) ` }}</span>
       <a :href="encodedFileUri" :download="$t(store.name) + '.csv'">
         {{ $t('$downloadCSV') }}
       </a>
@@ -41,9 +41,6 @@ export default defineComponent({
   computed: {
     isDataLoaded() {
       return this.store.data !== null
-    },
-    dataCount(){
-      return this.store.rowCount
     },
     hasData() {
       return this.store.previewData.length > 0
