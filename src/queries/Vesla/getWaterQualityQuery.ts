@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import getVeslaData from '@/apis/sykeApi'
+import {getSinglePageVeslaData, getVeslaData, getODataNextPage} from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
@@ -32,7 +32,7 @@ const resource = 'Results'
 
 const query = '$orderby=DeterminationId,SiteId,Time&$select=' + select.join(',')
 
-async function getFilter(
+function getFilter(
   params: CommonParameters,
   determinationIds: number[],
   depth: IDepthSettings
@@ -77,7 +77,8 @@ async function getFilter(
   return filter
 }
 
-export async function getWaterQuality(
+/** Yield through each page of the API response to populate the actual results */
+export async function* getWaterQuality(
   par: CommonParameters,
   combinationIds: number[],
   depth: IDepthSettings
@@ -85,16 +86,34 @@ export async function getWaterQuality(
   if (par.veslaSites.length === 0) {
     return []
   }
-  const filter = await getFilter(par, combinationIds, depth)
-  let results = await getVeslaData(resource, query + '&' + filter)
-  if (!results) {
+  const filter = getFilter(par, combinationIds, depth)
+
+  let firstResults = await getSinglePageVeslaData(resource, query + '&' + filter)
+  if (!firstResults?.value){
     return []
   }
-  results = results.map((r) => fromWaterQualityResultToSykeFormat(r))
-  if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
-    return cleanupTimePeriod(results, par)
+  let nextLink = firstResults?.nextLink
+  if (!nextLink){
+    firstResults.value.map((r) => fromWaterQualityResultToSykeFormat(r))
+    if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
+      return cleanupTimePeriod(firstResults.value, par) //TODO: optimize the API calls so that we're not requesting data outside of the selected periods
+    }
+    return firstResults.value
   }
-  return results
+  
+  yield firstResults!.value
+  while(nextLink){
+    let results = await getODataNextPage(resource,nextLink)
+    if (!results?.value){
+      return
+    }
+    nextLink = results?.nextLink
+    results.value.map((r) => fromWaterQualityResultToSykeFormat(r))
+    if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
+      return cleanupTimePeriod(results.value, par)
+    }
+    yield results.value
+  }
 }
 
 export async function getWaterQualitySiteIds(
@@ -102,6 +121,6 @@ export async function getWaterQualitySiteIds(
   combinationIds: number[],
   depth: IDepthSettings
 ) {
-  const filter = await getFilter(par, combinationIds, depth)
+  const filter = getFilter(par, combinationIds, depth)
   return (await getVeslaData(resource, filter)) as number[]
 }

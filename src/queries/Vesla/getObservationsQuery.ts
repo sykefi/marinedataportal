@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import getVeslaData from '@/apis/sykeApi'
+import {getVeslaData} from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
