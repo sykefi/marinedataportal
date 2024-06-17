@@ -107,13 +107,13 @@ export const useWaterQualityStore = defineStore('waterQuality', {
     async getData(params: CommonParameters) {
       this.loading = true
       this.data = []
-      const dataGenerator = getWaterQuality(
+      const generator = getWaterQuality(
         params,
         this.selectedIds,
         this.selectedDepth
       )
-      for await (const batch of dataGenerator) {
-        this.data.push(...batch) //assumption: our API calls produce no duplicates
+      for await (const batch of generator) {
+        this.data.push(...batch)
       }
       this.loading = false
     },

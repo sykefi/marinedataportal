@@ -34,8 +34,11 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true
-      const res = await getObservations(params, this.obsCode)
-      this.setData(res)
+      this.data = []
+      const generator = getObservations(params, this.obsCode)
+      for await (const batch of generator) {
+        this.data.push(...batch)
+      }
       this.loading = false
     },
     async getAvailableVeslaSiteIds(params: CommonParameters) {

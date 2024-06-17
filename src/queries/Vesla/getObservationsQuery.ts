@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import {getVeslaData} from '@/apis/sykeApi'
+import {getVeslaData, getSinglePageVeslaData, getODataNextPage} from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
@@ -20,7 +20,7 @@ const resource = 'Observations'
 
 const query = '$orderby=SiteId,Time&$select=' + select.join(',')
 
-async function getFilter(params: CommonParameters, obsCode: string) {
+function getFilter(params: CommonParameters, obsCode: string) {
   let filter =
     '&$expand=Site($select=Latitude,Longitude,Depth)' +
     '&$filter=Site/EnvironmentTypeId in (31,32,33)' +
@@ -37,23 +37,43 @@ async function getFilter(params: CommonParameters, obsCode: string) {
   return filter
 }
 
-export async function getObservations(
+/** Yield through each page of the API response to populate the actual results */
+export async function* getObservations(
   params: CommonParameters,
   obsCode: string
 ) {
-  if (params.veslaSites.length === 0) {
-    return []
-  }
-  const filter = await getFilter(params, obsCode)
-  let results = await getVeslaData(resource, query + '&' + filter)
-  if (!results) {
-    return []
-  }
-  results = results.map((r) => fromObservationToSykeFormat(r))
-  if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-    return cleanupTimePeriod(results, params)
-  }
-  return results
+    if (params.veslaSites.length === 0) {
+      return []
+    }
+    const filter = getFilter(params, obsCode)
+  
+    let firstResults = await getSinglePageVeslaData(resource, query + '&' + filter)
+    if (!firstResults?.value){
+      return []
+    }
+    let nextLink = firstResults?.nextLink
+    if (!nextLink){
+      firstResults.value.map((r) => fromObservationToSykeFormat(r))
+      if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
+        return cleanupTimePeriod(firstResults.value, params) //TODO: optimize the API calls so that we're not requesting data outside of the selected periods
+      }
+      yield firstResults.value
+      return
+    }
+    
+    yield firstResults!.value
+    while(nextLink){
+      let results = await getODataNextPage(resource,nextLink)
+      if (!results?.value){
+        return
+      }
+      nextLink = results?.nextLink
+      results.value.map((r) => fromObservationToSykeFormat(r))
+      if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
+        return cleanupTimePeriod(results.value, params)
+      }
+      yield results.value
+    }
 }
 
 export async function getObservationSiteIds(
