@@ -7,6 +7,7 @@ import {
   fromWaterQualityResultToSykeFormat,
 } from '@/helpers'
 import { DepthOptions, IDepthSettings } from '@/stores/waterQualityStore'
+import { IResponseFormat } from '../IResponseFormat'
 
 const select = [
   'time',
@@ -82,7 +83,7 @@ export async function* getWaterQuality(
   par: CommonParameters,
   combinationIds: number[],
   depth: IDepthSettings
-) {
+): AsyncGenerator<IResponseFormat[]> {
   if (par.veslaSites.length === 0) {
     return []
   }
