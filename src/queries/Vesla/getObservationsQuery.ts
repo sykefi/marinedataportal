@@ -23,8 +23,7 @@ const query = '$orderby=SiteId,Time&$select=' + select.join(',')
 
 function getFilter(params: CommonParameters, obsCode: string) {
   let filter =
-    '&$expand=Site($select=Latitude,Longitude,Depth)' +
-    '&$filter=Site/EnvironmentTypeId in (31,32,33)' +
+    'Site/EnvironmentTypeId in (31,32,33)' +
     ` and ParameterCode eq '${obsCode}'`
 
   filter += getTimeParametersForVeslaFilter(params)
@@ -46,7 +45,13 @@ export async function* getObservations(
     return []
   }
   const filter = getFilter(params, obsCode)
-  const pages = getPagedODataResponse(resource, query + '&' + filter)
+  const pages  = getPagedODataResponse(
+    resource,
+    query +
+      '&$filter=' +
+      filter +
+      '&$expand=Site($select=Latitude,Longitude,Depth)'
+  )
   for await (const page of pages) {
     const res = page.value.map((r) => fromObservationToSykeFormat(r))
     if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
@@ -62,7 +67,10 @@ export async function getObservationSiteIds(
   obsCode: string
 ) {
   const filter = getFilter(params, obsCode)
-  const pages = getPagedODataResponse(resource, '$select=siteId' + filter)
+  const pages = getPagedODataResponse(
+    resource,
+    '$apply=filter(' + filter + ')/groupby((siteId))&$orderby=siteId'
+  )
   const data: number[] = []
   for await (const page of pages) {
     data.push(...page.value.map((d: any) => d.siteId))
