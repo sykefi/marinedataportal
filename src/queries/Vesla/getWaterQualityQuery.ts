@@ -105,7 +105,7 @@ export async function getWaterQualitySiteIds(
   depth: IDepthSettings
 ) {
   const filter = getFilter(par, combinationIds, depth)
-  const generator = getPagedODataResponse(resource, filter)
+  const pages = getPagedODataResponse(resource, filter)
   const results: number[] = []
   for await (const page of pages) {
     results.push(...(page.value as number[]))

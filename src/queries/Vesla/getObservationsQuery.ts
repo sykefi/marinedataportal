@@ -62,7 +62,7 @@ export async function getObservationSiteIds(
   obsCode: string
 ) {
   const filter = getFilter(params, obsCode)
-  const generator = getPagedODataResponse(resource, '$select=siteId' + filter)
+  const pages = getPagedODataResponse(resource, '$select=siteId' + filter)
   const data: number[] = []
   for await (const page of pages) {
     data.push(...page.value.map((d: any) => d.siteId))
