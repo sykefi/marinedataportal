@@ -17,7 +17,7 @@ describe('Integration tests for surface temperature module', () => {
     setActivePinia(createPinia())
     const store = useSurfaceTemperatureStore()
 
-    async function* veslaFake(): AsyncGenerator<sykeApi.IODataResponse> {
+    async function* veslaFaker(): AsyncGenerator<sykeApi.IODataResponse> {
       yield {
         nextLink: '',
         value: [
@@ -44,9 +44,8 @@ describe('Integration tests for surface temperature module', () => {
       }
     }
 
-    const fmiApiResponse: Promise<IFmiResult[]> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
+    async function* fmiFaker():  AsyncGenerator<IFmiResult[]> {
+        yield [
           {
             time: '2019-01-26T00:00:00.000Z',
             parameterName: 'TW_PT1H_AVG',
@@ -57,11 +56,11 @@ describe('Integration tests for surface temperature module', () => {
             siteName: 'Porvoo Emäsalo Vaarlahti',
             dataSource: 'FMI',
           },
-        ])
-      }, 0)
-    })
-    sinon.stub(sykeApi, 'default').callsFake(veslaFake)
-    sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
+        ]
+      
+    }
+    sinon.stub(sykeApi, 'default').callsFake(veslaFaker)
+    sinon.stub(fmiApi, 'default').callsFake(fmiFaker)
 
     const startDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
     const endDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
@@ -138,7 +137,7 @@ describe('Integration tests for ice thickness module', () => {
   const store = useIceThicknessStore()
 
   it('returns correct results when ice thickness is queried', async () => {
-    async function* veslaFake(): AsyncGenerator<sykeApi.IODataResponse> {
+    async function* veslaFaker(): AsyncGenerator<sykeApi.IODataResponse> {
       yield {
         nextLink: '',
         value: [
@@ -173,7 +172,7 @@ describe('Integration tests for ice thickness module', () => {
         ],
       }
     }
-    sinon.stub(sykeApi, 'default').callsFake(veslaFake)
+    sinon.stub(sykeApi, 'default').callsFake(veslaFaker)
 
     const startDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0))
     const endDate = new Date(Date.UTC(2017, 0, 1, 0, 0, 0))
