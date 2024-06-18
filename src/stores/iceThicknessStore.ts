@@ -33,7 +33,11 @@ export const useIceThicknessStore = defineStore('iceThickness', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true
-      this.data = await getObservations(params, this.obsCode)
+      this.data = []
+      var generator = getObservations(params, this.obsCode)
+      for await (let batch of generator){
+        this.data.push(...batch)
+      }
       this.loading = false
     },
     async getAvailableVeslaSiteIds(params: CommonParameters) {

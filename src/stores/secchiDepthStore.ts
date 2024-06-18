@@ -50,8 +50,5 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
     toggleSelected() {
       this.isSelected = !this.isSelected
     },
-    setData(newData: IResponseFormat[]) {
-      this.data = newData
-    },
   },
 })

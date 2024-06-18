@@ -7,7 +7,7 @@ import { useIceThicknessStore } from '@/stores/iceThicknessStore'
 import * as sinon from 'sinon'
 import { IFmiResult } from '@/apis/fmiApi'
 import * as fmiApi from '@/apis/fmiApi'
-import { describe, it } from 'vitest'
+import { describe, it, afterEach } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 
 import * as sykeApi from '@/apis/sykeApi'
@@ -60,8 +60,8 @@ describe('Integration tests for surface temperature module', () => {
         ])
       }, 0)
     })
-    const veslaApiStub = sinon.stub(sykeApi, 'default').callsFake(veslaFake)
-    const fmiApiStub = sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
+    sinon.stub(sykeApi, 'default').callsFake(veslaFake)
+    sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
 
     const startDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
     const endDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
@@ -130,9 +130,6 @@ describe('Integration tests for surface temperature module', () => {
     ]
 
     compareArrays(actualResults, expectedResults)
-
-    veslaApiStub.restore()
-    fmiApiStub.restore()
   })
 })
 
@@ -176,7 +173,7 @@ describe('Integration tests for ice thickness module', () => {
         ],
       }
     }
-    const veslaApiStub = sinon.stub(sykeApi, 'default').callsFake(veslaFake)
+    sinon.stub(sykeApi, 'default').callsFake(veslaFake)
 
     const startDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0))
     const endDate = new Date(Date.UTC(2017, 0, 1, 0, 0, 0))
@@ -230,9 +227,13 @@ describe('Integration tests for ice thickness module', () => {
         dataSource: 'SYKE',
       },
     ]
-
+    console.log(actualResults)
+    console.log(expectedResults)
     compareArrays(actualResults, expectedResults)
-
-    veslaApiStub.restore()
   })
 })
+
+afterEach(() => {
+  // Restore the default sandbox here
+  sinon.restore();
+});

@@ -50,8 +50,9 @@ export async function* getObservations(
     batch.value.map((r) => fromObservationToSykeFormat(r))
     if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
       yield cleanupTimePeriod(batch.value, params)
+    }else{
+      yield batch.value
     }
-    yield batch.value
   }
 }
 
