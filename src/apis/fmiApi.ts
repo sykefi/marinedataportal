@@ -8,7 +8,7 @@ const QUERY_URL = 'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0'
 export interface IFmiResult {
   time: string
   parameterName: string
-  value: number
+  value: string
   lat: number
   long: number
   dataSource: string
@@ -135,8 +135,8 @@ function parseSimpleResponse(elements: Element[], site: Site) {
       element.getElementsByTagName('BsWfs:Time')[0].firstChild!.nodeValue!
     const parameterName = element.getElementsByTagName('BsWfs:ParameterName')[0]
       .firstChild!.nodeValue!
-    const value = Number(element.getElementsByTagName('BsWfs:ParameterValue')[0]
-      .firstChild!.nodeValue!)
+    const value = element.getElementsByTagName('BsWfs:ParameterValue')[0]
+      .firstChild!.nodeValue!
     const result: IFmiResult = {
       time: new Date(time).toISOString(),
       parameterName,

@@ -34,8 +34,8 @@ export const useIceThicknessStore = defineStore('iceThickness', {
     async getData(params: CommonParameters) {
       this.loading = true
       this.data = []
-      var generator = getObservations(params, this.obsCode)
-      for await (let batch of generator){
+      const generator = getObservations(params, this.obsCode)
+      for await (const batch of generator) {
         this.data.push(...batch)
       }
       this.loading = false

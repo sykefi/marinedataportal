@@ -6,6 +6,7 @@ import {
   getTimeParametersForVeslaFilter,
   fromObservationToSykeFormat,
 } from '@/helpers'
+import { IResponseFormat } from '../IResponseFormat'
 
 const select = [
   'Time',
@@ -40,18 +41,18 @@ function getFilter(params: CommonParameters, obsCode: string) {
 export async function* getObservations(
   params: CommonParameters,
   obsCode: string
-) {
+): AsyncGenerator<IResponseFormat[]> {
   if (params.veslaSites.length === 0) {
     return []
   }
   const filter = getFilter(params, obsCode)
   const resultGenerator = getPagedODataResponse(resource, query + '&' + filter)
   for await (const batch of resultGenerator) {
-    batch.value.map((r) => fromObservationToSykeFormat(r))
+    const res = batch.value.map((r) => fromObservationToSykeFormat(r))
     if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-      yield cleanupTimePeriod(batch.value, params)
-    }else{
-      yield batch.value
+      yield cleanupTimePeriod(res, params)
+    } else {
+      yield res
     }
   }
 }
@@ -62,9 +63,9 @@ export async function getObservationSiteIds(
 ) {
   const filter = getFilter(params, obsCode)
   const generator = getPagedODataResponse(resource, '$select=siteId' + filter)
-  let data: number[] = []
-  for await (let batch of generator){
-     data.push(...batch.value.map((d:any) => d.siteId))
+  const data: number[] = []
+  for await (const batch of generator) {
+    data.push(...batch.value.map((d: any) => d.siteId))
   }
-  return data;
+  return data
 }

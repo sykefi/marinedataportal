@@ -5,7 +5,6 @@ import {
   getObservationSiteIds,
 } from '@/queries/Vesla/getObservationsQuery'
 import { PREVIEW_ROW_COUNT } from '@/config'
-import { IResponseFormat } from '@/queries/IResponseFormat'
 import { defineStore } from 'pinia'
 import { IAttributeStoreState } from './types/IAttributeStoreState'
 

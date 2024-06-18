@@ -9,9 +9,9 @@ export interface IWaterQualityOption {
 }
 
 export async function getWaterQualityOptions() {
-  var generator = getPagedODataResponse('MaaritysYhd', query)
+  const generator = getPagedODataResponse('MaaritysYhd', query)
   const options: IWaterQualityOption[] = []
-  for await (let batch of generator){
+  for await (const batch of generator) {
     batch.value.forEach((value: any) => {
       options.push({
         id: value.MaaritysYhd_Id,

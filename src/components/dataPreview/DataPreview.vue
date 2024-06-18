@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showInfo" id="preview-container">
-    <p class="info-paragraph">
+  <div id="preview-container">
+    <p v-if="showInfo" class="info-paragraph">
       {{ $t('$dataPreviewInfo') }}
     </p>
     <div v-for="store in stores" :key="store.name">
