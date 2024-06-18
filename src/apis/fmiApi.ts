@@ -29,7 +29,7 @@ export async function GetRawXMLResponse(query: string) {
   return res
 }
 
-export default async function GetSimpleFmiResponse(
+export default async function* GetSimpleFmiResponse(
   query: string,
   params: CommonParameters,
   sites: Site[]
@@ -53,15 +53,14 @@ export default async function GetSimpleFmiResponse(
       try {
         const res = await getXmlResponse(QUERY_URL + query + fp)
         const elements = res.getElementsByTagName('BsWfs:BsWfsElement')
-        results.push(...parseSimpleResponse(Array.from(elements), site))
+        const values = parseSimpleResponse(Array.from(elements), site)
+        yield values.sort(sortByTimeAndParameters)
       } catch (e) {
         console.error(e)
         mainState.setError(true)
       }
     }
   }
-
-  return results.sort(sortByTimeAndParameters)
 }
 
 export function sortByTimeAndParameters(a: IFmiResult, b: IFmiResult) {

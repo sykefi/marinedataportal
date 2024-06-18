@@ -45,7 +45,7 @@ export async function* getObservations(
     return []
   }
   const filter = getFilter(params, obsCode)
-  const pages  = getPagedODataResponse(
+  const pages = getPagedODataResponse(
     resource,
     query +
       '&$filter=' +

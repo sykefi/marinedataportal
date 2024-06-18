@@ -14,7 +14,6 @@ import {
 } from '@/queries/FMI/getWaveDataQuery'
 import { DepthOptions } from './waterQualityStore'
 import { toCommonFormat, toFmiFormat } from '@/helpers'
-import { IResponseFormat } from '@/queries/IResponseFormat'
 import { defineStore } from 'pinia'
 import { useMainStateStore } from './mainStateStore'
 
@@ -44,38 +43,43 @@ export const useSurfaceTemperatureStore = defineStore('surfaceTemperature', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true
-      const tempData: IResponseFormat[] = []
+      this.data = []
       let hasVeslaData = false
       if (params.veslaSites.length) {
         const pages = getWaterQuality(params, [TEMP_ID_IN_VESLA], {
           option: DepthOptions.SurfaceLayer,
         })
         for await (const page of pages) {
-          tempData.push(...page)
+          this.data.push(...page)
         }
-        hasVeslaData = !!tempData.length
+        hasVeslaData = !!this.data.length
       }
       if (params.mareographSites.length) {
-        const response = await getMareographTemperatures(params)
-        const inCorrectFormat = response.map((r) =>
-          hasVeslaData
-            ? toCommonFormat(r, 'Temperature', '°C')
-            : toFmiFormat(r, 'Temperature', '°C')
-        )
-        tempData.push(...inCorrectFormat)
+        const pages = getMareographTemperatures(params)
+        for await (const page of pages) {
+          this.data.push(
+            ...page.map((r) =>
+              hasVeslaData
+                ? toCommonFormat(r, 'Temperature', '°C')
+                : toFmiFormat(r, 'Temperature', '°C')
+            )
+          )
+        }
       }
       if (params.buoySites.length) {
-        const response = await getWaveData(params, [
+        const pages = getWaveData(params, [
           WaveQueryParameters.waterTemperature,
         ])
-        const inCorrectFormat = response.map((r) =>
-          hasVeslaData
-            ? toCommonFormat(r, 'Temperature', '°C')
-            : toFmiFormat(r, 'Temperature', '°C')
-        )
-        tempData.push(...inCorrectFormat)
+        for await (const page of pages) {
+          this.data.push(
+            ...page.map((r) =>
+              hasVeslaData
+                ? toCommonFormat(r, 'Temperature', '°C')
+                : toFmiFormat(r, 'Temperature', '°C')
+            )
+          )
+        }
       }
-      this.setData(tempData)
       this.loading = false
     },
     async getAvailableVeslaSiteIds(params: CommonParameters) {
@@ -126,9 +130,6 @@ export const useSurfaceTemperatureStore = defineStore('surfaceTemperature', {
         name: i18n.global.t('$marineStations').toString(),
         online: mainState.sykeApiOnline,
       })
-    },
-    setData(newData: IResponseFormat[]) {
-      this.data = newData
     },
   },
 })
