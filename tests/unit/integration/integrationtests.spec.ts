@@ -15,9 +15,11 @@ describe('Integration tests for surface temperature module', () => {
   it('returns correct results when surface temperature is queried', async () => {
     setActivePinia(createPinia())
     const store = useSurfaceTemperatureStore()
-    const veslaApiResponse: Promise<any[] | null> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
+
+    async function * veslaFake(): AsyncGenerator<sykeApi.IODataResponse>{
+      yield {
+        nextLink: '',
+        value: [
           {
             time: '2019-01-26T22:18:00+02:00',
             analyteName: 'Temperature',
@@ -35,11 +37,12 @@ describe('Integration tests for surface temperature module', () => {
             siteDepthM: 126,
             totalDepthM: 121,
             laboratory: 'Suomen ympäristökeskus (R/V Aranda)',
-            dataSource: 'SYKE',
-          },
-        ])
-      }, 0)
-    })
+            dataSource: 'SYKE'
+          }
+        ]
+      }
+    }
+
     const fmiApiResponse: Promise<IFmiResult[]> = new Promise((resolve) => {
       setTimeout(() => {
         resolve([
@@ -57,8 +60,8 @@ describe('Integration tests for surface temperature module', () => {
       }, 0)
     })
     const veslaApiStub = sinon
-      .stub(sykeApi, 'getVeslaData')
-      .returns(veslaApiResponse)
+      .stub(sykeApi, 'getPagedODataResponse')
+      .callsFake(veslaFake)
     const fmiApiStub = sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
 
     const startDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
@@ -86,7 +89,7 @@ describe('Integration tests for surface temperature module', () => {
 
     await store.getData(params)
     const actualResults = store.data!
-
+    console.log(actualResults)
     const expectedResults: IResponseFormat[] = [
       {
         time: '2019-01-26T22:18:00+02:00',
@@ -174,7 +177,7 @@ describe('Integration tests for ice thickness module', () => {
         ])
       }, 0)
     })
-    const veslaApiStub = sinon.stub(sykeApi, 'default').returns(stubResponse)
+    const veslaApiStub = sinon.stub(sykeApi, 'getVeslaData').returns(stubResponse)
 
     const startDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0))
     const endDate = new Date(Date.UTC(2017, 0, 1, 0, 0, 0))

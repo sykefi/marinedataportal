@@ -47,11 +47,11 @@ export const useSurfaceTemperatureStore = defineStore('surfaceTemperature', {
       const tempData: IResponseFormat[] = []
       let hasVeslaData = false
       if (params.veslaSites.length) {
-        const data = await getWaterQuality(params, [TEMP_ID_IN_VESLA], {
+        const generator = getWaterQuality(params, [TEMP_ID_IN_VESLA], {
           option: DepthOptions.SurfaceLayer,
         })
-        if (data) {
-          tempData.push(...data)
+        for await (const batch of generator) {
+          tempData.push(...batch)
         }
         hasVeslaData = !!tempData.length
       }

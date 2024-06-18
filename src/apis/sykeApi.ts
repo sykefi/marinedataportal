@@ -64,7 +64,7 @@ export async function* getPagedODataResponse(
   }
 }
 
-interface IODataResponse {
+export interface IODataResponse {
   nextLink: string
   value: any[]
 }
