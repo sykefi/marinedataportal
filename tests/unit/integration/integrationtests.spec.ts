@@ -44,20 +44,19 @@ describe('Integration tests for surface temperature module', () => {
       }
     }
 
-    async function* fmiFaker():  AsyncGenerator<IFmiResult[]> {
-        yield [
-          {
-            time: '2019-01-26T00:00:00.000Z',
-            parameterName: 'TW_PT1H_AVG',
-            value: '-0.5',
-            lat: 60.20579,
-            long: 25.62509,
-            siteId: 100669,
-            siteName: 'Porvoo Emäsalo Vaarlahti',
-            dataSource: 'FMI',
-          },
-        ]
-      
+    async function* fmiFaker(): AsyncGenerator<IFmiResult[]> {
+      yield [
+        {
+          time: '2019-01-26T00:00:00.000Z',
+          parameterName: 'TW_PT1H_AVG',
+          value: '-0.5',
+          lat: 60.20579,
+          long: 25.62509,
+          siteId: 100669,
+          siteName: 'Porvoo Emäsalo Vaarlahti',
+          dataSource: 'FMI',
+        },
+      ]
     }
     sinon.stub(sykeApi, 'default').callsFake(veslaFaker)
     sinon.stub(fmiApi, 'default').callsFake(fmiFaker)
