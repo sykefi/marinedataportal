@@ -12,10 +12,10 @@ export interface IWaterQualityOption {
 }
 
 export async function getWaterQualityOptions() {
-  const generator = getPagedODataResponse('DeterminationCombinations', query)
+  const pages = getPagedODataResponse('DeterminationCombinations', query)
   const options: IWaterQualityOption[] = []
-  for await (const batch of generator) {
-    batch.value.forEach((value: any) => {
+  for await (const page of pages) {
+    page.value.forEach((value: any) => {
       options.push({
         id: value.determinationCombinationId,
         name_fi: value.nameFi,

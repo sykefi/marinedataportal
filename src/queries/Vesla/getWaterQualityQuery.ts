@@ -88,9 +88,9 @@ export async function* getWaterQuality(
     return []
   }
   const filter = getFilter(par, combinationIds, depth)
-  const resultGenerator = getPagedODataResponse(resource, query + '&' + filter)
-  for await (const batch of resultGenerator) {
-    const res = batch.value.map((r) => fromWaterQualityResultToSykeFormat(r))
+  const pages = getPagedODataResponse(resource, query + '&' + filter)
+  for await (const page of pages) {
+    const res = page.value.map((r) => fromWaterQualityResultToSykeFormat(r))
     if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
       yield cleanupTimePeriod(res, par)
     } else {
@@ -107,8 +107,8 @@ export async function getWaterQualitySiteIds(
   const filter = getFilter(par, combinationIds, depth)
   const generator = getPagedODataResponse(resource, filter)
   const results: number[] = []
-  for await (const batch of generator) {
-    results.push(...(batch.value as number[]))
+  for await (const page of pages) {
+    results.push(...(page.value as number[]))
   }
   return results
 }

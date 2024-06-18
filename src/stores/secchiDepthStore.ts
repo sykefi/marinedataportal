@@ -34,9 +34,9 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
     async getData(params: CommonParameters) {
       this.loading = true
       this.data = []
-      const generator = getObservations(params, this.obsCode)
-      for await (const batch of generator) {
-        this.data.push(...batch)
+      const pages = getObservations(params, this.obsCode)
+      for await (const page of pages) {
+        this.data.push(...page)
       }
       this.loading = false
     },

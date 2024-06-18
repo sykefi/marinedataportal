@@ -46,9 +46,9 @@ export async function* getObservations(
     return []
   }
   const filter = getFilter(params, obsCode)
-  const resultGenerator = getPagedODataResponse(resource, query + '&' + filter)
-  for await (const batch of resultGenerator) {
-    const res = batch.value.map((r) => fromObservationToSykeFormat(r))
+  const pages = getPagedODataResponse(resource, query + '&' + filter)
+  for await (const page of pages) {
+    const res = page.value.map((r) => fromObservationToSykeFormat(r))
     if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
       yield cleanupTimePeriod(res, params)
     } else {
@@ -64,8 +64,8 @@ export async function getObservationSiteIds(
   const filter = getFilter(params, obsCode)
   const generator = getPagedODataResponse(resource, '$select=siteId' + filter)
   const data: number[] = []
-  for await (const batch of generator) {
-    data.push(...batch.value.map((d: any) => d.siteId))
+  for await (const page of pages) {
+    data.push(...page.value.map((d: any) => d.siteId))
   }
   return data
 }

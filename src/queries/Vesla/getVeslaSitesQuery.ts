@@ -14,9 +14,9 @@ export async function* getVeslaSites(ids: number[]) {
       const filter =
         '$filter=' + buildODataInFilterFromArray(chunk, 'SiteId', false)
 
-      const generator = getPagedODataResponse('Sites', query + filter)
-      for await (const batch of generator) {
-        yield batch.value.map(
+      const pages = getPagedODataResponse('Sites', query + filter)
+      for await (const page of pages) {
+        yield page.value.map(
           (r) =>
             new Site(
               r.siteId,
