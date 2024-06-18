@@ -20,10 +20,9 @@ const resource = 'Observations'
 
 const query = '$orderby=SiteId,Time&$select=' + select.join(',')
 
-async function getFilter(params: CommonParameters, obsCode: string) {
+function getFilter(params: CommonParameters, obsCode: string) {
   let filter =
-    '&$expand=Site($select=Latitude,Longitude,Depth)' +
-    '&$filter=Site/EnvironmentTypeId in (31,32,33)' +
+    'Site/EnvironmentTypeId in (31,32,33)' +
     ` and ParameterCode eq '${obsCode}'`
 
   filter += getTimeParametersForVeslaFilter(params)
@@ -44,8 +43,14 @@ export async function getObservations(
   if (params.veslaSites.length === 0) {
     return []
   }
-  const filter = await getFilter(params, obsCode)
-  let results = await getVeslaData(resource, query + '&' + filter)
+  const filter = getFilter(params, obsCode)
+  let results = await getVeslaData(
+    resource,
+    query +
+      '&$filter=' +
+      filter +
+      '&$expand=Site($select=Latitude,Longitude,Depth)'
+  )
   if (!results) {
     return []
   }
@@ -60,8 +65,11 @@ export async function getObservationSiteIds(
   params: CommonParameters,
   obsCode: string
 ) {
-  const filter = await getFilter(params, obsCode)
-  let data = await getVeslaData(resource, '$select=siteId' + filter)
+  const filter = getFilter(params, obsCode)
+  let data = await getVeslaData(
+    resource,
+    '$apply=filter(' + filter + ')/groupby((siteId))&$orderby=siteId'
+  )
   if (data) {
     data = data.map((d) => d.siteId)
   }
