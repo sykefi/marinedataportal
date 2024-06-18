@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import { getVeslaData, getPagedODataResponse } from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
@@ -59,10 +59,11 @@ export async function getObservationSiteIds(
   params: CommonParameters,
   obsCode: string
 ) {
-  const filter = await getFilter(params, obsCode)
-  let data = await getVeslaData(resource, '$select=siteId' + filter)
-  if (data) {
-    data = data.map((d) => d.siteId)
+  const filter = getFilter(params, obsCode)
+  const generator = getPagedODataResponse(resource, '$select=siteId' + filter)
+  let data: number[] = []
+  for await (let batch of generator){
+     data.push(...batch.value.map((d:any) => d.siteId))
   }
-  return data as number[]
+  return data;
 }

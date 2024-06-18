@@ -2,38 +2,8 @@ import { useMainStateStore } from '@/stores/mainStateStore'
 
 const apiBase = 'https://rajapinnat.ymparisto.fi/api/meritietoportaali/api/'
 
-/** Get the full dataset in one call */
-export async function getVeslaData(resource: string, query: string) {
-  const mainState = useMainStateStore()
-  try {
-    let res = await postODataQuery(resource, query)
-    const data = res.value
-
-    while (res.nextLink) {
-      const params = new URLSearchParams(res.nextLink.split('?')[1])
-      const skipValue = params.get('$skip')
-      if (!skipValue) {
-        break
-      }
-      const newQuery = query + '&$skip=' + skipValue!
-      res = await postODataQuery(resource, newQuery)
-      data.push(...res.value)
-    }
-    if (data.length && data[0] instanceof Object) {
-      data.forEach((obj) => {
-        obj.dataSource = 'SYKE'
-      })
-    }
-    return data
-  } catch (e) {
-    console.error(e)
-    mainState.setError(true)
-    return null
-  }
-}
-
 /** provide a generator to loop through response OData pages */
-export async function* getPagedODataResponse(
+export default async function* getPagedODataResponse(
   resource: string,
   query: string
 ): AsyncGenerator<IODataResponse> {

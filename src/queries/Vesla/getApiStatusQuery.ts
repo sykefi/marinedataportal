@@ -1,6 +1,8 @@
-import { getVeslaData } from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 
 export async function sykeApiIsOnline() {
-  const result = await getVeslaData('', '')
-  return !!result
+  let generator = getPagedODataResponse('', '')
+  for await (let batch of generator){
+    return batch.value.length > 0;
+  }
 }

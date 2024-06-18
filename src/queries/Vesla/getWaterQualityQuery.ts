@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import { getPagedODataResponse, getVeslaData } from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
@@ -103,5 +103,10 @@ export async function getWaterQualitySiteIds(
   depth: IDepthSettings
 ) {
   const filter = getFilter(par, combinationIds, depth)
-  return (await getVeslaData(resource, filter)) as number[]
+  const generator = getPagedODataResponse(resource, filter)
+  const results: number[] = []
+  for await (const batch of generator) {
+    results.push(...(batch.value as number[]))
+  }
+  return results
 }

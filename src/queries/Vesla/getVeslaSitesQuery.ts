@@ -1,4 +1,4 @@
-import { getVeslaData } from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 import { Site, SiteTypes } from '../site'
 import { chunkArray, buildODataInFilterFromArray } from '@/helpers'
 
@@ -13,25 +13,21 @@ export async function* getVeslaSites(ids: number[]) {
     if (chunk.find((i) => i > 0)) {
       const filter =
         '$filter=' + buildODataInFilterFromArray(chunk, 'SiteId', false)
-      const res = (await getVeslaData('Sites', query + filter)) as Array<{
-        siteId: number
-        name: string
-        latitude: number
-        longitude: number
-        depth: number | null
-      }>
 
-      yield res.map(
-        (r) =>
-          new Site(
-            r.siteId,
-            r.name,
-            r.latitude,
-            r.longitude,
-            r.depth,
-            SiteTypes.Vesla
-          )
-      )
+      var generator = getPagedODataResponse('Sites', query + filter)
+      for await (let batch of generator){
+        yield batch.value.map(
+          (r) =>
+            new Site(
+              r.siteId,
+              r.name,
+              r.latitude,
+              r.longitude,
+              r.depth,
+              SiteTypes.Vesla
+            )
+        )
+      }
     }
   }
 }

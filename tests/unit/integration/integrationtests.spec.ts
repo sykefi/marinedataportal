@@ -5,18 +5,19 @@ import { compareArrays } from '@/../tests/unit/fmiApi.spec'
 import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore'
 import { useIceThicknessStore } from '@/stores/iceThicknessStore'
 import * as sinon from 'sinon'
-import * as sykeApi from '@/apis/sykeApi'
 import { IFmiResult } from '@/apis/fmiApi'
 import * as fmiApi from '@/apis/fmiApi'
 import { describe, it } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
+
+import * as sykeApi from '@/apis/sykeApi'
 
 describe('Integration tests for surface temperature module', () => {
   it('returns correct results when surface temperature is queried', async () => {
     setActivePinia(createPinia())
     const store = useSurfaceTemperatureStore()
 
-    async function * veslaFake(): AsyncGenerator<sykeApi.IODataResponse>{
+    async function* veslaFake(): AsyncGenerator<sykeApi.IODataResponse> {
       yield {
         nextLink: '',
         value: [
@@ -31,15 +32,15 @@ describe('Integration tests for surface temperature module', () => {
             siteLongitudeWGS84: 19.58333,
             samplingLatitudeWGS84: 61.08323,
             samplingLongitudeWGS84: 19.57952,
-            sampleDepthM: '1.0',
+            sampleDepthM: 1,
             sampleDepthUpperM: 1,
             sampleDepthLowerM: null,
             siteDepthM: 126,
             totalDepthM: 121,
             laboratory: 'Suomen ympäristökeskus (R/V Aranda)',
-            dataSource: 'SYKE'
-          }
-        ]
+            dataSource: 'SYKE',
+          },
+        ],
       }
     }
 
@@ -49,7 +50,7 @@ describe('Integration tests for surface temperature module', () => {
           {
             time: '2019-01-26T00:00:00.000Z',
             parameterName: 'TW_PT1H_AVG',
-            value: '-0.5',
+            value: -0.5,
             lat: 60.20579,
             long: 25.62509,
             siteId: 100669,
@@ -59,9 +60,7 @@ describe('Integration tests for surface temperature module', () => {
         ])
       }, 0)
     })
-    const veslaApiStub = sinon
-      .stub(sykeApi, 'getPagedODataResponse')
-      .callsFake(veslaFake)
+    const veslaApiStub = sinon.stub(sykeApi, 'default').callsFake(veslaFake)
     const fmiApiStub = sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
 
     const startDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
@@ -89,36 +88,35 @@ describe('Integration tests for surface temperature module', () => {
 
     await store.getData(params)
     const actualResults = store.data!
-    console.log(actualResults)
     const expectedResults: IResponseFormat[] = [
       {
         time: '2019-01-26T22:18:00+02:00',
         analyteName: 'Temperature',
-        value: '2.229',
+        value: 2.229,
         unit: '°C',
         siteId: 70676,
         site: 'SR5',
-        siteLatitudeWGS84: '61.08333',
-        siteLongitudeWGS84: '19.58333',
-        samplingLatitudeWGS84: '61.08323',
-        samplingLongitudeWGS84: '19.57952',
-        sampleDepthM: '1.0',
-        sampleDepthUpperM: '1',
-        sampleDepthLowerM: undefined,
-        siteDepthM: '126',
-        totalDepthM: '121',
+        siteLatitudeWGS84: 61.08333,
+        siteLongitudeWGS84: 19.58333,
+        samplingLatitudeWGS84: 61.08323,
+        samplingLongitudeWGS84: 19.57952,
+        sampleDepthM: 1.0,
+        sampleDepthUpperM: 1,
+        sampleDepthLowerM: null,
+        siteDepthM: 126,
+        totalDepthM: 121,
         laboratory: 'Suomen ympäristökeskus (R/V Aranda)',
         dataSource: 'SYKE',
       },
       {
         time: '2019-01-26T00:00:00.000Z',
         analyteName: 'Temperature',
-        value: '-0.5',
+        value: -0.5,
         unit: '°C',
         siteId: 100669,
         site: 'Porvoo Emäsalo Vaarlahti',
-        siteLatitudeWGS84: '60.20579',
-        siteLongitudeWGS84: '25.62509',
+        siteLatitudeWGS84: 60.20579,
+        siteLongitudeWGS84: 25.62509,
         samplingLatitudeWGS84: null,
         samplingLongitudeWGS84: null,
         sampleDepthM: null,
@@ -143,9 +141,10 @@ describe('Integration tests for ice thickness module', () => {
   const store = useIceThicknessStore()
 
   it('returns correct results when ice thickness is queried', async () => {
-    const stubResponse: Promise<any[] | null> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
+    async function* veslaFake(): AsyncGenerator<sykeApi.IODataResponse> {
+      yield {
+        nextLink: '',
+        value: [
           {
             time: '2016-01-26T14:00:00+02:00',
             value: 0.1,
@@ -174,10 +173,10 @@ describe('Integration tests for ice thickness module', () => {
             },
             dataSource: 'SYKE',
           },
-        ])
-      }, 0)
-    })
-    const veslaApiStub = sinon.stub(sykeApi, 'getVeslaData').returns(stubResponse)
+        ],
+      }
+    }
+    const veslaApiStub = sinon.stub(sykeApi, 'default').callsFake(veslaFake)
 
     const startDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0))
     const endDate = new Date(Date.UTC(2017, 0, 1, 0, 0, 0))
@@ -209,25 +208,25 @@ describe('Integration tests for ice thickness module', () => {
       {
         time: '2016-01-26T14:00:00+02:00',
         analyteName: 'Ice thickness',
-        value: '0.1',
+        value: 0.1,
         unit: 'm',
         siteId: 3401,
         site: 'Espoonlahti 118',
-        siteLatitudeWGS84: '60.16363',
-        siteLongitudeWGS84: '24.58969',
-        siteDepthM: '16',
+        siteLatitudeWGS84: 60.16363,
+        siteLongitudeWGS84: 24.58969,
+        siteDepthM: 16,
         dataSource: 'SYKE',
       },
       {
         time: '2016-02-22T00:00:00+02:00',
         analyteName: 'Ice thickness',
-        value: '0.36',
+        value: 0.36,
         unit: 'm',
         siteId: 5663,
         site: 'Klobbfjärden',
-        siteLatitudeWGS84: '63.28862',
-        siteLongitudeWGS84: '21.12850',
-        siteDepthM: '4.4',
+        siteLatitudeWGS84: 63.28862,
+        siteLongitudeWGS84: 21.12850,
+        siteDepthM: 4.4,
         dataSource: 'SYKE',
       },
     ]
