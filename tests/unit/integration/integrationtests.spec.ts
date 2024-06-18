@@ -57,7 +57,7 @@ describe('Integration tests for surface temperature module', () => {
       }, 0)
     })
     const veslaApiStub = sinon
-      .stub(sykeApi, 'default')
+      .stub(sykeApi, 'getVeslaData')
       .returns(veslaApiResponse)
     const fmiApiStub = sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
 
