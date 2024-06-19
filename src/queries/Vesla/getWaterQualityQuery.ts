@@ -103,5 +103,5 @@ export async function getWaterQualitySiteIds(
   depth: IDepthSettings
 ) {
   const filter = await getFilter(par, combinationIds, depth)
-  return (await getVeslaData(resource, filter)) as number[]
+  return (await getVeslaData(resource + '/SiteIds', filter)) as number[]
 }
