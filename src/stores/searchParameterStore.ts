@@ -86,9 +86,9 @@ export const useSearchParameterStore = defineStore('searchParameter', {
       this.availableSites = [] //reset previously loaded sites
       const siteTypes = mainState.selectedSiteTypes
       if (siteTypes.includes(SiteTypes.Vesla)) {
-        const veslaSitesGenerator = getVeslaSites(veslaIds)
-        for await (const siteBatch of veslaSitesGenerator) {
-          this.availableSites.push(...siteBatch) //assumption: our API calls produce no duplicates
+        const pages = getVeslaSites(veslaIds)
+        for await (const sitepage of pages) {
+          this.availableSites.push(...sitepage) //assumption: our API calls produce no duplicates
         }
       }
       if (siteTypes.includes(SiteTypes.Mareograph)) {

@@ -20,9 +20,9 @@ library.add(faAngleDown)
 
 const pinia = createPinia()
 const app = createApp(App).component('font-awesome-icon', FontAwesomeIcon)
-app.use(pinia)
 app.use(i18n)
 app.use(OpenLayersMap)
+app.use(pinia)
 
 const mainState = useMainStateStore()
 app.config.errorHandler = (e) => {

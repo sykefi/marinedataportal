@@ -5,7 +5,6 @@ import {
   getObservationSiteIds,
 } from '@/queries/Vesla/getObservationsQuery'
 import { PREVIEW_ROW_COUNT } from '@/config'
-import { IResponseFormat } from '@/queries/IResponseFormat'
 import { defineStore } from 'pinia'
 import { IAttributeStoreState } from './types/IAttributeStoreState'
 
@@ -34,8 +33,11 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true
-      const res = await getObservations(params, this.obsCode)
-      this.setData(res)
+      this.data = []
+      const pages = getObservations(params, this.obsCode)
+      for await (const page of pages) {
+        this.data.push(...page)
+      }
       this.loading = false
     },
     async getAvailableVeslaSiteIds(params: CommonParameters) {
@@ -46,9 +48,6 @@ export const useSecchiDepthStore = defineStore('secchiDepth', {
     },
     toggleSelected() {
       this.isSelected = !this.isSelected
-    },
-    setData(newData: IResponseFormat[]) {
-      this.data = newData
     },
   },
 })

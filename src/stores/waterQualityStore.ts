@@ -106,12 +106,15 @@ export const useWaterQualityStore = defineStore('waterQuality', {
     },
     async getData(params: CommonParameters) {
       this.loading = true
-      const data = await getWaterQuality(
+      this.data = []
+      const pages = getWaterQuality(
         params,
         this.selectedIds,
         this.selectedDepth
       )
-      this.setData(data)
+      for await (const page of pages) {
+        this.data.push(...page)
+      }
       this.loading = false
     },
     toggleSelected() {

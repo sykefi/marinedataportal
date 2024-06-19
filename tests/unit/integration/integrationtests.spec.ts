@@ -5,19 +5,22 @@ import { compareArrays } from '@/../tests/unit/fmiApi.spec'
 import { useSurfaceTemperatureStore } from '@/stores/surfaceTemperatureStore'
 import { useIceThicknessStore } from '@/stores/iceThicknessStore'
 import * as sinon from 'sinon'
-import * as sykeApi from '@/apis/sykeApi'
 import { IFmiResult } from '@/apis/fmiApi'
 import * as fmiApi from '@/apis/fmiApi'
-import { describe, it } from 'vitest'
+import { describe, it, afterEach } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
+
+import * as sykeApi from '@/apis/sykeApi'
 
 describe('Integration tests for surface temperature module', () => {
   it('returns correct results when surface temperature is queried', async () => {
     setActivePinia(createPinia())
     const store = useSurfaceTemperatureStore()
-    const veslaApiResponse: Promise<any[] | null> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
+
+    async function* veslaFaker(): AsyncGenerator<sykeApi.IODataResponse> {
+      yield {
+        nextLink: '',
+        value: [
           {
             time: '2019-01-26T22:18:00+02:00',
             analyteName: 'Temperature',
@@ -37,29 +40,26 @@ describe('Integration tests for surface temperature module', () => {
             laboratory: 'Suomen ympäristökeskus (R/V Aranda)',
             dataSource: 'SYKE',
           },
-        ])
-      }, 0)
-    })
-    const fmiApiResponse: Promise<IFmiResult[]> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
-          {
-            time: '2019-01-26T00:00:00.000Z',
-            parameterName: 'TW_PT1H_AVG',
-            value: '-0.5',
-            lat: 60.20579,
-            long: 25.62509,
-            siteId: 100669,
-            siteName: 'Porvoo Emäsalo Vaarlahti',
-            dataSource: 'FMI',
-          },
-        ])
-      }, 0)
-    })
-    const veslaApiStub = sinon
-      .stub(sykeApi, 'default')
-      .returns(veslaApiResponse)
-    const fmiApiStub = sinon.stub(fmiApi, 'default').returns(fmiApiResponse)
+        ],
+      }
+    }
+
+    async function* fmiFaker(): AsyncGenerator<IFmiResult[]> {
+      yield [
+        {
+          time: '2019-01-26T00:00:00.000Z',
+          parameterName: 'TW_PT1H_AVG',
+          value: '-0.5',
+          lat: 60.20579,
+          long: 25.62509,
+          siteId: 100669,
+          siteName: 'Porvoo Emäsalo Vaarlahti',
+          dataSource: 'FMI',
+        },
+      ]
+    }
+    sinon.stub(sykeApi, 'default').callsFake(veslaFaker)
+    sinon.stub(fmiApi, 'default').callsFake(fmiFaker)
 
     const startDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
     const endDate = new Date(Date.UTC(2019, 0, 26, 0, 0, 0))
@@ -86,7 +86,6 @@ describe('Integration tests for surface temperature module', () => {
 
     await store.getData(params)
     const actualResults = store.data!
-
     const expectedResults: IResponseFormat[] = [
       {
         time: '2019-01-26T22:18:00+02:00',
@@ -129,9 +128,6 @@ describe('Integration tests for surface temperature module', () => {
     ]
 
     compareArrays(actualResults, expectedResults)
-
-    veslaApiStub.restore()
-    fmiApiStub.restore()
   })
 })
 
@@ -140,9 +136,10 @@ describe('Integration tests for ice thickness module', () => {
   const store = useIceThicknessStore()
 
   it('returns correct results when ice thickness is queried', async () => {
-    const stubResponse: Promise<any[] | null> = new Promise((resolve) => {
-      setTimeout(() => {
-        resolve([
+    async function* veslaFaker(): AsyncGenerator<sykeApi.IODataResponse> {
+      yield {
+        nextLink: '',
+        value: [
           {
             time: '2016-01-26T14:00:00+02:00',
             value: 0.1,
@@ -171,10 +168,10 @@ describe('Integration tests for ice thickness module', () => {
             },
             dataSource: 'SYKE',
           },
-        ])
-      }, 0)
-    })
-    const veslaApiStub = sinon.stub(sykeApi, 'default').returns(stubResponse)
+        ],
+      }
+    }
+    sinon.stub(sykeApi, 'default').callsFake(veslaFaker)
 
     const startDate = new Date(Date.UTC(2016, 0, 1, 0, 0, 0))
     const endDate = new Date(Date.UTC(2017, 0, 1, 0, 0, 0))
@@ -228,9 +225,11 @@ describe('Integration tests for ice thickness module', () => {
         dataSource: 'SYKE',
       },
     ]
-
     compareArrays(actualResults, expectedResults)
-
-    veslaApiStub.restore()
   })
+})
+
+afterEach(() => {
+  // Restore the default sandbox here
+  sinon.restore()
 })
