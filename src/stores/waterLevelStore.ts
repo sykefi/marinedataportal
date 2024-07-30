@@ -27,18 +27,15 @@ export const useWaterLevelStore = defineStore('waterLevel', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true
-      const results = await getWaterLevels(params)
-      const inFmiFormat = results.map((r) =>
-        toFmiFormat(r, 'Water level', 'mm')
-      )
-      this.setData(inFmiFormat)
+      this.data = []
+      const pages = getWaterLevels(params)
+      for await (const page of pages) {
+        this.data.push(...page.map((r) => toFmiFormat(r, 'Water level', 'mm')))
+      }
       this.loading = false
     },
     toggleSelected() {
       this.isSelected = !this.isSelected
-    },
-    setData(newData: IResponseFormat[]) {
-      this.data = newData
     },
   },
 })

@@ -9,12 +9,17 @@ export enum WaveQueryParameters {
   waterTemperature = 'TWATER',
 }
 
-export async function getWaveData(
+//TODO: implement inline in store
+export async function* getWaveData(
   params: CommonParameters,
   queryParams: WaveQueryParameters[]
 ) {
   const query =
     '&request=getFeature&storedquery_id=fmi::observations::wave::simple&parameters=' +
     queryParams.join(',')
-  return await GetSimpleFmiResponse(query, params, params.buoySites)
+  const pages = GetSimpleFmiResponse(query, params, params.buoySites)
+
+  for await (const page of pages) {
+    yield page
+  }
 }

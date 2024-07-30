@@ -1,11 +1,12 @@
 import { CommonParameters } from '../commonParameters'
-import getVeslaData from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
   getTimeParametersForVeslaFilter,
   fromObservationToSykeFormat,
 } from '@/helpers'
+import { IResponseFormat } from '../IResponseFormat'
 
 const select = [
   'Time',
@@ -36,29 +37,29 @@ function getFilter(params: CommonParameters, obsCode: string) {
   return filter
 }
 
-export async function getObservations(
+export async function* getObservations(
   params: CommonParameters,
   obsCode: string
-) {
+): AsyncGenerator<IResponseFormat[]> {
   if (params.veslaSites.length === 0) {
     return []
   }
   const filter = getFilter(params, obsCode)
-  let results = await getVeslaData(
+  const pages = getPagedODataResponse(
     resource,
     query +
       '&$filter=' +
       filter +
       '&$expand=Site($select=Latitude,Longitude,Depth)'
   )
-  if (!results) {
-    return []
+  for await (const page of pages) {
+    const res = page.value.map((r) => fromObservationToSykeFormat(r))
+    if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
+      yield cleanupTimePeriod(res, params)
+    } else {
+      yield res
+    }
   }
-  results = results.map((r) => fromObservationToSykeFormat(r))
-  if (params.datePeriodMonths?.start !== params.datePeriodMonths?.end) {
-    return cleanupTimePeriod(results, params)
-  }
-  return results
 }
 
 export async function getObservationSiteIds(
@@ -66,12 +67,13 @@ export async function getObservationSiteIds(
   obsCode: string
 ) {
   const filter = getFilter(params, obsCode)
-  let data = await getVeslaData(
+  const pages = getPagedODataResponse(
     resource,
     '$apply=filter(' + filter + ')/groupby((siteId))&$orderby=siteId'
   )
-  if (data) {
-    data = data.map((d) => d.siteId)
+  const data: number[] = []
+  for await (const page of pages) {
+    data.push(...page.value.map((d: any) => d.siteId))
   }
-  return data as number[]
+  return data
 }

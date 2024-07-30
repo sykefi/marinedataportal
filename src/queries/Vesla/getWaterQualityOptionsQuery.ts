@@ -1,4 +1,4 @@
-import getVeslaData from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 
 const query =
   '$select=DeterminationCombinationId,NameFi,NameSv,NameEn&\
@@ -12,10 +12,10 @@ export interface IWaterQualityOption {
 }
 
 export async function getWaterQualityOptions() {
-  const res = await getVeslaData('DeterminationCombinations', query)
+  const pages = getPagedODataResponse('DeterminationCombinations', query)
   const options: IWaterQualityOption[] = []
-  if (res) {
-    res.forEach((value) => {
+  for await (const page of pages) {
+    page.value.forEach((value: any) => {
       options.push({
         id: value.determinationCombinationId,
         name_fi: value.nameFi,

@@ -1,4 +1,4 @@
-import getVeslaData from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 
 const query = '$select=MaaritysYhd_Id,Nimi, NimiEng&$orderby=MaaritysYhd_Id'
 
@@ -9,10 +9,10 @@ export interface IWaterQualityOption {
 }
 
 export async function getWaterQualityOptions() {
-  const res = await getVeslaData('MaaritysYhd', query)
+  const pages = getPagedODataResponse('MaaritysYhd', query)
   const options: IWaterQualityOption[] = []
-  if (res) {
-    res.forEach((value) => {
+  for await (const page of pages) {
+    page.value.forEach((value: any) => {
       options.push({
         id: value.MaaritysYhd_Id,
         name_fi: value.Nimi,

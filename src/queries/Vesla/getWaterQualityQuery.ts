@@ -1,5 +1,5 @@
 import { CommonParameters } from '../commonParameters'
-import getVeslaData from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 import {
   buildODataInFilterFromArray,
   cleanupTimePeriod,
@@ -7,6 +7,7 @@ import {
   fromWaterQualityResultToSykeFormat,
 } from '@/helpers'
 import { DepthOptions, IDepthSettings } from '@/stores/waterQualityStore'
+import { IResponseFormat } from '../IResponseFormat'
 
 const select = [
   'time',
@@ -32,7 +33,7 @@ const resource = 'Results'
 
 const query = '$orderby=DeterminationId,SiteId,Time&$select=' + select.join(',')
 
-async function getFilter(
+function getFilter(
   params: CommonParameters,
   determinationIds: number[],
   depth: IDepthSettings
@@ -77,24 +78,25 @@ async function getFilter(
   return filter
 }
 
-export async function getWaterQuality(
+/** Yield through each page of the API response to populate the actual results */
+export async function* getWaterQuality(
   par: CommonParameters,
   combinationIds: number[],
   depth: IDepthSettings
-) {
+): AsyncGenerator<IResponseFormat[]> {
   if (par.veslaSites.length === 0) {
     return []
   }
-  const filter = await getFilter(par, combinationIds, depth)
-  let results = await getVeslaData(resource, query + '&' + filter)
-  if (!results) {
-    return []
+  const filter = getFilter(par, combinationIds, depth)
+  const pages = getPagedODataResponse(resource, query + '&' + filter)
+  for await (const page of pages) {
+    const res = page.value.map((r) => fromWaterQualityResultToSykeFormat(r))
+    if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
+      yield cleanupTimePeriod(res, par)
+    } else {
+      yield res
+    }
   }
-  results = results.map((r) => fromWaterQualityResultToSykeFormat(r))
-  if (par.datePeriodMonths?.start !== par.datePeriodMonths?.end) {
-    return cleanupTimePeriod(results, par)
-  }
-  return results
 }
 
 export async function getWaterQualitySiteIds(
@@ -102,6 +104,11 @@ export async function getWaterQualitySiteIds(
   combinationIds: number[],
   depth: IDepthSettings
 ) {
-  const filter = await getFilter(par, combinationIds, depth)
-  return (await getVeslaData(resource + '/SiteIds', filter)) as number[]
+  const filter = getFilter(par, combinationIds, depth)
+  const pages = getPagedODataResponse(resource + '/SiteIds', filter)
+  const results: number[] = []
+  for await (const page of pages) {
+    results.push(...(page.value as number[]))
+  }
+  return results
 }

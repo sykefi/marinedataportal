@@ -8,7 +8,6 @@ import {
   WaveQueryParameters,
 } from '@/queries/FMI/getWaveDataQuery'
 import { toFmiFormat } from '@/helpers'
-import { IResponseFormat } from '@/queries/IResponseFormat'
 import { defineStore } from 'pinia'
 
 export const useSurgeStore = defineStore('surge', {
@@ -35,6 +34,7 @@ export const useSurgeStore = defineStore('surge', {
   actions: {
     async getData(params: CommonParameters) {
       this.loading = true
+      this.data = []
       const queryParams: WaveQueryParameters[] = []
       if (this.selectedIds.includes(0)) {
         queryParams.push(WaveQueryParameters.direction)
@@ -56,37 +56,39 @@ export const useSurgeStore = defineStore('surge', {
         queryParams.push(WaveQueryParameters.directionDeviation)
       }
 
-      const results = await getWaveData(params, queryParams)
-      const inFmiFormat = results.map((r) => {
-        let parameterName = ''
-        let unit = ''
-        switch (r.parameterName) {
-          case WaveQueryParameters.direction:
-            parameterName = 'Wave direction'
-            unit = '°'
-            break
-          case WaveQueryParameters.directionDeviation:
-            parameterName = 'Direction deviation'
-            unit = '°'
-            break
-          case WaveQueryParameters.modalPeriod:
-            parameterName = 'Modal period'
-            unit = 's'
-            break
-          case WaveQueryParameters.waterTemperature:
-            parameterName = 'Water temperature'
-            unit = '°C'
-            break
-          case WaveQueryParameters.waveHeight:
-            parameterName = 'Wave height'
-            unit = 'm'
-            break
-          default:
-            break
-        }
-        return toFmiFormat(r, parameterName, unit)
-      })
-      this.setData(inFmiFormat)
+      const pages = getWaveData(params, queryParams)
+      for await (const page of pages) {
+        const inFmiFormat = page.map((r) => {
+          let parameterName = ''
+          let unit = ''
+          switch (r.parameterName) {
+            case WaveQueryParameters.direction:
+              parameterName = 'Wave direction'
+              unit = '°'
+              break
+            case WaveQueryParameters.directionDeviation:
+              parameterName = 'Direction deviation'
+              unit = '°'
+              break
+            case WaveQueryParameters.modalPeriod:
+              parameterName = 'Modal period'
+              unit = 's'
+              break
+            case WaveQueryParameters.waterTemperature:
+              parameterName = 'Water temperature'
+              unit = '°C'
+              break
+            case WaveQueryParameters.waveHeight:
+              parameterName = 'Wave height'
+              unit = 'm'
+              break
+            default:
+              break
+          }
+          return toFmiFormat(r, parameterName, unit)
+        })
+        this.data.push(...inFmiFormat)
+      }
       this.loading = false
     },
     toggleSelected() {
@@ -121,9 +123,6 @@ export const useSurgeStore = defineStore('surge', {
           online: true,
         })
       })
-    },
-    setData(newData: IResponseFormat[]) {
-      this.data = newData
     },
   },
 })

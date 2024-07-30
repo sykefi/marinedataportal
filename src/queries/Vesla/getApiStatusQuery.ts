@@ -1,6 +1,8 @@
-import getVeslaData from '@/apis/sykeApi'
+import getPagedODataResponse from '@/apis/sykeApi'
 
 export async function sykeApiIsOnline() {
-  const result = await getVeslaData('', '')
-  return !!result
+  const pages = getPagedODataResponse('', '')
+  for await (const page of pages) {
+    return page.value.length > 0
+  }
 }

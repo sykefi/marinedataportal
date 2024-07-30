@@ -92,10 +92,10 @@ export const useMainStateStore = defineStore('mainState', {
       searchParameterStore.populateAvailableSites([...new Set(veslaIds)])
     },
     async downloadData() {
+      const searchParameterStore = useSearchParameterStore()
       this.attributeStores.forEach((store) => {
         store.data = null
         if (store.isSelected && store.hasOptionsSelected && store.getData) {
-          const searchParameterStore = useSearchParameterStore()
           store.getData(searchParameterStore.parameters)
         }
       })
