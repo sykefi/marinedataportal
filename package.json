@@ -43,7 +43,7 @@
     "vitest": "^2.1.1",
     "vue": "=3.5.12",
     "@vue/compiler-sfc": "=3.4.31",
-    "@vue/compiler-dom": "=3.4.35"
+    "@vue/compiler-dom": "=3.5.12"
   },
   "browserslist": [
     "> 1%",
