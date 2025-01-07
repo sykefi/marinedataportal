@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/proj4": "^2.5.5",
     "@typescript-eslint/eslint-plugin": "^8.19.1",
-    "@typescript-eslint/parser": "^5.62.0",
+    "@typescript-eslint/parser": "^8.19.1",
     "@types/sinon": "^17.0.3",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.4.6",
