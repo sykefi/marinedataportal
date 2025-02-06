@@ -41,7 +41,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.32.0",
     "jsdom": "^25.0.1",
-    "prettier": "^2.8.8",
+    "prettier": "^3.4.2",
     "sass": "^1.83.0",
     "sinon": "^19.0.2",
     "typescript": "^5.7.2",
