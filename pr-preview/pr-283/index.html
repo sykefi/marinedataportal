@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
+  <title>Download Service of the Marine Data Portal</title>
+  <script type="module" crossorigin src="./assets/index-CXPT2peG.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CONeDw4p.css">
+</head>
+
+<body>
+  <noscript>
+    <strong>Please enable JavaScript to use the download service</strong>
+  </noscript>
+  <div id="app-wrapper">
+    <div id="app"></div>
+  </div>
+  <div id="old-browser" style="color: white;">
+    Your browser does not support the technology required for this site. To use the site, switch to a more modern
+    browser.
+  </div>
+</body>
+
+<script>
+  setTimeout(function () {
+    var oldBrowserNag = document.getElementById('old-browser');
+    oldBrowserNag.style.color = 'black'
+  }, 500); //show the message 500 ms after the page has loader. At this point the @supports-query will have been evaluated.
+</script>
+
+<style>
+  #app-wrapper {
+    display: none;
+  }
+
+  @supports (display: grid) {
+    #app-wrapper {
+      display: block;
+    }
+
+    #old-browser {
+      display: none;
+    }
+  }
+</style>
+
+</html>
