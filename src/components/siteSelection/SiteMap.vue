@@ -88,15 +88,19 @@ export default defineComponent({
     const mouseClick = selectConditions.click
 
     const featureSelected = (event: SelectEvent) => {
-      const newFeatures = event.target.getFeatures() as Collection<Feature>
-      selectedFeatures.value = newFeatures
-      searchParameterStore.clearSelectedSites()
-      newFeatures.forEach((feat) => {
-        const id = feat.getId()
-        if (id) {
-          searchParameterStore.selectSite(id as number)
+      const deselectedFeatures = event.deselected
+      if (deselectedFeatures.length > 0) {
+        deselectedFeatures.forEach((feature) => {
+          removeSelection(feature.getId() as number)
+        })
+      }
+      if (event.selected.length > 0) {
+        const selectedFeatureId = event.selected[0].getId() as number
+        if (deselectedFeatures.some((df) => df.getId() === selectedFeatureId)) {
+          return
         }
-      })
+        addSelection(selectedFeatureId)
+      }
     }
 
     const addSelection = (id: number) => {
