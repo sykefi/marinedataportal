@@ -45,7 +45,7 @@
     "sass": "^1.83.0",
     "sinon": "^21.0.0",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8",
+    "vitest": "^3.2.4",
     "vue": "=3.5.13"
   },
   "browserslist": [
