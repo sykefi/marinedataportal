@@ -16,7 +16,8 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 2020,
     project: true,
-    tsconfigRootDir: 'src',
+    // Must be an absolute path. Using __dirname ensures ESLint can resolve tsconfig.json.
+    tsconfigRootDir: __dirname,
     extraFileExtensions: ['.vue'],
   },
   rules: {
@@ -31,8 +32,8 @@ module.exports = {
         '**/__tests__/*.{j,t}s?(x)',
         '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
-      "rules": {
-        "@typescript-eslint/no-unused-expressions": "off"
+      rules: {
+        '@typescript-eslint/no-unused-expressions': 'off',
       },
       env: {
         mocha: true,
