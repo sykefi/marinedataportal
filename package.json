@@ -25,7 +25,7 @@
     "proj4": "2.20.8",
     "vite": "6.4.1",
     "vue-i18n": "11.3.2",
-    "vue3-openlayers": "11.6.1"
+    "vue3-openlayers": "12.2.2"
   },
   "devDependencies": {
     "@types/sinon": "21.0.1",
