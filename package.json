@@ -16,7 +16,7 @@
     "@fortawesome/fontawesome-svg-core": "7.2.0",
     "@fortawesome/free-solid-svg-icons": "7.2.0",
     "@fortawesome/vue-fontawesome": "3.2.0",
-    "@vitejs/plugin-vue": "5.2.1",
+    "@vitejs/plugin-vue": "6.0.6",
     "core-js": "3.49.0",
     "ol": "10.9.0",
     "ol-contextmenu": "5.5.0",
