@@ -13,9 +13,6 @@ updates:
       group-all:
         patterns:
         - "*"
-        exclude-patterns:
-        - "vue"
-        - "@vue/compiler*"
         update-types:
         - "minor"
         - "patch"
