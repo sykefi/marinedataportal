@@ -11,9 +11,8 @@ updates:
       interval: "monthly"
     groups:
       group-all:
-        exclude-patterns:
-        - "vue"
-        - "@vue/compiler*"
+        patterns:
+        - "*"
         update-types:
         - "minor"
         - "patch"
